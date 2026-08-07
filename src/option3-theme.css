@@ -1,0 +1,347 @@
+/* Option 3 — liquid chrome background + liquid glass / glassmorphism */
+
+.theme-liquid {
+  --glass-bg: rgba(255, 255, 255, 0.18);
+  --glass-bg-strong: rgba(255, 255, 255, 0.28);
+  --glass-border: rgba(255, 255, 255, 0.45);
+  --glass-border-gold: rgba(255, 214, 150, 0.55);
+  --glass-shadow: 0 10px 40px rgba(20, 30, 50, 0.18);
+  --glass-text: #12151c;
+  --glass-muted: rgba(18, 21, 28, 0.72);
+  --glass-blur: 22px;
+  color-scheme: light;
+}
+
+.theme-liquid,
+.theme-liquid .tr-landing-page {
+  background: transparent !important;
+  color: var(--glass-text);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Fixed abstract liquid-chrome field */
+.theme-liquid .liquid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 20% 10%, rgba(255, 220, 160, 0.28), transparent 55%),
+    radial-gradient(90% 70% at 80% 80%, rgba(170, 200, 255, 0.22), transparent 50%),
+    #d8dee8;
+}
+
+.theme-liquid .liquid-bg__image {
+  position: absolute;
+  inset: -8%;
+  width: 116%;
+  height: 116%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(1.08) contrast(1.05);
+  animation: liquidDrift 28s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+.theme-liquid .liquid-bg__sheen {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      125deg,
+      rgba(255, 255, 255, 0.18) 0%,
+      transparent 35%,
+      rgba(255, 210, 140, 0.12) 55%,
+      transparent 75%,
+      rgba(180, 210, 255, 0.15) 100%
+    );
+  mix-blend-mode: soft-light;
+  animation: liquidSheen 12s ease-in-out infinite alternate;
+}
+
+.theme-liquid .liquid-bg__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, transparent 35%, rgba(40, 50, 70, 0.22) 100%);
+}
+
+@keyframes liquidDrift {
+  0% {
+    transform: scale(1.05) translate3d(-1.5%, -1%, 0) rotate(-0.4deg);
+  }
+  100% {
+    transform: scale(1.12) translate3d(1.8%, 1.2%, 0) rotate(0.6deg);
+  }
+}
+
+@keyframes liquidSheen {
+  0% {
+    opacity: 0.65;
+    transform: translate3d(-2%, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(2%, -1%, 0);
+  }
+}
+
+.theme-liquid .tr-landing-page > *:not(.liquid-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Shared nav → frosted glass bar */
+.theme-liquid .site-header {
+  background: rgba(255, 255, 255, 0.22) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  box-shadow: 0 8px 30px rgba(30, 40, 60, 0.08);
+}
+
+.theme-liquid .site-header .nav a.is-active,
+.theme-liquid .site-header .nav a:hover {
+  background: rgba(255, 255, 255, 0.45) !important;
+  border-color: rgba(255, 255, 255, 0.55) !important;
+  border-radius: 999px;
+}
+
+.theme-liquid .site-header .btn--filled {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(255, 255, 255, 0.9) !important;
+  color: #1a2433 !important;
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+}
+
+.theme-liquid .site-header .btn--ghost {
+  border-radius: 999px;
+  border-color: rgba(255, 255, 255, 0.55) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.theme-liquid .mobile-menu__drawer {
+  background: rgba(245, 248, 255, 0.72) !important;
+  backdrop-filter: blur(24px) saturate(1.25);
+  -webkit-backdrop-filter: blur(24px) saturate(1.25);
+  border-right: 1px solid rgba(255, 255, 255, 0.45) !important;
+}
+
+/* Promo glass strip */
+.theme-liquid .promo-banner {
+  background: rgba(30, 50, 80, 0.35) !important;
+  backdrop-filter: blur(16px) saturate(1.15);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Page sections transparent over liquid field */
+.theme-liquid .bg-white,
+.theme-liquid section[class*="tr-landing-"],
+.theme-liquid .tr-landing-footer {
+  background: transparent !important;
+}
+
+/* Glass recipe */
+.theme-liquid .glass-panel,
+.theme-liquid .tr-landing-model-access-panel,
+.theme-liquid .tr-landing-hero-url-box,
+.theme-liquid .tr-landing-model-access-row,
+.theme-liquid .tr-landing-model-access-summary,
+.theme-liquid .tr-landing-logo-card,
+.theme-liquid .tr-landing-enterprise-card,
+.theme-liquid .tr-landing-faq-item,
+.theme-liquid .tr-landing-faq-section [class*="rounded"],
+.theme-liquid .tr-landing-oneapi-section img,
+.theme-liquid .tr-landing-cta-section > div {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow:
+    var(--glass-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    inset 0 -1px 0 rgba(255, 210, 150, 0.18) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.35);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.35);
+}
+
+.theme-liquid .tr-landing-model-access-panel,
+.theme-liquid .tr-landing-enterprise-card,
+.theme-liquid .tr-landing-cta-section > div,
+.theme-liquid .tr-landing-hero-url-box {
+  background: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(255, 255, 255, 0.16) 45%,
+    rgba(255, 230, 190, 0.12) 100%
+  ) !important;
+  border-radius: 24px !important;
+}
+
+.theme-liquid .tr-landing-model-access-panel {
+  border-radius: 28px !important;
+}
+
+.theme-liquid .tr-landing-hero-url-box {
+  border-radius: 999px !important;
+}
+
+.theme-liquid .tr-landing-model-access-row {
+  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.22) !important;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.theme-liquid .tr-landing-model-access-row:hover {
+  background: rgba(255, 255, 255, 0.4) !important;
+  border-color: var(--glass-border-gold) !important;
+  transform: translateY(-1px);
+}
+
+.theme-liquid .tr-landing-logo-card {
+  border-radius: 20px !important;
+  background: rgba(255, 255, 255, 0.24) !important;
+  min-height: 72px;
+}
+
+.theme-liquid .tr-landing-enterprise-card {
+  border-radius: 28px !important;
+  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+
+.theme-liquid .tr-landing-enterprise-card:hover {
+  background: rgba(255, 255, 255, 0.36) !important;
+  border-color: var(--glass-border-gold) !important;
+  transform: translateY(-3px);
+}
+
+.theme-liquid .tr-landing-enterprise-card-icon {
+  background: rgba(255, 255, 255, 0.35) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.theme-liquid .tr-landing-enterprise-card-tag {
+  background: rgba(255, 255, 255, 0.28) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  color: var(--glass-muted) !important;
+  backdrop-filter: blur(8px);
+}
+
+.theme-liquid .tr-landing-oneapi-section img {
+  border-radius: 28px !important;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* FAQ glass rows */
+.theme-liquid .tr-landing-faq-section details,
+.theme-liquid .tr-landing-faq-section [class*="border-b"],
+.theme-liquid .tr-landing-faq-item {
+  border-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+.theme-liquid .tr-landing-faq-section [class*="bg-[#ebf5ff]"],
+.theme-liquid .tr-landing-faq-section [class*="bg-sky"],
+.theme-liquid .tr-landing-faq-section [class*="rounded-3xl"],
+.theme-liquid .tr-landing-faq-section [class*="rounded-[20px]"] {
+  background: rgba(255, 255, 255, 0.26) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(18px) saturate(1.25);
+  -webkit-backdrop-filter: blur(18px) saturate(1.25);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+/* Badges / pills */
+.theme-liquid .tr-landing-hero-badge,
+.theme-liquid .tr-landing-section-badge {
+  background: rgba(255, 255, 255, 0.28) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  color: #1a4d8c !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+/* Buttons as liquid glass */
+.theme-liquid .tr-landing-hero-primary-button,
+.theme-liquid .tr-landing-cta-primary,
+.theme-liquid .tr-landing-faq-action,
+.theme-liquid a[class*="bg-[#0086FF]"],
+.theme-liquid a[class*="bg-[#0086ff]"] {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.55), rgba(255, 220, 170, 0.35)) !important;
+  color: #142033 !important;
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
+  box-shadow:
+    0 8px 24px rgba(40, 50, 70, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.theme-liquid .tr-landing-hero-secondary-button,
+.theme-liquid .tr-landing-cta-secondary {
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #142033 !important;
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.theme-liquid .tr-landing-hero-copy-button {
+  background: rgba(255, 255, 255, 0.45) !important;
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* Typography on metallic field */
+.theme-liquid .tr-landing-hero-title,
+.theme-liquid .tr-landing-oneapi-title,
+.theme-liquid .tr-landing-enterprise-title,
+.theme-liquid .tr-landing-faq-title,
+.theme-liquid .tr-landing-cta-title,
+.theme-liquid .tr-landing-logo-wall-title,
+.theme-liquid h2[class*="tr-landing-"],
+.theme-liquid h3[class*="tr-landing-"],
+.theme-liquid [class*="text-[#121317]"] {
+  color: #10141c !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.theme-liquid .tr-landing-hero-subtitle,
+.theme-liquid .tr-landing-hero-tagline,
+.theme-liquid .tr-landing-oneapi-text,
+.theme-liquid .tr-landing-enterprise-text,
+.theme-liquid .tr-landing-hero-metric-label,
+.theme-liquid p[class*="text-[#45474D]"],
+.theme-liquid p[class*="text-[#45474d]"],
+.theme-liquid [class*="text-slate-500"],
+.theme-liquid [class*="text-[#45474d]"] {
+  color: var(--glass-muted) !important;
+}
+
+.theme-liquid [class*="text-[#0086FF]"],
+.theme-liquid [class*="text-[#0086ff]"],
+.theme-liquid .tr-landing-model-access-action,
+.theme-liquid .tr-landing-hero-policy-link,
+.theme-liquid .tr-landing-section-link {
+  color: #0b5fb8 !important;
+}
+
+.theme-liquid .tr-landing-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.theme-liquid .tr-landing-footer-divider {
+  background: rgba(255, 255, 255, 0.35) !important;
+}
+
+.theme-liquid .tr-landing-footer [class*="bg-[#0086ff]"] {
+  background: rgba(255, 255, 255, 0.5) !important;
+  color: #142033 !important;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
