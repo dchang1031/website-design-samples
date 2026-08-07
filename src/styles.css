@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
 
 :root {
-  --bg: #1f54ff;
-  --bg-soft: #2a5dff;
+  --bg: #7aa6eb;
+  --bg-soft: #8bb2ef;
   --ink: #101010;
   --muted: #5c5c5a;
   --line: rgba(16, 16, 16, 0.55);
@@ -85,7 +85,7 @@ img {
   z-index: 50;
   height: var(--header-h);
   border-bottom: var(--line-w) solid var(--line);
-  background: rgba(31, 84, 255, 0.94);
+  background: rgba(122, 166, 235, 0.94);
   backdrop-filter: blur(12px);
 }
 
