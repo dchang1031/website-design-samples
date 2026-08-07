@@ -1,12 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
 
 :root {
-  --bg: #e8f0fb;
-  --bg-soft: #f2f6fc;
+  --bg: #cfe3ff;
+  --bg-soft: #dcecff;
   --ink: #101010;
   --muted: #5c5c5a;
-  --line: rgba(16, 16, 16, 0.12);
-  --line-strong: rgba(16, 16, 16, 0.2);
+  --line: rgba(255, 255, 255, 0.72);
+  --line-strong: rgba(255, 255, 255, 0.92);
   --blue: #1a4dff;
   --blue-deep: #1238d6;
   --blue-soft: rgba(26, 77, 255, 0.08);
