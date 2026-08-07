@@ -930,11 +930,19 @@ img {
 /* FAQ */
 .faq-list {
   border: var(--line-w) solid var(--line);
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--box);
 }
 
 .faq-item + .faq-item {
   border-top: var(--line-w) solid var(--line);
+}
+
+.faq-item {
+  transition: background 0.2s ease;
+}
+
+.faq-item:hover {
+  background: var(--box-hover);
 }
 
 .faq-trigger {
@@ -952,7 +960,7 @@ img {
 }
 
 .faq-trigger:hover {
-  background: rgba(255, 255, 255, 0.35);
+  background: transparent;
 }
 
 .faq-question {
