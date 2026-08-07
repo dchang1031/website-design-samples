@@ -1,0 +1,108 @@
+/* Option 4 — scroll storytelling overlays */
+
+.o4-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  pointer-events: none;
+  --o4-arrow-opacity: 0;
+}
+
+.o4-connector {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  opacity: var(--o4-arrow-opacity);
+  transition: opacity 0.15s linear;
+}
+
+.o4-connector__path,
+.o4-connector__ring {
+  filter: drop-shadow(0 2px 6px rgba(26, 77, 255, 0.28));
+}
+
+.o4-trusted-hot {
+  color: #1a4dff !important;
+  text-shadow: 0 0 0 transparent;
+  outline: none;
+  position: relative;
+}
+
+.o4-emoji {
+  position: fixed;
+  top: 48%;
+  left: 72%;
+  width: min(42vw, 340px);
+  height: min(42vw, 340px);
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transform: translate3d(-50%, -50%, 0);
+  transform-style: preserve-3d;
+  perspective: 900px;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 28px 40px rgba(15, 30, 60, 0.18));
+}
+
+.o4-emoji--key {
+  left: 78%;
+  top: 52%;
+}
+
+.o4-emoji--chart {
+  left: 76%;
+  top: 46%;
+}
+
+.o4-emoji__glyph {
+  font-size: clamp(120px, 22vw, 240px);
+  line-height: 1;
+  display: block;
+  transform: translateZ(40px);
+  user-select: none;
+}
+
+.o4-chart-line {
+  position: absolute;
+  inset: 18% 12% 22%;
+  width: 76%;
+  height: 60%;
+  overflow: visible;
+}
+
+.o4-chart-line__track {
+  stroke: rgba(26, 77, 255, 0.18);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.o4-chart-line__draw {
+  stroke: #1a4dff;
+  stroke-width: 5.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 2px 4px rgba(26, 77, 255, 0.35));
+}
+
+@media (max-width: 900px) {
+  .o4-emoji--key,
+  .o4-emoji--chart {
+    left: 50%;
+    top: 62%;
+    width: min(58vw, 260px);
+    height: min(58vw, 260px);
+    opacity: 0;
+  }
+
+  .o4-emoji__glyph {
+    font-size: clamp(96px, 28vw, 180px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .o4-stage {
+    display: none !important;
+  }
+}
