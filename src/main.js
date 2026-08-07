@@ -128,16 +128,70 @@ function initFaq() {
   });
 }
 
-function initModelMarquee() {
+function modelRow(model) {
+  const colors = {
+    XAI: "#111111",
+    "Qwen.Color": "#6366f1",
+    "DeepSeek.Color": "#4d6bfe",
+    Moonshot: "#1a1a1a",
+    OpenAI: "#10a37f",
+    "Claude.Color": "#d97757",
+    "Gemini.Color": "#4285f4",
+    ZAI: "#3b82f6",
+    "Minimax.Color": "#111827",
+    "Nvidia.Color": "#76b900",
+  };
+  const letters = {
+    XAI: "X",
+    "Qwen.Color": "Q",
+    "DeepSeek.Color": "D",
+    Moonshot: "K",
+    OpenAI: "O",
+    "Claude.Color": "A",
+    "Gemini.Color": "G",
+    ZAI: "Z",
+    "Minimax.Color": "M",
+    "Nvidia.Color": "N",
+  };
+  const color = colors[model.icon] || "#64748b";
+  const letter = letters[model.icon] || (model.model_name?.[0] || "?").toUpperCase();
+  return `<div class="tr-landing-model-access-row flex w-full min-w-0 max-w-full items-center overflow-hidden rounded-[10px] border border-[#E2E8F0] bg-white px-[16px] py-[12px] text-left transition hover:border-sky-200 hover:bg-sky-50/50 lg:rounded-2xl lg:px-4 lg:py-3">
+    <div class="flex min-w-0 flex-1 items-center gap-3">
+      <span class="tr-landing-model-access-icon h-6 w-6 flex items-center justify-center shrink-0 opacity-40 rounded-full text-[10px] font-medium text-white" style="background:${color}">${letter}</span>
+      <div class="min-w-0 flex-1">
+        <div class="flex w-full min-w-0 max-w-full items-center gap-2 overflow-hidden">
+          <span class="tr-landing-model-access-model-name block min-w-0 flex-1 truncate" style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%">${model.model_name}</span>
+        </div>
+        <p class="tr-landing-model-access-model-desc mt-1 truncate text-[12px] text-slate-500 lg:text-sm m-0">${model.vendor_desc}</p>
+      </div>
+    </div>
+    <span class="tr-landing-model-access-dot ml-3 h-[6px] w-[6px] rounded-full bg-[#0086FF] shrink-0"></span>
+  </div>`;
+}
+
+async function initModelMarquee() {
   const track = document.getElementById("model-track");
   if (!track) return;
+
+  try {
+    const res = await fetch("https://api.tokenrouter.com/api/landing-page-models");
+    const json = await res.json();
+    if (json?.success && Array.isArray(json.data) && json.data.length) {
+      const sorted = [...json.data].sort((a, b) => (b.sort || 0) - (a.sort || 0));
+      const html = sorted.map(modelRow).join("") + sorted.map(modelRow).join("");
+      track.innerHTML = html;
+    }
+  } catch {
+    // keep hardcoded fallback rows
+  }
+
   let offset = 0;
-  const speed = 0.35;
+  const speed = 0.32;
   const step = () => {
     offset += speed;
     const half = track.scrollHeight / 2;
-    if (offset >= half) offset = 0;
-    track.style.transform = `translateY(-${offset}px)`;
+    if (half > 0 && offset >= half) offset = 0;
+    track.style.transform = `translate3d(0, ${-offset}px, 0)`;
     requestAnimationFrame(step);
   };
   requestAnimationFrame(step);
