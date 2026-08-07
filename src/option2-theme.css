@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Oswald:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
 /* Impossible-inspired theme for Option 2 (TokenRouter content) */
 .theme-impossible {
@@ -9,8 +9,8 @@
   --imp-red-hot: #ff0000;
   --imp-pink: #ffd6de;
   --imp-white: #fff7f8;
-  --imp-display: "Archivo Black", "Oswald", Impact, sans-serif;
-  --imp-condensed: "Oswald", "Archivo Black", sans-serif;
+  --imp-display: "Bebas Neue", "Oswald", Impact, sans-serif;
+  --imp-condensed: "Oswald", "Bebas Neue", sans-serif;
   --imp-body: "Space Grotesk", system-ui, sans-serif;
   color-scheme: dark;
   background: var(--imp-bg);
