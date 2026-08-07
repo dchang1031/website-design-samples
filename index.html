@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/logo-without-title.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="description" content="A unified AI model hub for aggregation and distribution. TokenRouter converts leading LLMs into OpenAI, Claude, and Gemini compatible APIs with centralized management for individuals and enterprises." />
+    <title>TokenRouter - Verified Models with Enterprise-Grade Controls</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"PP Neue Montreal"', 'system-ui', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div class="tr-landing-page min-h-screen bg-white text-slate-900">
+      <div class="sr-only">
+        <h1>TokenRouter - Verified Models with Enterprise-Grade Controls</h1>
+        <p>A unified AI model hub for aggregation and distribution. TokenRouter converts leading LLMs into OpenAI, Claude, and Gemini compatible APIs with centralized management for individuals and enterprises.</p>
+      </div>
+
+      <!-- Header -->
+      <header id="site-header" class="tr-landing-header fixed inset-x-0 top-0 z-40 transition-all duration-300 border-transparent">
+        <div class="mx-auto flex w-full items-center gap-4 px-4 h-[64px] md:py-[11px] justify-between">
+          <button id="mobile-menu-btn" class="flex h-[36px] w-[36px] items-center justify-center border-0 bg-transparent md:hidden text-[#121317]" type="button" aria-label="Open menu">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.5H19M3 11H19M3 16.5H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+          <a href="#" class="tr-landing-brand-link hidden h-[28px] w-[28px] shrink-0 items-center bg-transparent no-underline md:flex md:h-[42px] md:w-[120px]">
+            <img alt="PaleBlueDot.AI" class="tr-landing-brand-logo-image hidden h-full w-full object-contain md:block" src="/assets/logo.png" />
+            <img alt="PaleBlueDot.AI" class="tr-landing-brand-mobile-image block h-full object-contain md:hidden" src="/assets/logo-without-title-8.png" />
+          </a>
+          <div class="flex items-center flex-1 justify-end">
+            <a href="#" class="tr-landing-header-nav-link bg-transparent text-[16px] leading-[1.4] transition no-underline hidden md:inline">Models</a>
+            <a href="#" class="tr-landing-header-nav-link bg-transparent text-[16px] leading-[1.4] transition no-underline ml-[16px] lg:ml-[40px] hidden md:inline">Docs</a>
+            <a href="#" class="tr-landing-header-nav-link bg-transparent text-[16px] leading-[1.4] transition no-underline ml-[16px] lg:ml-[40px] hidden md:inline">Blog</a>
+            <div class="tr-landing-theme-menu ml-[16px] inline-flex">
+              <button class="tr-landing-theme-menu__trigger" type="button" aria-label="Theme" title="Light">
+                <span class="tr-landing-theme-menu__trigger-shell">
+                  <svg class="tr-landing-theme-menu__trigger-icon relative z-[1]" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </span>
+              </button>
+            </div>
+            <div class="tr-landing-header-divider mx-[16px] h-[24px] w-px bg-[#eee]"></div>
+            <button class="tr-landing-header-action inline-flex h-[32px] items-center justify-center whitespace-nowrap rounded-[100px] bg-[#0086ff] px-4 text-[13px] leading-[1.3] text-[#fff] transition hover:bg-[#0075ed]" type="button">Sign In</button>
+            <button class="tr-landing-header-action ml-[12px] inline-flex h-[32px] items-center justify-center whitespace-nowrap rounded-[100px] bg-[#0086ff] px-4 text-[13px] leading-[1.3] text-[#fff] transition hover:bg-[#0075ed]" type="button">Sign Up</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="tr-landing-mobile-menu" hidden>
+        <button class="tr-landing-mobile-menu__overlay" type="button" aria-label="Close menu" id="mobile-menu-close"></button>
+        <div class="tr-landing-mobile-menu__drawer">
+          <div style="margin-bottom:16px">
+            <img alt="TokenRouter" src="/assets/logo.png" style="width:120px;object-fit:contain;display:block" />
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <a href="#" class="tr-landing-mobile-menu__item" style="display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:8px;font-size:15px;font-weight:500;color:#45474d">Models</a>
+            <a href="#" class="tr-landing-mobile-menu__item" style="display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:8px;font-size:15px;font-weight:500;color:#45474d">Docs</a>
+            <a href="#" class="tr-landing-mobile-menu__item" style="display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:8px;font-size:15px;font-weight:500;color:#45474d">Blog</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-16 w-full shrink-0"></div>
+
+      <!-- Promo banner -->
+      <div class="fixed top-16 left-0 right-0 z-30">
+        <div class="promo-banner" id="promo-banner">
+          <div class="flex items-center justify-between w-full sm:px-6">
+            <div class="hidden sm:block w-[46px] shrink-0">
+              <img src="/assets/firework.png" alt="Firework" class="w-full" />
+            </div>
+            <div class="flex min-w-0 flex-1 items-center justify-center gap-y-1 px-4 sm:px-0">
+              <div class="promo-banner-offer-badge hidden sm:flex w-[168px] items-center justify-center gap-2 px-3 py-2 rounded-lg shrink-0">
+                <img src="/assets/gift.png" alt="Gift" class="w-[17px]" />
+                <span class="text-white text-[14px] font-medium uppercase tracking-wide whitespace-nowrap" data-promo-badge>ENDS AUG 12</span>
+              </div>
+              <p class="m-0 min-w-0 text-white text-[15px] leading-[1.25] sm:hidden mt-2" data-promo-mobile></p>
+              <div class="promo-banner-copy-shell">
+                <div class="promo-banner-slide" data-promo-slide></div>
+              </div>
+            </div>
+            <div class="hidden sm:block w-[46px] shrink-0">
+              <img src="/assets/firework.png" alt="Firework" class="w-full" />
+            </div>
+          </div>
+          <div class="promo-banner-indicators" aria-label="Promotion carousel controls" data-promo-indicators></div>
+        </div>
+      </div>
+      <div class="h-16 w-full shrink-0"></div>
+
+      <main class="min-h-screen">
+        <!-- Hero -->
+        <section class="tr-landing-hero-section bg-white px-[24px] pt-[110px] pb-[30px] lg:px-0 lg:pb-[60px] lg:pt-[124px]">
+          <div class="mx-auto grid w-full min-w-0 max-w-[1440px] gap-10 md:grid-cols-[minmax(0,1fr)_360px] md:items-center md:gap-8 lg:grid-cols-[minmax(0,1fr)_480px] lg:px-[104px] lg:gap-[100px]">
+            <div class="min-w-0 max-w-[692px]">
+              <span class="tr-landing-hero-badge mb-4 inline-flex h-[30px] items-center gap-[6px] rounded-full border border-[#c9e5ff] bg-[#ebf5ff] px-[15px] text-xs tracking-[0.9px] text-[#0086ff] lg:h-8 lg:px-[14px] lg:tracking-[0.15em]">
+                <img src="/assets/icons/sparkle.svg" alt="" class="h-3 w-3" />
+                TOKENROUTER
+              </span>
+              <h2 class="tr-landing-hero-title max-w-[499px] text-[34px] font-medium leading-[1.2] tracking-[-0.02em] text-[#121317] lg:text-[clamp(36px,4.8vw,64px)] m-0">
+                One TokenRouter<br />All Models
+              </h2>
+              <div class="tr-landing-hero-tagline mt-4 flex items-center gap-[12px] text-[17px] leading-[1.3] text-[#45474D] lg:gap-3 lg:text-[20px]">
+                <span>Faster</span>
+                <span class="tr-landing-hero-tagline-dot h-[4px] w-[4px] rounded-full bg-[#CCCCCC] lg:h-1 lg:w-1"></span>
+                <span>Better</span>
+                <span class="tr-landing-hero-tagline-dot h-[4px] w-[4px] rounded-full bg-[#CCCCCC] lg:h-1 lg:w-1"></span>
+                <span>Cheaper</span>
+              </div>
+              <p class="tr-landing-hero-subtitle mt-6 text-[17px] leading-[1.3] text-[#45474D] lg:text-[20px] m-0">Just switch your base URL.</p>
+              <div class="mt-6 flex w-full max-w-full flex-col lg:w-fit">
+                <div class="tr-landing-hero-url-box flex min-w-0 max-w-full items-center gap-[10px] rounded-[10px] border border-[#E2E8F0] bg-white pl-[12px] pr-[6px] py-[6px] lg:h-[58px] lg:rounded-[14px] lg:pl-[17px] lg:pr-[10px] lg:py-[13px]">
+                  <span class="tr-landing-hero-url-dot h-[6px] w-[6px] shrink-0 rounded-full bg-[#00D492]"></span>
+                  <span class="tr-landing-hero-url-text min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[11px] text-[#45474D] lg:text-[16px]" id="api-url">https://api.tokenrouter.com/v1</span>
+                  <button type="button" id="copy-btn" class="tr-landing-hero-copy-button inline-flex h-[30px] min-w-[70px] items-center justify-center gap-2 rounded-full border border-[#E2E8F0] bg-white px-[15px] text-[14px] text-[#333] transition hover:bg-[#f5f5f5] lg:h-9 lg:min-w-[87px] lg:px-4">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M11.5278 4.5625H5.43693C4.76415 4.5625 4.21875 5.1079 4.21875 5.78068V11.8716C4.21875 12.5444 4.76415 13.0898 5.43693 13.0898H11.5278C12.2006 13.0898 12.746 12.5444 12.746 11.8716V5.78068C12.746 5.1079 12.2006 4.5625 11.5278 4.5625Z" stroke="currentColor" stroke-linejoin="round"/><path d="M1.78459 9.43352C1.11459 9.43352 0.566406 8.88534 0.566406 8.21534V2.12443C0.566406 1.45443 1.11459 0.90625 1.78459 0.90625H7.87549C8.54549 0.90625 9.09367 1.45443 9.09367 2.12443" stroke="currentColor" stroke-linejoin="round"/></svg>
+                    <span data-copy-label>Copy</span>
+                  </button>
+                </div>
+              </div>
+              <div class="tr-landing-hero-policy mt-6 grid w-full max-w-full grid-cols-[18px_minmax(0,1fr)] items-start gap-x-[10px] text-[12px] leading-[1.4] text-[#45474D] lg:w-fit lg:grid-cols-[20px_minmax(0,1fr)] lg:text-[14px]">
+                <svg class="tr-landing-hero-policy-icon h-[18px] w-[18px] shrink-0 text-[#0086FF] lg:h-[20px] lg:w-[20px]" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M10 1.667L17.083 4.583V9.354C17.083 13.591 14.073 17.219 10 18.333C5.927 17.219 2.917 13.591 2.917 9.354V4.583L10 1.667Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+                  <path d="M7.083 9.792L9.167 11.875L13.333 7.708" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="flex min-w-0 flex-wrap items-center gap-x-[16px] gap-y-2">
+                  <span class="tr-landing-hero-policy-text min-w-0 break-words text-[15px] lg:shrink-0 lg:whitespace-nowrap lg:text-[16px]">Inputs from you and outputs from AI are zero-retention!</span>
+                  <a href="#" class="tr-landing-hero-policy-link inline-flex basis-full shrink-0 items-center gap-[4px] bg-transparent text-[15px] text-[#0086FF] transition-colors hover:text-[#0075ed] hover:underline lg:basis-auto lg:text-[16px]">Checkout Our Policy <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H4.375M10.5 3.5V9.625" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                </div>
+              </div>
+              <div class="mt-8 flex flex-wrap gap-[12px] lg:gap-6">
+                <a href="#" class="tr-landing-hero-primary-button px-5 lg:px-6 text-[#fff] rounded-full text-[15px] lg:text-[18px] bg-[#0086FF] leading-[1.6] lg:leading-[1.7] h-[40px] lg:h-[48px] hover:bg-[#0075ed] flex items-center cursor-pointer gap-[8px] lg:gap-[10px]">Get API Key <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M5.14307 12.8572L12.8574 5.14282M12.8574 5.14282H6.10735M12.8574 5.14282V11.8928" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <a href="#" class="tr-landing-hero-secondary-button px-5 lg:px-6 text-[#333] rounded-full text-[15px] lg:text-[18px] leading-[1.6] lg:leading-[1.7] h-[40px] lg:h-[48px] flex items-center cursor-pointer border-[1px] border-[#ddd] hover:bg-[#f5f5f5]">Read Docs</a>
+              </div>
+              <div class="mt-8 flex flex-wrap gap-[50px] lg:gap-[100px]">
+                <div>
+                  <div class="tr-landing-hero-metric-value text-[15px] font-medium leading-[1.4] text-[#121317] lg:text-[20px]">99.9%</div>
+                  <div class="tr-landing-hero-metric-label mt-[10px] text-[13px] uppercase leading-[1.4] text-[#45474d] lg:text-[14px]">UPTIME</div>
+                </div>
+                <div>
+                  <div class="tr-landing-hero-metric-value text-[15px] font-medium leading-[1.4] text-[#121317] lg:text-[20px]">Smart</div>
+                  <div class="tr-landing-hero-metric-label mt-[10px] text-[13px] uppercase leading-[1.4] text-[#45474d] lg:text-[14px]">CACHING</div>
+                </div>
+                <div>
+                  <div class="tr-landing-hero-metric-value text-[15px] font-medium leading-[1.4] text-[#121317] lg:text-[20px]">Always-On</div>
+                  <div class="tr-landing-hero-metric-label mt-[10px] text-[13px] uppercase leading-[1.4] text-[#45474d] lg:text-[14px]">ROUTING</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="w-full min-w-0 max-w-full justify-self-end sm:max-w-[480px]">
+              <div class="tr-landing-model-access-panel box-border w-full min-w-0 max-w-full rounded-[16px] border border-[#E2E8F0] bg-white p-[20px] lg:rounded-[28px] lg:p-6">
+                <div class="mb-4 flex min-w-0 items-center justify-between gap-3 text-slate-500">
+                  <span style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%;text-transform:none">Unified Model Access</span>
+                  <a href="#" class="tr-landing-model-access-action inline-flex items-center gap-[8px] bg-transparent text-[#0086FF] transition-colors hover:text-[#0076ed]" style="font-family:'PP Neue Montreal',sans-serif;font-size:14px;font-weight:400;line-height:140%">View All Models <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true"><path d="M4.64893 2.29785L9.35156 7.00049L4.64893 11.7031" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                </div>
+                <div class="tr-landing-model-viewport" id="model-viewport">
+                  <div class="tr-landing-model-track" id="model-track">
+                    
+                <div class="tr-landing-model-access-row flex w-full min-w-0 max-w-full items-center overflow-hidden rounded-[10px] border border-[#E2E8F0] bg-white px-[16px] py-[12px] text-left transition hover:border-sky-200 hover:bg-sky-50/50 lg:rounded-2xl lg:px-4 lg:py-3">
+                  <div class="flex min-w-0 flex-1 items-center gap-3">
+                    <span class="tr-landing-model-access-icon h-6 w-6 flex items-center justify-center shrink-0 opacity-40 rounded-full text-[11px] font-medium text-white" style="background:#10a37f">O</span>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex w-full min-w-0 max-w-full items-center gap-2 overflow-hidden">
+                        <span class="tr-landing-model-access-model-name block min-w-0 flex-1 truncate" style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%">openai/gpt-5.6-sol</span>
+                      </div>
+                      <p class="tr-landing-model-access-model-desc mt-1 truncate text-[12px] text-slate-500 lg:text-sm m-0">GPT · frontier model</p>
+                    </div>
+                  </div>
+                  <span class="tr-landing-model-access-dot ml-3 h-[6px] w-[6px] rounded-full bg-[#0086FF] shrink-0"></span>
+                </div>
+
+                <div class="tr-landing-model-access-row flex w-full min-w-0 max-w-full items-center overflow-hidden rounded-[10px] border border-[#E2E8F0] bg-white px-[16px] py-[12px] text-left transition hover:border-sky-200 hover:bg-sky-50/50 lg:rounded-2xl lg:px-4 lg:py-3">
+                  <div class="flex min-w-0 flex-1 items-center gap-3">
+                    <span class="tr-landing-model-access-icon h-6 w-6 flex items-center justify-center shrink-0 opacity-40 rounded-full text-[11px] font-medium text-white" style="background:#d97757">A</span>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex w-full min-w-0 max-w-full items-center gap-2 overflow-hidden">
+                        <span class="tr-landing-model-access-model-name block min-w-0 flex-1 truncate" style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%">anthropic/claude-fable-5</span>
+                      </div>
+                      <p class="tr-landing-model-access-model-desc mt-1 truncate text-[12px] text-slate-500 lg:text-sm m-0">Claude · reasoning model</p>
+                    </div>
+                  </div>
+                  <span class="tr-landing-model-access-dot ml-3 h-[6px] w-[6px] rounded-full bg-[#0086FF] shrink-0"></span>
+                </div>
+
+                <div class="tr-landing-model-access-row flex w-full min-w-0 max-w-full items-center overflow-hidden rounded-[10px] border border-[#E2E8F0] bg-white px-[16px] py-[12px] text-left transition hover:border-sky-200 hover:bg-sky-50/50 lg:rounded-2xl lg:px-4 lg:py-3">
+                  <div class="flex min-w-0 flex-1 items-center gap-3">
+                    <span class="tr-landing-model-access-icon h-6 w-6 flex items-center justify-center shrink-0 opacity-40 rounded-full text-[11px] font-medium text-white" style="background:#4285f4">G</span>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex w-full min-w-0 max-w-full items-center gap-2 overflow-hidden">
+                        <span class="tr-landing-model-access-model-name block min-w-0 flex-1 truncate" style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%">google/gemini-3.5-flash</span>
+                      </div>
+                      <p class="tr-landing-model-access-model-desc mt-1 truncate text-[12px] text-slate-500 lg:text-sm m-0">Gemini · foundation model</p>
+                    </div>
+                  </div>
+                  <span class="tr-landing-model-access-dot ml-3 h-[6px] w-[6px] rounded-full bg-[#0086FF] shrink-0"></span>
+                </div>
+
+                <div class="tr-landing-model-access-row flex w-full min-w-0 max-w-full items-center overflow-hidden rounded-[10px] border border-[#E2E8F0] bg-white px-[16px] py-[12px] text-left transition hover:border-sky-200 hover:bg-sky-50/50 lg:rounded-2xl lg:px-4 lg:py-3">
+                  <div class="flex min-w-0 flex-1 items-center gap-3">
+                    <span class="tr-landing-model-access-icon h-6 w-6 flex items-center justify-center shrink-0 opacity-40 rounded-full text-[11px] font-medium text-white" style="background:#3b82f6">Z</span>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex w-full min-w-0 max-w-full items-center gap-2 overflow-hidden">
+                        <span class="tr-landing-model-access-model-name block min-w-0 flex-1 truncate" style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%">z-ai/glm-5.2</span>
+                      </div>
+                      <p class="tr-landing-model-access-model-desc mt-1 truncate text-[12px] text-slate-500 lg:text-sm m-0">GLM · foundation model</p>
+                    </div>
+                  </div>
+                  <span class="tr-landing-model-access-dot ml-3 h-[6px] w-[6px] rounded-full bg-[#0086FF] shrink-0"></span>
+                </div>
+
+                <div class="tr-landing-model-access-row flex w-full min-w-0 max-w-full items-center overflow-hidden rounded-[10px] border border-[#E2E8F0] bg-white px-[16px] py-[12px] text-left transition hover:border-sky-200 hover:bg-sky-50/50 lg:rounded-2xl lg:px-4 lg:py-3">
+                  <div class="flex min-w-0 flex-1 items-center gap-3">
+                    <span class="tr-landing-model-access-icon h-6 w-6 flex items-center justify-center shrink-0 opacity-40 rounded-full text-[11px] font-medium text-white" style="background:#6366f1">Q</span>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex w-full min-w-0 max-w-full items-center gap-2 overflow-hidden">
+                        <span class="tr-landing-model-access-model-name block min-w-0 flex-1 truncate" style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%">qwen/qwen3.7-plus</span>
+                      </div>
+                      <p class="tr-landing-model-access-model-desc mt-1 truncate text-[12px] text-slate-500 lg:text-sm m-0">Qwen · open model</p>
+                    </div>
+                  </div>
+                  <span class="tr-landing-model-access-dot ml-3 h-[6px] w-[6px] rounded-full bg-[#0086FF] shrink-0"></span>
+                </div>
+
+                <div class="tr-landing-model-access-row flex w-full min-w-0 max-w-full items-center overflow-hidden rounded-[10px] border border-[#E2E8F0] bg-white px-[16px] py-[12px] text-left transition hover:border-sky-200 hover:bg-sky-50/50 lg:rounded-2xl lg:px-4 lg:py-3">
+                  <div class="flex min-w-0 flex-1 items-center gap-3">
+                    <span class="tr-landing-model-access-icon h-6 w-6 flex items-center justify-center shrink-0 opacity-40 rounded-full text-[11px] font-medium text-white" style="background:#111827">M</span>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex w-full min-w-0 max-w-full items-center gap-2 overflow-hidden">
+                        <span class="tr-landing-model-access-model-name block min-w-0 flex-1 truncate" style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%">MiniMax-M3</span>
+                      </div>
+                      <p class="tr-landing-model-access-model-desc mt-1 truncate text-[12px] text-slate-500 lg:text-sm m-0">MiniMax · foundation model</p>
+                    </div>
+                  </div>
+                  <span class="tr-landing-model-access-dot ml-3 h-[6px] w-[6px] rounded-full bg-[#0086FF] shrink-0"></span>
+                </div>
+
+                <div class="tr-landing-model-access-row flex w-full min-w-0 max-w-full items-center overflow-hidden rounded-[10px] border border-[#E2E8F0] bg-white px-[16px] py-[12px] text-left transition hover:border-sky-200 hover:bg-sky-50/50 lg:rounded-2xl lg:px-4 lg:py-3">
+                  <div class="flex min-w-0 flex-1 items-center gap-3">
+                    <span class="tr-landing-model-access-icon h-6 w-6 flex items-center justify-center shrink-0 opacity-40 rounded-full text-[11px] font-medium text-white" style="background:#10a37f">O</span>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex w-full min-w-0 max-w-full items-center gap-2 overflow-hidden">
+                        <span class="tr-landing-model-access-model-name block min-w-0 flex-1 truncate" style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%">openai/gpt-5.6-sol</span>
+                      </div>
+                      <p class="tr-landing-model-access-model-desc mt-1 truncate text-[12px] text-slate-500 lg:text-sm m-0">GPT · frontier model</p>
+                    </div>
+                  </div>
+                  <span class="tr-landing-model-access-dot ml-3 h-[6px] w-[6px] rounded-full bg-[#0086FF] shrink-0"></span>
+                </div>
+
+                <div class="tr-landing-model-access-row flex w-full min-w-0 max-w-full items-center overflow-hidden rounded-[10px] border border-[#E2E8F0] bg-white px-[16px] py-[12px] text-left transition hover:border-sky-200 hover:bg-sky-50/50 lg:rounded-2xl lg:px-4 lg:py-3">
+                  <div class="flex min-w-0 flex-1 items-center gap-3">
+                    <span class="tr-landing-model-access-icon h-6 w-6 flex items-center justify-center shrink-0 opacity-40 rounded-full text-[11px] font-medium text-white" style="background:#d97757">A</span>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex w-full min-w-0 max-w-full items-center gap-2 overflow-hidden">
+                        <span class="tr-landing-model-access-model-name block min-w-0 flex-1 truncate" style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%">anthropic/claude-fable-5</span>
+                      </div>
+                      <p class="tr-landing-model-access-model-desc mt-1 truncate text-[12px] text-slate-500 lg:text-sm m-0">Claude · reasoning model</p>
+                    </div>
+                  </div>
+                  <span class="tr-landing-model-access-dot ml-3 h-[6px] w-[6px] rounded-full bg-[#0086FF] shrink-0"></span>
+                </div>
+
+                <div class="tr-landing-model-access-row flex w-full min-w-0 max-w-full items-center overflow-hidden rounded-[10px] border border-[#E2E8F0] bg-white px-[16px] py-[12px] text-left transition hover:border-sky-200 hover:bg-sky-50/50 lg:rounded-2xl lg:px-4 lg:py-3">
+                  <div class="flex min-w-0 flex-1 items-center gap-3">
+                    <span class="tr-landing-model-access-icon h-6 w-6 flex items-center justify-center shrink-0 opacity-40 rounded-full text-[11px] font-medium text-white" style="background:#4285f4">G</span>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex w-full min-w-0 max-w-full items-center gap-2 overflow-hidden">
+                        <span class="tr-landing-model-access-model-name block min-w-0 flex-1 truncate" style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%">google/gemini-3.5-flash</span>
+                      </div>
+                      <p class="tr-landing-model-access-model-desc mt-1 truncate text-[12px] text-slate-500 lg:text-sm m-0">Gemini · foundation model</p>
+                    </div>
+                  </div>
+                  <span class="tr-landing-model-access-dot ml-3 h-[6px] w-[6px] rounded-full bg-[#0086FF] shrink-0"></span>
+                </div>
+
+                <div class="tr-landing-model-access-row flex w-full min-w-0 max-w-full items-center overflow-hidden rounded-[10px] border border-[#E2E8F0] bg-white px-[16px] py-[12px] text-left transition hover:border-sky-200 hover:bg-sky-50/50 lg:rounded-2xl lg:px-4 lg:py-3">
+                  <div class="flex min-w-0 flex-1 items-center gap-3">
+                    <span class="tr-landing-model-access-icon h-6 w-6 flex items-center justify-center shrink-0 opacity-40 rounded-full text-[11px] font-medium text-white" style="background:#3b82f6">Z</span>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex w-full min-w-0 max-w-full items-center gap-2 overflow-hidden">
+                        <span class="tr-landing-model-access-model-name block min-w-0 flex-1 truncate" style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%">z-ai/glm-5.2</span>
+                      </div>
+                      <p class="tr-landing-model-access-model-desc mt-1 truncate text-[12px] text-slate-500 lg:text-sm m-0">GLM · foundation model</p>
+                    </div>
+                  </div>
+                  <span class="tr-landing-model-access-dot ml-3 h-[6px] w-[6px] rounded-full bg-[#0086FF] shrink-0"></span>
+                </div>
+
+                <div class="tr-landing-model-access-row flex w-full min-w-0 max-w-full items-center overflow-hidden rounded-[10px] border border-[#E2E8F0] bg-white px-[16px] py-[12px] text-left transition hover:border-sky-200 hover:bg-sky-50/50 lg:rounded-2xl lg:px-4 lg:py-3">
+                  <div class="flex min-w-0 flex-1 items-center gap-3">
+                    <span class="tr-landing-model-access-icon h-6 w-6 flex items-center justify-center shrink-0 opacity-40 rounded-full text-[11px] font-medium text-white" style="background:#6366f1">Q</span>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex w-full min-w-0 max-w-full items-center gap-2 overflow-hidden">
+                        <span class="tr-landing-model-access-model-name block min-w-0 flex-1 truncate" style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%">qwen/qwen3.7-plus</span>
+                      </div>
+                      <p class="tr-landing-model-access-model-desc mt-1 truncate text-[12px] text-slate-500 lg:text-sm m-0">Qwen · open model</p>
+                    </div>
+                  </div>
+                  <span class="tr-landing-model-access-dot ml-3 h-[6px] w-[6px] rounded-full bg-[#0086FF] shrink-0"></span>
+                </div>
+
+                <div class="tr-landing-model-access-row flex w-full min-w-0 max-w-full items-center overflow-hidden rounded-[10px] border border-[#E2E8F0] bg-white px-[16px] py-[12px] text-left transition hover:border-sky-200 hover:bg-sky-50/50 lg:rounded-2xl lg:px-4 lg:py-3">
+                  <div class="flex min-w-0 flex-1 items-center gap-3">
+                    <span class="tr-landing-model-access-icon h-6 w-6 flex items-center justify-center shrink-0 opacity-40 rounded-full text-[11px] font-medium text-white" style="background:#111827">M</span>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex w-full min-w-0 max-w-full items-center gap-2 overflow-hidden">
+                        <span class="tr-landing-model-access-model-name block min-w-0 flex-1 truncate" style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%">MiniMax-M3</span>
+                      </div>
+                      <p class="tr-landing-model-access-model-desc mt-1 truncate text-[12px] text-slate-500 lg:text-sm m-0">MiniMax · foundation model</p>
+                    </div>
+                  </div>
+                  <span class="tr-landing-model-access-dot ml-3 h-[6px] w-[6px] rounded-full bg-[#0086FF] shrink-0"></span>
+                </div>
+                  </div>
+                </div>
+                <div class="tr-landing-model-access-summary mt-4 rounded-[10px] border border-[#E2E8F0] bg-slate-50 px-[16px] py-3 lg:rounded-2xl lg:px-4 lg:py-[14px]">
+                  <p class="m-0" style="color:#45474D;font-family:'PP Neue Montreal',sans-serif;font-size:14px;font-weight:400;line-height:1.5">Route once. Scale across models with better pricing, better stability, and simpler integration.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Trusted By -->
+        <section class="tr-landing-logo-wall bg-white px-6 py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[100px]">
+          <div class="mx-auto max-w-[1440px] flex flex-col items-center gap-6 lg:gap-8 lg:px-[104px]">
+            <h2 class="tr-landing-logo-wall-title text-[28px] font-medium capitalize leading-[1.3] text-[#121317] m-0">Trusted By</h2>
+            <div class="flex w-full flex-wrap justify-center gap-6 lg:gap-8">
+              
+          <div class="tr-landing-logo-card flex items-center justify-center rounded-xl border border-[#fff] aspect-[178/64] w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[178px] lg:aspect-auto lg:h-16 min-w-0">
+            <img src="/assets/higgsfield.png" alt="Higgsfield" class="tr-landing-logo w-auto object-contain" style="height:43.7500%" />
+          </div>
+
+          <div class="tr-landing-logo-card flex items-center justify-center rounded-xl border border-[#fff] aspect-[178/64] w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[178px] lg:aspect-auto lg:h-16 min-w-0">
+            <img src="/assets/epsilla.png" alt="Epsilla" class="tr-landing-logo w-auto object-contain" style="height:71.8750%" />
+          </div>
+
+          <div class="tr-landing-logo-card flex items-center justify-center rounded-xl border border-[#fff] aspect-[178/64] w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[178px] lg:aspect-auto lg:h-16 min-w-0">
+            <img src="/assets/clawith.png" alt="Clawith" class="tr-landing-logo w-auto object-contain" style="height:68.7500%" />
+          </div>
+
+          <div class="tr-landing-logo-card flex items-center justify-center rounded-xl border border-[#fff] aspect-[178/64] w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[178px] lg:aspect-auto lg:h-16 min-w-0">
+            <img src="/assets/topify.png" alt="Topify" class="tr-landing-logo w-auto object-contain" style="height:68.7500%" />
+          </div>
+
+          <div class="tr-landing-logo-card flex items-center justify-center rounded-xl border border-[#fff] aspect-[178/64] w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[178px] lg:aspect-auto lg:h-16 min-w-0">
+            <img src="/assets/bake-ai.png" alt="Bake AI" class="tr-landing-logo w-auto object-contain tr-landing-logo--detail" style="width:67.4157%" />
+          </div>
+
+          <div class="tr-landing-logo-card flex items-center justify-center rounded-xl border border-[#fff] aspect-[178/64] w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[178px] lg:aspect-auto lg:h-16 min-w-0">
+            <img src="/assets/storyverse.png" alt="Storyverse" class="tr-landing-logo w-auto object-contain" style="height:51.5625%" />
+          </div>
+
+          <div class="tr-landing-logo-card flex items-center justify-center rounded-xl border border-[#fff] aspect-[178/64] w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[178px] lg:aspect-auto lg:h-16 min-w-0">
+            <img src="/assets/miromind.png" alt="MiroMind" class="tr-landing-logo w-auto object-contain" style="height:59.3750%" />
+          </div>
+
+          <div class="tr-landing-logo-card flex items-center justify-center rounded-xl border border-[#fff] aspect-[178/64] w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[178px] lg:aspect-auto lg:h-16 min-w-0">
+            <img src="/assets/fellou.png" alt="Fellou AI" class="tr-landing-logo w-auto object-contain" style="height:68.7500%" />
+          </div>
+
+          <div class="tr-landing-logo-card flex items-center justify-center rounded-xl border border-[#fff] aspect-[178/64] w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[178px] lg:aspect-auto lg:h-16 min-w-0">
+            <img src="/assets/flowgpt.png" alt="FlowGPT" class="tr-landing-logo w-auto object-contain" style="height:68.7500%" />
+          </div>
+
+          <div class="tr-landing-logo-card flex items-center justify-center rounded-xl border border-[#fff] aspect-[178/64] w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[178px] lg:aspect-auto lg:h-16 min-w-0">
+            <img src="/assets/wayo.png" alt="WAYO" class="tr-landing-logo w-auto object-contain" style="height:53.1250%" />
+          </div>
+
+          <div class="tr-landing-logo-card flex items-center justify-center rounded-xl border border-[#fff] aspect-[178/64] w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[178px] lg:aspect-auto lg:h-16 min-w-0">
+            <img src="/assets/stanford.png" alt="Stanford" class="tr-landing-logo w-auto object-contain tr-landing-logo--detail" style="width:67.4157%" />
+          </div>
+
+          <div class="tr-landing-logo-card flex items-center justify-center rounded-xl border border-[#fff] aspect-[178/64] w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[178px] lg:aspect-auto lg:h-16 min-w-0">
+            <img src="/assets/botlearn.png" alt="BotLearn.ai" class="tr-landing-logo w-auto object-contain tr-landing-logo--detail" style="width:78.0899%" />
+          </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- One API Layer -->
+        <section class="tr-landing-oneapi-section bg-white px-[23px] py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[60px]">
+          <div class="mx-auto grid max-w-[1440px] gap-[60px] lg:px-[104px] lg:items-center">
+            <div>
+              <span class="tr-landing-section-badge mb-4 inline-flex h-8 items-center gap-[6px] rounded-full border border-[#c9e5ff] bg-[#ebf5ff] px-[14px] text-xs tracking-[0.15em] text-[#0086ff]">
+            <img src="/assets/icons/sparkle.svg" alt="" class="h-3 w-3" />
+            ONE API LAYER
+          </span>
+              <h2 class="tr-landing-oneapi-title text-[clamp(34px,4.8vw,56px)] font-medium leading-[1.2] tracking-[-0.02em] text-[#121317] m-0">One API for Any AI App</h2>
+              <p class="tr-landing-oneapi-text mt-2 lg:mt-4 text-[15px] lg:text-[18px] leading-[1.7] text-[#45474D] max-w-[800px] m-0">Fully OpenAI-compatible, with one base URL and one API key to power OpenClaw, OpenCode, Codex, Claude Code, Cherry Studio, and more — while managing all your token usage in one place.</p>
+            </div>
+            <div class="mt-[30px] lg:mt-[72px] lg:px-[55px]">
+              <img class="hidden w-full lg:block" src="/assets/oneapi.png" alt="TokenRouter one API layer diagram" loading="lazy" />
+              <img class="mx-auto block w-full max-w-[360px] lg:hidden" src="/assets/model-access-mobile.png" alt="TokenRouter model access" loading="lazy" height="auto" />
+            </div>
+            <a href="#" class="px-5 lg:px-6 w-fit mx-auto whitespace-nowrap text-[#fff] rounded-full text-[15px] lg:text-[18px] bg-[#0086FF] leading-[1.6] lg:leading-[1.7] h-[40px] lg:h-[48px] hover:bg-[#0075ed] flex items-center cursor-pointer gap-[8px] lg:gap-[10px] mt-[40px]">Claim Free Credits <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M5.14307 12.8572L12.8574 5.14282M12.8574 5.14282H6.10735M12.8574 5.14282V11.8928" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+        </section>
+
+        <!-- Enterprise -->
+        <section class="tr-landing-enterprise-section bg-white px-6 py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[60px]">
+          <div class="mx-auto max-w-[1440px] lg:px-[104px]">
+            <div class="mb-[30px] lg:mb-[60px]">
+              <span class="tr-landing-section-badge mb-4 inline-flex h-8 items-center gap-[6px] rounded-full border border-[#c9e5ff] bg-[#ebf5ff] px-[14px] text-xs tracking-[0.15em] text-[#0086ff]">
+            <img src="/assets/icons/sparkle.svg" alt="" class="h-3 w-3" />
+            ENTERPRISE-READY
+          </span>
+              <h2 class="tr-landing-enterprise-title text-[clamp(34px,4.8vw,64px)] font-medium leading-[1.2] tracking-[-0.02em] text-[#121317] m-0">Simple to Start, Powerful at<br class="hidden lg:block" /> Enterprise Scale</h2>
+              <p class="tr-landing-enterprise-text mt-2 lg:mt-4 max-w-[800px] text-[15px] lg:text-[18px] leading-[1.7] text-[#45474D] m-0">Start with simple model access. Add centralized billing, granular quota controls, audit-ready logs, and organization-wide visibility as your usage grows.</p>
+              <p class="tr-landing-enterprise-text mt-2 lg:mt-4 max-w-[800px] text-[15px] lg:text-[18px] leading-[1.7] text-[#45474D] m-0">Already at scale? <a href="#" class="tr-landing-section-link text-[#0086FF] hover:underline">Talk to sales.</a></p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              
+            <div class="tr-landing-enterprise-card flex flex-col gap-4 rounded-3xl border border-[#e2e8f0] bg-white p-5 lg:p-8 h-full">
+              <div class="tr-landing-enterprise-card-icon flex h-10 w-10 lg:h-12 lg:w-12 shrink-0 items-center justify-center rounded-[10px] lg:rounded-2xl bg-[#edf5ff]">
+                <span class="flex h-5 w-5 lg:h-6 lg:w-6 items-center justify-center [&_svg]:h-full [&_svg]:w-full">
+                  <img src="/assets/icons/billing.svg" alt="" class="!h-4 !w-4 lg:!h-6 lg:!w-6 object-contain" />
+                </span>
+              </div>
+              <div class="flex flex-col gap-4 flex-1 justify-between">
+                <div class="flex flex-col gap-4">
+                  <h3 class="tr-landing-enterprise-card-title m-0 text-[22px] font-medium leading-[1.3] text-[#121317]">Centralized Billing and Admin Control</h3>
+                  <p class="tr-landing-enterprise-card-desc m-0 text-[15px] leading-[1.5] text-[#45474d]">Run all company usage under one organization account with unified billing, unified permissions, and no more individual recharge or reimbursement workflows.</p>
+                </div>
+                <div class="flex flex-wrap gap-2"><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">Unified Billing</span><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">Org Admin</span><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">No Reimbursement</span></div>
+              </div>
+            </div>
+
+            <div class="tr-landing-enterprise-card flex flex-col gap-4 rounded-3xl border border-[#e2e8f0] bg-white p-5 lg:p-8 h-full">
+              <div class="tr-landing-enterprise-card-icon flex h-10 w-10 lg:h-12 lg:w-12 shrink-0 items-center justify-center rounded-[10px] lg:rounded-2xl bg-[#edf5ff]">
+                <span class="flex h-5 w-5 lg:h-6 lg:w-6 items-center justify-center [&_svg]:h-full [&_svg]:w-full">
+                  <img src="/assets/icons/users.svg" alt="" class="!h-4 !w-4 lg:!h-6 lg:!w-6 object-contain" />
+                </span>
+              </div>
+              <div class="flex flex-col gap-4 flex-1 justify-between">
+                <div class="flex flex-col gap-4">
+                  <h3 class="tr-landing-enterprise-card-title m-0 text-[22px] font-medium leading-[1.3] text-[#121317]">Granular Quota by Member or Department</h3>
+                  <p class="tr-landing-enterprise-card-desc m-0 text-[15px] leading-[1.5] text-[#45474d]">Set, adjust, and monitor quota at different levels. Allocate usage budgets in real time by user, by team, or by department as business needs change.</p>
+                </div>
+                <div class="flex flex-wrap gap-2"><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">Quota Control</span><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">Per Team</span><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">Real-Time Allocation</span></div>
+              </div>
+            </div>
+
+            <div class="tr-landing-enterprise-card flex flex-col gap-4 rounded-3xl border border-[#e2e8f0] bg-white p-5 lg:p-8 h-full">
+              <div class="tr-landing-enterprise-card-icon flex h-10 w-10 lg:h-12 lg:w-12 shrink-0 items-center justify-center rounded-[10px] lg:rounded-2xl bg-[#edf5ff]">
+                <span class="flex h-5 w-5 lg:h-6 lg:w-6 items-center justify-center [&_svg]:h-full [&_svg]:w-full">
+                  <img src="/assets/icons/routing.svg" alt="" class="!h-4 !w-4 lg:!h-6 lg:!w-6 object-contain" />
+                </span>
+              </div>
+              <div class="flex flex-col gap-4 flex-1 justify-between">
+                <div class="flex flex-col gap-4">
+                  <h3 class="tr-landing-enterprise-card-title m-0 text-[22px] font-medium leading-[1.3] text-[#121317]">Always-On Routing with Multi-Channel Failover</h3>
+                  <p class="tr-landing-enterprise-card-desc m-0 text-[15px] leading-[1.5] text-[#45474d]">TokenRouter combines multiple upstream providers with owned inference cloud capacity, enabling automatic failover when one route degrades or becomes unavailable.</p>
+                </div>
+                <div class="flex flex-wrap gap-2"><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">Failover</span><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">Multi-Upstream</span><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">High Availability</span></div>
+              </div>
+            </div>
+
+            <div class="tr-landing-enterprise-card flex flex-col gap-4 rounded-3xl border border-[#e2e8f0] bg-white p-5 lg:p-8 h-full">
+              <div class="tr-landing-enterprise-card-icon flex h-10 w-10 lg:h-12 lg:w-12 shrink-0 items-center justify-center rounded-[10px] lg:rounded-2xl bg-[#edf5ff]">
+                <span class="flex h-5 w-5 lg:h-6 lg:w-6 items-center justify-center [&_svg]:h-full [&_svg]:w-full">
+                  <img src="/assets/icons/analytics.svg" alt="" class="!h-4 !w-4 lg:!h-6 lg:!w-6 object-contain" />
+                </span>
+              </div>
+              <div class="flex flex-col gap-4 flex-1 justify-between">
+                <div class="flex flex-col gap-4">
+                  <h3 class="tr-landing-enterprise-card-title m-0 text-[22px] font-medium leading-[1.3] text-[#121317]">Organization-Wide Analytics and Usage Insights</h3>
+                  <p class="tr-landing-enterprise-card-desc m-0 text-[15px] leading-[1.5] text-[#45474d]">Track activity, cost, and usage trends across the company. Analyze adoption by model, by member, and by time period with clear multi-dimensional dashboards.</p>
+                </div>
+                <div class="flex flex-wrap gap-2"><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">Usage Trends</span><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">Model Analytics</span><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">Team Activity</span></div>
+              </div>
+            </div>
+
+            <div class="tr-landing-enterprise-card flex flex-col gap-4 rounded-3xl border border-[#e2e8f0] bg-white p-5 lg:p-8 h-full">
+              <div class="tr-landing-enterprise-card-icon flex h-10 w-10 lg:h-12 lg:w-12 shrink-0 items-center justify-center rounded-[10px] lg:rounded-2xl bg-[#edf5ff]">
+                <span class="flex h-5 w-5 lg:h-6 lg:w-6 items-center justify-center [&_svg]:h-full [&_svg]:w-full">
+                  <img src="/assets/icons/audit.svg" alt="" class="!h-4 !w-4 lg:!h-6 lg:!w-6 object-contain" />
+                </span>
+              </div>
+              <div class="flex flex-col gap-4 flex-1 justify-between">
+                <div class="flex flex-col gap-4">
+                  <h3 class="tr-landing-enterprise-card-title m-0 text-[22px] font-medium leading-[1.3] text-[#121317]">Audit-Ready Logs and Full Traceability</h3>
+                  <p class="tr-landing-enterprise-card-desc m-0 text-[15px] leading-[1.5] text-[#45474d]">Every request, token spend, and access record can be traced back to the user and model involved, supporting internal governance, review, and operational auditing.</p>
+                </div>
+                <div class="flex flex-wrap gap-2"><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">Audit Logs</span><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">Cost Traceability</span><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">Access Records</span></div>
+              </div>
+            </div>
+
+            <div class="tr-landing-enterprise-card flex flex-col gap-4 rounded-3xl border border-[#e2e8f0] bg-white p-5 lg:p-8 h-full">
+              <div class="tr-landing-enterprise-card-icon flex h-10 w-10 lg:h-12 lg:w-12 shrink-0 items-center justify-center rounded-[10px] lg:rounded-2xl bg-[#edf5ff]">
+                <span class="flex h-5 w-5 lg:h-6 lg:w-6 items-center justify-center [&_svg]:h-full [&_svg]:w-full">
+                  <img src="/assets/icons/globe.svg" alt="" class="!h-4 !w-4 lg:!h-6 lg:!w-6 object-contain" />
+                </span>
+              </div>
+              <div class="flex flex-col gap-4 flex-1 justify-between">
+                <div class="flex flex-col gap-4">
+                  <h3 class="tr-landing-enterprise-card-title m-0 text-[22px] font-medium leading-[1.3] text-[#121317]">Global Delivery for High Concurrency and Low Latency</h3>
+                  <p class="tr-landing-enterprise-card-desc m-0 text-[15px] leading-[1.5] text-[#45474d]">Global service nodes and close collaboration with model providers help deliver stable capacity, better concurrency handling, and lower-latency access across regions.</p>
+                </div>
+                <div class="flex flex-wrap gap-2"><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">Global Nodes</span><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">Low Latency</span><span class="tr-landing-enterprise-card-tag inline-flex items-center whitespace-nowrap rounded-full border border-[#dfebf6] bg-[#f3f9ff] px-[10px] py-[6px] text-xs leading-[1.4] text-[#45474d]">High Concurrency</span></div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="tr-landing-faq-section bg-white px-6 py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[60px]">
+          <div class="mx-auto max-w-[1440px] lg:px-[104px]">
+            <div class="mb-6 lg:mb-7">
+              <span class="tr-landing-section-badge mb-4 inline-flex h-8 items-center gap-[6px] rounded-full border border-[#c9e5ff] bg-[#ebf5ff] px-[14px] text-xs text-[#0086ff]">
+                <img src="/assets/icons/sparkle.svg" alt="" class="h-3 w-3" />
+                FAQ
+              </span>
+              <h2 class="tr-landing-section-title m-0 text-[34px] font-medium leading-[1.2] tracking-[-0.02em] text-[#121317] lg:text-[56px] lg:leading-[1.3] lg:tracking-normal">Frequently Asked Questions</h2>
+              <p class="tr-landing-section-text mt-2 max-w-[760px] text-[15px] leading-[1.7] text-[#45474d] lg:mt-4 lg:text-[18px] lg:leading-[1.75] m-0">Quick answers to the questions developers ask most. Don't see yours? The full documentation has deeper guides, references.</p>
+            </div>
+            <div class="tr-landing-faq-list overflow-hidden rounded-2xl border border-[#dce6f0] bg-white">
+              
+          <div class="tr-landing-faq-item border-b border-[#e6edf5] last:border-b-0" data-faq-item>
+            <button type="button" class="tr-landing-faq-trigger flex min-h-[68px] w-full items-center justify-between gap-5 px-5 py-4 text-left transition-colors duration-200 hover:bg-[#fafafa] lg:min-h-[78px] lg:px-6" aria-expanded="true" data-faq-trigger>
+              <span class="tr-landing-faq-question text-[22px] font-medium leading-[1.5] text-[#121317]">1. What is TokenRouter?</span>
+              <span class="tr-landing-faq-expand-icon tr-landing-faq-expand-icon-open" aria-hidden="true" data-faq-icon>+</span>
+            </button>
+            <div class="tr-landing-faq-panel is-open" data-faq-panel>
+              <div>
+                <div class="px-5 pb-5 lg:px-6 lg:pb-6">
+                  <div class="tr-landing-faq-answer overflow-hidden text-[15px] font-normal leading-[1.7] text-[#45474d] lg:text-[18px]">
+                    <p class="m-0">TokenRouter is a unified API gateway for accessing leading AI models across text, image, video, and audio.</p><p class="m-0 mt-6 lg:mt-8">Instead of integrating with multiple model providers one by one, developers and enterprises can connect through TokenRouter and manage model access through a single interface.</p><p class="m-0 mt-6 lg:mt-8">TokenRouter helps simplify model integration, centralize usage management, and provide a consistent way to access a broad range of AI capabilities.</p><a href="#" class="tr-landing-faq-link mt-4 inline-flex items-center gap-1 text-center text-[16px] font-normal leading-[1.4] text-[#0086ff] hover:text-[#0075ed]">Read Full Guide <svg class="h-3.5 w-3.5" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tr-landing-faq-item border-b border-[#e6edf5] last:border-b-0" data-faq-item>
+            <button type="button" class="tr-landing-faq-trigger flex min-h-[68px] w-full items-center justify-between gap-5 px-5 py-4 text-left transition-colors duration-200 hover:bg-[#fafafa] lg:min-h-[78px] lg:px-6" aria-expanded="false" data-faq-trigger>
+              <span class="tr-landing-faq-question text-[22px] font-medium leading-[1.5] text-[#121317]">2. Why should I choose TokenRouter?</span>
+              <span class="tr-landing-faq-expand-icon tr-landing-faq-expand-icon-closed" aria-hidden="true" data-faq-icon>+</span>
+            </button>
+            <div class="tr-landing-faq-panel is-closed" data-faq-panel>
+              <div>
+                <div class="px-5 pb-5 lg:px-6 lg:pb-6">
+                  <div class="tr-landing-faq-answer overflow-hidden text-[15px] font-normal leading-[1.7] text-[#45474d] lg:text-[18px]">
+                    <p class="m-0">TokenRouter helps teams reduce integration complexity by providing one unified API for multiple AI models and providers.</p><p class="m-0 mt-6 lg:mt-8">It also centralizes billing, usage tracking, and cost visibility. For enterprise users, TokenRouter supports organization-level analytics, usage reporting, budget visibility, and audit-friendly records.</p><p class="m-0 mt-6 lg:mt-8">To improve production reliability, TokenRouter supports multi-provider routing and fallback. When a provider becomes unavailable or unstable, TokenRouter can route requests to another available provider where supported, helping applications maintain better continuity.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tr-landing-faq-item border-b border-[#e6edf5] last:border-b-0" data-faq-item>
+            <button type="button" class="tr-landing-faq-trigger flex min-h-[68px] w-full items-center justify-between gap-5 px-5 py-4 text-left transition-colors duration-200 hover:bg-[#fafafa] lg:min-h-[78px] lg:px-6" aria-expanded="false" data-faq-trigger>
+              <span class="tr-landing-faq-question text-[22px] font-medium leading-[1.5] text-[#121317]">3. Is my team&#x27;s data secure?</span>
+              <span class="tr-landing-faq-expand-icon tr-landing-faq-expand-icon-closed" aria-hidden="true" data-faq-icon>+</span>
+            </button>
+            <div class="tr-landing-faq-panel is-closed" data-faq-panel>
+              <div>
+                <div class="px-5 pb-5 lg:px-6 lg:pb-6">
+                  <div class="tr-landing-faq-answer overflow-hidden text-[15px] font-normal leading-[1.7] text-[#45474d] lg:text-[18px]">
+                    <p class="m-0">Absolutely. TokenRouter adheres to strict Zero Data Retention (ZDR) policies. The platform only logs request metadata (like the model used, timestamp, and cost) and never stores your prompts or generated completions.</p><p class="m-0 mt-6 lg:mt-8">TokenRouter may retain limited operational metadata, such as request timestamps, model identifiers, token counts, latency metrics, account identifiers, billing records, IP addresses, and request headers, for routing, billing, security, fraud prevention, abuse prevention, analytics, support, and compliance. This metadata does not include the substantive content of your prompts or model responses.</p><p class="m-0 mt-6 lg:mt-8">When requests are routed to third-party model providers, provider-side data handling is governed by the applicable provider&#x27;s own terms, privacy policy, and technical configuration. Where available, PBD seeks to use providers and configurations with no-training, zero-data-retention, or equivalent privacy protections.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tr-landing-faq-item border-b border-[#e6edf5] last:border-b-0" data-faq-item>
+            <button type="button" class="tr-landing-faq-trigger flex min-h-[68px] w-full items-center justify-between gap-5 px-5 py-4 text-left transition-colors duration-200 hover:bg-[#fafafa] lg:min-h-[78px] lg:px-6" aria-expanded="false" data-faq-trigger>
+              <span class="tr-landing-faq-question text-[22px] font-medium leading-[1.5] text-[#121317]">4. How do I get support or report a bug?</span>
+              <span class="tr-landing-faq-expand-icon tr-landing-faq-expand-icon-closed" aria-hidden="true" data-faq-icon>+</span>
+            </button>
+            <div class="tr-landing-faq-panel is-closed" data-faq-panel>
+              <div>
+                <div class="px-5 pb-5 lg:px-6 lg:pb-6">
+                  <div class="tr-landing-faq-answer overflow-hidden text-[15px] font-normal leading-[1.7] text-[#45474d] lg:text-[18px]">
+                    <p class="m-0">You can join the TokenRouter <a href="#" class="tr-landing-faq-link text-[#0086ff] hover:text-[#0075ed] hover:underline">Discord</a> community to ask questions, share feedback, or report technical issues.</p><p class="m-0 mt-6 lg:mt-8">You can also contact us directly through the <a href="#" class="tr-landing-faq-link text-[#0086ff] hover:text-[#0075ed] hover:underline">Contact Us</a> form on the TokenRouter website. For product questions, enterprise inquiries, billing issues, or bug reports, our team will help route your request to the right support channel.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tr-landing-faq-item border-b border-[#e6edf5] last:border-b-0" data-faq-item>
+            <button type="button" class="tr-landing-faq-trigger flex min-h-[68px] w-full items-center justify-between gap-5 px-5 py-4 text-left transition-colors duration-200 hover:bg-[#fafafa] lg:min-h-[78px] lg:px-6" aria-expanded="false" data-faq-trigger>
+              <span class="tr-landing-faq-question text-[22px] font-medium leading-[1.5] text-[#121317]">5. How is usage billed on TokenRouter?</span>
+              <span class="tr-landing-faq-expand-icon tr-landing-faq-expand-icon-closed" aria-hidden="true" data-faq-icon>+</span>
+            </button>
+            <div class="tr-landing-faq-panel is-closed" data-faq-panel>
+              <div>
+                <div class="px-5 pb-5 lg:px-6 lg:pb-6">
+                  <div class="tr-landing-faq-answer overflow-hidden text-[15px] font-normal leading-[1.7] text-[#45474d] lg:text-[18px]">
+                    <p class="m-0">TokenRouter displays pricing for each model. Depending on the model type and provider pricing structure, usage may be billed by input tokens, output tokens, cached tokens, requests, images, videos, audio, or reasoning tokens.</p><p class="m-0 mt-6 lg:mt-8">When you send a request through TokenRouter, the system calculates the applicable cost based on the selected model, provider, and actual usage. The corresponding amount is then deducted from your account balance.</p><p class="m-0 mt-6 lg:mt-8">You can review your request history, token consumption, model usage, cost details, and other billing-related information in Usage Logs.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tr-landing-faq-item border-b border-[#e6edf5] last:border-b-0" data-faq-item>
+            <button type="button" class="tr-landing-faq-trigger flex min-h-[68px] w-full items-center justify-between gap-5 px-5 py-4 text-left transition-colors duration-200 hover:bg-[#fafafa] lg:min-h-[78px] lg:px-6" aria-expanded="false" data-faq-trigger>
+              <span class="tr-landing-faq-question text-[22px] font-medium leading-[1.5] text-[#121317]">6. How often does TokenRouter add new models?</span>
+              <span class="tr-landing-faq-expand-icon tr-landing-faq-expand-icon-closed" aria-hidden="true" data-faq-icon>+</span>
+            </button>
+            <div class="tr-landing-faq-panel is-closed" data-faq-panel>
+              <div>
+                <div class="px-5 pb-5 lg:px-6 lg:pb-6">
+                  <div class="tr-landing-faq-answer overflow-hidden text-[15px] font-normal leading-[1.7] text-[#45474d] lg:text-[18px]">
+                    <p class="m-0">TokenRouter continuously updates its model catalog to support newly released and widely used AI models across text, image, video, and audio.</p><p class="m-0 mt-6 lg:mt-8">We work with model providers and ecosystem partners to bring high-demand models online as quickly as possible. If there is a model you would like TokenRouter to support, you can contact us through <a href="#" class="tr-landing-faq-link text-[#0086ff] hover:text-[#0075ed] hover:underline">Discord</a> or the <a href="#" class="tr-landing-faq-link text-[#0086ff] hover:text-[#0075ed] hover:underline">Contact Us</a> form.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tr-landing-faq-item border-b border-[#e6edf5] last:border-b-0" data-faq-item>
+            <button type="button" class="tr-landing-faq-trigger flex min-h-[68px] w-full items-center justify-between gap-5 px-5 py-4 text-left transition-colors duration-200 hover:bg-[#fafafa] lg:min-h-[78px] lg:px-6" aria-expanded="false" data-faq-trigger>
+              <span class="tr-landing-faq-question text-[22px] font-medium leading-[1.5] text-[#121317]">7. Does TokenRouter charge a platform fee?</span>
+              <span class="tr-landing-faq-expand-icon tr-landing-faq-expand-icon-closed" aria-hidden="true" data-faq-icon>+</span>
+            </button>
+            <div class="tr-landing-faq-panel is-closed" data-faq-panel>
+              <div>
+                <div class="px-5 pb-5 lg:px-6 lg:pb-6">
+                  <div class="tr-landing-faq-answer overflow-hidden text-[15px] font-normal leading-[1.7] text-[#45474d] lg:text-[18px]">
+                    <p class="m-0">No, TokenRouter currently does not charge platform fees for using Personal or Enterprise software features.</p><p class="m-0 mt-6 lg:mt-8">Users can access the TokenRouter console, model catalog, API key management, Usage Logs, Dashboard, and enterprise management features without additional software subscription fees.</p><p class="m-0 mt-6 lg:mt-8">Model usage itself is still charged based on the selected model, provider, and actual consumption.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tr-landing-faq-item border-b border-[#e6edf5] last:border-b-0" data-faq-item>
+            <button type="button" class="tr-landing-faq-trigger flex min-h-[68px] w-full items-center justify-between gap-5 px-5 py-4 text-left transition-colors duration-200 hover:bg-[#fafafa] lg:min-h-[78px] lg:px-6" aria-expanded="false" data-faq-trigger>
+              <span class="tr-landing-faq-question text-[22px] font-medium leading-[1.5] text-[#121317]">8. Can I request higher RPM or TPM limits?</span>
+              <span class="tr-landing-faq-expand-icon tr-landing-faq-expand-icon-closed" aria-hidden="true" data-faq-icon>+</span>
+            </button>
+            <div class="tr-landing-faq-panel is-closed" data-faq-panel>
+              <div>
+                <div class="px-5 pb-5 lg:px-6 lg:pb-6">
+                  <div class="tr-landing-faq-answer overflow-hidden text-[15px] font-normal leading-[1.7] text-[#45474d] lg:text-[18px]">
+                    <p class="m-0">Yes. TokenRouter can support custom RPM and TPM limits for enterprise customers and high-volume use cases.</p><p class="m-0 mt-6 lg:mt-8">RPM means Requests Per Minute. TPM means Tokens Per Minute. Higher limits may depend on the selected models, provider capacity, usage patterns, commercial terms, and technical feasibility.</p><p class="m-0 mt-6 lg:mt-8">To request higher rate limits, please contact our business team through the <a href="#" class="tr-landing-faq-link text-[#0086ff] hover:text-[#0075ed] hover:underline">Contact Us</a> form.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tr-landing-faq-item border-b border-[#e6edf5] last:border-b-0" data-faq-item>
+            <button type="button" class="tr-landing-faq-trigger flex min-h-[68px] w-full items-center justify-between gap-5 px-5 py-4 text-left transition-colors duration-200 hover:bg-[#fafafa] lg:min-h-[78px] lg:px-6" aria-expanded="false" data-faq-trigger>
+              <span class="tr-landing-faq-question text-[22px] font-medium leading-[1.5] text-[#121317]">9. What happens if a model provider goes down?</span>
+              <span class="tr-landing-faq-expand-icon tr-landing-faq-expand-icon-closed" aria-hidden="true" data-faq-icon>+</span>
+            </button>
+            <div class="tr-landing-faq-panel is-closed" data-faq-panel>
+              <div>
+                <div class="px-5 pb-5 lg:px-6 lg:pb-6">
+                  <div class="tr-landing-faq-answer overflow-hidden text-[15px] font-normal leading-[1.7] text-[#45474d] lg:text-[18px]">
+                    <p class="m-0">TokenRouter is designed to support automatic fallback across available providers where applicable.</p><p class="m-0 mt-6 lg:mt-8">If a provider returns an error, becomes unavailable, or experiences instability, TokenRouter can route the request to another available provider for the same or compatible model, depending on routing configuration and provider availability.</p><p class="m-0 mt-6 lg:mt-8">This process is designed to be transparent to users and helps improve reliability for production applications.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tr-landing-faq-item border-b border-[#e6edf5] last:border-b-0" data-faq-item>
+            <button type="button" class="tr-landing-faq-trigger flex min-h-[68px] w-full items-center justify-between gap-5 px-5 py-4 text-left transition-colors duration-200 hover:bg-[#fafafa] lg:min-h-[78px] lg:px-6" aria-expanded="false" data-faq-trigger>
+              <span class="tr-landing-faq-question text-[22px] font-medium leading-[1.5] text-[#121317]">10. What payment and currency options does TokenRouter support?</span>
+              <span class="tr-landing-faq-expand-icon tr-landing-faq-expand-icon-closed" aria-hidden="true" data-faq-icon>+</span>
+            </button>
+            <div class="tr-landing-faq-panel is-closed" data-faq-panel>
+              <div>
+                <div class="px-5 pb-5 lg:px-6 lg:pb-6">
+                  <div class="tr-landing-faq-answer overflow-hidden text-[15px] font-normal leading-[1.7] text-[#45474d] lg:text-[18px]">
+                    <p class="m-0">TokenRouter primarily uses Stripe as its payment channel and uses US dollars as the base billing currency.</p><p class="m-0 mt-6 lg:mt-8">Prices shown on the website and through the API are generally denominated in USD. Users can top up their balance and use it to pay for model usage across supported models and providers.</p><p class="m-0 mt-6 lg:mt-8">TokenRouter does not charge users any payment processing fee for Stripe payments.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+            </div>
+            <div class="tr-landing-faq-help-card mt-8 rounded-2xl border border-[#dce6f0] bg-white px-5 py-4 lg:px-6">
+              <div class="lg:hidden">
+                <div class="flex items-center gap-4">
+                  <div class="tr-landing-faq-help-icon flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#ebf5ff] text-[#0086ff]">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 16.5A7.5 7.5 0 1 0 9 1.5a7.5 7.5 0 0 0 0 15Z" stroke="currentColor" stroke-width="1.4"/><path d="M6.92 7.02A2.18 2.18 0 0 1 9.05 5.4c1.2 0 2.17.78 2.17 1.9 0 .8-.42 1.28-1.22 1.78-.66.42-1 .76-1 1.45v.22" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M9 13h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  </div>
+                  <p class="tr-landing-faq-help-title m-0 text-[18px] font-medium leading-[1.35] text-[#121317]">Still Have Questions?</p>
+                </div>
+                <p class="tr-landing-faq-help-text m-0 mt-3 text-[16px] leading-[1.5] text-[#45474d]">Browse the full documentation for guides, references and end-to-end code samples.</p>
+                <a href="#" class="tr-landing-faq-action mt-3 inline-flex h-10 w-fit shrink-0 items-center justify-center gap-2 rounded-full bg-[#0086ff] px-5 text-[15px] font-normal leading-[1.7] text-white hover:bg-[#0075ed]">Open Docs <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+              </div>
+              <div class="hidden lg:flex lg:items-center lg:justify-between lg:gap-4">
+                <div class="flex items-center gap-4">
+                  <div class="tr-landing-faq-help-icon flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#ebf5ff] text-[#0086ff]">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 16.5A7.5 7.5 0 1 0 9 1.5a7.5 7.5 0 0 0 0 15Z" stroke="currentColor" stroke-width="1.4"/><path d="M6.92 7.02A2.18 2.18 0 0 1 9.05 5.4c1.2 0 2.17.78 2.17 1.9 0 .8-.42 1.28-1.22 1.78-.66.42-1 .76-1 1.45v.22" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M9 13h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  </div>
+                  <div>
+                    <p class="tr-landing-faq-help-title m-0 text-[18px] font-medium leading-[1.35] text-[#121317]">Still Have Questions?</p>
+                    <p class="tr-landing-faq-help-text m-0 mt-1 text-[16px] leading-[1.5] text-[#45474d]">Browse the full documentation for guides, references and end-to-end code samples.</p>
+                  </div>
+                </div>
+                <a href="#" class="tr-landing-faq-action inline-flex h-10 w-fit shrink-0 items-center justify-center gap-2 rounded-full bg-[#0086ff] px-5 text-[15px] font-normal leading-[1.7] text-white hover:bg-[#0075ed]">Open Docs <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="tr-landing-cta-section bg-white px-6 py-[30px] lg:px-[120px] lg:py-[60px]">
+          <div class="mx-auto max-w-[1440px] flex flex-col items-center text-center gap-[30px] lg:gap-[56px]">
+            <h2 class="tr-landing-cta-title text-[clamp(34px,4.8vw,46px)] font-medium leading-[1.2] tracking-[-0.02em] text-[#121317] m-0">Ready to Roll TokenRouter Out Across Your Org?</h2>
+            <div class="flex flex-row items-center gap-4 lg:gap-[24px]">
+              <a href="#" class="tr-landing-cta-primary px-5 lg:px-6 w-fit mx-auto whitespace-nowrap text-[#fff] rounded-full text-[15px] lg:text-[18px] bg-[#0086FF] leading-[1.6] lg:leading-[1.7] h-[40px] lg:h-[48px] hover:bg-[#0075ed] flex items-center cursor-pointer gap-[8px] lg:gap-[10px]">Talk to Sales <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+              <a href="#" class="tr-landing-cta-secondary px-5 lg:px-6 w-fit mx-auto whitespace-nowrap text-[#333] rounded-full text-[15px] lg:text-[18px] bg-white border border-[#edeaea] leading-[1.6] lg:leading-[1.7] h-[40px] lg:h-[48px] hover:bg-[#f9f9f9] flex items-center cursor-pointer gap-[8px] lg:gap-[10px]">Start Free</a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="tr-landing-footer bg-white">
+        <div class="mx-auto max-w-[1440px] px-6 lg:px-[104px]">
+          <div class="grid gap-14 py-[60px] lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-[160px] lg:pb-[100px]">
+            <div class="flex flex-col items-start">
+              <a href="#" class="mb-5 block bg-transparent no-underline">
+                <img alt="PaleBlueDot.AI" class="tr-landing-footer-logo-image h-[42px] w-[120px] object-contain" src="/assets/logo.png" />
+              </a>
+            </div>
+            <div class="flex flex-wrap items-start gap-[60px]">
+              <div class="flex flex-col items-start">
+                <p class="tr-landing-footer-heading mb-5 text-[14px] font-medium uppercase leading-[1.4] text-[#121317] m-0">QUICK LINKS</p>
+                <a href="#" class="tr-landing-footer-link mb-[14px] bg-transparent text-[14px] leading-[1.5] text-[#45474d] transition hover:text-[#0086ff] no-underline">Console</a>
+                <a href="#" class="tr-landing-footer-link mb-[14px] bg-transparent text-[14px] leading-[1.5] text-[#45474d] transition hover:text-[#0086ff] no-underline">Models</a>
+                <a href="#" class="tr-landing-footer-link mb-[14px] bg-transparent text-[14px] leading-[1.5] text-[#45474d] transition hover:text-[#0086ff] no-underline">Docs</a>
+                <a href="#" class="tr-landing-footer-link mb-[14px] bg-transparent text-[14px] leading-[1.5] text-[#45474d] transition hover:text-[#0086ff] no-underline">Blog</a>
+              </div>
+              <div class="flex flex-col items-start">
+                <p class="tr-landing-footer-heading mb-5 text-[14px] font-medium uppercase leading-[1.4] text-[#121317] m-0">STAY CONNECTED</p>
+                <a href="#" class="inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-full font-normal text-center min-h-[40px] px-5 text-[14px] leading-[1.6] gap-2 bg-[#0086ff] text-white hover:bg-[#0075ed]">Contact Us <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M5.14307 12.8572L12.8574 5.14282M12.8574 5.14282H6.10735M12.8574 5.14282V11.8928" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+              </div>
+            </div>
+          </div>
+          <div class="tr-landing-footer-divider h-px bg-[#eeeeee]"></div>
+          <div class="py-4 pb-8">
+            <div class="tr-landing-footer-legal-links mb-8 flex flex-wrap gap-4 text-[14px] leading-[1.4] text-[#121317]">
+              <a href="#" class="hover:text-[#0086FF]">Terms of Use</a>
+              <a href="#" class="hover:text-[#0086FF]">Privacy Policy</a>
+              <a href="#" class="hover:text-[#0086FF]">Cookie Policy</a>
+              <a href="#" class="hover:text-[#0086FF]">Accessibility Statement</a>
+            </div>
+            <div class="tr-landing-footer-legal-copy space-y-1 text-[13px] leading-[2] text-[#637086]">
+              <p class="m-0">© Artemis Tokenrouter Inc. and/or its affiliated companies.</p>
+              <p class="m-0">Artemis Tokenrouter and related branded products and services are offered by Artemis Tokenrouter Inc. and/or its subsidiaries and affiliates.</p>
+              <p class="m-0">Certain proprietary technologies, platforms, and methodologies may be licensed to or from Artemis Tokenrouter Inc. or its affiliates, as applicable.</p>
+              <p class="m-0 pt-2">Note:</p>
+              <p class="m-0">Certain services, platforms, or materials may require you to accept additional terms and conditions before accessing or using them.</p>
+              <p class="m-0">Materials presented on this website that are dated, including but not limited to press releases, blog posts, presentations, technical descriptions, and event materials, speak only as of their stated date and may have been superseded by subsequent developments, updates, or disclosures.</p>
+              <p class="m-0">Nothing contained on this website constitutes an offer to sell, license, or provide any services, products, or technologies, nor should it be construed as creating any binding commitment, unless expressly stated in a definitive written agreement.</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
