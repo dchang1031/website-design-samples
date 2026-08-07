@@ -105,28 +105,21 @@
   inset: -15%;
   z-index: 1;
   background:
-    radial-gradient(
-      ellipse 70% 55% at var(--wash-x) var(--wash-y),
-      rgba(var(--wash-a), 0.55) 0%,
-      rgba(var(--wash-a), 0.22) 42%,
-      transparent 70%
-    ),
-    radial-gradient(
-      ellipse 60% 50% at calc(100% - var(--wash-x)) calc(90% - var(--wash-y)),
-      rgba(var(--wash-b), 0.5) 0%,
-      rgba(var(--wash-b), 0.18) 45%,
-      transparent 72%
-    ),
     linear-gradient(
       var(--wash-angle),
-      rgba(var(--wash-a), 0.28) 0%,
-      rgba(var(--wash-b), 0.2) 45%,
-      rgba(var(--wash-c), 0.26) 100%
+      rgba(var(--wash-a), 0.38) 0%,
+      rgba(var(--wash-b), 0.28) 42%,
+      rgba(var(--wash-c), 0.34) 100%
+    ),
+    radial-gradient(
+      ellipse 120% 80% at var(--wash-x) var(--wash-y),
+      rgba(var(--wash-a), 0.22) 0%,
+      transparent 68%
     );
-  mix-blend-mode: normal;
-  opacity: 1;
+  mix-blend-mode: multiply;
+  opacity: 0.85;
   will-change: background;
-  filter: saturate(1.2);
+  filter: saturate(1.15);
 }
 
 .theme-liquid .scroll-stage__canvas {
