@@ -98,8 +98,11 @@ import * as THREE from "three";
   function makeBlobMaterial(colorHex) {
     const material = new THREE.MeshStandardMaterial({
       color: new THREE.Color(colorHex),
-      roughness: 0.38,
-      metalness: 0.08,
+      roughness: 0.32,
+      metalness: 0.06,
+      transparent: true,
+      opacity: 0.92,
+      depthWrite: true,
       flatShading: false,
     });
 
@@ -140,13 +143,14 @@ import * as THREE from "three";
   ];
 
   const blobConfigs = [
-    { r: 2.35, x: -2.8, y: 1.6, z: -1.2, color: "#9ec9ff", speed: 0.7 },
-    { r: 2.9, x: 2.4, y: -0.4, z: -2.0, color: "#c5b8ff", speed: 0.55 },
-    { r: 1.85, x: 0.2, y: 2.2, z: -0.6, color: "#f0c4e8", speed: 0.9 },
-    { r: 2.1, x: -1.6, y: -2.0, z: -1.5, color: "#a8d4ff", speed: 0.65 },
-    { r: 1.55, x: 3.2, y: 2.0, z: -0.3, color: "#d4bfff", speed: 1.05 },
-    { r: 1.7, x: -3.4, y: -0.6, z: -0.8, color: "#ffc2e0", speed: 0.8 },
-    { r: 1.35, x: 1.0, y: -2.6, z: -0.4, color: "#b8e0ff", speed: 1.15 },
+    { r: 3.1, x: -2.2, y: 1.3, z: -1.4, color: "#9ec9ff", speed: 0.7 },
+    { r: 3.6, x: 2.0, y: -0.2, z: -2.2, color: "#c5b8ff", speed: 0.55 },
+    { r: 2.6, x: 0.1, y: 1.8, z: -0.8, color: "#f0c4e8", speed: 0.9 },
+    { r: 2.9, x: -1.4, y: -1.7, z: -1.7, color: "#a8d4ff", speed: 0.65 },
+    { r: 2.2, x: 2.8, y: 1.7, z: -0.5, color: "#d4bfff", speed: 1.05 },
+    { r: 2.4, x: -2.9, y: -0.4, z: -1.0, color: "#ffc2e0", speed: 0.8 },
+    { r: 2.0, x: 0.9, y: -2.2, z: -0.6, color: "#b8e0ff", speed: 1.15 },
+    { r: 2.3, x: 1.4, y: 0.6, z: -2.8, color: "#c4b5fd", speed: 0.75 },
   ];
 
   const blobs = blobConfigs.map((cfg, i) => {
