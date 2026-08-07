@@ -12,6 +12,8 @@
   --blue-deep: #1238d6;
   --blue-soft: rgba(26, 77, 255, 0.08);
   --white: #fbfaf7;
+  --box: rgba(255, 255, 255, 0.85);
+  --box-hover: #ffffff;
   --font: "Space Grotesk", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, monospace;
   --max: 1440px;
@@ -817,7 +819,12 @@ img {
   padding: 18px;
   border-right: var(--line-w) solid var(--line);
   border-bottom: var(--line-w) solid var(--line);
-  background: rgba(255, 255, 255, 0.22);
+  background: var(--box);
+  transition: background 0.2s ease;
+}
+
+.logo-card:hover {
+  background: var(--box-hover);
 }
 
 .logo-card img {
@@ -831,9 +838,14 @@ img {
 /* One API */
 .oneapi-figure {
   border: var(--line-w) solid var(--line);
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--box);
   padding: 18px;
   margin-top: 28px;
+  transition: background 0.2s ease;
+}
+
+.oneapi-figure:hover {
+  background: var(--box-hover);
 }
 
 .oneapi-figure img {
@@ -857,7 +869,7 @@ img {
 .feature-card {
   padding: 28px 22px;
   border-bottom: var(--line-w) solid var(--line);
-  background: rgba(255, 255, 255, 0.18);
+  background: var(--box);
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -866,7 +878,7 @@ img {
 }
 
 .feature-card:hover {
-  background: rgba(255, 255, 255, 0.42);
+  background: var(--box-hover);
 }
 
 .feature-card__icon {
@@ -1287,13 +1299,15 @@ img {
     display: none;
   }
 
-  .hero__metrics {
+  .hero__metrics-inner {
     grid-template-columns: 1fr;
   }
 
   .metric {
     border-right: 0;
     border-bottom: var(--line-w) solid var(--line);
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .metric:last-child {
