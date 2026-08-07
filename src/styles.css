@@ -343,27 +343,29 @@ img {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 18px;
-  min-height: 180px;
+  gap: 22px;
+  min-height: 200px;
   animation: floatIn 0.9s ease 0.08s both;
 }
 
 .hero__trusted-label {
   margin: 0;
   font-family: var(--font);
-  font-size: clamp(22px, 3.2vw, 32px);
+  font-size: clamp(28px, 4vw, 40px);
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
+  line-height: 1;
   text-transform: none;
   color: var(--ink);
 }
 
 .hero__trusted-stage {
   position: relative;
-  width: min(100%, 360px);
-  height: 110px;
+  width: min(100%, 420px);
+  height: 120px;
   display: grid;
-  place-items: center;
+  place-items: center start;
+  justify-items: start;
   border: 0;
   background: transparent;
   padding: 0;
@@ -372,8 +374,9 @@ img {
 
 .hero__trusted-logo {
   max-width: 100%;
-  max-height: 72px;
+  max-height: 88px;
   width: auto;
+  height: auto;
   object-fit: contain;
   background: transparent;
   filter: none;
