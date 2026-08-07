@@ -528,12 +528,16 @@ img {
 .hero__metrics {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  background: #fff;
   border-top: var(--line-w) solid var(--line);
+  border-bottom: var(--line-w) solid var(--line);
 }
 
 .metric {
-  padding: 20px 16px;
+  padding: 22px max(16px, var(--gutter));
   border-right: var(--line-w) solid var(--line);
+  background: #fff;
 }
 
 .metric:last-child {
