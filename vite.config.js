@@ -1,10 +1,20 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from "vite";
+import { resolve } from "node:path";
 
 export default defineConfig({
-  root: '.',
-  publicDir: 'public',
+  root: ".",
+  publicDir: "public",
   server: {
     host: true,
     port: 5173,
+  },
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+        option2: resolve(__dirname, "option-2.html"),
+        option3: resolve(__dirname, "option-3.html"),
+      },
+    },
   },
 });
