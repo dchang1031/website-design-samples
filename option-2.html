@@ -4,16 +4,16 @@
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="/logo-without-title.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#3a001e" />
     <meta name="description" content="A unified AI model hub for aggregation and distribution. TokenRouter converts leading LLMs into OpenAI, Claude, and Gemini compatible APIs with centralized management for individuals and enterprises." />
-    <title>TokenRouter - Verified Models with Enterprise-Grade Controls</title>
+    <title>TokenRouter - Option 2</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
-              sans: ['"PP Neue Montreal"', 'system-ui', 'sans-serif'],
+              sans: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
             },
           },
         },
@@ -21,9 +21,10 @@
     </script>
     <link rel="stylesheet" href="/src/shared-nav.css" />
     <link rel="stylesheet" href="/src/replica.css" />
+    <link rel="stylesheet" href="/src/option2-theme.css" />
   </head>
-  <body>
-    <div class="tr-landing-page min-h-screen bg-white text-slate-900">
+  <body class="theme-impossible">
+    <div class="tr-landing-page min-h-screen">
       <div class="sr-only">
         <h1>TokenRouter - Verified Models with Enterprise-Grade Controls</h1>
         <p>A unified AI model hub for aggregation and distribution. TokenRouter converts leading LLMs into OpenAI, Claude, and Gemini compatible APIs with centralized management for individuals and enterprises.</p>
@@ -89,14 +90,20 @@
       </div>
       <div class="h-16 w-full shrink-0"></div>
 
+      <nav class="imp-pills" aria-label="Quick filters">
+        <a href="#models" class="is-active">All Models</a>
+        <a href="#oneapi">One API</a>
+        <a href="#enterprise">Enterprise</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
       <main class="min-h-screen">
         <!-- Hero -->
         <section class="tr-landing-hero-section bg-white px-[24px] pt-[110px] pb-[30px] lg:px-0 lg:pb-[60px] lg:pt-[124px]">
           <div class="mx-auto grid w-full min-w-0 max-w-[1440px] gap-10 md:grid-cols-[minmax(0,1fr)_360px] md:items-center md:gap-8 lg:grid-cols-[minmax(0,1fr)_480px] lg:px-[104px] lg:gap-[100px]">
             <div class="min-w-0 max-w-[692px]">
               <span class="tr-landing-hero-badge mb-4 inline-flex h-[30px] items-center gap-[6px] rounded-full border border-[#c9e5ff] bg-[#ebf5ff] px-[15px] text-xs tracking-[0.9px] text-[#0086ff] lg:h-8 lg:px-[14px] lg:tracking-[0.15em]">
-                <img src="/assets/icons/sparkle.svg" alt="" class="h-3 w-3" />
-                TOKENROUTER
+                ROUTE ON EVERY MODEL AT
               </span>
               <h2 class="tr-landing-hero-title max-w-[499px] text-[34px] font-medium leading-[1.2] tracking-[-0.02em] text-[#121317] lg:text-[clamp(36px,4.8vw,64px)] m-0">
                 One TokenRouter<br />All Models
@@ -149,7 +156,7 @@
               </div>
             </div>
 
-            <div class="w-full min-w-0 max-w-full justify-self-end sm:max-w-[480px]">
+            <div id="models" class="w-full min-w-0 max-w-full justify-self-end sm:max-w-[480px]">
               <div class="tr-landing-model-access-panel box-border w-full min-w-0 max-w-full rounded-[16px] border border-[#E2E8F0] bg-white p-[20px] lg:rounded-[28px] lg:p-6">
                 <div class="mb-4 flex min-w-0 items-center justify-between gap-3 text-slate-500">
                   <span style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%;text-transform:none">Unified Model Access</span>
@@ -510,7 +517,7 @@
         </section>
 
         <!-- One API Layer -->
-        <section class="tr-landing-oneapi-section bg-white px-[23px] py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[60px]">
+        <section id="oneapi" class="tr-landing-oneapi-section bg-white px-[23px] py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[60px]">
           <div class="mx-auto grid max-w-[1440px] gap-[60px] lg:px-[104px] lg:items-center">
             <div>
               <span class="tr-landing-section-badge mb-4 inline-flex h-8 items-center gap-[6px] rounded-full border border-[#c9e5ff] bg-[#ebf5ff] px-[14px] text-xs tracking-[0.15em] text-[#0086ff]">
@@ -529,7 +536,7 @@
         </section>
 
         <!-- Enterprise -->
-        <section class="tr-landing-enterprise-section bg-white px-6 py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[60px]">
+        <section id="enterprise" class="tr-landing-enterprise-section bg-white px-6 py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[60px]">
           <div class="mx-auto max-w-[1440px] lg:px-[104px]">
             <div class="mb-[30px] lg:mb-[60px]">
               <span class="tr-landing-section-badge mb-4 inline-flex h-8 items-center gap-[6px] rounded-full border border-[#c9e5ff] bg-[#ebf5ff] px-[14px] text-xs tracking-[0.15em] text-[#0086ff]">
@@ -636,7 +643,7 @@
         </section>
 
         <!-- FAQ -->
-        <section class="tr-landing-faq-section bg-white px-6 py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[60px]">
+        <section id="faq" class="tr-landing-faq-section bg-white px-6 py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[60px]">
           <div class="mx-auto max-w-[1440px] lg:px-[104px]">
             <div class="mb-6 lg:mb-7">
               <span class="tr-landing-section-badge mb-4 inline-flex h-8 items-center gap-[6px] rounded-full border border-[#c9e5ff] bg-[#ebf5ff] px-[14px] text-xs text-[#0086ff]">

@@ -1,0 +1,533 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Oswald:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
+/* Impossible-inspired theme for Option 2 (TokenRouter content) */
+.theme-impossible {
+  --imp-bg: #3a001e;
+  --imp-bg-deep: #2a0016;
+  --imp-bg-soft: #4a0a2a;
+  --imp-red: #ff1f1f;
+  --imp-red-hot: #ff0000;
+  --imp-pink: #ffd6de;
+  --imp-white: #fff7f8;
+  --imp-display: "Archivo Black", "Oswald", Impact, sans-serif;
+  --imp-condensed: "Oswald", "Archivo Black", sans-serif;
+  --imp-body: "Space Grotesk", system-ui, sans-serif;
+  color-scheme: dark;
+  background: var(--imp-bg);
+  color: var(--imp-white);
+  font-family: var(--imp-body);
+}
+
+.theme-impossible body,
+body.theme-impossible {
+  background: var(--imp-bg);
+  color: var(--imp-white);
+}
+
+.theme-impossible .tr-landing-page {
+  background: var(--imp-bg) !important;
+  color: var(--imp-white) !important;
+  min-height: 100vh;
+}
+
+/* Shared nav → red Impossible-style bar */
+.theme-impossible .site-header {
+  background: var(--imp-red-hot) !important;
+  border-bottom: 0 !important;
+  color: #fff !important;
+  backdrop-filter: none;
+}
+
+.theme-impossible .site-header .brand {
+  font-family: var(--imp-display);
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff !important;
+}
+
+.theme-impossible .site-header .brand__mark {
+  background: #fff;
+}
+
+.theme-impossible .site-header .brand__mark::after {
+  background: var(--imp-red-hot);
+}
+
+.theme-impossible .site-header .nav a {
+  font-family: var(--imp-condensed);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.92) !important;
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
+.theme-impossible .site-header .nav a:hover,
+.theme-impossible .site-header .nav a.is-active {
+  color: var(--imp-bg) !important;
+  background: var(--imp-pink) !important;
+  border-color: transparent !important;
+  border-radius: 999px;
+}
+
+.theme-impossible .site-header .btn {
+  font-family: var(--imp-condensed);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  border-color: #fff !important;
+  color: #fff !important;
+}
+
+.theme-impossible .site-header .btn--filled {
+  background: #fff !important;
+  color: var(--imp-red-hot) !important;
+  border-color: #fff !important;
+}
+
+.theme-impossible .site-header .btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.theme-impossible .site-header .menu-toggle {
+  border-color: rgba(255, 255, 255, 0.55) !important;
+  color: #fff !important;
+}
+
+.theme-impossible .mobile-menu__drawer {
+  background: var(--imp-bg-soft) !important;
+  border-right-color: rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
+}
+
+.theme-impossible .mobile-menu__drawer a {
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #fff !important;
+}
+
+.theme-impossible .mobile-menu__drawer a.is-active {
+  background: var(--imp-pink) !important;
+  color: var(--imp-bg) !important;
+}
+
+/* Promo */
+.theme-impossible .promo-banner {
+  background: var(--imp-bg-deep) !important;
+  border-bottom: 2px solid var(--imp-red);
+}
+
+.theme-impossible .promo-banner-offer-badge {
+  background: var(--imp-red) !important;
+  border-radius: 999px !important;
+}
+
+/* Pill filter row under promo */
+.theme-impossible .imp-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 16px 8px;
+}
+
+.theme-impossible .imp-pills a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-family: var(--imp-condensed);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: var(--imp-bg-soft);
+  color: var(--imp-white);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.theme-impossible .imp-pills a.is-active,
+.theme-impossible .imp-pills a:hover {
+  background: var(--imp-pink);
+  color: var(--imp-bg);
+  border-color: transparent;
+}
+
+/* Force white section backgrounds off */
+.theme-impossible .bg-white,
+.theme-impossible section[class*="tr-landing-"] {
+  background: transparent !important;
+}
+
+.theme-impossible .tr-landing-hero-section,
+.theme-impossible .tr-landing-logo-wall,
+.theme-impossible .tr-landing-oneapi-section,
+.theme-impossible .tr-landing-enterprise-section,
+.theme-impossible .tr-landing-faq-section,
+.theme-impossible .tr-landing-cta-section,
+.theme-impossible .tr-landing-footer {
+  background: var(--imp-bg) !important;
+  color: var(--imp-white);
+}
+
+/* Hero — centered Impossible energy */
+.theme-impossible .tr-landing-hero-section {
+  padding-top: 72px !important;
+}
+
+.theme-impossible .tr-landing-hero-section > div {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  justify-items: center;
+  text-align: center;
+  gap: 40px !important;
+}
+
+.theme-impossible .tr-landing-hero-section > div > div:first-child {
+  max-width: 920px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.theme-impossible .tr-landing-hero-badge {
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--imp-red) !important;
+  font-family: var(--imp-condensed) !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase;
+  gap: 12px !important;
+}
+
+.theme-impossible .tr-landing-hero-badge::before,
+.theme-impossible .tr-landing-hero-badge::after {
+  content: "";
+  width: 14px;
+  height: 14px;
+  background: var(--imp-red);
+  clip-path: polygon(50% 0%, 62% 38%, 100% 38%, 70% 62%, 82% 100%, 50% 75%, 18% 100%, 30% 62%, 0% 38%, 38% 38%);
+  flex: 0 0 auto;
+}
+
+.theme-impossible .tr-landing-hero-badge img {
+  display: none;
+}
+
+.theme-impossible .tr-landing-hero-title {
+  font-family: var(--imp-display) !important;
+  font-weight: 400 !important;
+  font-size: clamp(48px, 10vw, 112px) !important;
+  line-height: 0.88 !important;
+  letter-spacing: -0.02em !important;
+  text-transform: uppercase;
+  color: var(--imp-red) !important;
+  max-width: none !important;
+  text-align: center;
+}
+
+.theme-impossible .tr-landing-hero-tagline,
+.theme-impossible .tr-landing-hero-subtitle,
+.theme-impossible .tr-landing-hero-policy,
+.theme-impossible .tr-landing-hero-metric-label {
+  color: rgba(255, 247, 248, 0.78) !important;
+  font-family: var(--imp-condensed) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.theme-impossible .tr-landing-hero-tagline {
+  color: var(--imp-red) !important;
+  font-weight: 700;
+  justify-content: center;
+}
+
+.theme-impossible .tr-landing-hero-tagline-dot {
+  background: var(--imp-red) !important;
+}
+
+.theme-impossible .tr-landing-hero-metric-value {
+  color: #fff !important;
+  font-family: var(--imp-display) !important;
+  text-transform: uppercase;
+  font-size: clamp(20px, 3vw, 32px) !important;
+}
+
+.theme-impossible .tr-landing-hero-url-box {
+  background: var(--imp-bg-soft) !important;
+  border: 2px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 999px !important;
+  color: #fff;
+}
+
+.theme-impossible .tr-landing-hero-url-text {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.theme-impossible .tr-landing-hero-copy-button {
+  background: var(--imp-red) !important;
+  border: 0 !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  font-family: var(--imp-condensed);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.theme-impossible .tr-landing-hero-policy-icon,
+.theme-impossible .tr-landing-hero-policy-link {
+  color: var(--imp-red) !important;
+}
+
+.theme-impossible .tr-landing-hero-primary-button,
+.theme-impossible a[class*="bg-[#0086FF]"],
+.theme-impossible a[class*="bg-[#0086ff]"],
+.theme-impossible .tr-landing-cta-primary,
+.theme-impossible .tr-landing-faq-action {
+  background: var(--imp-red) !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  font-family: var(--imp-condensed) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase;
+}
+
+.theme-impossible .tr-landing-hero-primary-button:hover,
+.theme-impossible a[class*="bg-[#0086FF]"]:hover,
+.theme-impossible a[class*="bg-[#0086ff]"]:hover {
+  background: #e01010 !important;
+}
+
+.theme-impossible .tr-landing-hero-secondary-button,
+.theme-impossible .tr-landing-cta-secondary {
+  background: transparent !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+  border-radius: 999px !important;
+  font-family: var(--imp-condensed) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase;
+}
+
+.theme-impossible .tr-landing-hero-secondary-button:hover,
+.theme-impossible .tr-landing-cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.theme-impossible .tr-landing-hero-section .mt-8.flex.flex-wrap {
+  justify-content: center;
+}
+
+/* Model panel as soft organic card */
+.theme-impossible .tr-landing-model-access-panel {
+  background: var(--imp-bg-soft) !important;
+  border: 0 !important;
+  border-radius: 40% 60% 55% 45% / 45% 40% 60% 55% !important;
+  padding: 28px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  max-width: 520px;
+}
+
+.theme-impossible .tr-landing-model-access-panel span,
+.theme-impossible .tr-landing-model-access-model-name {
+  color: #fff !important;
+}
+
+.theme-impossible .tr-landing-model-access-action {
+  color: var(--imp-red) !important;
+  font-family: var(--imp-condensed) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.theme-impossible .tr-landing-model-access-row {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 18px !important;
+}
+
+.theme-impossible .tr-landing-model-access-row:hover {
+  background: rgba(255, 31, 31, 0.16) !important;
+  border-color: rgba(255, 31, 31, 0.4) !important;
+}
+
+.theme-impossible .tr-landing-model-access-model-desc {
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+
+/* Section titles */
+.theme-impossible .tr-landing-logo-wall-title,
+.theme-impossible .tr-landing-oneapi-title,
+.theme-impossible .tr-landing-enterprise-title,
+.theme-impossible .tr-landing-faq-title,
+.theme-impossible .tr-landing-cta-title,
+.theme-impossible h2[class*="tr-landing-"],
+.theme-impossible h3[class*="tr-landing-"] {
+  font-family: var(--imp-display) !important;
+  text-transform: uppercase !important;
+  color: var(--imp-red) !important;
+  letter-spacing: -0.01em !important;
+  font-weight: 400 !important;
+}
+
+.theme-impossible .tr-landing-section-badge,
+.theme-impossible span[class*="tr-landing-section-badge"] {
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--imp-red) !important;
+  font-family: var(--imp-condensed) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.16em !important;
+}
+
+.theme-impossible .tr-landing-section-badge img {
+  display: none;
+}
+
+.theme-impossible .tr-landing-oneapi-text,
+.theme-impossible .tr-landing-enterprise-text,
+.theme-impossible p[class*="text-[#45474D]"],
+.theme-impossible p[class*="text-[#45474d]"] {
+  color: rgba(255, 247, 248, 0.78) !important;
+}
+
+/* Blob shapes for imagery */
+.theme-impossible .tr-landing-oneapi-section img,
+.theme-impossible .imp-blob {
+  border-radius: 42% 58% 48% 52% / 52% 42% 58% 48%;
+  overflow: hidden;
+  background: var(--imp-bg-soft);
+  filter: saturate(1.15) contrast(1.05);
+}
+
+.theme-impossible .tr-landing-oneapi-section img {
+  padding: 12px;
+}
+
+/* Logo wall cards as soft pills */
+.theme-impossible .tr-landing-logo-card {
+  background: var(--imp-bg-soft) !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  min-height: 72px;
+}
+
+.theme-impossible .tr-landing-logo {
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
+}
+
+/* Enterprise cards */
+.theme-impossible .tr-landing-enterprise-card,
+.theme-impossible [class*="enterprise"] .rounded-\[20px\],
+.theme-impossible .tr-landing-enterprise-section [class*="rounded"] {
+  background: var(--imp-bg-soft) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 28px !important;
+}
+
+.theme-impossible .tr-landing-enterprise-section h3,
+.theme-impossible .tr-landing-enterprise-section [class*="font-medium"][class*="text-[#121317]"] {
+  color: #fff !important;
+  font-family: var(--imp-condensed) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.theme-impossible .tr-landing-enterprise-section p {
+  color: rgba(255, 247, 248, 0.72) !important;
+}
+
+/* FAQ */
+.theme-impossible .tr-landing-faq-item,
+.theme-impossible .tr-landing-faq-section [class*="border"] {
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+.theme-impossible .tr-landing-faq-question,
+.theme-impossible .tr-landing-faq-section button,
+.theme-impossible .tr-landing-faq-section [class*="text-[#121317]"] {
+  color: #fff !important;
+  font-family: var(--imp-condensed) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.theme-impossible .tr-landing-faq-section .faq-answer,
+.theme-impossible .tr-landing-faq-section p {
+  color: rgba(255, 247, 248, 0.72) !important;
+}
+
+.theme-impossible .tr-landing-faq-section [class*="bg-[#ebf5ff]"],
+.theme-impossible .tr-landing-faq-section [class*="bg-sky"] {
+  background: var(--imp-bg-soft) !important;
+  border-color: rgba(255, 31, 31, 0.35) !important;
+}
+
+/* Footer */
+.theme-impossible .tr-landing-footer {
+  border-top: 2px solid var(--imp-red);
+}
+
+.theme-impossible .tr-landing-footer-heading,
+.theme-impossible .tr-landing-footer-legal-links,
+.theme-impossible .tr-landing-footer-legal-links a,
+.theme-impossible .tr-landing-footer-link {
+  color: rgba(255, 247, 248, 0.8) !important;
+  font-family: var(--imp-condensed);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.theme-impossible .tr-landing-footer-link:hover,
+.theme-impossible .tr-landing-footer-legal-links a:hover {
+  color: var(--imp-red) !important;
+}
+
+.theme-impossible .tr-landing-footer-divider {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.theme-impossible .tr-landing-footer-logo-image {
+  filter: brightness(0) invert(1);
+}
+
+.theme-impossible .tr-landing-footer [class*="bg-[#0086ff]"] {
+  background: var(--imp-red) !important;
+}
+
+/* Generic text color overrides for leftover slate/dark utilities */
+.theme-impossible [class*="text-[#121317]"],
+.theme-impossible [class*="text-slate-900"],
+.theme-impossible [class*="text-slate-800"] {
+  color: #fff !important;
+}
+
+.theme-impossible [class*="text-[#45474D]"],
+.theme-impossible [class*="text-[#45474d]"],
+.theme-impossible [class*="text-slate-500"],
+.theme-impossible [class*="text-slate-600"] {
+  color: rgba(255, 247, 248, 0.72) !important;
+}
+
+.theme-impossible [class*="text-[#0086FF]"],
+.theme-impossible [class*="text-[#0086ff]"] {
+  color: var(--imp-red) !important;
+}
+
+.theme-impossible [class*="border-[#E2E8F0]"],
+.theme-impossible [class*="border-[#e2e8f0]"],
+.theme-impossible [class*="border-[#ddd]"],
+.theme-impossible [class*="border-[#eee]"] {
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
