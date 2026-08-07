@@ -97,9 +97,42 @@ function initFaq() {
   });
 }
 
+const FALLBACK_MODELS = [
+  { model_name: "x-ai/grok-4.5", icon: "XAI", sort: 11, vendor_desc: "XAI · reasoning model" },
+  { model_name: "happyhorse-1.0-t2v", icon: "Qwen.Color", sort: 10, vendor_desc: "HappyHorse · AI video" },
+  { model_name: "deepseek/deepseek-v4-pro", icon: "DeepSeek.Color", sort: 9, vendor_desc: "DeepSeek · reasoning model" },
+  { model_name: "moonshotai/kimi-k3", icon: "Moonshot", sort: 8, vendor_desc: "Kimi · long-context model" },
+  { model_name: "openai/gpt-5.6-sol", icon: "OpenAI", sort: 7, vendor_desc: "GPT · frontier model" },
+  { model_name: "anthropic/claude-fable-5", icon: "Claude.Color", sort: 6, vendor_desc: "Claude · reasoning model" },
+  { model_name: "google/gemini-3.5-flash", icon: "Gemini.Color", sort: 5, vendor_desc: "Gemini · foundation model" },
+  { model_name: "z-ai/glm-5.2", icon: "ZAI", sort: 4, vendor_desc: "GLM · foundation model" },
+  { model_name: "qwen/qwen3.7-plus", icon: "Qwen.Color", sort: 3, vendor_desc: "Qwen · open model" },
+  { model_name: "MiniMax-M3", icon: "Minimax.Color", sort: 2, vendor_desc: "MiniMax · foundation model" },
+  { model_name: "nvidia/nemotron-3-super-120b-a12b", icon: "Nvidia.Color", sort: 1, vendor_desc: "Nemotron · foundation model" },
+];
+
+const MODEL_ICON_MAP = {
+  XAI: { src: "/assets/models/xai.svg", mono: true },
+  "Qwen.Color": { src: "/assets/models/qwen-color.svg", mono: false },
+  "DeepSeek.Color": { src: "/assets/models/deepseek-color.svg", mono: false },
+  Moonshot: { src: "/assets/models/moonshot.svg", mono: true },
+  OpenAI: { src: "/assets/models/openai.svg", mono: true },
+  "Claude.Color": { src: "/assets/models/claude-color.svg", mono: false },
+  "Gemini.Color": { src: "/assets/models/gemini-color.svg", mono: false },
+  ZAI: { src: "/assets/models/zai.svg", mono: true },
+  "Minimax.Color": { src: "/assets/models/minimax-color.svg", mono: false },
+  "Nvidia.Color": { src: "/assets/models/nvidia-color.svg", mono: false },
+};
+
+function resolveModelIcon(icon) {
+  return MODEL_ICON_MAP[icon] || { src: "/assets/models/openai.svg", mono: true };
+}
+
 function modelRow(model) {
+  const icon = resolveModelIcon(model.icon);
+  const monoClass = icon.mono ? " model-row__logo--mono" : "";
   return `<div class="model-row">
-    <span class="model-row__bullet" aria-hidden="true"></span>
+    <span class="model-row__logo${monoClass}" aria-hidden="true"><img src="${icon.src}" alt="" /></span>
     <div>
       <p class="model-row__name">${model.model_name}</p>
       <p class="model-row__desc">${model.vendor_desc}</p>
@@ -108,19 +141,26 @@ function modelRow(model) {
   </div>`;
 }
 
+function renderModelTrack(track, models) {
+  const sorted = [...models].sort((a, b) => (b.sort || 0) - (a.sort || 0));
+  const rows = sorted.map(modelRow).join("");
+  track.innerHTML = rows + rows;
+}
+
 async function initModelMarquee() {
   const track = document.getElementById("model-track");
   if (!track) return;
+
+  renderModelTrack(track, FALLBACK_MODELS);
 
   try {
     const res = await fetch("https://api.tokenrouter.com/api/landing-page-models");
     const json = await res.json();
     if (json?.success && Array.isArray(json.data) && json.data.length) {
-      const sorted = [...json.data].sort((a, b) => (b.sort || 0) - (a.sort || 0));
-      track.innerHTML = sorted.map(modelRow).join("") + sorted.map(modelRow).join("");
+      renderModelTrack(track, json.data);
     }
   } catch {
-    // keep fallback rows
+    // fallback rows already rendered
   }
 
   let offset = 0;

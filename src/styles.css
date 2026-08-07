@@ -350,38 +350,40 @@ img {
 
 .hero__trusted-label {
   margin: 0;
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
+  font-family: var(--font);
+  font-size: clamp(22px, 3.2vw, 32px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-transform: none;
+  color: var(--ink);
 }
 
 .hero__trusted-stage {
   position: relative;
-  width: min(100%, 280px);
-  height: 88px;
+  width: min(100%, 360px);
+  height: 110px;
   display: grid;
   place-items: center;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.35);
-  padding: 18px 24px;
-  overflow: hidden;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  overflow: visible;
 }
 
 .hero__trusted-logo {
   max-width: 100%;
-  max-height: 52px;
+  max-height: 72px;
   width: auto;
   object-fit: contain;
-  filter: grayscale(1) contrast(1.08);
+  background: transparent;
+  filter: none;
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.45s ease, transform 0.45s ease;
 }
 
 .hero__trusted-logo.is-active {
-  opacity: 0.9;
+  opacity: 1;
   transform: translateY(0);
 }
 
@@ -412,7 +414,39 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
+  min-height: 100%;
+}
+
+.panel-models {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.panel-models__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.panel-models__head span {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.panel-models__head a {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .hero__panel-top {
@@ -598,11 +632,39 @@ img {
   color: var(--blue);
 }
 
+.models-copy {
+  display: grid;
+  gap: 14px;
+}
+
+.models-copy p {
+  margin: 0;
+  max-width: 48ch;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
 .model-viewport {
   max-height: 280px;
   overflow: hidden;
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.28);
+}
+
+.model-viewport--panel {
+  flex: 1;
+  min-height: 220px;
+  max-height: none;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(0, 0, 0, 0.12);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 12%,
+    #000 88%,
+    transparent 100%
+  );
 }
 
 .model-track {
@@ -613,7 +675,7 @@ img {
 
 .model-row {
   display: grid;
-  grid-template-columns: 18px 1fr auto;
+  grid-template-columns: 36px 1fr auto;
   gap: 12px;
   align-items: center;
   padding: 14px 16px;
@@ -621,15 +683,38 @@ img {
   transition: background 0.2s ease;
 }
 
+.model-viewport--panel .model-row {
+  border-bottom-color: rgba(255, 255, 255, 0.14);
+}
+
 .model-row:hover {
   background: var(--blue-soft);
 }
 
-.model-row__bullet {
-  width: 8px;
-  height: 8px;
-  background: var(--white);
-  border: 1px solid var(--ink);
+.model-viewport--panel .model-row:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.model-row__logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.model-row__logo img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: block;
+}
+
+.model-row__logo--mono img {
+  filter: none;
 }
 
 .model-row__name {
@@ -639,6 +724,10 @@ img {
   letter-spacing: -0.01em;
 }
 
+.model-viewport--panel .model-row__name {
+  color: #fff;
+}
+
 .model-row__desc {
   margin: 4px 0 0;
   font-size: 12px;
@@ -646,10 +735,18 @@ img {
   font-family: var(--mono);
 }
 
+.model-viewport--panel .model-row__desc {
+  color: rgba(255, 255, 255, 0.68);
+}
+
 .model-row__dot {
   width: 6px;
   height: 6px;
   background: var(--blue);
+}
+
+.model-viewport--panel .model-row__dot {
+  background: rgba(255, 255, 255, 0.85);
 }
 
 /* Shared sections */

@@ -80,23 +80,31 @@
 
             <aside class="hero__panel">
               <div class="hero__panel-inner">
-                <div>
-                  <div class="hero__panel-top">
-                    <div>
-                      <p class="hero__panel-kicker">TokenRouter</p>
-                      <h2>Explore</h2>
-                    </div>
-                    <div class="hero__panel-icons">
-                      <button class="icon-btn" type="button" aria-label="Search">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-                      </button>
-                      <button class="icon-btn" type="button" aria-label="Close">
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5"/></svg>
-                      </button>
-                    </div>
+                <div class="hero__panel-top">
+                  <div>
+                    <p class="hero__panel-kicker">TokenRouter</p>
+                    <h2>Explore</h2>
                   </div>
-                  <p class="hero__panel-text" style="margin-top:20px">Just switch your base URL. Faster · Better · Cheaper access to leading models with zero-retention controls.</p>
+                  <div class="hero__panel-icons">
+                    <button class="icon-btn" type="button" aria-label="Search">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                    </button>
+                    <button class="icon-btn" type="button" aria-label="Close">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5"/></svg>
+                    </button>
+                  </div>
                 </div>
+
+                <div class="panel-models">
+                  <div class="panel-models__head">
+                    <span>AI Models</span>
+                    <a href="#">View All →</a>
+                  </div>
+                  <div class="model-viewport model-viewport--panel" id="model-viewport">
+                    <div class="model-track" id="model-track"></div>
+                  </div>
+                </div>
+
                 <div>
                   <div class="hero__url">
                     <span class="hero__url-dot" aria-hidden="true"></span>
@@ -129,207 +137,10 @@
                 <h3>Unified Model Access</h3>
                 <a href="#">View All →</a>
               </div>
-              <div class="model-viewport" id="model-viewport">
-                <div class="model-track" id="model-track">
-                  
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">x-ai/grok-4.5</p>
-                  <p class="model-row__desc">XAI · reasoning model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">happyhorse-1.0-t2v</p>
-                  <p class="model-row__desc">HappyHorse · AI video</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">deepseek/deepseek-v4-pro</p>
-                  <p class="model-row__desc">DeepSeek · reasoning model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">moonshotai/kimi-k3</p>
-                  <p class="model-row__desc">Kimi · long-context model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">openai/gpt-5.6-sol</p>
-                  <p class="model-row__desc">GPT · frontier model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">anthropic/claude-fable-5</p>
-                  <p class="model-row__desc">Claude · reasoning model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">google/gemini-3.5-flash</p>
-                  <p class="model-row__desc">Gemini · foundation model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">z-ai/glm-5.2</p>
-                  <p class="model-row__desc">GLM · foundation model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">qwen/qwen3.7-plus</p>
-                  <p class="model-row__desc">Qwen · open model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">MiniMax-M3</p>
-                  <p class="model-row__desc">MiniMax · foundation model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">nvidia/nemotron-3-super-120b-a12b</p>
-                  <p class="model-row__desc">Nemotron · foundation model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">x-ai/grok-4.5</p>
-                  <p class="model-row__desc">XAI · reasoning model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">happyhorse-1.0-t2v</p>
-                  <p class="model-row__desc">HappyHorse · AI video</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">deepseek/deepseek-v4-pro</p>
-                  <p class="model-row__desc">DeepSeek · reasoning model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">moonshotai/kimi-k3</p>
-                  <p class="model-row__desc">Kimi · long-context model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">openai/gpt-5.6-sol</p>
-                  <p class="model-row__desc">GPT · frontier model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">anthropic/claude-fable-5</p>
-                  <p class="model-row__desc">Claude · reasoning model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">google/gemini-3.5-flash</p>
-                  <p class="model-row__desc">Gemini · foundation model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">z-ai/glm-5.2</p>
-                  <p class="model-row__desc">GLM · foundation model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">qwen/qwen3.7-plus</p>
-                  <p class="model-row__desc">Qwen · open model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">MiniMax-M3</p>
-                  <p class="model-row__desc">MiniMax · foundation model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-
-              <div class="model-row">
-                <span class="model-row__bullet" aria-hidden="true"></span>
-                <div>
-                  <p class="model-row__name">nvidia/nemotron-3-super-120b-a12b</p>
-                  <p class="model-row__desc">Nemotron · foundation model</p>
-                </div>
-                <span class="model-row__dot" aria-hidden="true"></span>
-              </div>
-                </div>
+              <div class="models-copy">
+                <p>One interface for every major model family — OpenAI, Claude, Gemini, DeepSeek, Kimi, Qwen, MiniMax, Nemotron, and more.</p>
+                <p>Switch providers without rewriting your stack. Keep a single base URL, a single API key, and centralized usage controls while you route across text, image, video, and audio models.</p>
+                <p>Built for teams that need production reliability: consistent schemas, transparent pricing visibility, and always-on fallback when an upstream route degrades.</p>
               </div>
             </div>
           </div>
