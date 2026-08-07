@@ -1,15 +1,20 @@
-/* Option 3 — liquid chrome background + liquid glass / glassmorphism */
+/* Option 3 — scroll-driven glass morph stage + high-contrast glass content */
 
 .theme-liquid {
-  --glass-bg: rgba(255, 255, 255, 0.18);
-  --glass-bg-strong: rgba(255, 255, 255, 0.28);
-  --glass-border: rgba(255, 255, 255, 0.45);
-  --glass-border-gold: rgba(255, 214, 150, 0.55);
-  --glass-shadow: 0 10px 40px rgba(20, 30, 50, 0.18);
-  --glass-text: #12151c;
-  --glass-muted: rgba(18, 21, 28, 0.72);
-  --glass-blur: 22px;
+  --glass-bg: rgba(255, 255, 255, 0.86);
+  --glass-bg-strong: rgba(255, 255, 255, 0.94);
+  --glass-border: rgba(255, 255, 255, 0.75);
+  --glass-border-line: rgba(20, 40, 70, 0.12);
+  --glass-shadow: 0 18px 50px rgba(30, 50, 80, 0.14);
+  --glass-text: #0f141d;
+  --glass-muted: #3d4656;
+  --glass-blur: 18px;
+  --stage-shift-x: 0px;
+  --stage-shift-y: 0px;
+  --stage-rotate: 0deg;
+  --stage-scale: 1;
   color-scheme: light;
+  background: #eef3f8;
 }
 
 .theme-liquid,
@@ -20,162 +25,184 @@
   position: relative;
 }
 
-/* Fixed abstract liquid-chrome field */
-.theme-liquid .liquid-bg {
+/* Static technical grid field (no ambient motion) */
+.theme-liquid .scroll-stage {
   position: fixed;
   inset: 0;
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
   background:
-    radial-gradient(120% 80% at 20% 10%, rgba(255, 220, 160, 0.28), transparent 55%),
-    radial-gradient(90% 70% at 80% 80%, rgba(170, 200, 255, 0.22), transparent 50%),
-    #d8dee8;
+    linear-gradient(180deg, #f7fafc 0%, #e8eef6 55%, #dde7f2 100%);
 }
 
-.theme-liquid .liquid-bg__image {
+.theme-liquid .scroll-stage__grid {
   position: absolute;
-  inset: -8%;
-  width: 116%;
-  height: 116%;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(20, 35, 60, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 35, 60, 0.08) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(circle at 50% 40%, #000 20%, transparent 85%);
+  opacity: 0.7;
+}
+
+.theme-liquid .scroll-stage__grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(20, 35, 60, 0.35) 1px, transparent 1.2px);
+  background-size: 72px 72px;
+  background-position: 0 0;
+  opacity: 0.35;
+}
+
+.theme-liquid .scroll-stage__morph {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: min(92vw, 980px);
+  aspect-ratio: 16 / 10;
+  transform:
+    translate3d(calc(-50% + var(--stage-shift-x)), calc(-50% + var(--stage-shift-y)), 0)
+    rotate(var(--stage-rotate))
+    scale(var(--stage-scale));
+  transform-origin: center center;
+  will-change: transform;
+  filter: drop-shadow(0 30px 60px rgba(40, 60, 90, 0.18));
+}
+
+.theme-liquid .scroll-stage__morph img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  object-position: center;
-  filter: saturate(1.08) contrast(1.05);
-  animation: liquidDrift 28s ease-in-out infinite alternate;
-  transform-origin: center;
+  border-radius: 28px;
+  opacity: 0;
+  transition: opacity 0.55s ease;
+  mix-blend-mode: normal;
 }
 
-.theme-liquid .liquid-bg__sheen {
+.theme-liquid .scroll-stage__morph img.is-active {
+  opacity: 0.55;
+}
+
+.theme-liquid .scroll-stage__orb {
   position: absolute;
-  inset: 0;
+  width: 42vw;
+  max-width: 520px;
+  aspect-ratio: 1;
+  border-radius: 40% 60% 55% 45% / 50% 40% 60% 50%;
   background:
-    linear-gradient(
-      125deg,
-      rgba(255, 255, 255, 0.18) 0%,
-      transparent 35%,
-      rgba(255, 210, 140, 0.12) 55%,
-      transparent 75%,
-      rgba(180, 210, 255, 0.15) 100%
-    );
-  mix-blend-mode: soft-light;
-  animation: liquidSheen 12s ease-in-out infinite alternate;
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.75), rgba(170, 200, 255, 0.18) 45%, rgba(120, 90, 220, 0.12) 70%, transparent 75%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 20px 60px rgba(60, 80, 120, 0.12);
+  backdrop-filter: blur(8px);
+  left: 12%;
+  top: 18%;
+  transform: translate3d(calc(var(--stage-shift-x) * -0.35), calc(var(--stage-shift-y) * 0.4), 0);
+  opacity: 0.55;
 }
 
-.theme-liquid .liquid-bg__vignette {
+.theme-liquid .scroll-stage__slab {
+  position: absolute;
+  width: min(34vw, 360px);
+  height: 120px;
+  right: 8%;
+  bottom: 16%;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.55), rgba(180, 160, 255, 0.18) 50%, rgba(120, 200, 255, 0.2));
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 18px 40px rgba(40, 60, 100, 0.12);
+  transform:
+    translate3d(calc(var(--stage-shift-x) * 0.5), calc(var(--stage-shift-y) * -0.25), 0)
+    rotate(calc(var(--stage-rotate) * -1.4));
+  opacity: 0.5;
+}
+
+.theme-liquid .scroll-stage__veil {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 40%, transparent 35%, rgba(40, 50, 70, 0.22) 100%);
+  background: linear-gradient(180deg, rgba(247, 250, 252, 0.2), rgba(238, 243, 248, 0.55) 45%, rgba(232, 238, 246, 0.82));
+  pointer-events: none;
 }
 
-@keyframes liquidDrift {
-  0% {
-    transform: scale(1.05) translate3d(-1.5%, -1%, 0) rotate(-0.4deg);
-  }
-  100% {
-    transform: scale(1.12) translate3d(1.8%, 1.2%, 0) rotate(0.6deg);
-  }
-}
-
-@keyframes liquidSheen {
-  0% {
-    opacity: 0.65;
-    transform: translate3d(-2%, 0, 0);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(2%, -1%, 0);
-  }
-}
-
-.theme-liquid .tr-landing-page > *:not(.liquid-bg) {
+.theme-liquid .tr-landing-page > *:not(.scroll-stage) {
   position: relative;
   z-index: 1;
 }
 
-/* Shared nav → frosted glass bar */
+/* Nav — clearer frosted bar */
 .theme-liquid .site-header {
-  background: rgba(255, 255, 255, 0.22) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.35) !important;
-  backdrop-filter: blur(18px) saturate(1.2);
-  -webkit-backdrop-filter: blur(18px) saturate(1.2);
-  box-shadow: 0 8px 30px rgba(30, 40, 60, 0.08);
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-bottom: 1px solid rgba(20, 40, 70, 0.1) !important;
+  backdrop-filter: blur(16px) saturate(1.15);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
 }
 
 .theme-liquid .site-header .nav a.is-active,
 .theme-liquid .site-header .nav a:hover {
-  background: rgba(255, 255, 255, 0.45) !important;
-  border-color: rgba(255, 255, 255, 0.55) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(20, 40, 70, 0.14) !important;
   border-radius: 999px;
 }
 
 .theme-liquid .site-header .btn--filled {
-  background: rgba(255, 255, 255, 0.85) !important;
-  border-color: rgba(255, 255, 255, 0.9) !important;
-  color: #1a2433 !important;
+  background: #1a4dff !important;
+  border-color: #1a4dff !important;
+  color: #fff !important;
   border-radius: 999px;
-  backdrop-filter: blur(10px);
 }
 
 .theme-liquid .site-header .btn--ghost {
   border-radius: 999px;
-  border-color: rgba(255, 255, 255, 0.55) !important;
-  background: rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255, 255, 255, 0.65) !important;
 }
 
 .theme-liquid .mobile-menu__drawer {
-  background: rgba(245, 248, 255, 0.72) !important;
-  backdrop-filter: blur(24px) saturate(1.25);
-  -webkit-backdrop-filter: blur(24px) saturate(1.25);
-  border-right: 1px solid rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(20px);
 }
 
-/* Promo glass strip */
 .theme-liquid .promo-banner {
-  background: rgba(30, 50, 80, 0.35) !important;
-  backdrop-filter: blur(16px) saturate(1.15);
-  -webkit-backdrop-filter: blur(16px) saturate(1.15);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(20, 40, 70, 0.78) !important;
+  backdrop-filter: blur(12px);
 }
 
-/* Page sections transparent over liquid field */
+/* Transparent section shells */
 .theme-liquid .bg-white,
 .theme-liquid section[class*="tr-landing-"],
 .theme-liquid .tr-landing-footer {
   background: transparent !important;
 }
 
-/* Glass recipe */
-.theme-liquid .glass-panel,
+/* High-contrast liquid glass panels */
 .theme-liquid .tr-landing-model-access-panel,
 .theme-liquid .tr-landing-hero-url-box,
 .theme-liquid .tr-landing-model-access-row,
 .theme-liquid .tr-landing-model-access-summary,
 .theme-liquid .tr-landing-logo-card,
 .theme-liquid .tr-landing-enterprise-card,
-.theme-liquid .tr-landing-faq-item,
-.theme-liquid .tr-landing-faq-section [class*="rounded"],
-.theme-liquid .tr-landing-oneapi-section img,
-.theme-liquid .tr-landing-cta-section > div {
+.theme-liquid .tr-landing-cta-section > div,
+.theme-liquid .tr-landing-oneapi-section img {
   background: var(--glass-bg) !important;
-  border: 1px solid var(--glass-border) !important;
+  border: 1px solid var(--glass-border-line) !important;
   box-shadow:
     var(--glass-shadow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.65),
-    inset 0 -1px 0 rgba(255, 210, 150, 0.18) !important;
-  backdrop-filter: blur(var(--glass-blur)) saturate(1.35);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.35);
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
 }
 
 .theme-liquid .tr-landing-model-access-panel,
 .theme-liquid .tr-landing-enterprise-card,
-.theme-liquid .tr-landing-cta-section > div,
-.theme-liquid .tr-landing-hero-url-box {
-  background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.42) 0%,
-    rgba(255, 255, 255, 0.16) 45%,
-    rgba(255, 230, 190, 0.12) 100%
-  ) !important;
+.theme-liquid .tr-landing-cta-section > div {
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.82)) !important;
   border-radius: 24px !important;
 }
 
@@ -185,117 +212,88 @@
 
 .theme-liquid .tr-landing-hero-url-box {
   border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.92) !important;
 }
 
 .theme-liquid .tr-landing-model-access-row {
   border-radius: 16px !important;
-  background: rgba(255, 255, 255, 0.22) !important;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  background: rgba(255, 255, 255, 0.78) !important;
 }
 
 .theme-liquid .tr-landing-model-access-row:hover {
-  background: rgba(255, 255, 255, 0.4) !important;
-  border-color: var(--glass-border-gold) !important;
-  transform: translateY(-1px);
+  background: #fff !important;
 }
 
 .theme-liquid .tr-landing-logo-card {
-  border-radius: 20px !important;
-  background: rgba(255, 255, 255, 0.24) !important;
+  border-radius: 18px !important;
+  background: rgba(255, 255, 255, 0.88) !important;
   min-height: 72px;
 }
 
-.theme-liquid .tr-landing-enterprise-card {
-  border-radius: 28px !important;
-  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
-}
-
 .theme-liquid .tr-landing-enterprise-card:hover {
-  background: rgba(255, 255, 255, 0.36) !important;
-  border-color: var(--glass-border-gold) !important;
+  background: #fff !important;
   transform: translateY(-3px);
+  transition: transform 0.25s ease, background 0.25s ease;
 }
 
 .theme-liquid .tr-landing-enterprise-card-icon {
-  background: rgba(255, 255, 255, 0.35) !important;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
+  background: rgba(240, 246, 255, 0.95) !important;
+  border: 1px solid rgba(20, 40, 70, 0.08);
 }
 
 .theme-liquid .tr-landing-enterprise-card-tag {
-  background: rgba(255, 255, 255, 0.28) !important;
-  border-color: rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(20, 40, 70, 0.1) !important;
   color: var(--glass-muted) !important;
-  backdrop-filter: blur(8px);
 }
 
 .theme-liquid .tr-landing-oneapi-section img {
   border-radius: 28px !important;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.2) !important;
-}
-
-/* FAQ glass rows */
-.theme-liquid .tr-landing-faq-section details,
-.theme-liquid .tr-landing-faq-section [class*="border-b"],
-.theme-liquid .tr-landing-faq-item {
-  border-color: rgba(255, 255, 255, 0.35) !important;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.9) !important;
 }
 
 .theme-liquid .tr-landing-faq-section [class*="bg-[#ebf5ff]"],
 .theme-liquid .tr-landing-faq-section [class*="bg-sky"],
 .theme-liquid .tr-landing-faq-section [class*="rounded-3xl"],
 .theme-liquid .tr-landing-faq-section [class*="rounded-[20px]"] {
-  background: rgba(255, 255, 255, 0.26) !important;
-  border: 1px solid rgba(255, 255, 255, 0.45) !important;
-  backdrop-filter: blur(18px) saturate(1.25);
-  -webkit-backdrop-filter: blur(18px) saturate(1.25);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(20, 40, 70, 0.1) !important;
+  backdrop-filter: blur(14px);
+  box-shadow: var(--glass-shadow);
 }
 
-/* Badges / pills */
 .theme-liquid .tr-landing-hero-badge,
 .theme-liquid .tr-landing-section-badge {
-  background: rgba(255, 255, 255, 0.28) !important;
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
-  color: #1a4d8c !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(20, 40, 70, 0.1) !important;
+  color: #1a4dff !important;
+  backdrop-filter: blur(10px);
 }
 
-/* Buttons as liquid glass */
 .theme-liquid .tr-landing-hero-primary-button,
 .theme-liquid .tr-landing-cta-primary,
 .theme-liquid .tr-landing-faq-action,
 .theme-liquid a[class*="bg-[#0086FF]"],
 .theme-liquid a[class*="bg-[#0086ff]"] {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.55), rgba(255, 220, 170, 0.35)) !important;
-  color: #142033 !important;
-  border: 1px solid rgba(255, 255, 255, 0.65) !important;
-  box-shadow:
-    0 8px 24px rgba(40, 50, 70, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: #1a4dff !important;
+  color: #fff !important;
+  border: 1px solid #1a4dff !important;
+  box-shadow: 0 10px 24px rgba(26, 77, 255, 0.28) !important;
 }
 
 .theme-liquid .tr-landing-hero-secondary-button,
 .theme-liquid .tr-landing-cta-secondary {
-  background: rgba(255, 255, 255, 0.18) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
   color: #142033 !important;
-  border: 1px solid rgba(255, 255, 255, 0.55) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(20, 40, 70, 0.14) !important;
 }
 
 .theme-liquid .tr-landing-hero-copy-button {
-  background: rgba(255, 255, 255, 0.45) !important;
-  border: 1px solid rgba(255, 255, 255, 0.65) !important;
-  backdrop-filter: blur(10px);
+  background: #fff !important;
+  border: 1px solid rgba(20, 40, 70, 0.12) !important;
 }
 
-/* Typography on metallic field */
 .theme-liquid .tr-landing-hero-title,
 .theme-liquid .tr-landing-oneapi-title,
 .theme-liquid .tr-landing-enterprise-title,
@@ -305,8 +303,8 @@
 .theme-liquid h2[class*="tr-landing-"],
 .theme-liquid h3[class*="tr-landing-"],
 .theme-liquid [class*="text-[#121317]"] {
-  color: #10141c !important;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+  color: var(--glass-text) !important;
+  text-shadow: none;
 }
 
 .theme-liquid .tr-landing-hero-subtitle,
@@ -316,8 +314,7 @@
 .theme-liquid .tr-landing-hero-metric-label,
 .theme-liquid p[class*="text-[#45474D]"],
 .theme-liquid p[class*="text-[#45474d]"],
-.theme-liquid [class*="text-slate-500"],
-.theme-liquid [class*="text-[#45474d]"] {
+.theme-liquid [class*="text-slate-500"] {
   color: var(--glass-muted) !important;
 }
 
@@ -326,22 +323,63 @@
 .theme-liquid .tr-landing-model-access-action,
 .theme-liquid .tr-landing-hero-policy-link,
 .theme-liquid .tr-landing-section-link {
-  color: #0b5fb8 !important;
+  color: #1557e0 !important;
 }
 
 .theme-liquid .tr-landing-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(255, 255, 255, 0.12) !important;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  border-top: 1px solid rgba(20, 40, 70, 0.1);
+  background: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(14px);
 }
 
 .theme-liquid .tr-landing-footer-divider {
-  background: rgba(255, 255, 255, 0.35) !important;
+  background: rgba(20, 40, 70, 0.1) !important;
 }
 
 .theme-liquid .tr-landing-footer [class*="bg-[#0086ff]"] {
-  background: rgba(255, 255, 255, 0.5) !important;
-  color: #142033 !important;
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: #1a4dff !important;
+  color: #fff !important;
+}
+
+/* Apple-like section unfold / reveal */
+.theme-liquid [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 56px, 0) scale(0.985);
+  filter: blur(8px);
+  transition:
+    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform, filter;
+}
+
+.theme-liquid [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+.theme-liquid [data-reveal-child] {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.theme-liquid [data-reveal].is-revealed [data-reveal-child] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-liquid [data-reveal],
+  .theme-liquid [data-reveal-child],
+  .theme-liquid .scroll-stage__morph img {
+    transition: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

@@ -25,10 +25,16 @@
   </head>
   <body class="theme-liquid">
     <div class="tr-landing-page min-h-screen">
-      <div class="liquid-bg" aria-hidden="true">
-        <img class="liquid-bg__image" src="/assets/option3-liquid-chrome.png" alt="" />
-        <div class="liquid-bg__sheen"></div>
-        <div class="liquid-bg__vignette"></div>
+      <div class="scroll-stage" aria-hidden="true">
+        <div class="scroll-stage__grid"></div>
+        <div class="scroll-stage__orb"></div>
+        <div class="scroll-stage__slab"></div>
+        <div class="scroll-stage__morph">
+          <img data-morph="0" class="is-active" src="/assets/option3-morph-a.png" alt="" />
+          <img data-morph="1" src="/assets/option3-morph-b.png" alt="" />
+          <img data-morph="2" src="/assets/option3-liquid-chrome.png" alt="" />
+        </div>
+        <div class="scroll-stage__veil"></div>
       </div>
       <div class="sr-only">
         <h1>TokenRouter - Verified Models with Enterprise-Grade Controls</h1>
@@ -99,14 +105,14 @@
 
       <main class="min-h-screen">
         <!-- Hero -->
-        <section class="tr-landing-hero-section bg-white px-[24px] pt-[110px] pb-[30px] lg:px-0 lg:pb-[60px] lg:pt-[124px]">
+        <section data-section="hero" data-reveal class="tr-landing-hero-section bg-white px-[24px] pt-[110px] pb-[30px] lg:px-0 lg:pb-[60px] lg:pt-[124px]">
           <div class="mx-auto grid w-full min-w-0 max-w-[1440px] gap-10 md:grid-cols-[minmax(0,1fr)_360px] md:items-center md:gap-8 lg:grid-cols-[minmax(0,1fr)_480px] lg:px-[104px] lg:gap-[100px]">
             <div class="min-w-0 max-w-[692px]">
               <span class="tr-landing-hero-badge mb-4 inline-flex h-[30px] items-center gap-[6px] rounded-full border border-[#c9e5ff] bg-[#ebf5ff] px-[15px] text-xs tracking-[0.9px] text-[#0086ff] lg:h-8 lg:px-[14px] lg:tracking-[0.15em]">
                 <img src="/assets/icons/sparkle.svg" alt="" class="h-3 w-3" />
                 TOKENROUTER
               </span>
-              <h2 class="tr-landing-hero-title max-w-[499px] text-[34px] font-medium leading-[1.2] tracking-[-0.02em] text-[#121317] lg:text-[clamp(36px,4.8vw,64px)] m-0">
+              <h2 data-reveal-child class="tr-landing-hero-title max-w-[499px] text-[34px] font-medium leading-[1.2] tracking-[-0.02em] text-[#121317] lg:text-[clamp(36px,4.8vw,64px)] m-0">
                 One TokenRouter<br />All Models
               </h2>
               <div class="tr-landing-hero-tagline mt-4 flex items-center gap-[12px] text-[17px] leading-[1.3] text-[#45474D] lg:gap-3 lg:text-[20px]">
@@ -158,7 +164,7 @@
             </div>
 
             <div class="w-full min-w-0 max-w-full justify-self-end sm:max-w-[480px]">
-              <div class="tr-landing-model-access-panel box-border w-full min-w-0 max-w-full rounded-[16px] border border-[#E2E8F0] bg-white p-[20px] lg:rounded-[28px] lg:p-6">
+              <div data-reveal-child class="tr-landing-model-access-panel box-border w-full min-w-0 max-w-full rounded-[16px] border border-[#E2E8F0] bg-white p-[20px] lg:rounded-[28px] lg:p-6">
                 <div class="mb-4 flex min-w-0 items-center justify-between gap-3 text-slate-500">
                   <span style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%;text-transform:none">Unified Model Access</span>
                   <a href="#" class="tr-landing-model-access-action inline-flex items-center gap-[8px] bg-transparent text-[#0086FF] transition-colors hover:text-[#0076ed]" style="font-family:'PP Neue Montreal',sans-serif;font-size:14px;font-weight:400;line-height:140%">View All Models <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true"><path d="M4.64893 2.29785L9.35156 7.00049L4.64893 11.7031" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
@@ -461,9 +467,9 @@
         </section>
 
         <!-- Trusted By -->
-        <section class="tr-landing-logo-wall bg-white px-6 py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[100px]">
+        <section data-section="trusted" data-reveal class="tr-landing-logo-wall bg-white px-6 py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[100px]">
           <div class="mx-auto max-w-[1440px] flex flex-col items-center gap-6 lg:gap-8 lg:px-[104px]">
-            <h2 class="tr-landing-logo-wall-title text-[28px] font-medium capitalize leading-[1.3] text-[#121317] m-0">Trusted By</h2>
+            <h2 data-reveal-child class="tr-landing-logo-wall-title text-[28px] font-medium capitalize leading-[1.3] text-[#121317] m-0">Trusted By</h2>
             <div class="flex w-full flex-wrap justify-center gap-6 lg:gap-8">
               
           <div class="tr-landing-logo-card flex items-center justify-center rounded-xl border border-[#fff] aspect-[178/64] w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[178px] lg:aspect-auto lg:h-16 min-w-0">
@@ -518,14 +524,14 @@
         </section>
 
         <!-- One API Layer -->
-        <section class="tr-landing-oneapi-section bg-white px-[23px] py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[60px]">
+        <section data-section="oneapi" data-reveal class="tr-landing-oneapi-section bg-white px-[23px] py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[60px]">
           <div class="mx-auto grid max-w-[1440px] gap-[60px] lg:px-[104px] lg:items-center">
             <div>
               <span class="tr-landing-section-badge mb-4 inline-flex h-8 items-center gap-[6px] rounded-full border border-[#c9e5ff] bg-[#ebf5ff] px-[14px] text-xs tracking-[0.15em] text-[#0086ff]">
             <img src="/assets/icons/sparkle.svg" alt="" class="h-3 w-3" />
             ONE API LAYER
           </span>
-              <h2 class="tr-landing-oneapi-title text-[clamp(34px,4.8vw,56px)] font-medium leading-[1.2] tracking-[-0.02em] text-[#121317] m-0">One API for Any AI App</h2>
+              <h2 data-reveal-child class="tr-landing-oneapi-title text-[clamp(34px,4.8vw,56px)] font-medium leading-[1.2] tracking-[-0.02em] text-[#121317] m-0">One API for Any AI App</h2>
               <p class="tr-landing-oneapi-text mt-2 lg:mt-4 text-[15px] lg:text-[18px] leading-[1.7] text-[#45474D] max-w-[800px] m-0">Fully OpenAI-compatible, with one base URL and one API key to power OpenClaw, OpenCode, Codex, Claude Code, Cherry Studio, and more — while managing all your token usage in one place.</p>
             </div>
             <div class="mt-[30px] lg:mt-[72px] lg:px-[55px]">
@@ -537,14 +543,14 @@
         </section>
 
         <!-- Enterprise -->
-        <section class="tr-landing-enterprise-section bg-white px-6 py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[60px]">
+        <section data-section="enterprise" data-reveal class="tr-landing-enterprise-section bg-white px-6 py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[60px]">
           <div class="mx-auto max-w-[1440px] lg:px-[104px]">
             <div class="mb-[30px] lg:mb-[60px]">
               <span class="tr-landing-section-badge mb-4 inline-flex h-8 items-center gap-[6px] rounded-full border border-[#c9e5ff] bg-[#ebf5ff] px-[14px] text-xs tracking-[0.15em] text-[#0086ff]">
             <img src="/assets/icons/sparkle.svg" alt="" class="h-3 w-3" />
             ENTERPRISE-READY
           </span>
-              <h2 class="tr-landing-enterprise-title text-[clamp(34px,4.8vw,64px)] font-medium leading-[1.2] tracking-[-0.02em] text-[#121317] m-0">Simple to Start, Powerful at<br class="hidden lg:block" /> Enterprise Scale</h2>
+              <h2 data-reveal-child class="tr-landing-enterprise-title text-[clamp(34px,4.8vw,64px)] font-medium leading-[1.2] tracking-[-0.02em] text-[#121317] m-0">Simple to Start, Powerful at<br class="hidden lg:block" /> Enterprise Scale</h2>
               <p class="tr-landing-enterprise-text mt-2 lg:mt-4 max-w-[800px] text-[15px] lg:text-[18px] leading-[1.7] text-[#45474D] m-0">Start with simple model access. Add centralized billing, granular quota controls, audit-ready logs, and organization-wide visibility as your usage grows.</p>
               <p class="tr-landing-enterprise-text mt-2 lg:mt-4 max-w-[800px] text-[15px] lg:text-[18px] leading-[1.7] text-[#45474D] m-0">Already at scale? <a href="#" class="tr-landing-section-link text-[#0086FF] hover:underline">Talk to sales.</a></p>
             </div>
@@ -644,7 +650,7 @@
         </section>
 
         <!-- FAQ -->
-        <section class="tr-landing-faq-section bg-white px-6 py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[60px]">
+        <section data-section="faq" data-reveal class="tr-landing-faq-section bg-white px-6 py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[60px]">
           <div class="mx-auto max-w-[1440px] lg:px-[104px]">
             <div class="mb-6 lg:mb-7">
               <span class="tr-landing-section-badge mb-4 inline-flex h-8 items-center gap-[6px] rounded-full border border-[#c9e5ff] bg-[#ebf5ff] px-[14px] text-xs text-[#0086ff]">
@@ -844,7 +850,7 @@
         </section>
 
         <!-- CTA -->
-        <section class="tr-landing-cta-section bg-white px-6 py-[30px] lg:px-[120px] lg:py-[60px]">
+        <section data-section="cta" data-reveal class="tr-landing-cta-section bg-white px-6 py-[30px] lg:px-[120px] lg:py-[60px]">
           <div class="mx-auto max-w-[1440px] flex flex-col items-center text-center gap-[30px] lg:gap-[56px]">
             <h2 class="tr-landing-cta-title text-[clamp(34px,4.8vw,46px)] font-medium leading-[1.2] tracking-[-0.02em] text-[#121317] m-0">Ready to Roll TokenRouter Out Across Your Org?</h2>
             <div class="flex flex-row items-center gap-4 lg:gap-[24px]">
@@ -900,5 +906,6 @@
       </footer>
     </div>
     <script type="module" src="/src/replica.js"></script>
+    <script type="module" src="/src/option3-scroll.js"></script>
   </body>
 </html>
