@@ -250,10 +250,6 @@
 }
 
 @media (max-width: 640px) {
-  .site-header .brand span:not(.brand__mark) {
-    /* keep mark; brand text can stay */
-  }
-
   .site-header .nav {
     justify-content: flex-start;
   }
