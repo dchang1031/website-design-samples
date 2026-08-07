@@ -7,6 +7,12 @@ export default defineConfig({
   server: {
     host: true,
     port: 5173,
+    open: "/option-4.html",
+  },
+  preview: {
+    host: true,
+    port: 4173,
+    open: "/option-4.html",
   },
   build: {
     rollupOptions: {
