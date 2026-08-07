@@ -40,7 +40,7 @@ function createSpotlight(host) {
   });
 
   const applyMask = (cx, cy, major, minor, angleDeg, warp) => {
-    // Dual overlapping ellipses → irregular organic spotlight
+    // Dual overlapping ellipses → irregular organic spotlight with a hard edge
     const x1 = cx * 100;
     const y1 = cy * 100;
     const x2 = (cx + Math.cos((angleDeg * Math.PI) / 180) * 0.04 * (1 + warp)) * 100;
@@ -51,8 +51,8 @@ function createSpotlight(host) {
     const ry2 = minor * 88;
 
     const mask = [
-      `radial-gradient(${rx1}% ${ry1}% at ${x1}% ${y1}%, #000 0%, #000 38%, rgba(0,0,0,0.55) 58%, transparent 76%)`,
-      `radial-gradient(${rx2}% ${ry2}% at ${x2}% ${y2}%, #000 0%, #000 30%, transparent 64%)`,
+      `radial-gradient(${rx1}% ${ry1}% at ${x1}% ${y1}%, #000 0%, #000 99.5%, transparent 100%)`,
+      `radial-gradient(${rx2}% ${ry2}% at ${x2}% ${y2}%, #000 0%, #000 99.5%, transparent 100%)`,
     ].join(", ");
 
     content.style.webkitMaskImage = mask;
