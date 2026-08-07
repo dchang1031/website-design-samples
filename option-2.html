@@ -157,7 +157,8 @@
             </div>
 
             <div id="models" class="w-full min-w-0 max-w-full justify-self-end sm:max-w-[480px]">
-              <div class="tr-landing-model-access-panel box-border w-full min-w-0 max-w-full rounded-[16px] border border-[#E2E8F0] bg-white p-[20px] lg:rounded-[28px] lg:p-6">
+              <div class="spotlight-host" data-spotlight>
+                <div class="spotlight-content tr-landing-model-access-panel box-border w-full min-w-0 max-w-full rounded-[16px] border border-[#E2E8F0] bg-white p-[20px] lg:rounded-[28px] lg:p-6" data-spotlight-content>
                 <div class="mb-4 flex min-w-0 items-center justify-between gap-3 text-slate-500">
                   <span style="color:#121317;font-family:'PP Neue Montreal',sans-serif;font-size:16px;font-weight:500;line-height:140%;text-transform:none">Unified Model Access</span>
                   <a href="#" class="tr-landing-model-access-action inline-flex items-center gap-[8px] bg-transparent text-[#0086FF] transition-colors hover:text-[#0076ed]" style="font-family:'PP Neue Montreal',sans-serif;font-size:14px;font-weight:400;line-height:140%">View All Models <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true"><path d="M4.64893 2.29785L9.35156 7.00049L4.64893 11.7031" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
@@ -455,6 +456,7 @@
                   <p class="m-0" style="color:#45474D;font-family:'PP Neue Montreal',sans-serif;font-size:14px;font-weight:400;line-height:1.5">Route once. Scale across models with better pricing, better stability, and simpler integration.</p>
                 </div>
               </div>
+              </div>
             </div>
           </div>
         </section>
@@ -528,8 +530,12 @@
               <p class="tr-landing-oneapi-text mt-2 lg:mt-4 text-[15px] lg:text-[18px] leading-[1.7] text-[#45474D] max-w-[800px] m-0">Fully OpenAI-compatible, with one base URL and one API key to power OpenClaw, OpenCode, Codex, Claude Code, Cherry Studio, and more — while managing all your token usage in one place.</p>
             </div>
             <div class="mt-[30px] lg:mt-[72px] lg:px-[55px]">
-              <img class="hidden w-full lg:block" src="/assets/oneapi.png" alt="TokenRouter one API layer diagram" loading="lazy" />
-              <img class="mx-auto block w-full max-w-[360px] lg:hidden" src="/assets/model-access-mobile.png" alt="TokenRouter model access" loading="lazy" height="auto" />
+              <div class="spotlight-host spotlight-host--media" data-spotlight>
+                <div class="spotlight-content" data-spotlight-content>
+                  <img class="hidden w-full lg:block" src="/assets/oneapi.png" alt="TokenRouter one API layer diagram" loading="lazy" />
+                  <img class="mx-auto block w-full max-w-[360px] lg:hidden" src="/assets/model-access-mobile.png" alt="TokenRouter model access" loading="lazy" height="auto" />
+                </div>
+              </div>
             </div>
             <a href="#" class="px-5 lg:px-6 w-fit mx-auto whitespace-nowrap text-[#fff] rounded-full text-[15px] lg:text-[18px] bg-[#0086FF] leading-[1.6] lg:leading-[1.7] h-[40px] lg:h-[48px] hover:bg-[#0075ed] flex items-center cursor-pointer gap-[8px] lg:gap-[10px] mt-[40px]">Claim Free Credits <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M5.14307 12.8572L12.8574 5.14282M12.8574 5.14282H6.10735M12.8574 5.14282V11.8928" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           </div>
@@ -899,5 +905,6 @@
       </footer>
     </div>
     <script type="module" src="/src/replica.js"></script>
+    <script type="module" src="/src/option2-spotlight.js"></script>
   </body>
 </html>
