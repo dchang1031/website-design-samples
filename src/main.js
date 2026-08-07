@@ -140,3 +140,45 @@ initHeader();
 initCopy();
 initFaq();
 initModelMarquee();
+
+const TRUSTED_LOGOS = [
+  { src: "/assets/higgsfield.png", alt: "Higgsfield" },
+  { src: "/assets/epsilla.png", alt: "Epsilla" },
+  { src: "/assets/clawith.png", alt: "Clawith" },
+  { src: "/assets/topify.png", alt: "Topify" },
+  { src: "/assets/bake-ai.png", alt: "Bake AI" },
+  { src: "/assets/storyverse.png", alt: "Storyverse" },
+  { src: "/assets/miromind.png", alt: "MiroMind" },
+  { src: "/assets/fellou.png", alt: "Fellou AI" },
+  { src: "/assets/flowgpt.png", alt: "FlowGPT" },
+  { src: "/assets/wayo.png", alt: "WAYO" },
+  { src: "/assets/stanford.png", alt: "Stanford" },
+  { src: "/assets/botlearn.png", alt: "BotLearn.ai" },
+];
+
+function initTrustedLogoRotator() {
+  const img = document.getElementById("trusted-logo");
+  if (!img || TRUSTED_LOGOS.length < 2) return;
+
+  let index = 0;
+  const show = (nextIndex) => {
+    img.classList.remove("is-active");
+    img.classList.add("is-exit");
+    window.setTimeout(() => {
+      const logo = TRUSTED_LOGOS[nextIndex];
+      img.src = logo.src;
+      img.alt = logo.alt;
+      img.classList.remove("is-exit");
+      void img.offsetWidth;
+      img.classList.add("is-active");
+      index = nextIndex;
+    }, 280);
+  };
+
+  window.setInterval(() => {
+    show((index + 1) % TRUSTED_LOGOS.length);
+  }, 2800);
+}
+
+initTrustedLogoRotator();
+

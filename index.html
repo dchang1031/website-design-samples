@@ -57,11 +57,19 @@
 
       <main>
         <section class="hero">
-          <div class="shell hero__grid">
+          <div class="hero__grid">
             <div class="hero__main">
               <h2 class="hero__title">One TokenRouter<br />All Models</h2>
-              <div class="hero__visual">
-                <img src="/assets/hero-hex.png" alt="Abstract glass routing node" />
+              <div class="hero__trusted" aria-live="polite">
+                <p class="hero__trusted-label">Trusted By</p>
+                <div class="hero__trusted-stage">
+                  <img
+                    id="trusted-logo"
+                    class="hero__trusted-logo is-active"
+                    src="/assets/higgsfield.png"
+                    alt="Higgsfield"
+                  />
+                </div>
               </div>
               <div class="hero__side-nav">
                 <a class="bracket-link" href="#">[ Get API Key ]</a>
@@ -71,32 +79,34 @@
             </div>
 
             <aside class="hero__panel">
-              <div>
-                <div class="hero__panel-top">
-                  <div>
-                    <p class="hero__panel-kicker">TokenRouter</p>
-                    <h2>Explore</h2>
+              <div class="hero__panel-inner">
+                <div>
+                  <div class="hero__panel-top">
+                    <div>
+                      <p class="hero__panel-kicker">TokenRouter</p>
+                      <h2>Explore</h2>
+                    </div>
+                    <div class="hero__panel-icons">
+                      <button class="icon-btn" type="button" aria-label="Search">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                      </button>
+                      <button class="icon-btn" type="button" aria-label="Close">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5"/></svg>
+                      </button>
+                    </div>
                   </div>
-                  <div class="hero__panel-icons">
-                    <button class="icon-btn" type="button" aria-label="Search">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-                    </button>
-                    <button class="icon-btn" type="button" aria-label="Close">
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5"/></svg>
-                    </button>
+                  <p class="hero__panel-text" style="margin-top:20px">Just switch your base URL. Faster · Better · Cheaper access to leading models with zero-retention controls.</p>
+                </div>
+                <div>
+                  <div class="hero__url">
+                    <span class="hero__url-dot" aria-hidden="true"></span>
+                    <code id="api-url">https://api.tokenrouter.com/v1</code>
+                    <button type="button" id="copy-btn"><span data-copy-label>Copy</span></button>
                   </div>
-                </div>
-                <p class="hero__panel-text" style="margin-top:20px">Just switch your base URL. Faster · Better · Cheaper access to leading models with zero-retention controls.</p>
-              </div>
-              <div>
-                <div class="hero__url">
-                  <span class="hero__url-dot" aria-hidden="true"></span>
-                  <code id="api-url">https://api.tokenrouter.com/v1</code>
-                  <button type="button" id="copy-btn"><span data-copy-label>Copy</span></button>
-                </div>
-                <div style="margin-top:16px; display:grid; gap:10px;">
-                  <a href="#" class="btn btn--ghost btn--block" style="border-color:rgba(255,255,255,.45); color:#fff;">Get API Key →</a>
-                  <a href="#" class="btn btn--ghost btn--block" style="border-color:rgba(255,255,255,.45); color:#fff;">Checkout Our Policy →</a>
+                  <div style="margin-top:16px; display:grid; gap:10px;">
+                    <a href="#" class="btn btn--ghost btn--block" style="border-color:rgba(255,255,255,.45); color:#fff;">Get API Key →</a>
+                    <a href="#" class="btn btn--ghost btn--block" style="border-color:rgba(255,255,255,.45); color:#fff;">Checkout Our Policy →</a>
+                  </div>
                 </div>
               </div>
             </aside>
@@ -321,29 +331,6 @@
               </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="shell">
-            <div class="section__head">
-              <p class="eyebrow">Trusted By</p>
-              <h2>Trusted By</h2>
-            </div>
-            <div class="logo-wall">
-              <div class="logo-card"><img src="/assets/higgsfield.png" alt="Higgsfield" /></div>
-<div class="logo-card"><img src="/assets/epsilla.png" alt="Epsilla" /></div>
-<div class="logo-card"><img src="/assets/clawith.png" alt="Clawith" /></div>
-<div class="logo-card"><img src="/assets/topify.png" alt="Topify" /></div>
-<div class="logo-card"><img src="/assets/bake-ai.png" alt="Bake AI" /></div>
-<div class="logo-card"><img src="/assets/storyverse.png" alt="Storyverse" /></div>
-<div class="logo-card"><img src="/assets/miromind.png" alt="MiroMind" /></div>
-<div class="logo-card"><img src="/assets/fellou.png" alt="Fellou AI" /></div>
-<div class="logo-card"><img src="/assets/flowgpt.png" alt="FlowGPT" /></div>
-<div class="logo-card"><img src="/assets/wayo.png" alt="WAYO" /></div>
-<div class="logo-card"><img src="/assets/stanford.png" alt="Stanford" /></div>
-<div class="logo-card"><img src="/assets/botlearn.png" alt="BotLearn.ai" /></div>
             </div>
           </div>
         </section>
