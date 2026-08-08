@@ -1,101 +1,76 @@
 /**
- * Option 4 — scroll-scrubbed storytelling animations.
- * Progress follows scroll (forward/back). Values freeze when idle.
- * Key + chart props use iridescent glass geometry (not emoji).
+ * Option 4 — scroll-scrubbed line drawings.
+ * 1) Horizontal single-stroke key near "Claim Free Credits"
+ * 2) Upward trend line behind enterprise cards
+ * Progress freezes when idle; rewinds when scrolling back.
  */
 (() => {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-  const routing = document.querySelector('[data-scroll-anchor="routing"]');
-  const trusted = document.querySelector('[data-scroll-anchor="trusted"]');
+  const claim = document.querySelector('[data-scroll-anchor="claim"]');
+  const cards = document.querySelector('[data-scroll-anchor="enterprise-cards"]');
   const oneapi = document.querySelector('[data-scroll-section="oneapi"]');
   const enterprise = document.querySelector('[data-scroll-section="enterprise"]');
-  if (!routing || !trusted || !oneapi || !enterprise) return;
+  if (!claim || !cards || !oneapi || !enterprise) return;
 
-  const layer = document.createElement("div");
-  layer.className = "o4-stage";
-  layer.setAttribute("aria-hidden", "true");
-  layer.innerHTML = `
-    <svg class="o4-connector" viewBox="0 0 1 1" preserveAspectRatio="none">
-      <defs>
-        <linearGradient id="o4-arrow-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#1a4dff"/>
-          <stop offset="100%" stop-color="#38bdf8"/>
-        </linearGradient>
-        <marker id="o4-arrowhead" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
-          <path d="M0,0 L6,3 L0,6 Z" fill="#1a4dff"/>
-        </marker>
-      </defs>
-      <path class="o4-connector__path" fill="none" stroke="url(#o4-arrow-grad)" stroke-width="3" stroke-linecap="round"/>
-      <ellipse class="o4-connector__ring" fill="none" stroke="#1a4dff" stroke-width="2.5"/>
+  oneapi.classList.add("o4-draw-host");
+  enterprise.classList.add("o4-draw-host");
+
+  const keyWrap = document.createElement("div");
+  keyWrap.className = "o4-draw-layer";
+  keyWrap.setAttribute("aria-hidden", "true");
+  keyWrap.innerHTML = `
+    <svg class="o4-draw o4-draw--key" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet">
+      <path class="o4-draw__path" data-key-path
+        d="M 70 100
+           C 70 55, 130 55, 130 100
+           C 130 145, 70 145, 70 100
+           L 130 100
+           L 860 100
+           L 860 148
+           L 830 148
+           L 830 100
+           L 780 100
+           L 780 162
+           L 750 162
+           L 750 100
+           L 920 100
+           L 945 118
+           L 920 136
+           L 900 118
+           L 920 100" />
     </svg>
-
-    <div class="o4-prop o4-prop--key">
-      <div class="o4-prop__scene">
-        <div class="o4-key">
-          <div class="o4-key__ring"></div>
-          <div class="o4-key__bow o4-glass">
-            <div class="o4-key__bow-hole"></div>
-          </div>
-          <div class="o4-key__shaft o4-glass">
-            <div class="o4-key__core"></div>
-          </div>
-          <div class="o4-key__tooth o4-key__tooth--1 o4-glass"></div>
-          <div class="o4-key__tooth o4-key__tooth--2 o4-glass"></div>
-          <div class="o4-key__flake o4-key__flake--a o4-glass"></div>
-          <div class="o4-key__flake o4-key__flake--b o4-glass"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="o4-prop o4-prop--chart">
-      <div class="o4-prop__scene">
-        <div class="o4-chart">
-          <div class="o4-chart__base"></div>
-          <div class="o4-chart__slab o4-glass"></div>
-          <div class="o4-chart__bars">
-            <div class="o4-chart__bar o4-chart__bar--1 o4-glass"></div>
-            <div class="o4-chart__bar o4-chart__bar--2 o4-glass"></div>
-            <div class="o4-chart__bar o4-chart__bar--3 o4-glass"></div>
-          </div>
-          <svg class="o4-chart__line" viewBox="0 0 120 80" aria-hidden="true">
-            <defs>
-              <linearGradient id="o4-chart-grad" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#8b7cff"/>
-                <stop offset="55%" stop-color="#5ec8ff"/>
-                <stop offset="100%" stop-color="#ffd27a"/>
-              </linearGradient>
-            </defs>
-            <path class="o4-chart__line-track" d="M8 68 C 28 66, 36 52, 48 40 S 78 18, 112 10"/>
-            <path class="o4-chart__line-draw" d="M8 68 C 28 66, 36 52, 48 40 S 78 18, 112 10"/>
-          </svg>
-          <div class="o4-chart__orb"></div>
-        </div>
-      </div>
-    </div>
   `;
-  document.body.appendChild(layer);
+  oneapi.appendChild(keyWrap);
 
-  const svg = layer.querySelector(".o4-connector");
-  const path = layer.querySelector(".o4-connector__path");
-  const ring = layer.querySelector(".o4-connector__ring");
-  const keyEl = layer.querySelector(".o4-prop--key");
-  const chartEl = layer.querySelector(".o4-prop--chart");
-  const chartDraw = layer.querySelector(".o4-chart__line-draw");
-  const bars = [...layer.querySelectorAll(".o4-chart__bar")];
+  const trendWrap = document.createElement("div");
+  trendWrap.className = "o4-draw-layer";
+  trendWrap.setAttribute("aria-hidden", "true");
+  trendWrap.innerHTML = `
+    <svg class="o4-draw o4-draw--trend" viewBox="0 0 900 420" preserveAspectRatio="xMidYMid meet">
+      <path class="o4-draw__path" data-trend-path
+        d="M 40 360
+           C 120 350, 160 300, 220 270
+           S 320 240, 380 200
+           S 480 150, 540 130
+           S 660 90, 740 70
+           L 860 40" />
+    </svg>
+  `;
+  enterprise.appendChild(trendWrap);
 
-  let pathLength = 1;
-  let ringLength = 1;
-  let chartLength = 1;
+  const keySvg = keyWrap.querySelector(".o4-draw--key");
+  const trendSvg = trendWrap.querySelector(".o4-draw--trend");
+  const keyPath = keyWrap.querySelector("[data-key-path]");
+  const trendPath = trendWrap.querySelector("[data-trend-path]");
+
+  let keyLength = 1;
+  let trendLength = 1;
   let lastScrollY = window.scrollY;
   let scrollVelocity = 0;
   let ticking = false;
 
-  const state = {
-    arrow: 0,
-    key: 0,
-    chart: 0,
-  };
+  const state = { key: 0, trend: 0 };
 
   function clamp(n, min, max) {
     return Math.min(max, Math.max(min, n));
@@ -106,113 +81,55 @@
     return clamp((value - inMin) / (inMax - inMin), 0, 1);
   }
 
-  function sectionScrub(el, enter = 0.85, exit = 0.15) {
+  function scrubEl(el, enter = 0.92, exit = 0.2) {
     const rect = el.getBoundingClientRect();
     const vh = window.innerHeight || 1;
-    const start = vh * enter;
-    const end = vh * exit - rect.height * 0.2;
-    return mapRange(rect.top, start, end);
+    return mapRange(rect.top, vh * enter, vh * exit - rect.height * 0.15);
   }
 
-  function arrowProgress() {
-    const from = routing.getBoundingClientRect();
-    const to = trusted.getBoundingClientRect();
-    const vh = window.innerHeight || 1;
-    const startY = from.top + from.height * 0.5;
-    const endY = to.top + to.height * 0.5;
-    const start = vh * 0.72;
-    const end = vh * 0.38;
-    const leave = mapRange(startY, start, vh * 0.18);
-    const arrive = mapRange(endY, vh * 0.92, end);
-    return clamp(leave * 0.45 + arrive * 0.55, 0, 1);
+  function layout() {
+    // Key: full section width, vertically near the claim CTA
+    const oneRect = oneapi.getBoundingClientRect();
+    const claimRect = claim.getBoundingClientRect();
+    const keyTop = claimRect.top - oneRect.top + claimRect.height / 2;
+    keySvg.style.top = `${keyTop}px`;
+    keySvg.style.left = "50%";
+    keySvg.style.width = "min(1100px, 94%)";
+    keySvg.style.transform = "translate(-50%, -50%)";
+
+    // Trend: centered on the card grid
+    const entRect = enterprise.getBoundingClientRect();
+    const cardsRect = cards.getBoundingClientRect();
+    const trendTop = cardsRect.top - entRect.top + cardsRect.height * 0.42;
+    const trendLeft = cardsRect.left - entRect.left + cardsRect.width / 2;
+    trendSvg.style.top = `${trendTop}px`;
+    trendSvg.style.left = `${trendLeft}px`;
+    trendSvg.style.width = `${Math.min(cardsRect.width * 0.92, 920)}px`;
+    trendSvg.style.transform = "translate(-50%, -50%)";
   }
 
-  function updateConnectorGeometry() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
-    svg.setAttribute("width", String(w));
-    svg.setAttribute("height", String(h));
-
-    const a = routing.getBoundingClientRect();
-    const b = trusted.getBoundingClientRect();
-    const x1 = a.left + a.width * 0.5;
-    const y1 = a.top + a.height * 0.5;
-    const x2 = b.left + b.width * 0.5;
-    const y2 = b.top + b.height * 0.5;
-    const midY = (y1 + y2) / 2;
-    const curve = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY}, ${x2} ${y2}`;
-    path.setAttribute("d", curve);
-    pathLength = path.getTotalLength() || 1;
-    path.style.strokeDasharray = `${pathLength}`;
-    path.style.strokeDashoffset = `${pathLength}`;
-
-    const rx = Math.max(b.width * 0.72, 70);
-    const ry = Math.max(b.height * 1.35, 36);
-    ring.setAttribute("cx", String(x2));
-    ring.setAttribute("cy", String(y2));
-    ring.setAttribute("rx", String(rx));
-    ring.setAttribute("ry", String(ry));
-    ringLength = Math.PI * (3 * (rx + ry) - Math.sqrt((3 * rx + ry) * (rx + 3 * ry)));
-    ring.style.strokeDasharray = `${ringLength}`;
-    ring.style.strokeDashoffset = `${ringLength}`;
+  function measure() {
+    keyLength = keyPath.getTotalLength() || 1;
+    trendLength = trendPath.getTotalLength() || 1;
+    keyPath.style.strokeDasharray = `${keyLength}`;
+    trendPath.style.strokeDasharray = `${trendLength}`;
+    keyPath.style.strokeDashoffset = `${keyLength}`;
+    trendPath.style.strokeDashoffset = `${trendLength}`;
   }
 
   function applyVisuals() {
-    const arrowT = state.arrow;
-    const drawT = clamp(arrowT / 0.72, 0, 1);
-    const ringT = clamp((arrowT - 0.55) / 0.45, 0, 1);
-
-    path.style.strokeDashoffset = `${pathLength * (1 - drawT)}`;
-    ring.style.strokeDashoffset = `${ringLength * (1 - ringT)}`;
-    path.style.opacity = drawT > 0.02 ? "1" : "0";
-    if (drawT > 0.08) path.setAttribute("marker-end", "url(#o4-arrowhead)");
-    else path.removeAttribute("marker-end");
-    layer.style.setProperty("--o4-arrow-opacity", arrowT > 0.02 ? "1" : "0");
-    trusted.classList.toggle("o4-trusted-hot", ringT > 0.55);
-
     const keyT = state.key;
-    const keyVisible = keyT > 0.02 && keyT < 0.98;
-    keyEl.style.opacity = keyVisible ? String(clamp(Math.sin(keyT * Math.PI) * 1.15, 0, 1)) : "0";
-    keyEl.style.transform = `
-      translate3d(-50%, -50%, 0)
-      rotateY(${(-32 + keyT * 240).toFixed(2)}deg)
-      rotateX(${(14 - keyT * 20).toFixed(2)}deg)
-      rotateZ(${(-8 + keyT * 12).toFixed(2)}deg)
-      scale(${(0.7 + keyT * 0.48).toFixed(3)})
-    `;
-    keyEl.classList.toggle("is-active", keyVisible);
-
-    const chartT = state.chart;
-    const chartVisible = chartT > 0.02 && chartT < 0.98;
-    chartEl.style.opacity = chartVisible ? String(clamp(Math.sin(chartT * Math.PI) * 1.15, 0, 1)) : "0";
-    chartEl.style.transform = `
-      translate3d(-50%, -50%, 0)
-      rotateY(${(22 - chartT * 40).toFixed(2)}deg)
-      rotateX(${(6 + chartT * 12).toFixed(2)}deg)
-      scale(${(0.76 + chartT * 0.38).toFixed(3)})
-    `;
-    chartEl.classList.toggle("is-active", chartVisible);
-    chartDraw.style.strokeDashoffset = `${chartLength * (1 - chartT)}`;
-
-    // Bars rise with scroll progress (staggered)
-    bars.forEach((bar, i) => {
-      const local = clamp((chartT - i * 0.12) / 0.75, 0, 1);
-      bar.style.setProperty("--bar-scale", (0.12 + local * 0.88).toFixed(3));
-    });
-  }
-
-  function measureChart() {
-    chartLength = chartDraw.getTotalLength() || 1;
-    chartDraw.style.strokeDasharray = `${chartLength}`;
-    chartDraw.style.strokeDashoffset = `${chartLength}`;
+    const trendT = state.trend;
+    keySvg.style.opacity = keyT > 0.01 ? "1" : "0";
+    trendSvg.style.opacity = trendT > 0.01 ? "1" : "0";
+    keyPath.style.strokeDashoffset = `${keyLength * (1 - keyT)}`;
+    trendPath.style.strokeDashoffset = `${trendLength * (1 - trendT)}`;
   }
 
   function scrubTargets() {
     return {
-      arrow: arrowProgress(),
-      key: sectionScrub(oneapi, 0.9, 0.12),
-      chart: sectionScrub(enterprise, 0.9, 0.12),
+      key: scrubEl(claim, 0.95, 0.32),
+      trend: scrubEl(cards, 0.95, 0.16),
     };
   }
 
@@ -223,11 +140,8 @@
     scrollVelocity = scrollVelocity * 0.78 + Math.abs(dy) * 0.22;
 
     if (scrollVelocity > 0.15) {
-      updateConnectorGeometry();
-      const next = scrubTargets();
-      state.arrow = next.arrow;
-      state.key = next.key;
-      state.chart = next.chart;
+      layout();
+      Object.assign(state, scrubTargets());
       applyVisuals();
     }
   }
@@ -247,8 +161,8 @@
     requestAnimationFrame(idleLoop);
   }
 
-  measureChart();
-  updateConnectorGeometry();
+  measure();
+  layout();
   Object.assign(state, scrubTargets());
   applyVisuals();
 
@@ -256,8 +170,8 @@
   window.addEventListener(
     "resize",
     () => {
-      updateConnectorGeometry();
-      measureChart();
+      measure();
+      layout();
       Object.assign(state, scrubTargets());
       applyVisuals();
     },

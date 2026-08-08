@@ -21,8 +21,6 @@ export default defineConfig({
         option2: resolve(__dirname, "option-2.html"),
         option3: resolve(__dirname, "option-3.html"),
         option4: resolve(__dirname, "option-4.html"),
-        option5: resolve(__dirname, "option-5.html"),
-        option6: resolve(__dirname, "option-6.html"),
       },
     },
   },

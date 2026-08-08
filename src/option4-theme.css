@@ -1,0 +1,274 @@
+/* Option 4 — Social Impact Capital–inspired editorial theme */
+
+.theme-sic {
+  --sic-bg: #fcfcfc;
+  --sic-ink: #000000;
+  --sic-muted: #3a3a3a;
+  --sic-accent: #2a2ecd;
+  --sic-accent-soft: rgba(42, 46, 205, 0.12);
+  --sic-line: rgba(0, 0, 0, 0.14);
+  --sic-line-strong: rgba(0, 0, 0, 0.28);
+  --sic-serif: "Instrument Serif", "Times New Roman", Georgia, serif;
+  --sic-sans: "DM Sans", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+  background: var(--sic-bg);
+  color: var(--sic-ink);
+  font-family: var(--sic-sans);
+}
+
+.theme-sic .tr-landing-page {
+  background: var(--sic-bg) !important;
+  color: var(--sic-ink);
+}
+
+/* Header */
+.theme-sic .site-header {
+  background: rgba(252, 252, 252, 0.92) !important;
+  border-bottom: 1px solid var(--sic-line) !important;
+  color: var(--sic-ink);
+  backdrop-filter: blur(10px);
+}
+
+.theme-sic .site-header .brand {
+  font-family: var(--sic-serif);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+
+.theme-sic .site-header .brand__mark {
+  background: var(--sic-accent);
+}
+
+.theme-sic .site-header .nav a {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.theme-sic .site-header .nav a:hover,
+.theme-sic .site-header .nav a.is-active {
+  color: var(--sic-ink);
+  border-color: var(--sic-line-strong);
+  background: transparent;
+}
+
+.theme-sic .site-header .btn--filled {
+  background: var(--sic-accent) !important;
+  border-color: var(--sic-accent) !important;
+  color: #fcfcfc !important;
+}
+
+.theme-sic .site-header .btn--ghost {
+  border-color: var(--sic-line-strong);
+  color: var(--sic-ink);
+}
+
+.theme-sic .mobile-menu__drawer {
+  background: var(--sic-bg) !important;
+  border-right: 1px solid var(--sic-line);
+  color: var(--sic-ink);
+}
+
+.theme-sic .promo-banner {
+  background: var(--sic-accent) !important;
+}
+
+/* Sections + hairline dividers */
+.theme-sic .bg-white,
+.theme-sic section[class*="tr-landing-"] {
+  background: var(--sic-bg) !important;
+}
+
+.theme-sic .tr-landing-hero-section,
+.theme-sic .tr-landing-logo-wall,
+.theme-sic .tr-landing-oneapi-section,
+.theme-sic .tr-landing-enterprise-section,
+.theme-sic .tr-landing-faq-section,
+.theme-sic .tr-landing-cta-section {
+  border-bottom: 1px solid var(--sic-line);
+}
+
+.theme-sic .tr-landing-footer {
+  background: var(--sic-bg) !important;
+  border-top: 1px solid var(--sic-line);
+}
+
+/* Typography */
+.theme-sic .tr-landing-hero-title,
+.theme-sic .tr-landing-oneapi-title,
+.theme-sic .tr-landing-enterprise-title,
+.theme-sic .tr-landing-faq-title,
+.theme-sic .tr-landing-cta-title,
+.theme-sic .tr-landing-logo-wall-title,
+.theme-sic h2[class*="tr-landing-"],
+.theme-sic h3[class*="tr-landing-"] {
+  font-family: var(--sic-serif) !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.035em !important;
+  color: var(--sic-ink) !important;
+}
+
+.theme-sic .tr-landing-hero-subtitle,
+.theme-sic .tr-landing-hero-tagline,
+.theme-sic .tr-landing-oneapi-text,
+.theme-sic .tr-landing-enterprise-text,
+.theme-sic .tr-landing-hero-metric-label,
+.theme-sic .tr-landing-enterprise-card-desc,
+.theme-sic p[class*="text-[#45474D]"],
+.theme-sic p[class*="text-[#45474d]"],
+.theme-sic [class*="text-slate-500"] {
+  color: var(--sic-muted) !important;
+  font-family: var(--sic-sans);
+}
+
+.theme-sic [class*="text-[#121317]"] {
+  color: var(--sic-ink) !important;
+}
+
+.theme-sic [class*="text-[#0086FF]"],
+.theme-sic [class*="text-[#0086ff]"],
+.theme-sic .tr-landing-model-access-action,
+.theme-sic .tr-landing-hero-policy-link,
+.theme-sic .tr-landing-section-link,
+.theme-sic .tr-landing-faq-link {
+  color: var(--sic-accent) !important;
+}
+
+/* Minimal cards / controls */
+.theme-sic .tr-landing-model-access-panel,
+.theme-sic .tr-landing-hero-url-box,
+.theme-sic .tr-landing-model-access-row,
+.theme-sic .tr-landing-model-access-summary,
+.theme-sic .tr-landing-logo-card,
+.theme-sic .tr-landing-enterprise-card,
+.theme-sic .tr-landing-cta-section > div,
+.theme-sic .tr-landing-faq-section [class*="rounded-3xl"],
+.theme-sic .tr-landing-faq-section [class*="rounded-[20px]"] {
+  background: transparent !important;
+  border: 1px solid var(--sic-line) !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.theme-sic .tr-landing-enterprise-card {
+  background: rgba(252, 252, 252, 0.72) !important;
+}
+
+.theme-sic .tr-landing-enterprise-card:hover {
+  border-color: var(--sic-line-strong) !important;
+  transform: none;
+}
+
+.theme-sic .tr-landing-enterprise-card-icon {
+  background: var(--sic-accent-soft) !important;
+  border-radius: 0 !important;
+  border: 1px solid var(--sic-line);
+}
+
+.theme-sic .tr-landing-enterprise-card-tag {
+  background: transparent !important;
+  border: 1px solid var(--sic-line) !important;
+  border-radius: 0 !important;
+  color: var(--sic-muted) !important;
+}
+
+.theme-sic .tr-landing-hero-badge,
+.theme-sic .tr-landing-section-badge {
+  background: transparent !important;
+  border: 1px solid var(--sic-line) !important;
+  color: var(--sic-accent) !important;
+  border-radius: 0 !important;
+  letter-spacing: 0.12em !important;
+  font-family: var(--sic-sans);
+}
+
+.theme-sic .tr-landing-hero-primary-button,
+.theme-sic .tr-landing-cta-primary,
+.theme-sic .tr-landing-faq-action,
+.theme-sic .tr-landing-cta-claim,
+.theme-sic a[class*="bg-[#0086FF]"],
+.theme-sic a[class*="bg-[#0086ff]"] {
+  background: var(--sic-accent) !important;
+  border: 1px solid var(--sic-accent) !important;
+  color: #fcfcfc !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.theme-sic .tr-landing-hero-secondary-button,
+.theme-sic .tr-landing-cta-secondary,
+.theme-sic .tr-landing-hero-copy-button {
+  background: transparent !important;
+  border: 1px solid var(--sic-line-strong) !important;
+  color: var(--sic-ink) !important;
+  border-radius: 0 !important;
+}
+
+.theme-sic .tr-landing-oneapi-section img {
+  border: 1px solid var(--sic-line);
+  border-radius: 0 !important;
+  background: transparent !important;
+  padding: 0;
+}
+
+.theme-sic .tr-landing-model-access-row:hover {
+  background: rgba(42, 46, 205, 0.04) !important;
+  border-color: var(--sic-line-strong) !important;
+}
+
+.theme-sic .tr-landing-footer-divider {
+  background: var(--sic-line) !important;
+}
+
+/* Scroll line-draw overlays (inside sections, behind content) */
+.theme-sic .o4-draw-host {
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-sic .o4-draw-host > *:not(.o4-draw-layer) {
+  position: relative;
+  z-index: 2;
+}
+
+.o4-draw-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.o4-draw {
+  position: absolute;
+  overflow: visible;
+  opacity: 0;
+  height: auto;
+}
+
+.o4-draw--key {
+  height: clamp(100px, 18vw, 200px);
+}
+
+.o4-draw--trend {
+  height: clamp(220px, 38vw, 400px);
+}
+
+.o4-draw__path {
+  fill: none;
+  stroke: rgba(42, 46, 205, 0.2);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.o4-draw--key .o4-draw__path {
+  stroke-width: 1.55;
+}
+
+.o4-draw--trend .o4-draw__path {
+  stroke-width: 1.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .o4-draw-layer {
+    display: none !important;
+  }
+}
