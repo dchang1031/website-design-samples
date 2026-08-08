@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 export default defineConfig({
   root: ".",
   publicDir: "public",
+  appType: "mpa",
   server: {
     host: true,
     port: 5173,
