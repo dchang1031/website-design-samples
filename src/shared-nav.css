@@ -100,11 +100,11 @@
 
 .site-header .nav a {
   font-family: var(--shared-mono);
-  font-size: 11px;
-  letter-spacing: 0.03em;
+  font-size: 10px;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--shared-muted);
-  padding: 7px 8px;
+  padding: 6px 7px;
   border: 1px solid transparent;
   text-decoration: none;
   white-space: nowrap;

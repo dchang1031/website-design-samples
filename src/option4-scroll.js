@@ -1,6 +1,7 @@
 /**
  * Option 4 — scroll-scrubbed storytelling animations.
  * Progress follows scroll (forward/back). Values freeze when idle.
+ * Key + chart props use iridescent glass geometry (not emoji).
  */
 (() => {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -25,18 +26,52 @@
           <path d="M0,0 L6,3 L0,6 Z" fill="#1a4dff"/>
         </marker>
       </defs>
-      <path class="o4-connector__path" fill="none" stroke="url(#o4-arrow-grad)" stroke-width="3" stroke-linecap="round" marker-end="url(#o4-arrowhead)"/>
-      <circle class="o4-connector__ring" fill="none" stroke="#1a4dff" stroke-width="2.5"/>
+      <path class="o4-connector__path" fill="none" stroke="url(#o4-arrow-grad)" stroke-width="3" stroke-linecap="round"/>
+      <ellipse class="o4-connector__ring" fill="none" stroke="#1a4dff" stroke-width="2.5"/>
     </svg>
-    <div class="o4-emoji o4-emoji--key">
-      <span class="o4-emoji__glyph">🔑</span>
+
+    <div class="o4-prop o4-prop--key">
+      <div class="o4-prop__scene">
+        <div class="o4-key">
+          <div class="o4-key__ring"></div>
+          <div class="o4-key__bow o4-glass">
+            <div class="o4-key__bow-hole"></div>
+          </div>
+          <div class="o4-key__shaft o4-glass">
+            <div class="o4-key__core"></div>
+          </div>
+          <div class="o4-key__tooth o4-key__tooth--1 o4-glass"></div>
+          <div class="o4-key__tooth o4-key__tooth--2 o4-glass"></div>
+          <div class="o4-key__flake o4-key__flake--a o4-glass"></div>
+          <div class="o4-key__flake o4-key__flake--b o4-glass"></div>
+        </div>
+      </div>
     </div>
-    <div class="o4-emoji o4-emoji--chart">
-      <span class="o4-emoji__glyph">📊</span>
-      <svg class="o4-chart-line" viewBox="0 0 120 80" aria-hidden="true">
-        <path class="o4-chart-line__track" d="M8 68 C 28 66, 36 52, 48 40 S 78 18, 112 10" fill="none"/>
-        <path class="o4-chart-line__draw" d="M8 68 C 28 66, 36 52, 48 40 S 78 18, 112 10" fill="none"/>
-      </svg>
+
+    <div class="o4-prop o4-prop--chart">
+      <div class="o4-prop__scene">
+        <div class="o4-chart">
+          <div class="o4-chart__base"></div>
+          <div class="o4-chart__slab o4-glass"></div>
+          <div class="o4-chart__bars">
+            <div class="o4-chart__bar o4-chart__bar--1 o4-glass"></div>
+            <div class="o4-chart__bar o4-chart__bar--2 o4-glass"></div>
+            <div class="o4-chart__bar o4-chart__bar--3 o4-glass"></div>
+          </div>
+          <svg class="o4-chart__line" viewBox="0 0 120 80" aria-hidden="true">
+            <defs>
+              <linearGradient id="o4-chart-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#8b7cff"/>
+                <stop offset="55%" stop-color="#5ec8ff"/>
+                <stop offset="100%" stop-color="#ffd27a"/>
+              </linearGradient>
+            </defs>
+            <path class="o4-chart__line-track" d="M8 68 C 28 66, 36 52, 48 40 S 78 18, 112 10"/>
+            <path class="o4-chart__line-draw" d="M8 68 C 28 66, 36 52, 48 40 S 78 18, 112 10"/>
+          </svg>
+          <div class="o4-chart__orb"></div>
+        </div>
+      </div>
     </div>
   `;
   document.body.appendChild(layer);
@@ -44,9 +79,10 @@
   const svg = layer.querySelector(".o4-connector");
   const path = layer.querySelector(".o4-connector__path");
   const ring = layer.querySelector(".o4-connector__ring");
-  const keyEl = layer.querySelector(".o4-emoji--key");
-  const chartEl = layer.querySelector(".o4-emoji--chart");
-  const chartDraw = layer.querySelector(".o4-chart-line__draw");
+  const keyEl = layer.querySelector(".o4-prop--key");
+  const chartEl = layer.querySelector(".o4-prop--chart");
+  const chartDraw = layer.querySelector(".o4-chart__line-draw");
+  const bars = [...layer.querySelectorAll(".o4-chart__bar")];
 
   let pathLength = 1;
   let ringLength = 1;
@@ -55,7 +91,6 @@
   let scrollVelocity = 0;
   let ticking = false;
 
-  // Scrubbed progress values (0–1); only refresh while scrolling
   const state = {
     arrow: 0,
     key: 0,
@@ -83,13 +118,10 @@
     const from = routing.getBoundingClientRect();
     const to = trusted.getBoundingClientRect();
     const vh = window.innerHeight || 1;
-    // 0 while Always-On still near mid-viewport; 1 when Trusted By is near center
     const startY = from.top + from.height * 0.5;
     const endY = to.top + to.height * 0.5;
-    // Use how far we've scrolled the midpoint from start toward end relative to viewport
     const start = vh * 0.72;
     const end = vh * 0.38;
-    // Blend: progress grows as `from` leaves and `to` arrives
     const leave = mapRange(startY, start, vh * 0.18);
     const arrive = mapRange(endY, vh * 0.92, end);
     return clamp(leave * 0.45 + arrive * 0.55, 0, 1);
@@ -121,7 +153,6 @@
     ring.setAttribute("cy", String(y2));
     ring.setAttribute("rx", String(rx));
     ring.setAttribute("ry", String(ry));
-    // approximate ellipse perimeter
     ringLength = Math.PI * (3 * (rx + ry) - Math.sqrt((3 * rx + ry) * (rx + 3 * ry)));
     ring.style.strokeDasharray = `${ringLength}`;
     ring.style.strokeDashoffset = `${ringLength}`;
@@ -145,9 +176,10 @@
     keyEl.style.opacity = keyVisible ? String(clamp(Math.sin(keyT * Math.PI) * 1.15, 0, 1)) : "0";
     keyEl.style.transform = `
       translate3d(-50%, -50%, 0)
-      rotateY(${(-28 + keyT * 220).toFixed(2)}deg)
-      rotateX(${(12 - keyT * 18).toFixed(2)}deg)
-      scale(${(0.72 + keyT * 0.45).toFixed(3)})
+      rotateY(${(-32 + keyT * 240).toFixed(2)}deg)
+      rotateX(${(14 - keyT * 20).toFixed(2)}deg)
+      rotateZ(${(-8 + keyT * 12).toFixed(2)}deg)
+      scale(${(0.7 + keyT * 0.48).toFixed(3)})
     `;
     keyEl.classList.toggle("is-active", keyVisible);
 
@@ -156,12 +188,18 @@
     chartEl.style.opacity = chartVisible ? String(clamp(Math.sin(chartT * Math.PI) * 1.15, 0, 1)) : "0";
     chartEl.style.transform = `
       translate3d(-50%, -50%, 0)
-      rotateY(${(18 - chartT * 36).toFixed(2)}deg)
-      rotateX(${(8 + chartT * 10).toFixed(2)}deg)
-      scale(${(0.78 + chartT * 0.35).toFixed(3)})
+      rotateY(${(22 - chartT * 40).toFixed(2)}deg)
+      rotateX(${(6 + chartT * 12).toFixed(2)}deg)
+      scale(${(0.76 + chartT * 0.38).toFixed(3)})
     `;
     chartEl.classList.toggle("is-active", chartVisible);
     chartDraw.style.strokeDashoffset = `${chartLength * (1 - chartT)}`;
+
+    // Bars rise with scroll progress (staggered)
+    bars.forEach((bar, i) => {
+      const local = clamp((chartT - i * 0.12) / 0.75, 0, 1);
+      bar.style.setProperty("--bar-scale", (0.12 + local * 0.88).toFixed(3));
+    });
   }
 
   function measureChart() {
@@ -184,7 +222,6 @@
     lastScrollY = window.scrollY;
     scrollVelocity = scrollVelocity * 0.78 + Math.abs(dy) * 0.22;
 
-    // Only advance scrubbed values while the user is actively scrolling
     if (scrollVelocity > 0.15) {
       updateConnectorGeometry();
       const next = scrubTargets();
@@ -202,22 +239,16 @@
     }
   }
 
-  // Keep velocity decay so idle freezes even without scroll events
   function idleLoop() {
     if (scrollVelocity > 0.01) {
       scrollVelocity *= 0.86;
-      if (scrollVelocity <= 0.15) {
-        // freeze — do not update state
-      } else {
-        requestTick();
-      }
+      if (scrollVelocity > 0.15) requestTick();
     }
     requestAnimationFrame(idleLoop);
   }
 
   measureChart();
   updateConnectorGeometry();
-  // Seed initial (usually zeros at top)
   Object.assign(state, scrubTargets());
   applyVisuals();
 
