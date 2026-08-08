@@ -1,15 +1,17 @@
-/* Option 4 — Social Impact Capital–inspired editorial theme */
+/* Option 4 — Social Impact Capital editorial layout (no cards, no illustrations) */
 
 .theme-sic {
   --sic-bg: #fcfcfc;
   --sic-ink: #000000;
-  --sic-muted: #3a3a3a;
+  --sic-muted: #2a2a2a;
   --sic-accent: #2a2ecd;
-  --sic-accent-soft: rgba(42, 46, 205, 0.12);
-  --sic-line: rgba(0, 0, 0, 0.14);
-  --sic-line-strong: rgba(0, 0, 0, 0.28);
+  --sic-accent-soft: rgba(42, 46, 205, 0.1);
+  --sic-line: rgba(0, 0, 0, 0.16);
+  --sic-line-strong: rgba(0, 0, 0, 0.32);
   --sic-serif: "Instrument Serif", "Times New Roman", Georgia, serif;
   --sic-sans: "DM Sans", "Helvetica Neue", Arial, sans-serif;
+  --sic-measure: 880px;
+  --sic-gutter: clamp(24px, 5vw, 64px);
   color-scheme: light;
   background: var(--sic-bg);
   color: var(--sic-ink);
@@ -21,18 +23,62 @@
   color: var(--sic-ink);
 }
 
-/* Header */
+/* Narrow editorial shells */
+.theme-sic .tr-landing-hero-section > div,
+.theme-sic .tr-landing-logo-wall > div,
+.theme-sic .tr-landing-oneapi-section > div,
+.theme-sic .tr-landing-enterprise-section > div,
+.theme-sic .tr-landing-faq-section > div,
+.theme-sic .tr-landing-cta-section > div,
+.theme-sic .tr-landing-footer > div {
+  max-width: var(--sic-measure) !important;
+  padding-left: var(--sic-gutter) !important;
+  padding-right: var(--sic-gutter) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.theme-sic .tr-landing-hero-section,
+.theme-sic .tr-landing-logo-wall,
+.theme-sic .tr-landing-oneapi-section,
+.theme-sic .tr-landing-enterprise-section,
+.theme-sic .tr-landing-faq-section,
+.theme-sic .tr-landing-cta-section,
+.theme-sic section[class*="tr-landing-"],
+.theme-sic .bg-white {
+  background: var(--sic-bg) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.theme-sic .tr-landing-hero-section {
+  padding-top: clamp(72px, 12vw, 140px) !important;
+  padding-bottom: clamp(48px, 8vw, 96px) !important;
+}
+
+.theme-sic .tr-landing-logo-wall,
+.theme-sic .tr-landing-oneapi-section,
+.theme-sic .tr-landing-enterprise-section,
+.theme-sic .tr-landing-faq-section,
+.theme-sic .tr-landing-cta-section {
+  padding-top: clamp(56px, 8vw, 96px) !important;
+  padding-bottom: clamp(56px, 8vw, 96px) !important;
+  border-bottom: 1px solid var(--sic-line);
+}
+
+/* Header — quiet, hairline */
 .theme-sic .site-header {
-  background: rgba(252, 252, 252, 0.92) !important;
+  background: rgba(252, 252, 252, 0.94) !important;
   border-bottom: 1px solid var(--sic-line) !important;
   color: var(--sic-ink);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
 }
 
 .theme-sic .site-header .brand {
   font-family: var(--sic-serif);
   font-weight: 400;
   letter-spacing: -0.03em;
+  font-size: 22px;
 }
 
 .theme-sic .site-header .brand__mark {
@@ -40,14 +86,27 @@
 }
 
 .theme-sic .site-header .nav a {
-  color: rgba(0, 0, 0, 0.55);
+  color: rgba(0, 0, 0, 0.5);
+  border: 0;
+  background: transparent !important;
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: var(--sic-sans);
+  font-size: 13px;
 }
 
 .theme-sic .site-header .nav a:hover,
 .theme-sic .site-header .nav a.is-active {
-  color: var(--sic-ink);
-  border-color: var(--sic-line-strong);
-  background: transparent;
+  color: var(--sic-accent);
+  border: 0;
+  background: transparent !important;
+}
+
+.theme-sic .site-header .btn {
+  min-height: 32px;
+  padding: 4px 10px;
+  border-radius: 2px;
+  font-size: 13px;
 }
 
 .theme-sic .site-header .btn--filled {
@@ -57,7 +116,7 @@
 }
 
 .theme-sic .site-header .btn--ghost {
-  border-color: var(--sic-line-strong);
+  border-color: transparent;
   color: var(--sic-ink);
 }
 
@@ -71,39 +130,46 @@
   background: var(--sic-accent) !important;
 }
 
-/* Sections + hairline dividers */
-.theme-sic .bg-white,
-.theme-sic section[class*="tr-landing-"] {
-  background: var(--sic-bg) !important;
-}
-
-.theme-sic .tr-landing-hero-section,
-.theme-sic .tr-landing-logo-wall,
-.theme-sic .tr-landing-oneapi-section,
-.theme-sic .tr-landing-enterprise-section,
-.theme-sic .tr-landing-faq-section,
-.theme-sic .tr-landing-cta-section {
-  border-bottom: 1px solid var(--sic-line);
-}
-
 .theme-sic .tr-landing-footer {
   background: var(--sic-bg) !important;
   border-top: 1px solid var(--sic-line);
 }
 
-/* Typography */
+.theme-sic .tr-landing-footer-divider {
+  background: var(--sic-line) !important;
+}
+
+/* Typography — large serif, accent headlines */
 .theme-sic .tr-landing-hero-title,
 .theme-sic .tr-landing-oneapi-title,
 .theme-sic .tr-landing-enterprise-title,
 .theme-sic .tr-landing-faq-title,
 .theme-sic .tr-landing-cta-title,
 .theme-sic .tr-landing-logo-wall-title,
-.theme-sic h2[class*="tr-landing-"],
+.theme-sic h2[class*="tr-landing-"] {
+  font-family: var(--sic-serif) !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.045em !important;
+  line-height: 0.95 !important;
+  color: var(--sic-accent) !important;
+  max-width: none !important;
+  font-size: clamp(42px, 7.2vw, 72px) !important;
+}
+
+.theme-sic .tr-landing-enterprise-card-title,
 .theme-sic h3[class*="tr-landing-"] {
   font-family: var(--sic-serif) !important;
   font-weight: 400 !important;
-  letter-spacing: -0.035em !important;
+  letter-spacing: -0.03em !important;
   color: var(--sic-ink) !important;
+  font-size: clamp(28px, 3.6vw, 40px) !important;
+  line-height: 1.1 !important;
+}
+
+.theme-sic .tr-landing-logo-wall-title {
+  font-size: clamp(36px, 5vw, 56px) !important;
+  text-align: left !important;
+  width: 100%;
 }
 
 .theme-sic .tr-landing-hero-subtitle,
@@ -117,6 +183,9 @@
 .theme-sic [class*="text-slate-500"] {
   color: var(--sic-muted) !important;
   font-family: var(--sic-sans);
+  font-size: 17px !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.01em;
 }
 
 .theme-sic [class*="text-[#121317]"] {
@@ -132,7 +201,7 @@
   color: var(--sic-accent) !important;
 }
 
-/* Minimal cards / controls */
+/* Kill card UI everywhere */
 .theme-sic .tr-landing-model-access-panel,
 .theme-sic .tr-landing-hero-url-box,
 .theme-sic .tr-landing-model-access-row,
@@ -141,43 +210,73 @@
 .theme-sic .tr-landing-enterprise-card,
 .theme-sic .tr-landing-cta-section > div,
 .theme-sic .tr-landing-faq-section [class*="rounded-3xl"],
-.theme-sic .tr-landing-faq-section [class*="rounded-[20px]"] {
+.theme-sic .tr-landing-faq-section [class*="rounded-[20px]"],
+.theme-sic .tr-landing-faq-section [class*="bg-[#ebf5ff]"],
+.theme-sic .tr-landing-oneapi-section img {
   background: transparent !important;
-  border: 1px solid var(--sic-line) !important;
+  border: 0 !important;
   box-shadow: none !important;
   border-radius: 0 !important;
-}
-
-.theme-sic .tr-landing-enterprise-card {
-  background: rgba(252, 252, 252, 0.72) !important;
-}
-
-.theme-sic .tr-landing-enterprise-card:hover {
-  border-color: var(--sic-line-strong) !important;
-  transform: none;
-}
-
-.theme-sic .tr-landing-enterprise-card-icon {
-  background: var(--sic-accent-soft) !important;
-  border-radius: 0 !important;
-  border: 1px solid var(--sic-line);
-}
-
-.theme-sic .tr-landing-enterprise-card-tag {
-  background: transparent !important;
-  border: 1px solid var(--sic-line) !important;
-  border-radius: 0 !important;
-  color: var(--sic-muted) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
 .theme-sic .tr-landing-hero-badge,
 .theme-sic .tr-landing-section-badge {
   background: transparent !important;
-  border: 1px solid var(--sic-line) !important;
+  border: 0 !important;
   color: var(--sic-accent) !important;
   border-radius: 0 !important;
-  letter-spacing: 0.12em !important;
+  padding-left: 0 !important;
+  letter-spacing: 0.14em !important;
   font-family: var(--sic-sans);
+  font-size: 12px !important;
+  text-transform: uppercase;
+}
+
+.theme-sic .tr-landing-hero-badge img,
+.theme-sic .tr-landing-section-badge img {
+  display: none;
+}
+
+/* Hero becomes single-column editorial */
+.theme-sic .tr-landing-hero-section > div {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 48px !important;
+}
+
+.theme-sic .tr-landing-hero-section > div > div {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+.theme-sic .tr-landing-model-access-panel {
+  border-top: 1px solid var(--sic-line) !important;
+  padding-top: 28px !important;
+}
+
+.theme-sic .tr-landing-model-access-row {
+  border-bottom: 1px solid var(--sic-line) !important;
+  padding: 14px 0 !important;
+  border-radius: 0 !important;
+}
+
+.theme-sic .tr-landing-model-access-row:hover {
+  background: transparent !important;
+}
+
+.theme-sic .tr-landing-model-access-summary {
+  border-top: 0 !important;
+  padding: 16px 0 0 !important;
+}
+
+.theme-sic .tr-landing-hero-url-box {
+  border-bottom: 1px solid var(--sic-line) !important;
+  border-radius: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  gap: 12px !important;
 }
 
 .theme-sic .tr-landing-hero-primary-button,
@@ -189,8 +288,13 @@
   background: var(--sic-accent) !important;
   border: 1px solid var(--sic-accent) !important;
   color: #fcfcfc !important;
-  border-radius: 0 !important;
+  border-radius: 2px !important;
   box-shadow: none !important;
+  min-height: 36px !important;
+  height: auto !important;
+  padding: 8px 14px !important;
+  font-size: 15px !important;
+  font-family: var(--sic-sans) !important;
 }
 
 .theme-sic .tr-landing-hero-secondary-button,
@@ -199,26 +303,96 @@
   background: transparent !important;
   border: 1px solid var(--sic-line-strong) !important;
   color: var(--sic-ink) !important;
-  border-radius: 0 !important;
+  border-radius: 2px !important;
+  min-height: 36px !important;
+  height: auto !important;
+  padding: 8px 14px !important;
+}
+
+/* Logo wall — open row, no boxes */
+.theme-sic .tr-landing-logo-wall > div {
+  align-items: flex-start !important;
+}
+
+.theme-sic .tr-landing-logo-card {
+  border: 0 !important;
+  background: transparent !important;
+  min-height: 48px !important;
+  aspect-ratio: auto !important;
+  width: auto !important;
+  opacity: 0.75;
+  filter: grayscale(1);
+}
+
+.theme-sic .tr-landing-logo-wall .flex.w-full.flex-wrap {
+  justify-content: flex-start !important;
+  gap: 28px 36px !important;
+  border-top: 1px solid var(--sic-line);
+  padding-top: 28px;
+}
+
+/* One API — open, left aligned CTA */
+.theme-sic .tr-landing-oneapi-section > div {
+  gap: 36px !important;
 }
 
 .theme-sic .tr-landing-oneapi-section img {
-  border: 1px solid var(--sic-line);
+  border: 0 !important;
+  opacity: 0.92;
+}
+
+.theme-sic .tr-landing-cta-claim {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Enterprise — stacked divider list, NOT a card grid */
+.theme-sic .tr-landing-enterprise-section [data-scroll-anchor="enterprise-cards"] {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  border-top: 1px solid var(--sic-line);
+}
+
+.theme-sic .tr-landing-enterprise-card {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap: 12px !important;
+  padding: 36px 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--sic-line) !important;
+  background: transparent !important;
+  height: auto !important;
+}
+
+.theme-sic .tr-landing-enterprise-card-icon {
+  display: none !important;
+}
+
+.theme-sic .tr-landing-enterprise-card-tag {
+  background: var(--sic-accent) !important;
+  border: 0 !important;
+  border-radius: 2px !important;
+  color: #fcfcfc !important;
+  font-size: 12px !important;
+  padding: 4px 8px !important;
+  letter-spacing: -0.01em;
+}
+
+.theme-sic .tr-landing-enterprise-card:hover {
+  transform: none;
+  background: transparent !important;
+}
+
+/* FAQ open list */
+.theme-sic .tr-landing-faq-section [class*="border"] {
+  border-color: var(--sic-line) !important;
   border-radius: 0 !important;
   background: transparent !important;
-  padding: 0;
+  box-shadow: none !important;
 }
 
-.theme-sic .tr-landing-model-access-row:hover {
-  background: rgba(42, 46, 205, 0.04) !important;
-  border-color: var(--sic-line-strong) !important;
-}
-
-.theme-sic .tr-landing-footer-divider {
-  background: var(--sic-line) !important;
-}
-
-/* Scroll line-draw overlays (inside sections, behind content) */
+/* Scroll line-draw overlays */
 .theme-sic .o4-draw-host {
   position: relative;
   overflow: hidden;
@@ -245,26 +419,26 @@
 }
 
 .o4-draw--key {
-  height: clamp(140px, 22vw, 260px);
+  height: clamp(150px, 24vw, 280px);
 }
 
 .o4-draw--trend {
-  height: clamp(220px, 38vw, 400px);
+  height: clamp(240px, 40vw, 420px);
 }
 
 .o4-draw__path {
   fill: none;
-  stroke: rgba(42, 46, 205, 0.28);
+  stroke: rgba(42, 46, 205, 0.26);
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .o4-draw--key .o4-draw__path {
-  stroke-width: 2.1;
+  stroke-width: 2.2;
 }
 
 .o4-draw--trend .o4-draw__path {
-  stroke-width: 1.7;
+  stroke-width: 1.8;
 }
 
 @media (prefers-reduced-motion: reduce) {
