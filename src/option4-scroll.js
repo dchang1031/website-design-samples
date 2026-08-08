@@ -20,25 +20,27 @@
   keyWrap.className = "o4-draw-layer";
   keyWrap.setAttribute("aria-hidden", "true");
   keyWrap.innerHTML = `
-    <svg class="o4-draw o4-draw--key" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet">
+    <svg class="o4-draw o4-draw--key" viewBox="0 0 1100 300" preserveAspectRatio="xMidYMid meet">
+      <!-- Continuous stroke: outer bow → bottom shaft + teeth → tip → top shaft → inner bow -->
       <path class="o4-draw__path" data-key-path
-        d="M 70 100
-           C 70 55, 130 55, 130 100
-           C 130 145, 70 145, 70 100
-           L 130 100
-           L 860 100
-           L 860 148
-           L 830 148
-           L 830 100
-           L 780 100
-           L 780 162
-           L 750 162
-           L 750 100
-           L 920 100
-           L 945 118
-           L 920 136
-           L 900 118
-           L 920 100" />
+        d="M 248 108
+           C 248 38, 52 38, 52 150
+           C 52 262, 248 262, 248 192
+           L 760 192
+           L 760 248
+           L 818 248
+           L 818 192
+           L 878 192
+           L 878 268
+           L 948 268
+           L 948 192
+           L 1005 192
+           L 1068 150
+           L 1005 108
+           L 248 108
+           L 248 132
+           C 248 88, 108 88, 108 150
+           C 108 212, 248 212, 248 168" />
     </svg>
   `;
   oneapi.appendChild(keyWrap);
@@ -94,7 +96,7 @@
     const keyTop = claimRect.top - oneRect.top + claimRect.height / 2;
     keySvg.style.top = `${keyTop}px`;
     keySvg.style.left = "50%";
-    keySvg.style.width = "min(1100px, 94%)";
+    keySvg.style.width = "min(1200px, 96%)";
     keySvg.style.transform = "translate(-50%, -50%)";
 
     // Trend: centered on the card grid

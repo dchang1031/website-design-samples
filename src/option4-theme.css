@@ -245,7 +245,7 @@
 }
 
 .o4-draw--key {
-  height: clamp(100px, 18vw, 200px);
+  height: clamp(140px, 22vw, 260px);
 }
 
 .o4-draw--trend {
@@ -254,13 +254,13 @@
 
 .o4-draw__path {
   fill: none;
-  stroke: rgba(42, 46, 205, 0.2);
+  stroke: rgba(42, 46, 205, 0.28);
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .o4-draw--key .o4-draw__path {
-  stroke-width: 1.55;
+  stroke-width: 2.1;
 }
 
 .o4-draw--trend .o4-draw__path {
