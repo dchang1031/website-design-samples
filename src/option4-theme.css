@@ -452,8 +452,8 @@
 }
 
 .o4-draw--key .o4-draw__path {
-  stroke: rgba(42, 46, 205, 0.055);
-  stroke-width: 14;
+  stroke: rgba(42, 46, 205, 0.07);
+  stroke-width: 16;
 }
 
 .o4-draw--trend .o4-draw__path {

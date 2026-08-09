@@ -128,7 +128,7 @@
 
   function scrubTargets() {
     return {
-      key: scrubEl(claim, 0.95, 0.32),
+      key: scrubEl(oneapi, 0.88, 0.28),
       trend: scrubEl(cards, 0.95, 0.16),
     };
   }
