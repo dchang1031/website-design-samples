@@ -327,7 +327,7 @@
   padding: 8px 14px !important;
 }
 
-/* Logo wall — open row, no boxes */
+/* Logo wall — open row, uniform logo size */
 .theme-sic .tr-landing-logo-wall > div {
   align-items: flex-start !important;
 }
@@ -335,15 +335,32 @@
 .theme-sic .tr-landing-logo-card {
   border: 0 !important;
   background: transparent !important;
-  min-height: 48px !important;
   aspect-ratio: auto !important;
-  width: auto !important;
+  width: 148px !important;
+  height: 56px !important;
+  min-width: 148px !important;
+  min-height: 56px !important;
+  max-width: 148px !important;
   opacity: 0.75;
   filter: grayscale(1);
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.theme-sic .tr-landing-logo-card img,
+.theme-sic .tr-landing-logo,
+.theme-sic .tr-landing-logo--detail {
+  width: auto !important;
+  height: 36px !important;
+  max-width: 132px !important;
+  max-height: 36px !important;
+  object-fit: contain !important;
 }
 
 .theme-sic .tr-landing-logo-wall .flex.w-full.flex-wrap {
   justify-content: flex-start !important;
+  align-items: center !important;
   gap: 28px 36px !important;
   border-top: 1px solid var(--sic-line);
   padding-top: 28px;
@@ -437,7 +454,7 @@
 }
 
 .o4-draw--key {
-  height: clamp(380px, 58vw, 720px);
+  height: clamp(260px, 38vw, 480px);
 }
 
 .o4-draw--trend {

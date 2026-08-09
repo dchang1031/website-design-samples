@@ -20,27 +20,27 @@
   keyWrap.className = "o4-draw-layer";
   keyWrap.setAttribute("aria-hidden", "true");
   keyWrap.innerHTML = `
-    <svg class="o4-draw o4-draw--key" viewBox="0 0 1100 480" preserveAspectRatio="xMidYMid meet">
-      <!-- Continuous stroke: outer bow → bottom shaft + teeth → tip → top shaft → inner bow (vertically tall) -->
-      <path class="o4-draw__path" data-key-path
-        d="M 248 150
-           C 248 28, 52 28, 52 240
-           C 52 452, 248 452, 248 330
-           L 760 330
-           L 760 418
-           L 818 418
-           L 818 330
-           L 878 330
-           L 878 448
-           L 948 448
-           L 948 330
-           L 1005 330
-           L 1068 240
-           L 1005 150
-           L 248 150
-           L 248 188
-           C 248 110, 108 110, 108 240
-           C 108 370, 248 370, 248 292" />
+    <svg class="o4-draw o4-draw--key" viewBox="0 0 1100 400" preserveAspectRatio="xMidYMid meet">
+      <!-- Continuous stroke: outer bow → bottom shaft + teeth → tip → top shaft → inner bow -->
+      <path class="o4-draw__path" data-key-path pathLength="1"
+        d="M 248 130
+           C 248 36, 52 36, 52 200
+           C 52 364, 248 364, 248 270
+           L 760 270
+           L 760 340
+           L 818 340
+           L 818 270
+           L 878 270
+           L 878 364
+           L 948 364
+           L 948 270
+           L 1005 270
+           L 1068 200
+           L 1005 130
+           L 248 130
+           L 248 160
+           C 248 100, 108 100, 108 200
+           C 108 300, 248 300, 248 240" />
     </svg>
   `;
   oneapi.appendChild(keyWrap);
@@ -50,7 +50,7 @@
   trendWrap.setAttribute("aria-hidden", "true");
   trendWrap.innerHTML = `
     <svg class="o4-draw o4-draw--trend" viewBox="0 0 900 420" preserveAspectRatio="xMidYMid meet">
-      <path class="o4-draw__path" data-trend-path
+      <path class="o4-draw__path" data-trend-path pathLength="1"
         d="M 40 360
            C 120 350, 160 300, 220 270
            S 320 240, 380 200
@@ -66,8 +66,6 @@
   const keyPath = keyWrap.querySelector("[data-key-path]");
   const trendPath = trendWrap.querySelector("[data-trend-path]");
 
-  let keyLength = 1;
-  let trendLength = 1;
   let lastScrollY = window.scrollY;
   let scrollVelocity = 0;
   let ticking = false;
@@ -89,15 +87,23 @@
     return mapRange(rect.top, vh * enter, vh * exit - rect.height * 0.15);
   }
 
+  /** Draw while scrolling through the One API section (visible around section center). */
+  function scrubOneApi() {
+    const rect = oneapi.getBoundingClientRect();
+    const vh = window.innerHeight || 1;
+    // 0 when section top is near lower viewport; 1 when section is well into view
+    const start = vh * 0.78;
+    const end = vh * 0.12 - Math.min(rect.height, vh) * 0.35;
+    return mapRange(rect.top, start, end);
+  }
+
   function layout() {
-    // Key: centered in the full One API section, wide + tall
     const oneRect = oneapi.getBoundingClientRect();
     keySvg.style.top = `${oneRect.height / 2}px`;
     keySvg.style.left = "50%";
     keySvg.style.width = "min(1360px, 96%)";
     keySvg.style.transform = "translate(-50%, -50%)";
 
-    // Trend: centered on the feature list
     const entRect = enterprise.getBoundingClientRect();
     const cardsRect = cards.getBoundingClientRect();
     const trendTop = cardsRect.top - entRect.top + cardsRect.height * 0.42;
@@ -109,12 +115,10 @@
   }
 
   function measure() {
-    keyLength = keyPath.getTotalLength() || 1;
-    trendLength = trendPath.getTotalLength() || 1;
-    keyPath.style.strokeDasharray = `${keyLength}`;
-    trendPath.style.strokeDasharray = `${trendLength}`;
-    keyPath.style.strokeDashoffset = `${keyLength}`;
-    trendPath.style.strokeDashoffset = `${trendLength}`;
+    keyPath.style.strokeDasharray = "1";
+    trendPath.style.strokeDasharray = "1";
+    keyPath.style.strokeDashoffset = "1";
+    trendPath.style.strokeDashoffset = "1";
   }
 
   function applyVisuals() {
@@ -122,13 +126,13 @@
     const trendT = state.trend;
     keySvg.style.opacity = keyT > 0.01 ? "1" : "0";
     trendSvg.style.opacity = trendT > 0.01 ? "1" : "0";
-    keyPath.style.strokeDashoffset = `${keyLength * (1 - keyT)}`;
-    trendPath.style.strokeDashoffset = `${trendLength * (1 - trendT)}`;
+    keyPath.style.strokeDashoffset = String(1 - keyT);
+    trendPath.style.strokeDashoffset = String(1 - trendT);
   }
 
   function scrubTargets() {
     return {
-      key: scrubEl(oneapi, 0.88, 0.28),
+      key: scrubOneApi(),
       trend: scrubEl(cards, 0.95, 0.16),
     };
   }
@@ -139,7 +143,7 @@
     lastScrollY = window.scrollY;
     scrollVelocity = scrollVelocity * 0.78 + Math.abs(dy) * 0.22;
 
-    if (scrollVelocity > 0.15) {
+    if (scrollVelocity > 0.08) {
       layout();
       Object.assign(state, scrubTargets());
       applyVisuals();
@@ -156,7 +160,7 @@
   function idleLoop() {
     if (scrollVelocity > 0.01) {
       scrollVelocity *= 0.86;
-      if (scrollVelocity > 0.15) requestTick();
+      if (scrollVelocity > 0.08) requestTick();
     }
     requestAnimationFrame(idleLoop);
   }
