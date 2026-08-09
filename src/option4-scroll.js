@@ -1,6 +1,6 @@
 /**
  * Option 4 — scroll-scrubbed line drawings.
- * 1) Horizontal single-stroke key near "Claim Free Credits"
+ * 1) Horizontal single-stroke key centered in the One API section
  * 2) Upward trend line behind enterprise cards
  * Progress freezes when idle; rewinds when scrolling back.
  */
@@ -20,27 +20,27 @@
   keyWrap.className = "o4-draw-layer";
   keyWrap.setAttribute("aria-hidden", "true");
   keyWrap.innerHTML = `
-    <svg class="o4-draw o4-draw--key" viewBox="0 0 1100 300" preserveAspectRatio="xMidYMid meet">
-      <!-- Continuous stroke: outer bow → bottom shaft + teeth → tip → top shaft → inner bow -->
+    <svg class="o4-draw o4-draw--key" viewBox="0 0 1100 480" preserveAspectRatio="xMidYMid meet">
+      <!-- Continuous stroke: outer bow → bottom shaft + teeth → tip → top shaft → inner bow (vertically tall) -->
       <path class="o4-draw__path" data-key-path
-        d="M 248 108
-           C 248 38, 52 38, 52 150
-           C 52 262, 248 262, 248 192
-           L 760 192
-           L 760 248
-           L 818 248
-           L 818 192
-           L 878 192
-           L 878 268
-           L 948 268
-           L 948 192
-           L 1005 192
-           L 1068 150
-           L 1005 108
-           L 248 108
-           L 248 132
-           C 248 88, 108 88, 108 150
-           C 108 212, 248 212, 248 168" />
+        d="M 248 150
+           C 248 28, 52 28, 52 240
+           C 52 452, 248 452, 248 330
+           L 760 330
+           L 760 418
+           L 818 418
+           L 818 330
+           L 878 330
+           L 878 448
+           L 948 448
+           L 948 330
+           L 1005 330
+           L 1068 240
+           L 1005 150
+           L 248 150
+           L 248 188
+           C 248 110, 108 110, 108 240
+           C 108 370, 248 370, 248 292" />
     </svg>
   `;
   oneapi.appendChild(keyWrap);
@@ -90,23 +90,21 @@
   }
 
   function layout() {
-    // Key: full section width, vertically near the claim CTA
+    // Key: centered in the full One API section, wide + tall
     const oneRect = oneapi.getBoundingClientRect();
-    const claimRect = claim.getBoundingClientRect();
-    const keyTop = claimRect.top - oneRect.top + claimRect.height / 2;
-    keySvg.style.top = `${keyTop}px`;
+    keySvg.style.top = `${oneRect.height / 2}px`;
     keySvg.style.left = "50%";
-    keySvg.style.width = "min(1200px, 96%)";
+    keySvg.style.width = "min(1360px, 96%)";
     keySvg.style.transform = "translate(-50%, -50%)";
 
-    // Trend: centered on the card grid
+    // Trend: centered on the feature list
     const entRect = enterprise.getBoundingClientRect();
     const cardsRect = cards.getBoundingClientRect();
     const trendTop = cardsRect.top - entRect.top + cardsRect.height * 0.42;
     const trendLeft = cardsRect.left - entRect.left + cardsRect.width / 2;
     trendSvg.style.top = `${trendTop}px`;
     trendSvg.style.left = `${trendLeft}px`;
-    trendSvg.style.width = `${Math.min(cardsRect.width * 0.92, 920)}px`;
+    trendSvg.style.width = `${Math.min(cardsRect.width * 0.92, 1040)}px`;
     trendSvg.style.transform = "translate(-50%, -50%)";
   }
 

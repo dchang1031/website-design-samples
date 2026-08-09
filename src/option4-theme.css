@@ -8,14 +8,30 @@
   --sic-accent-soft: rgba(42, 46, 205, 0.1);
   --sic-line: rgba(0, 0, 0, 0.16);
   --sic-line-strong: rgba(0, 0, 0, 0.32);
-  --sic-serif: "Instrument Serif", "Times New Roman", Georgia, serif;
-  --sic-sans: "DM Sans", "Helvetica Neue", Arial, sans-serif;
-  --sic-measure: 880px;
-  --sic-gutter: clamp(24px, 5vw, 64px);
+  --sic-sans: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --sic-measure: 1360px;
+  --sic-gutter: clamp(28px, 4vw, 64px);
   color-scheme: light;
   background: var(--sic-bg);
   color: var(--sic-ink);
   font-family: var(--sic-sans);
+  font-weight: 300;
+}
+
+.theme-sic,
+.theme-sic * {
+  font-family: var(--sic-sans) !important;
+}
+
+.theme-sic button,
+.theme-sic a,
+.theme-sic p,
+.theme-sic span,
+.theme-sic li,
+.theme-sic label,
+.theme-sic input,
+.theme-sic .btn {
+  font-weight: 300 !important;
 }
 
 .theme-sic .tr-landing-page {
@@ -75,8 +91,8 @@
 }
 
 .theme-sic .site-header .brand {
-  font-family: var(--sic-serif);
-  font-weight: 400;
+  font-family: var(--sic-sans);
+  font-weight: 300;
   letter-spacing: -0.03em;
   font-size: 22px;
 }
@@ -139,7 +155,7 @@
   background: var(--sic-line) !important;
 }
 
-/* Typography — large serif, accent headlines */
+/* Typography — thin sans, accent headlines */
 .theme-sic .tr-landing-hero-title,
 .theme-sic .tr-landing-oneapi-title,
 .theme-sic .tr-landing-enterprise-title,
@@ -147,23 +163,23 @@
 .theme-sic .tr-landing-cta-title,
 .theme-sic .tr-landing-logo-wall-title,
 .theme-sic h2[class*="tr-landing-"] {
-  font-family: var(--sic-serif) !important;
-  font-weight: 400 !important;
-  letter-spacing: -0.045em !important;
-  line-height: 0.95 !important;
+  font-family: var(--sic-sans) !important;
+  font-weight: 300 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.02 !important;
   color: var(--sic-accent) !important;
   max-width: none !important;
-  font-size: clamp(42px, 7.2vw, 72px) !important;
+  font-size: clamp(40px, 6.4vw, 68px) !important;
 }
 
 .theme-sic .tr-landing-enterprise-card-title,
 .theme-sic h3[class*="tr-landing-"] {
-  font-family: var(--sic-serif) !important;
-  font-weight: 400 !important;
+  font-family: var(--sic-sans) !important;
+  font-weight: 300 !important;
   letter-spacing: -0.03em !important;
   color: var(--sic-ink) !important;
-  font-size: clamp(28px, 3.6vw, 40px) !important;
-  line-height: 1.1 !important;
+  font-size: clamp(26px, 3.4vw, 38px) !important;
+  line-height: 1.15 !important;
 }
 
 .theme-sic .tr-landing-logo-wall-title {
@@ -183,6 +199,7 @@
 .theme-sic [class*="text-slate-500"] {
   color: var(--sic-muted) !important;
   font-family: var(--sic-sans);
+  font-weight: 300 !important;
   font-size: 17px !important;
   line-height: 1.35 !important;
   letter-spacing: -0.01em;
@@ -295,6 +312,7 @@
   padding: 8px 14px !important;
   font-size: 15px !important;
   font-family: var(--sic-sans) !important;
+  font-weight: 300 !important;
 }
 
 .theme-sic .tr-landing-hero-secondary-button,
@@ -419,7 +437,7 @@
 }
 
 .o4-draw--key {
-  height: clamp(150px, 24vw, 280px);
+  height: clamp(380px, 58vw, 720px);
 }
 
 .o4-draw--trend {
@@ -434,7 +452,8 @@
 }
 
 .o4-draw--key .o4-draw__path {
-  stroke-width: 2.2;
+  stroke: rgba(42, 46, 205, 0.055);
+  stroke-width: 14;
 }
 
 .o4-draw--trend .o4-draw__path {
