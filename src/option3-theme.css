@@ -620,43 +620,50 @@
   ) !important;
 }
 
-/* Dark hero: strip all glass plates + Tailwind bg-white from Unified Model Access */
-html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-panel,
-html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row,
-html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-summary,
-html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-panel .bg-white,
-html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row.bg-white,
-html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-panel,
-html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row,
-html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-summary,
-html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-panel .bg-white,
-html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row.bg-white {
-  background: rgba(0, 0, 0, 0) !important;
-  background-color: rgba(0, 0, 0, 0) !important;
+/* Dark hero: no glass panel / frosted row plates on Unified Model Access */
+body.theme-liquid--dark .tr-landing-model-access-panel,
+body.theme-liquid--dark .tr-landing-model-access-summary,
+body.theme-liquid--dark .tr-landing-model-track,
+body.theme-liquid--dark .tr-landing-model-access-row,
+body.theme-liquid--dark .tr-landing-model-access-row.bg-white,
+body.theme-liquid--dark .tr-landing-model-access-row.bg-transparent,
+body[data-theme="dark"] .tr-landing-model-access-panel,
+body[data-theme="dark"] .tr-landing-model-access-summary,
+body[data-theme="dark"] .tr-landing-model-track,
+body[data-theme="dark"] .tr-landing-model-access-row,
+body[data-theme="dark"] .tr-landing-model-access-row.bg-white,
+body[data-theme="dark"] .tr-landing-model-access-row.bg-transparent {
+  background: transparent !important;
+  background-color: transparent !important;
   background-image: none !important;
   border-color: transparent !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  filter: none !important;
 }
 
-html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row,
-html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row.bg-white,
-html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row,
-html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row.bg-white {
+body.theme-liquid--dark .tr-landing-model-access-row,
+body.theme-liquid--dark .tr-landing-model-access-row.bg-white,
+body.theme-liquid--dark .tr-landing-model-access-row.bg-transparent,
+body[data-theme="dark"] .tr-landing-model-access-row,
+body[data-theme="dark"] .tr-landing-model-access-row.bg-white,
+body[data-theme="dark"] .tr-landing-model-access-row.bg-transparent {
   border-style: solid !important;
   border-width: 0 0 1px 0 !important;
   border-color: transparent transparent rgba(255, 255, 255, 0.1) transparent !important;
   border-radius: 0 !important;
-  box-shadow: none !important;
 }
 
-html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row:hover,
-html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row.bg-white:hover,
-html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row:hover,
-html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row.bg-white:hover {
-  background: rgba(255, 255, 255, 0.04) !important;
-  background-color: rgba(255, 255, 255, 0.04) !important;
+body.theme-liquid--dark .tr-landing-model-access-row:hover,
+body.theme-liquid--dark .tr-landing-model-access-row:hover.bg-white,
+body.theme-liquid--dark .tr-landing-model-access-row:is(:hover),
+body[data-theme="dark"] .tr-landing-model-access-row:hover,
+body[data-theme="dark"] .tr-landing-model-access-row:is(:hover) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent transparent rgba(255, 255, 255, 0.16) transparent !important;
   box-shadow: none !important;
 }
 

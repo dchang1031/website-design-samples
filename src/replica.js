@@ -155,7 +155,7 @@ function modelRow(model) {
   };
   const color = colors[model.icon] || "#64748b";
   const letter = letters[model.icon] || (model.model_name?.[0] || "?").toUpperCase();
-  return `<div class="tr-landing-model-access-row flex w-full min-w-0 max-w-full items-center overflow-hidden rounded-[10px] border border-[#E2E8F0] bg-white px-[16px] py-[12px] text-left transition hover:border-sky-200 hover:bg-sky-50/50 lg:rounded-2xl lg:px-4 lg:py-3">
+  return `<div class="tr-landing-model-access-row flex w-full min-w-0 max-w-full items-center overflow-hidden rounded-[10px] border border-[#E2E8F0] bg-transparent px-[16px] py-[12px] text-left transition hover:border-sky-200 lg:rounded-2xl lg:px-4 lg:py-3">
     <div class="flex min-w-0 flex-1 items-center gap-3">
       <span class="tr-landing-model-access-icon h-6 w-6 flex items-center justify-center shrink-0 opacity-40 rounded-full text-[10px] font-medium text-white" style="background:${color}">${letter}</span>
       <div class="min-w-0 flex-1">
