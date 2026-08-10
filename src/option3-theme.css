@@ -627,28 +627,30 @@
 }
 
 /* Dark hero: no dark glass card behind Unified Model Access list */
-.theme-liquid.theme-liquid--dark .tr-landing-model-access-panel,
-.theme-liquid.theme-liquid--dark .tr-landing-model-access-row,
-.theme-liquid.theme-liquid--dark .tr-landing-model-access-summary,
-.theme-liquid[data-theme="dark"] .tr-landing-model-access-panel,
-.theme-liquid[data-theme="dark"] .tr-landing-model-access-row,
-.theme-liquid[data-theme="dark"] .tr-landing-model-access-summary {
-  background: transparent !important;
+html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-panel,
+html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row,
+html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-summary,
+html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-panel,
+html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row,
+html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-summary {
+  background: none !important;
+  background-color: transparent !important;
+  background-image: none !important;
   border-color: transparent !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
 
-.theme-liquid.theme-liquid--dark .tr-landing-model-access-row,
-.theme-liquid[data-theme="dark"] .tr-landing-model-access-row {
+html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row,
+html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 0 !important;
 }
 
-.theme-liquid.theme-liquid--dark .tr-landing-model-access-row:hover,
-.theme-liquid[data-theme="dark"] .tr-landing-model-access-row:hover {
-  background: rgba(255, 255, 255, 0.04) !important;
+html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row:hover,
+html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row:hover {
+  background-color: rgba(255, 255, 255, 0.04) !important;
 }
 
 .theme-liquid.theme-liquid--dark .tr-landing-hero-title,
