@@ -620,17 +620,20 @@
   ) !important;
 }
 
-/* Dark hero: strip all glass plates from Unified Model Access list */
+/* Dark hero: strip all glass plates + Tailwind bg-white from Unified Model Access */
 html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-panel,
 html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row,
 html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-summary,
+html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-panel .bg-white,
+html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row.bg-white,
 html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-panel,
 html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row,
-html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-summary {
+html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-summary,
+html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-panel .bg-white,
+html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row.bg-white {
   background: rgba(0, 0, 0, 0) !important;
   background-color: rgba(0, 0, 0, 0) !important;
   background-image: none !important;
-  border: 0 !important;
   border-color: transparent !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
@@ -638,14 +641,20 @@ html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-summary {
 }
 
 html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row,
-html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row.bg-white,
+html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row,
+html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row.bg-white {
+  border-style: solid !important;
+  border-width: 0 0 1px 0 !important;
+  border-color: transparent transparent rgba(255, 255, 255, 0.1) transparent !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
 
 html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row:hover,
-html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row:hover {
+html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row.bg-white:hover,
+html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row:hover,
+html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row.bg-white:hover {
   background: rgba(255, 255, 255, 0.04) !important;
   background-color: rgba(255, 255, 255, 0.04) !important;
   box-shadow: none !important;
