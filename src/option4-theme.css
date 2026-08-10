@@ -9,6 +9,7 @@
   --sic-line: rgba(0, 0, 0, 0.16);
   --sic-line-strong: rgba(0, 0, 0, 0.32);
   --sic-sans: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --sic-display: "Barlow Condensed", "Helvetica Neue", Arial, sans-serif;
   --sic-measure: 1360px;
   --sic-gutter: clamp(28px, 4vw, 64px);
   color-scheme: light;
@@ -91,10 +92,10 @@
 }
 
 .theme-sic .site-header .brand {
-  font-family: var(--sic-sans);
+  font-family: var(--sic-display);
   font-weight: 300;
-  letter-spacing: -0.03em;
-  font-size: 22px;
+  letter-spacing: -0.02em;
+  font-size: 26px;
 }
 
 .theme-sic .site-header .brand__mark {
@@ -155,35 +156,39 @@
   background: var(--sic-line) !important;
 }
 
-/* Typography — thin sans, accent headlines */
+/* Typography — condensed thin blue titles + subtitles */
 .theme-sic .tr-landing-hero-title,
 .theme-sic .tr-landing-oneapi-title,
 .theme-sic .tr-landing-enterprise-title,
 .theme-sic .tr-landing-faq-title,
+.theme-sic .tr-landing-section-title,
 .theme-sic .tr-landing-cta-title,
 .theme-sic .tr-landing-logo-wall-title,
-.theme-sic h2[class*="tr-landing-"] {
-  font-family: var(--sic-sans) !important;
-  font-weight: 300 !important;
-  letter-spacing: -0.04em !important;
-  line-height: 1.02 !important;
+.theme-sic h2[class*="tr-landing-"],
+.theme-sic h1[class*="tr-landing-"] {
+  font-family: var(--sic-display) !important;
+  font-weight: 200 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 0.95 !important;
   color: var(--sic-accent) !important;
   max-width: none !important;
-  font-size: clamp(40px, 6.4vw, 68px) !important;
+  font-size: clamp(52px, 8.2vw, 92px) !important;
+  text-transform: none;
 }
 
 .theme-sic .tr-landing-enterprise-card-title,
+.theme-sic .tr-landing-faq-help-title,
 .theme-sic h3[class*="tr-landing-"] {
-  font-family: var(--sic-sans) !important;
-  font-weight: 300 !important;
-  letter-spacing: -0.03em !important;
-  color: var(--sic-ink) !important;
-  font-size: clamp(26px, 3.4vw, 38px) !important;
-  line-height: 1.15 !important;
+  font-family: var(--sic-display) !important;
+  font-weight: 200 !important;
+  letter-spacing: -0.015em !important;
+  color: var(--sic-accent) !important;
+  font-size: clamp(34px, 4.2vw, 48px) !important;
+  line-height: 1.05 !important;
 }
 
 .theme-sic .tr-landing-logo-wall-title {
-  font-size: clamp(36px, 5vw, 56px) !important;
+  font-size: clamp(48px, 7vw, 80px) !important;
   text-align: left !important;
   width: 100%;
 }
@@ -197,16 +202,16 @@
 .theme-sic p[class*="text-[#45474D]"],
 .theme-sic p[class*="text-[#45474d]"],
 .theme-sic [class*="text-slate-500"] {
-  color: var(--sic-muted) !important;
-  font-family: var(--sic-sans);
+  color: var(--sic-accent) !important;
+  font-family: var(--sic-display) !important;
   font-weight: 300 !important;
-  font-size: 17px !important;
-  line-height: 1.35 !important;
+  font-size: clamp(20px, 2.4vw, 28px) !important;
+  line-height: 1.2 !important;
   letter-spacing: -0.01em;
 }
 
 .theme-sic [class*="text-[#121317]"] {
-  color: var(--sic-ink) !important;
+  color: var(--sic-accent) !important;
 }
 
 .theme-sic [class*="text-[#0086FF]"],
@@ -458,7 +463,7 @@
 }
 
 .o4-draw--trend {
-  height: clamp(240px, 40vw, 420px);
+  height: clamp(280px, 44vw, 520px);
 }
 
 .o4-draw__path {
@@ -468,13 +473,24 @@
   stroke-linejoin: round;
 }
 
-.o4-draw--key .o4-draw__path {
+.o4-draw--key .o4-draw__path,
+.o4-draw--trend .o4-draw__path {
   stroke: rgba(42, 46, 205, 0.07);
   stroke-width: 16;
 }
 
-.o4-draw--trend .o4-draw__path {
-  stroke-width: 1.8;
+.o4-draw--trend .o4-draw__axis {
+  fill: none;
+  stroke: rgba(42, 46, 205, 0.05);
+  stroke-width: 3;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.o4-draw--trend .o4-draw__grid {
+  fill: none;
+  stroke: rgba(42, 46, 205, 0.035);
+  stroke-width: 1.5;
 }
 
 @media (prefers-reduced-motion: reduce) {

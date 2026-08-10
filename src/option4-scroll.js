@@ -49,14 +49,23 @@
   trendWrap.className = "o4-draw-layer";
   trendWrap.setAttribute("aria-hidden", "true");
   trendWrap.innerHTML = `
-    <svg class="o4-draw o4-draw--trend" viewBox="0 0 900 420" preserveAspectRatio="xMidYMid meet">
+    <svg class="o4-draw o4-draw--trend" viewBox="0 0 960 480" preserveAspectRatio="xMidYMid meet">
+      <!-- Chart frame -->
+      <path class="o4-draw__axis" d="M 70 40 V 420 H 900" />
+      <path class="o4-draw__grid" d="M 70 340 H 900 M 70 260 H 900 M 70 180 H 900 M 70 100 H 900" />
+      <!-- Rising line-chart series ending in an arrow tip -->
       <path class="o4-draw__path" data-trend-path pathLength="1"
-        d="M 40 360
-           C 120 350, 160 300, 220 270
-           S 320 240, 380 200
-           S 480 150, 540 130
-           S 660 90, 740 70
-           L 860 40" />
+        d="M 95 390
+           L 210 350
+           L 320 355
+           L 430 275
+           L 545 245
+           L 655 155
+           L 770 125
+           L 860 55
+           L 800 78
+           M 860 55
+           L 818 115" />
     </svg>
   `;
   enterprise.appendChild(trendWrap);
