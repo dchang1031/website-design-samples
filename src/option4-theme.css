@@ -193,15 +193,10 @@
   width: 100%;
 }
 
+/* Short subtitles stay blue + condensed */
 .theme-sic .tr-landing-hero-subtitle,
 .theme-sic .tr-landing-hero-tagline,
-.theme-sic .tr-landing-oneapi-text,
-.theme-sic .tr-landing-enterprise-text,
-.theme-sic .tr-landing-hero-metric-label,
-.theme-sic .tr-landing-enterprise-card-desc,
-.theme-sic p[class*="text-[#45474D]"],
-.theme-sic p[class*="text-[#45474d]"],
-.theme-sic [class*="text-slate-500"] {
+.theme-sic .tr-landing-hero-metric-label {
   color: var(--sic-accent) !important;
   font-family: var(--sic-display) !important;
   font-weight: 300 !important;
@@ -217,6 +212,25 @@
   font-size: clamp(28px, 3vw, 40px) !important;
   letter-spacing: -0.02em;
   line-height: 1 !important;
+}
+
+/* Body paragraphs — black */
+.theme-sic .tr-landing-oneapi-text,
+.theme-sic .tr-landing-enterprise-text,
+.theme-sic .tr-landing-enterprise-card-desc,
+.theme-sic .tr-landing-model-access-summary p,
+.theme-sic .tr-landing-faq-section p,
+.theme-sic .tr-landing-cta-section p,
+.theme-sic .tr-landing-footer p,
+.theme-sic p[class*="text-[#45474D]"],
+.theme-sic p[class*="text-[#45474d]"],
+.theme-sic [class*="text-slate-500"] {
+  color: var(--sic-ink) !important;
+  font-family: var(--sic-sans) !important;
+  font-weight: 300 !important;
+  font-size: 17px !important;
+  line-height: 1.45 !important;
+  letter-spacing: -0.01em;
 }
 
 .theme-sic [class*="text-[#0086FF]"],
