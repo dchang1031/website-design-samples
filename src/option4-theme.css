@@ -55,13 +55,12 @@
   margin-right: auto !important;
 }
 
-.theme-sic .tr-landing-logo-wall,
 .theme-sic .tr-landing-oneapi-section,
 .theme-sic .tr-landing-enterprise-section,
 .theme-sic .tr-landing-faq-section,
 .theme-sic .tr-landing-cta-section,
-.theme-sic section[class*="tr-landing-"]:not(.tr-landing-hero-section),
-.theme-sic .bg-white:not(.tr-landing-hero-section) {
+.theme-sic section[class*="tr-landing-"]:not(.tr-landing-hero-section):not(.tr-landing-logo-wall),
+.theme-sic .bg-white:not(.tr-landing-hero-section):not(.tr-landing-logo-wall) {
   background: var(--sic-bg) !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
