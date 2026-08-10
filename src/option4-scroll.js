@@ -201,6 +201,7 @@
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   const stage = document.querySelector("[data-hero-parallax]");
+  const hero = document.querySelector(".tr-landing-hero-section");
   if (!stage) return;
 
   const layers = [...stage.querySelectorAll("[data-parallax-speed]")].map((el) => ({
@@ -216,9 +217,17 @@
   const paint = () => {
     ticking = false;
     const y = latestY;
+    // Amplify motion while the hero is in view, then ease off.
+    let boost = 1;
+    if (hero) {
+      const rect = hero.getBoundingClientRect();
+      const heroTravel = Math.max(rect.height, 1);
+      const progress = Math.min(1, Math.max(0, -rect.top / heroTravel));
+      boost = 1 + progress * 0.85;
+    }
     for (const layer of layers) {
-      const ty = y * layer.speed;
-      const tx = y * layer.driftX;
+      const ty = y * layer.speed * boost;
+      const tx = y * layer.driftX * boost;
       layer.el.style.transform = `translate3d(${tx.toFixed(2)}px, ${ty.toFixed(2)}px, 0)`;
     }
   };

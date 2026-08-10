@@ -412,7 +412,7 @@
 .theme-sic a[class*="bg-[#0086ff]"] {
   background: var(--sic-accent) !important;
   border: 1px solid var(--sic-accent) !important;
-  color: #fcfcfc !important;
+  color: #ffffff !important;
   border-radius: 2px !important;
   box-shadow: none !important;
   min-height: 36px !important;
@@ -425,13 +425,19 @@
 
 .theme-sic .tr-landing-hero-secondary-button,
 .theme-sic .tr-landing-cta-secondary {
-  background: transparent !important;
-  border: 1px solid var(--sic-line-strong) !important;
-  color: var(--sic-ink) !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1px solid var(--sic-accent) !important;
+  color: var(--sic-accent) !important;
   border-radius: 2px !important;
   min-height: 36px !important;
   height: auto !important;
   padding: 8px 14px !important;
+}
+
+.theme-sic .tr-landing-hero-secondary-button:hover,
+.theme-sic .tr-landing-cta-secondary:hover {
+  background: #f3f4ff !important;
 }
 
 /* Logo wall — open row, uniform logo size */
@@ -617,7 +623,7 @@
 
 .theme-sic .hero-parallax {
   position: absolute;
-  inset: -14% -10% -22%;
+  inset: -28% -18% -40%;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
