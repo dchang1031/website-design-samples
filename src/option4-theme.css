@@ -716,9 +716,13 @@
 .theme-sic .tr-landing-logo-wall.bg-white {
   position: relative;
   border-top: 0 !important;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 72px, #ffffff 100%) !important;
-  background-color: transparent !important;
+  background-color: #ffffff !important;
+  background-image: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    #ffffff 88px,
+    #ffffff 100%
+  ) !important;
   padding-top: clamp(40px, 6vw, 72px) !important;
 }
 
