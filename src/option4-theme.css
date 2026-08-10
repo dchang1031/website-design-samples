@@ -193,8 +193,7 @@
   width: 100%;
 }
 
-/* Short subtitles stay blue + condensed */
-.theme-sic .tr-landing-hero-subtitle,
+/* Short display labels that stay blue */
 .theme-sic .tr-landing-hero-tagline,
 .theme-sic .tr-landing-hero-metric-label {
   color: var(--sic-accent) !important;
@@ -214,7 +213,8 @@
   line-height: 1 !important;
 }
 
-/* Body paragraphs — black */
+/* Body text — black (not titles) */
+.theme-sic .tr-landing-hero-subtitle,
 .theme-sic .tr-landing-oneapi-text,
 .theme-sic .tr-landing-enterprise-text,
 .theme-sic .tr-landing-enterprise-card-desc,
@@ -225,7 +225,7 @@
 .theme-sic p[class*="text-[#45474D]"],
 .theme-sic p[class*="text-[#45474d]"],
 .theme-sic [class*="text-slate-500"] {
-  color: var(--sic-ink) !important;
+  color: #000000 !important;
   font-family: var(--sic-sans) !important;
   font-weight: 300 !important;
   font-size: 17px !important;
