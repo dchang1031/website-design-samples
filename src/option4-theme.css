@@ -193,8 +193,7 @@
   width: 100%;
 }
 
-/* Short display labels that stay blue */
-.theme-sic .tr-landing-hero-tagline,
+/* Metric labels can stay accent; values too */
 .theme-sic .tr-landing-hero-metric-label {
   color: var(--sic-accent) !important;
   font-family: var(--sic-display) !important;
@@ -213,8 +212,13 @@
   line-height: 1 !important;
 }
 
-/* Body text — black (not titles) */
+/*
+  Body copy must be black. Titles (h1–h3) stay blue above.
+  Broad + specific overrides so Tailwind/inline gray/blue cannot win.
+*/
+.theme-sic p,
 .theme-sic .tr-landing-hero-subtitle,
+.theme-sic .tr-landing-hero-tagline,
 .theme-sic .tr-landing-oneapi-text,
 .theme-sic .tr-landing-enterprise-text,
 .theme-sic .tr-landing-enterprise-card-desc,
@@ -222,10 +226,21 @@
 .theme-sic .tr-landing-faq-section p,
 .theme-sic .tr-landing-cta-section p,
 .theme-sic .tr-landing-footer p,
-.theme-sic p[class*="text-[#45474D]"],
-.theme-sic p[class*="text-[#45474d]"],
-.theme-sic [class*="text-slate-500"] {
+.theme-sic .tr-landing-hero-policy,
+.theme-sic .tr-landing-hero-url-text,
+.theme-sic [class*="text-[#45474D]"],
+.theme-sic [class*="text-[#45474d]"],
+.theme-sic [class*="text-slate-500"],
+.theme-sic [class*="text-slate-600"],
+.theme-sic [class*="text-black"] {
   color: #000000 !important;
+}
+
+.theme-sic p,
+.theme-sic .tr-landing-hero-subtitle,
+.theme-sic .tr-landing-oneapi-text,
+.theme-sic .tr-landing-enterprise-text,
+.theme-sic .tr-landing-enterprise-card-desc {
   font-family: var(--sic-sans) !important;
   font-weight: 300 !important;
   font-size: 17px !important;
@@ -233,12 +248,14 @@
   letter-spacing: -0.01em;
 }
 
-.theme-sic [class*="text-[#0086FF]"],
-.theme-sic [class*="text-[#0086ff]"],
+/* Links inside body copy may stay accent */
+.theme-sic p a,
 .theme-sic .tr-landing-model-access-action,
 .theme-sic .tr-landing-hero-policy-link,
 .theme-sic .tr-landing-section-link,
-.theme-sic .tr-landing-faq-link {
+.theme-sic .tr-landing-faq-link,
+.theme-sic a[class*="text-[#0086FF]"],
+.theme-sic a[class*="text-[#0086ff]"] {
   color: var(--sic-accent) !important;
 }
 
