@@ -620,14 +620,29 @@
   ) !important;
 }
 
-/* Dark hero: no glass panel / frosted row plates on Unified Model Access */
+/* Dark hero: glass panel backdrop for Unified Model Access (parity with light) */
 body.theme-liquid--dark .tr-landing-model-access-panel,
+body[data-theme="dark"] .tr-landing-model-access-panel {
+  border-radius: 28px !important;
+  background: linear-gradient(
+    160deg,
+    rgba(36, 50, 74, 0.78) 0%,
+    rgba(22, 32, 48, 0.55) 100%
+  ) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow:
+    var(--glass-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+}
+
+/* Rows stay clear inside the panel — no stacked frosted plates */
 body.theme-liquid--dark .tr-landing-model-access-summary,
 body.theme-liquid--dark .tr-landing-model-track,
 body.theme-liquid--dark .tr-landing-model-access-row,
 body.theme-liquid--dark .tr-landing-model-access-row.bg-white,
 body.theme-liquid--dark .tr-landing-model-access-row.bg-transparent,
-body[data-theme="dark"] .tr-landing-model-access-panel,
 body[data-theme="dark"] .tr-landing-model-access-summary,
 body[data-theme="dark"] .tr-landing-model-track,
 body[data-theme="dark"] .tr-landing-model-access-row,
@@ -636,11 +651,9 @@ body[data-theme="dark"] .tr-landing-model-access-row.bg-transparent {
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
-  border-color: transparent !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  filter: none !important;
 }
 
 body.theme-liquid--dark .tr-landing-model-access-row,
@@ -656,12 +669,9 @@ body[data-theme="dark"] .tr-landing-model-access-row.bg-transparent {
 }
 
 body.theme-liquid--dark .tr-landing-model-access-row:hover,
-body.theme-liquid--dark .tr-landing-model-access-row:hover.bg-white,
-body.theme-liquid--dark .tr-landing-model-access-row:is(:hover),
-body[data-theme="dark"] .tr-landing-model-access-row:hover,
-body[data-theme="dark"] .tr-landing-model-access-row:is(:hover) {
-  background: transparent !important;
-  background-color: transparent !important;
+body[data-theme="dark"] .tr-landing-model-access-row:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+  background-color: rgba(255, 255, 255, 0.04) !important;
   background-image: none !important;
   border-color: transparent transparent rgba(255, 255, 255, 0.16) transparent !important;
   box-shadow: none !important;
