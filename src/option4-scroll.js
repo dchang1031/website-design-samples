@@ -195,52 +195,73 @@
 
 /**
  * Option 4 — multi-layer hero parallax on white background.
- * Each shape moves at a different rate as the page scrolls.
+ * Scroll sets targets; a continuous rAF loop lerps transforms for smooth motion.
  */
 (() => {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   const stage = document.querySelector("[data-hero-parallax]");
-  const hero = document.querySelector(".tr-landing-hero-section");
   if (!stage) return;
 
   const layers = [...stage.querySelectorAll("[data-parallax-speed]")].map((el) => ({
     el,
     speed: Number(el.dataset.parallaxSpeed) || 0.2,
     driftX: Number(el.dataset.parallaxX) || 0,
+    x: 0,
+    y: 0,
+    tx: 0,
+    ty: 0,
   }));
   if (!layers.length) return;
 
-  let ticking = false;
-  let latestY = window.scrollY;
+  // Higher = snappier; lower = silkier. ~0.12 feels smooth without lag.
+  const ease = 0.12;
+  const settle = 0.08;
 
-  const paint = () => {
-    ticking = false;
-    const y = latestY;
-    // Amplify motion while the hero is in view, then ease off.
-    let boost = 1;
-    if (hero) {
-      const rect = hero.getBoundingClientRect();
-      const heroTravel = Math.max(rect.height, 1);
-      const progress = Math.min(1, Math.max(0, -rect.top / heroTravel));
-      boost = 1 + progress * 0.85;
-    }
+  const readTargets = () => {
+    const y = window.scrollY || window.pageYOffset || 0;
     for (const layer of layers) {
-      const ty = y * layer.speed * boost;
-      const tx = y * layer.driftX * boost;
-      layer.el.style.transform = `translate3d(${tx.toFixed(2)}px, ${ty.toFixed(2)}px, 0)`;
+      layer.tx = y * layer.driftX;
+      layer.ty = y * layer.speed;
     }
   };
 
-  const onScroll = () => {
-    latestY = window.scrollY || window.pageYOffset || 0;
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(paint);
+  const tick = () => {
+    let moving = false;
+    for (const layer of layers) {
+      layer.x += (layer.tx - layer.x) * ease;
+      layer.y += (layer.ty - layer.y) * ease;
+      if (Math.abs(layer.tx - layer.x) > settle || Math.abs(layer.ty - layer.y) > settle) {
+        moving = true;
+      } else {
+        layer.x = layer.tx;
+        layer.y = layer.ty;
+      }
+      layer.el.style.transform = `translate3d(${layer.x.toFixed(2)}px, ${layer.y.toFixed(2)}px, 0)`;
+    }
+    if (moving) {
+      requestAnimationFrame(tick);
+    } else {
+      running = false;
     }
   };
 
-  paint();
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll, { passive: true });
+  let running = false;
+  const kick = () => {
+    readTargets();
+    if (!running) {
+      running = true;
+      requestAnimationFrame(tick);
+    }
+  };
+
+  readTargets();
+  for (const layer of layers) {
+    layer.x = layer.tx;
+    layer.y = layer.ty;
+    layer.el.style.transform = `translate3d(${layer.x.toFixed(2)}px, ${layer.y.toFixed(2)}px, 0)`;
+  }
+
+  window.addEventListener("scroll", kick, { passive: true });
+  window.addEventListener("resize", kick, { passive: true });
 })();

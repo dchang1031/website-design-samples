@@ -634,6 +634,8 @@
   position: absolute;
   will-change: transform;
   transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
 }
 
 .theme-sic .hero-parallax__shape img {
@@ -643,6 +645,8 @@
   object-fit: contain;
   user-select: none;
   -webkit-user-drag: none;
+  pointer-events: none;
+  backface-visibility: hidden;
 }
 
 .theme-sic .hero-parallax__shape--glow {
