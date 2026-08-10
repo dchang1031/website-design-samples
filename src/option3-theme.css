@@ -615,10 +615,8 @@
   color: var(--glass-text);
 }
 
-.theme-liquid.theme-liquid--dark .tr-landing-model-access-panel,
 .theme-liquid.theme-liquid--dark .tr-landing-enterprise-card,
 .theme-liquid.theme-liquid--dark .tr-landing-cta-section > div,
-.theme-liquid[data-theme="dark"] .tr-landing-model-access-panel,
 .theme-liquid[data-theme="dark"] .tr-landing-enterprise-card,
 .theme-liquid[data-theme="dark"] .tr-landing-cta-section > div {
   background: linear-gradient(
@@ -626,6 +624,31 @@
     rgba(36, 50, 74, 0.78) 0%,
     rgba(22, 32, 48, 0.55) 100%
   ) !important;
+}
+
+/* Dark hero: no dark glass card behind Unified Model Access list */
+.theme-liquid.theme-liquid--dark .tr-landing-model-access-panel,
+.theme-liquid.theme-liquid--dark .tr-landing-model-access-row,
+.theme-liquid.theme-liquid--dark .tr-landing-model-access-summary,
+.theme-liquid[data-theme="dark"] .tr-landing-model-access-panel,
+.theme-liquid[data-theme="dark"] .tr-landing-model-access-row,
+.theme-liquid[data-theme="dark"] .tr-landing-model-access-summary {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.theme-liquid.theme-liquid--dark .tr-landing-model-access-row,
+.theme-liquid[data-theme="dark"] .tr-landing-model-access-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 0 !important;
+}
+
+.theme-liquid.theme-liquid--dark .tr-landing-model-access-row:hover,
+.theme-liquid[data-theme="dark"] .tr-landing-model-access-row:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
 }
 
 .theme-liquid.theme-liquid--dark .tr-landing-hero-title,
