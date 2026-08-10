@@ -286,8 +286,7 @@
   color: #ffffff !important;
 }
 
-/* Kill card UI everywhere */
-.theme-sic .tr-landing-model-access-panel,
+/* Kill card UI everywhere (except model-access panel container) */
 .theme-sic .tr-landing-hero-url-box,
 .theme-sic .tr-landing-model-access-row,
 .theme-sic .tr-landing-model-access-summary,
@@ -336,15 +335,32 @@
   width: 100% !important;
 }
 
-.theme-sic .tr-landing-model-access-panel {
-  border-top: 1px solid var(--sic-line) !important;
+.theme-sic .tr-landing-model-access-panel,
+.theme-sic .tr-landing-model-access-panel.bg-white {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1px solid var(--sic-line) !important;
+  border-radius: 16px !important;
+  box-shadow: none !important;
   padding-top: 28px !important;
+  padding-bottom: 28px !important;
+  padding-left: 40px !important;
+  padding-right: 40px !important;
 }
 
-.theme-sic .tr-landing-model-access-row {
+.theme-sic .tr-landing-model-access-row,
+.theme-sic .tr-landing-model-access-row.bg-white {
   border-bottom: 1px solid var(--sic-line) !important;
-  padding: 14px 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-top: 0 !important;
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
   border-radius: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 .theme-sic .tr-landing-model-access-row:hover {
@@ -356,12 +372,36 @@
   padding: 16px 0 0 !important;
 }
 
-.theme-sic .tr-landing-hero-url-box {
-  border-bottom: 1px solid var(--sic-line) !important;
+/* URL row: plain text + copy, no container/backdrop */
+.theme-sic .tr-landing-hero-url-box,
+.theme-sic .tr-landing-hero-url-box.bg-white {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
   border-radius: 0 !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+  padding: 0 !important;
   gap: 12px !important;
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+.theme-sic .tr-landing-hero-url-text {
+  background: transparent !important;
+}
+
+.theme-sic .tr-landing-hero-copy-button,
+.theme-sic .tr-landing-hero-copy-button.bg-white {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 1px solid var(--sic-line-strong) !important;
+  color: var(--sic-ink) !important;
+  border-radius: 2px !important;
+  min-height: 36px !important;
+  height: auto !important;
+  padding: 8px 14px !important;
+  box-shadow: none !important;
 }
 
 .theme-sic .tr-landing-hero-primary-button,
@@ -384,8 +424,7 @@
 }
 
 .theme-sic .tr-landing-hero-secondary-button,
-.theme-sic .tr-landing-cta-secondary,
-.theme-sic .tr-landing-hero-copy-button {
+.theme-sic .tr-landing-cta-secondary {
   background: transparent !important;
   border: 1px solid var(--sic-line-strong) !important;
   color: var(--sic-ink) !important;
@@ -607,7 +646,7 @@
   height: auto;
   aspect-ratio: 16 / 9;
   z-index: 1;
-  opacity: 0.72;
+  opacity: 0.9;
 }
 
 .theme-sic .hero-parallax__shape--wave {
@@ -617,7 +656,7 @@
   height: auto;
   aspect-ratio: 16 / 9;
   z-index: 2;
-  opacity: 0.7;
+  opacity: 0.88;
 }
 
 .theme-sic .hero-parallax__shape--bulb {
@@ -627,7 +666,7 @@
   height: auto;
   aspect-ratio: 3 / 4;
   z-index: 3;
-  opacity: 0.68;
+  opacity: 0.86;
 }
 
 .theme-sic .hero-parallax__veil {
@@ -635,7 +674,7 @@
   inset: 0;
   z-index: 4;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 40%, rgba(255, 255, 255, 0.55) 100%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.35) 100%);
 }
 
 @media (max-width: 900px) {
