@@ -210,8 +210,13 @@
   letter-spacing: -0.01em;
 }
 
-.theme-sic [class*="text-[#121317]"] {
+.theme-sic .tr-landing-hero-metric-value {
+  font-family: var(--sic-display) !important;
+  font-weight: 200 !important;
   color: var(--sic-accent) !important;
+  font-size: clamp(28px, 3vw, 40px) !important;
+  letter-spacing: -0.02em;
+  line-height: 1 !important;
 }
 
 .theme-sic [class*="text-[#0086FF]"],
