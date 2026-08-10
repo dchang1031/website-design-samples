@@ -8,12 +8,12 @@ export default defineConfig({
   server: {
     host: true,
     port: 5173,
-    open: "/option-5.html",
+    open: "/option-4.html",
   },
   preview: {
     host: true,
     port: 4173,
-    open: "/option-5.html",
+    open: "/option-4.html",
   },
   build: {
     rollupOptions: {
@@ -22,7 +22,6 @@ export default defineConfig({
         option2: resolve(__dirname, "option-2.html"),
         option3: resolve(__dirname, "option-3.html"),
         option4: resolve(__dirname, "option-4.html"),
-        option5: resolve(__dirname, "option-5.html"),
       },
     },
   },

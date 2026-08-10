@@ -41,7 +41,7 @@
 }
 
 /* Narrow editorial shells */
-.theme-sic .tr-landing-hero-section > div,
+.theme-sic .tr-landing-hero-section > .tr-landing-hero-inner,
 .theme-sic .tr-landing-logo-wall > div,
 .theme-sic .tr-landing-oneapi-section > div,
 .theme-sic .tr-landing-enterprise-section > div,
@@ -55,14 +55,13 @@
   margin-right: auto !important;
 }
 
-.theme-sic .tr-landing-hero-section,
 .theme-sic .tr-landing-logo-wall,
 .theme-sic .tr-landing-oneapi-section,
 .theme-sic .tr-landing-enterprise-section,
 .theme-sic .tr-landing-faq-section,
 .theme-sic .tr-landing-cta-section,
-.theme-sic section[class*="tr-landing-"],
-.theme-sic .bg-white {
+.theme-sic section[class*="tr-landing-"]:not(.tr-landing-hero-section),
+.theme-sic .bg-white:not(.tr-landing-hero-section) {
   background: var(--sic-bg) !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
@@ -71,6 +70,10 @@
 .theme-sic .tr-landing-hero-section {
   padding-top: clamp(72px, 12vw, 140px) !important;
   padding-bottom: clamp(48px, 8vw, 96px) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
 }
 
 .theme-sic .tr-landing-logo-wall,
@@ -322,13 +325,13 @@
 }
 
 /* Hero becomes single-column editorial */
-.theme-sic .tr-landing-hero-section > div {
+.theme-sic .tr-landing-hero-section > .tr-landing-hero-inner {
   display: flex !important;
   flex-direction: column !important;
   gap: 48px !important;
 }
 
-.theme-sic .tr-landing-hero-section > div > div {
+.theme-sic .tr-landing-hero-section > .tr-landing-hero-inner > div {
   max-width: 100% !important;
   width: 100% !important;
 }
@@ -556,5 +559,107 @@
 @media (prefers-reduced-motion: reduce) {
   .o4-draw-layer {
     display: none !important;
+  }
+}
+
+/* Option 4 — white-hero parallax fluid shapes */
+.theme-sic .tr-landing-hero-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+.theme-sic .tr-landing-hero-section > .tr-landing-hero-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.theme-sic .hero-parallax {
+  position: absolute;
+  inset: -14% -10% -22%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: transparent;
+}
+
+.theme-sic .hero-parallax__shape {
+  position: absolute;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.theme-sic .hero-parallax__shape img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.theme-sic .hero-parallax__shape--glow {
+  left: -4%;
+  top: -28%;
+  width: min(115vw, 1480px);
+  height: auto;
+  aspect-ratio: 16 / 9;
+  z-index: 1;
+  opacity: 0.72;
+}
+
+.theme-sic .hero-parallax__shape--wave {
+  left: -22%;
+  top: 18%;
+  width: min(118vw, 1560px);
+  height: auto;
+  aspect-ratio: 16 / 9;
+  z-index: 2;
+  opacity: 0.7;
+}
+
+.theme-sic .hero-parallax__shape--bulb {
+  right: -16%;
+  top: -8%;
+  width: min(78vw, 980px);
+  height: auto;
+  aspect-ratio: 3 / 4;
+  z-index: 3;
+  opacity: 0.68;
+}
+
+.theme-sic .hero-parallax__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 40%, rgba(255, 255, 255, 0.55) 100%);
+}
+
+@media (max-width: 900px) {
+  .theme-sic .hero-parallax__shape--glow {
+    width: 140vw;
+    left: -28%;
+    top: -8%;
+  }
+
+  .theme-sic .hero-parallax__shape--wave {
+    width: 160vw;
+    left: -48%;
+    top: 22%;
+  }
+
+  .theme-sic .hero-parallax__shape--bulb {
+    width: 105vw;
+    right: -38%;
+    top: -4%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-sic .hero-parallax__shape {
+    transform: none !important;
   }
 }

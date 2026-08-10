@@ -49,7 +49,6 @@
             <a href="/option-2.html">[ Option 2 ]</a>
             <a href="/option-3.html">[ Option 3 ]</a>
             <a href="/option-4.html" class="is-active">[ Option 4 ]</a>
-          <a href="/option-5.html">[ Option 5 ]</a>
           </nav>
           <div class="header-actions">
             <button class="btn btn--ghost" type="button">Sign In</button>
@@ -66,7 +65,6 @@
           <a href="/option-2.html">[ Option 2 ]</a>
           <a href="/option-3.html">[ Option 3 ]</a>
           <a href="/option-4.html" class="is-active">[ Option 4 ]</a>
-          <a href="/option-5.html">[ Option 5 ]</a>
         </div>
       </div>
 
@@ -101,7 +99,20 @@
       <main class="min-h-screen">
         <!-- Hero -->
         <section class="tr-landing-hero-section bg-white px-[24px] pt-[110px] pb-[30px] lg:px-0 lg:pb-[60px] lg:pt-[124px]">
-          <div class="mx-auto grid w-full min-w-0 max-w-[1440px] gap-10 md:grid-cols-[minmax(0,1fr)_360px] md:items-center md:gap-8 lg:grid-cols-[minmax(0,1fr)_480px] lg:px-[104px] lg:gap-[100px]">
+          <div class="hero-parallax" data-hero-parallax aria-hidden="true">
+            <div class="hero-parallax__shape hero-parallax__shape--glow" data-parallax-speed="0.12" data-parallax-x="-0.02">
+              <img src="/assets/option4/option4-shape-glow.webp" alt="" draggable="false" />
+            </div>
+            <div class="hero-parallax__shape hero-parallax__shape--wave" data-parallax-speed="0.28" data-parallax-x="0.04">
+              <img src="/assets/option4/option4-shape-wave.webp" alt="" draggable="false" />
+            </div>
+            <div class="hero-parallax__shape hero-parallax__shape--bulb" data-parallax-speed="0.46" data-parallax-x="-0.06">
+              <img src="/assets/option4/option4-shape-bulb.webp" alt="" draggable="false" />
+            </div>
+            <div class="hero-parallax__veil"></div>
+          </div>
+
+          <div class="tr-landing-hero-inner mx-auto grid w-full min-w-0 max-w-[1440px] gap-10 md:grid-cols-[minmax(0,1fr)_360px] md:items-center md:gap-8 lg:grid-cols-[minmax(0,1fr)_480px] lg:px-[104px] lg:gap-[100px]">
             <div class="min-w-0 max-w-[692px]">
               <span class="tr-landing-hero-badge mb-4 inline-flex h-[30px] items-center gap-[6px] rounded-full border border-[#c9e5ff] bg-[#ebf5ff] px-[15px] text-xs tracking-[0.9px] text-[#0086ff] lg:h-8 lg:px-[14px] lg:tracking-[0.15em]">
                 <img src="/assets/icons/sparkle.svg" alt="" class="h-3 w-3" />
