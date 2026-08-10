@@ -347,9 +347,16 @@
 .theme-liquid .tr-landing-oneapi-text,
 .theme-liquid .tr-landing-enterprise-text,
 .theme-liquid .tr-landing-hero-metric-label,
-.theme-liquid p[class*="text-[#45474D]"],
-.theme-liquid p[class*="text-[#45474d]"],
-.theme-liquid [class*="text-slate-500"] {
+.theme-liquid .tr-landing-hero-url-text,
+.theme-liquid .tr-landing-hero-policy,
+.theme-liquid .tr-landing-hero-policy-text,
+.theme-liquid .tr-landing-enterprise-card-desc,
+.theme-liquid .tr-landing-faq-section p,
+.theme-liquid .tr-landing-faq-expand-icon,
+.theme-liquid [class*="text-[#45474D]"],
+.theme-liquid [class*="text-[#45474d]"],
+.theme-liquid [class*="text-slate-500"],
+.theme-liquid [class*="text-slate-600"] {
   color: var(--glass-muted) !important;
 }
 
@@ -674,4 +681,173 @@
     rgba(20, 28, 42, 0.5)
   ) !important;
   border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+/*
+  Dark theme: no black / near-black text.
+  Catches shared-nav ghost buttons + inline style="color:#121317" model rows.
+*/
+.theme-liquid.theme-liquid--dark .site-header .brand,
+.theme-liquid.theme-liquid--dark .site-header .btn--ghost,
+.theme-liquid.theme-liquid--dark .mobile-menu__drawer,
+.theme-liquid.theme-liquid--dark .mobile-menu__drawer .brand,
+.theme-liquid.theme-liquid--dark .mobile-menu__drawer a,
+.theme-liquid.theme-liquid--dark .mobile-menu__drawer .btn--ghost,
+.theme-liquid.theme-liquid--dark .menu-toggle,
+.theme-liquid[data-theme="dark"] .site-header .brand,
+.theme-liquid[data-theme="dark"] .site-header .btn--ghost,
+.theme-liquid[data-theme="dark"] .mobile-menu__drawer,
+.theme-liquid[data-theme="dark"] .mobile-menu__drawer .brand,
+.theme-liquid[data-theme="dark"] .mobile-menu__drawer a,
+.theme-liquid[data-theme="dark"] .mobile-menu__drawer .btn--ghost,
+.theme-liquid[data-theme="dark"] .menu-toggle {
+  color: var(--glass-text) !important;
+}
+
+.theme-liquid.theme-liquid--dark .site-header .btn--ghost,
+.theme-liquid.theme-liquid--dark .mobile-menu__drawer .btn--ghost,
+.theme-liquid[data-theme="dark"] .site-header .btn--ghost,
+.theme-liquid[data-theme="dark"] .mobile-menu__drawer .btn--ghost {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+.theme-liquid.theme-liquid--dark .tr-landing-model-access-model-name,
+.theme-liquid.theme-liquid--dark .tr-landing-model-access-panel span,
+.theme-liquid.theme-liquid--dark .tr-landing-hero-metric-value,
+.theme-liquid.theme-liquid--dark .tr-landing-faq-help-title,
+.theme-liquid.theme-liquid--dark .tr-landing-section-title,
+.theme-liquid.theme-liquid--dark [style*="color:#121317"],
+.theme-liquid.theme-liquid--dark [style*="color: #121317"],
+.theme-liquid.theme-liquid--dark [style*="color:#101010"],
+.theme-liquid.theme-liquid--dark [style*="color: #101010"],
+.theme-liquid.theme-liquid--dark [style*="color:#142033"],
+.theme-liquid.theme-liquid--dark [style*="color: #142033"],
+.theme-liquid[data-theme="dark"] .tr-landing-model-access-model-name,
+.theme-liquid[data-theme="dark"] .tr-landing-model-access-panel span,
+.theme-liquid[data-theme="dark"] .tr-landing-hero-metric-value,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-help-title,
+.theme-liquid[data-theme="dark"] .tr-landing-section-title,
+.theme-liquid[data-theme="dark"] [style*="color:#121317"],
+.theme-liquid[data-theme="dark"] [style*="color: #121317"],
+.theme-liquid[data-theme="dark"] [style*="color:#101010"],
+.theme-liquid[data-theme="dark"] [style*="color: #101010"],
+.theme-liquid[data-theme="dark"] [style*="color:#142033"],
+.theme-liquid[data-theme="dark"] [style*="color: #142033"] {
+  color: var(--glass-text) !important;
+}
+
+.theme-liquid.theme-liquid--dark .tr-landing-hero-url-text,
+.theme-liquid.theme-liquid--dark .tr-landing-hero-policy,
+.theme-liquid.theme-liquid--dark .tr-landing-hero-policy-text,
+.theme-liquid.theme-liquid--dark .tr-landing-hero-subtitle,
+.theme-liquid.theme-liquid--dark .tr-landing-hero-tagline,
+.theme-liquid.theme-liquid--dark .tr-landing-oneapi-text,
+.theme-liquid.theme-liquid--dark .tr-landing-enterprise-text,
+.theme-liquid.theme-liquid--dark .tr-landing-enterprise-card-desc,
+.theme-liquid.theme-liquid--dark .tr-landing-faq-section p,
+.theme-liquid.theme-liquid--dark .tr-landing-faq-expand-icon,
+.theme-liquid.theme-liquid--dark .tr-landing-cta-section p,
+.theme-liquid.theme-liquid--dark .tr-landing-footer p,
+.theme-liquid.theme-liquid--dark [class*="text-[#45474D]"],
+.theme-liquid.theme-liquid--dark [class*="text-[#45474d]"],
+.theme-liquid.theme-liquid--dark [class*="text-slate-500"],
+.theme-liquid.theme-liquid--dark [class*="text-slate-600"],
+.theme-liquid.theme-liquid--dark [style*="color:#45474D"],
+.theme-liquid.theme-liquid--dark [style*="color:#45474d"],
+.theme-liquid.theme-liquid--dark [style*="color: #45474D"],
+.theme-liquid.theme-liquid--dark [style*="color: #45474d"],
+.theme-liquid[data-theme="dark"] .tr-landing-hero-url-text,
+.theme-liquid[data-theme="dark"] .tr-landing-hero-policy,
+.theme-liquid[data-theme="dark"] .tr-landing-hero-policy-text,
+.theme-liquid[data-theme="dark"] .tr-landing-hero-subtitle,
+.theme-liquid[data-theme="dark"] .tr-landing-hero-tagline,
+.theme-liquid[data-theme="dark"] .tr-landing-oneapi-text,
+.theme-liquid[data-theme="dark"] .tr-landing-enterprise-text,
+.theme-liquid[data-theme="dark"] .tr-landing-enterprise-card-desc,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-section p,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-expand-icon,
+.theme-liquid[data-theme="dark"] .tr-landing-cta-section p,
+.theme-liquid[data-theme="dark"] .tr-landing-footer p,
+.theme-liquid[data-theme="dark"] [class*="text-[#45474D]"],
+.theme-liquid[data-theme="dark"] [class*="text-[#45474d]"],
+.theme-liquid[data-theme="dark"] [class*="text-slate-500"],
+.theme-liquid[data-theme="dark"] [class*="text-slate-600"],
+.theme-liquid[data-theme="dark"] [style*="color:#45474D"],
+.theme-liquid[data-theme="dark"] [style*="color:#45474d"],
+.theme-liquid[data-theme="dark"] [style*="color: #45474D"],
+.theme-liquid[data-theme="dark"] [style*="color: #45474d"] {
+  color: var(--glass-muted) !important;
+}
+
+/* Keep accent links readable on dark (not black, not too dim) */
+.theme-liquid.theme-liquid--dark [class*="text-[#0086FF]"],
+.theme-liquid.theme-liquid--dark [class*="text-[#0086ff]"],
+.theme-liquid.theme-liquid--dark .tr-landing-model-access-action,
+.theme-liquid.theme-liquid--dark .tr-landing-hero-policy-link,
+.theme-liquid.theme-liquid--dark .tr-landing-section-link,
+.theme-liquid.theme-liquid--dark .tr-landing-faq-link,
+.theme-liquid[data-theme="dark"] [class*="text-[#0086FF]"],
+.theme-liquid[data-theme="dark"] [class*="text-[#0086ff]"],
+.theme-liquid[data-theme="dark"] .tr-landing-model-access-action,
+.theme-liquid[data-theme="dark"] .tr-landing-hero-policy-link,
+.theme-liquid[data-theme="dark"] .tr-landing-section-link,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-link {
+  color: #7eb0ff !important;
+  -webkit-text-fill-color: #7eb0ff !important;
+}
+
+/*
+  Hard-stop black/near-black paints on dark.
+  Some Chromium builds report `color` oddly on buttons/links under color-scheme:dark;
+  set both color and -webkit-text-fill-color.
+*/
+html body.theme-liquid.theme-liquid--dark .site-header,
+html body.theme-liquid[data-theme="dark"] .site-header,
+html body.theme-liquid.theme-liquid--dark .site-header .brand,
+html body.theme-liquid[data-theme="dark"] .site-header .brand,
+html body.theme-liquid.theme-liquid--dark .site-header .btn,
+html body.theme-liquid[data-theme="dark"] .site-header .btn,
+html body.theme-liquid.theme-liquid--dark .site-header .btn--ghost,
+html body.theme-liquid[data-theme="dark"] .site-header .btn--ghost,
+html body.theme-liquid.theme-liquid--dark .site-header .nav a,
+html body.theme-liquid[data-theme="dark"] .site-header .nav a,
+html body.theme-liquid.theme-liquid--dark .site-header .nav a.is-active,
+html body.theme-liquid[data-theme="dark"] .site-header .nav a.is-active,
+html body.theme-liquid.theme-liquid--dark .site-header .nav a:hover,
+html body.theme-liquid[data-theme="dark"] .site-header .nav a:hover,
+html body.theme-liquid.theme-liquid--dark .theme-toggle,
+html body.theme-liquid[data-theme="dark"] .theme-toggle,
+html body.theme-liquid.theme-liquid--dark .tr-landing-hero-copy-button,
+html body.theme-liquid[data-theme="dark"] .tr-landing-hero-copy-button,
+html body.theme-liquid.theme-liquid--dark .tr-landing-hero-secondary-button,
+html body.theme-liquid[data-theme="dark"] .tr-landing-hero-secondary-button,
+html body.theme-liquid.theme-liquid--dark .tr-landing-cta-secondary,
+html body.theme-liquid[data-theme="dark"] .tr-landing-cta-secondary,
+html body.theme-liquid.theme-liquid--dark [class*="text-[#333]"],
+html body.theme-liquid[data-theme="dark"] [class*="text-[#333]"] {
+  color: #eef3fb !important;
+  -webkit-text-fill-color: #eef3fb !important;
+}
+
+html body.theme-liquid.theme-liquid--dark .site-header .nav a.is-active,
+html body.theme-liquid[data-theme="dark"] .site-header .nav a.is-active,
+html body.theme-liquid.theme-liquid--dark .site-header .nav a:hover,
+html body.theme-liquid[data-theme="dark"] .site-header .nav a:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+html body.theme-liquid.theme-liquid--dark .site-header .btn--filled,
+html body.theme-liquid[data-theme="dark"] .site-header .btn--filled {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+html body.theme-liquid.theme-liquid--dark .tr-landing-faq-expand-icon,
+html body.theme-liquid[data-theme="dark"] .tr-landing-faq-expand-icon {
+  color: #a8b3c7 !important;
+  -webkit-text-fill-color: #a8b3c7 !important;
 }
