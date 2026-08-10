@@ -190,11 +190,8 @@
   background: transparent !important;
 }
 
-/* Shared glass recipe */
-.theme-liquid .tr-landing-model-access-panel,
+/* Shared glass recipe (light theme only for model-access plates) */
 .theme-liquid .tr-landing-hero-url-box,
-.theme-liquid .tr-landing-model-access-row,
-.theme-liquid .tr-landing-model-access-summary,
 .theme-liquid .tr-landing-logo-card,
 .theme-liquid .tr-landing-enterprise-card,
 .theme-liquid .tr-landing-cta-section > div,
@@ -203,7 +200,10 @@
 .theme-liquid .tr-landing-section-badge,
 .theme-liquid .tr-landing-hero-secondary-button,
 .theme-liquid .tr-landing-cta-secondary,
-.theme-liquid .tr-landing-hero-copy-button {
+.theme-liquid .tr-landing-hero-copy-button,
+.theme-liquid:not(.theme-liquid--dark):not([data-theme="dark"]) .tr-landing-model-access-panel,
+.theme-liquid:not(.theme-liquid--dark):not([data-theme="dark"]) .tr-landing-model-access-row,
+.theme-liquid:not(.theme-liquid--dark):not([data-theme="dark"]) .tr-landing-model-access-summary {
   background: linear-gradient(
     155deg,
     rgba(255, 255, 255, 0.62) 0%,
@@ -218,9 +218,9 @@
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
 }
 
-.theme-liquid .tr-landing-model-access-panel,
 .theme-liquid .tr-landing-enterprise-card,
-.theme-liquid .tr-landing-cta-section > div {
+.theme-liquid .tr-landing-cta-section > div,
+.theme-liquid:not(.theme-liquid--dark):not([data-theme="dark"]) .tr-landing-model-access-panel {
   border-radius: 24px !important;
   background: linear-gradient(
     160deg,
@@ -230,7 +230,7 @@
   ) !important;
 }
 
-.theme-liquid .tr-landing-model-access-panel {
+.theme-liquid:not(.theme-liquid--dark):not([data-theme="dark"]) .tr-landing-model-access-panel {
   border-radius: 28px !important;
 }
 
@@ -239,13 +239,13 @@
   background: rgba(255, 255, 255, 0.55) !important;
 }
 
-.theme-liquid .tr-landing-model-access-row {
+.theme-liquid:not(.theme-liquid--dark):not([data-theme="dark"]) .tr-landing-model-access-row {
   border-radius: 16px !important;
   background: rgba(255, 255, 255, 0.38) !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
 }
 
-.theme-liquid .tr-landing-model-access-row:hover {
+.theme-liquid:not(.theme-liquid--dark):not([data-theme="dark"]) .tr-landing-model-access-row:hover {
   background: rgba(255, 255, 255, 0.62) !important;
   border-color: rgba(255, 255, 255, 0.8) !important;
 }
@@ -577,10 +577,7 @@
 .theme-liquid[data-theme="dark"] .theme-toggle__icon--sun { display: none; }
 .theme-liquid[data-theme="dark"] .theme-toggle__icon--moon { display: inline; }
 
-.theme-liquid.theme-liquid--dark .tr-landing-model-access-panel,
 .theme-liquid.theme-liquid--dark .tr-landing-hero-url-box,
-.theme-liquid.theme-liquid--dark .tr-landing-model-access-row,
-.theme-liquid.theme-liquid--dark .tr-landing-model-access-summary,
 .theme-liquid.theme-liquid--dark .tr-landing-logo-card,
 .theme-liquid.theme-liquid--dark .tr-landing-enterprise-card,
 .theme-liquid.theme-liquid--dark .tr-landing-cta-section > div,
@@ -590,10 +587,7 @@
 .theme-liquid.theme-liquid--dark .tr-landing-hero-secondary-button,
 .theme-liquid.theme-liquid--dark .tr-landing-cta-secondary,
 .theme-liquid.theme-liquid--dark .tr-landing-hero-copy-button,
-.theme-liquid[data-theme="dark"] .tr-landing-model-access-panel,
 .theme-liquid[data-theme="dark"] .tr-landing-hero-url-box,
-.theme-liquid[data-theme="dark"] .tr-landing-model-access-row,
-.theme-liquid[data-theme="dark"] .tr-landing-model-access-summary,
 .theme-liquid[data-theme="dark"] .tr-landing-logo-card,
 .theme-liquid[data-theme="dark"] .tr-landing-enterprise-card,
 .theme-liquid[data-theme="dark"] .tr-landing-cta-section > div,
@@ -626,16 +620,17 @@
   ) !important;
 }
 
-/* Dark hero: no dark glass card behind Unified Model Access list */
+/* Dark hero: strip all glass plates from Unified Model Access list */
 html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-panel,
 html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row,
 html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-summary,
 html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-panel,
 html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row,
 html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-summary {
-  background: none !important;
-  background-color: transparent !important;
+  background: rgba(0, 0, 0, 0) !important;
+  background-color: rgba(0, 0, 0, 0) !important;
   background-image: none !important;
+  border: 0 !important;
   border-color: transparent !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
@@ -646,11 +641,14 @@ html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row,
 html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 html body.theme-liquid.theme-liquid--dark .tr-landing-model-access-row:hover,
 html body.theme-liquid[data-theme="dark"] .tr-landing-model-access-row:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
   background-color: rgba(255, 255, 255, 0.04) !important;
+  box-shadow: none !important;
 }
 
 .theme-liquid.theme-liquid--dark .tr-landing-hero-title,
