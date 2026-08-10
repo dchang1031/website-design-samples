@@ -259,6 +259,30 @@
   color: var(--sic-accent) !important;
 }
 
+/* Promo banner stays white even when body copy is forced black */
+.theme-sic .promo-banner,
+.theme-sic .promo-banner p,
+.theme-sic .promo-banner span,
+.theme-sic .promo-banner a,
+.theme-sic .promo-banner button,
+.theme-sic .promo-banner p a,
+.theme-sic .promo-banner [data-promo-badge],
+.theme-sic .promo-banner [data-promo-mobile],
+.theme-sic .promo-banner [data-promo-slide] * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.theme-sic .promo-banner a {
+  border-bottom-color: #ffffff !important;
+}
+
+.theme-sic .promo-banner svg,
+.theme-sic .promo-banner svg path {
+  stroke: #ffffff !important;
+  color: #ffffff !important;
+}
+
 /* Kill card UI everywhere */
 .theme-sic .tr-landing-model-access-panel,
 .theme-sic .tr-landing-hero-url-box,
