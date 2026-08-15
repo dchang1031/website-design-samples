@@ -1,8 +1,7 @@
 /**
- * Option 2 — theme toggle + scroll wash + Apple-style reveals + value story.
+ * Option 2 — theme toggle + scroll wash + Apple-style reveals + value story + oneapi stage.
  */
 (() => {
-  // Ensure value-story upgrade stylesheet is present
   if (!document.querySelector('link[href*="option2-value-story.css"]')) {
     const link = document.createElement("link");
     link.rel = "stylesheet";
@@ -14,6 +13,7 @@
   initReveals();
   initScaleExpand();
   initValueStory();
+  initOneApiStage();
 })();
 
 function initThemeToggle() {
@@ -202,48 +202,36 @@ function initScaleExpand() {
 }
 
 /**
- * Apple / Scale-style scroll-scrub value story.
- * - Centered headline lights word-by-word as you scroll
- * - Stop → holds; reverse → reverses
- * - Headline fades; three benefits enter one at a time with technical canvas viz
+ * Value story: word-by-word light-up, fully hidden when off, two lines, no benefits.
  */
 function initValueStory() {
   const root = document.querySelector("[data-value-story]");
   if (!root) return;
 
-  // Upgrade headline to word-by-word spans if needed (main-branch HTML)
   let headline = root.querySelector("[data-story-headline]");
-  if (headline && !root.querySelector("[data-word]")) {
-    headline.innerHTML = [
-      '<span class="value-story__word value-story__word--accent" data-word="0">One</span>',
-      '<span class="value-story__word" data-word="1">TokenRouter,</span>',
-      '<span class="value-story__word value-story__word--accent" data-word="2">all</span>',
-      '<span class="value-story__word" data-word="3">models</span>',
-    ].join("\n                ");
+  if (headline) {
+    headline.innerHTML = `
+      <span class="value-story__headline-line">
+        <span class="value-story__word value-story__word--accent" data-word="0">One</span>
+        <span class="value-story__word" data-word="1">TokenRouter</span>
+      </span>
+      <span class="value-story__headline-line">
+        <span class="value-story__word value-story__word--accent" data-word="2">All</span>
+        <span class="value-story__word" data-word="3">Models</span>
+      </span>
+    `;
   }
-  // Hide legacy index numbers
-  root.querySelectorAll(".value-story__index").forEach((el) => {
-    el.style.display = "none";
-  });
+
+  // Remove benefit panels from DOM so they never show
+  root.querySelectorAll(".value-story__panels").forEach((el) => el.remove());
 
   const words = [...root.querySelectorAll("[data-word]")];
-  const panels = [...root.querySelectorAll("[data-benefit]")];
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const wordCount = words.length || 4;
-  const vizState = { key: 0, teams: 0, security: 0, t: 0 };
 
   if (reduce) {
     root.style.setProperty("--hl-opacity", "1");
-    root.style.setProperty("--b0", "1");
-    root.style.setProperty("--b1", "1");
-    root.style.setProperty("--b2", "1");
-    root.style.setProperty("--b0-x", "0px");
-    root.style.setProperty("--b1-x", "0px");
-    root.style.setProperty("--b2-x", "0px");
-    words.forEach((w) => {
-      w.style.setProperty("--word-lit", "1");
-    });
-    panels.forEach((p) => p.removeAttribute("aria-hidden"));
+    words.forEach((w) => w.style.setProperty("--word-lit", "1"));
     return;
   }
 
@@ -260,12 +248,6 @@ function initValueStory() {
     return smoothstep(a, b, p);
   }
 
-  function crossfade(p, enterStart, enterEnd, exitStart, exitEnd) {
-    const enter = segment(p, enterStart, enterEnd);
-    const exit = segment(p, exitStart, exitEnd);
-    return clamp(enter * (1 - exit), 0, 1);
-  }
-
   function progressFor() {
     const rect = root.getBoundingClientRect();
     const vh = window.innerHeight || 1;
@@ -274,278 +256,28 @@ function initValueStory() {
   }
 
   function apply(p) {
-    const wordEnd = 0.28;
+    // Word-by-word over first ~55% of the section, then hold/fade
+    const wordEnd = 0.55;
     words.forEach((el, i) => {
       const start = (i / wordCount) * wordEnd;
       const end = ((i + 1) / wordCount) * wordEnd;
-      const lit = segment(p, start, end);
-      el.style.setProperty("--word-lit", lit.toFixed(4));
+      // Snap fully on or fully off — no partial ghost opacity
+      const lit = segment(p, start, end) >= 0.5 ? 1 : 0;
+      el.style.setProperty("--word-lit", String(lit));
     });
 
-    const hlOut = segment(p, 0.4, 0.52);
+    const hlOut = segment(p, 0.72, 0.92);
     const hlOpacity = 1 - hlOut;
-    const hlY = hlOut * -48;
-    const hlScale = 1 - hlOut * 0.08;
-    const hlBlur = hlOut * 8;
-
-    const b0 = crossfade(p, 0.42, 0.54, 0.64, 0.74);
-    const b1 = crossfade(p, 0.66, 0.76, 0.84, 0.94);
-    const b2 = segment(p, 0.86, 0.96);
-
-    const b0x = (1 - b0) * 40;
-    const b1x = (1 - b1) * 40;
-    const b2x = (1 - b2) * 40;
-    const b0s = 0.96 + b0 * 0.04;
-    const b1s = 0.96 + b1 * 0.04;
-    const b2s = 0.96 + b2 * 0.04;
+    const hlY = hlOut * -36;
+    const hlScale = 1 - hlOut * 0.06;
+    const hlBlur = hlOut * 6;
 
     root.style.setProperty("--hl-opacity", hlOpacity.toFixed(4));
     root.style.setProperty("--hl-y", `${hlY.toFixed(2)}px`);
     root.style.setProperty("--hl-scale", hlScale.toFixed(4));
     root.style.setProperty("--hl-blur", `${hlBlur.toFixed(2)}px`);
-    root.style.setProperty("--b0", b0.toFixed(4));
-    root.style.setProperty("--b1", b1.toFixed(4));
-    root.style.setProperty("--b2", b2.toFixed(4));
-    root.style.setProperty("--b0-x", `${b0x.toFixed(2)}px`);
-    root.style.setProperty("--b1-x", `${b1x.toFixed(2)}px`);
-    root.style.setProperty("--b2-x", `${b2x.toFixed(2)}px`);
-    root.style.setProperty("--b0-s", b0s.toFixed(4));
-    root.style.setProperty("--b1-s", b1s.toFixed(4));
-    root.style.setProperty("--b2-s", b2s.toFixed(4));
     root.style.setProperty("--scrub", `${(p * 100).toFixed(2)}%`);
-
-    vizState.key = b0;
-    vizState.teams = b1;
-    vizState.security = b2;
-
-    panels.forEach((panel, i) => {
-      const op = i === 0 ? b0 : i === 1 ? b1 : b2;
-      if (op > 0.18) panel.removeAttribute("aria-hidden");
-      else panel.setAttribute("aria-hidden", "true");
-    });
   }
-
-  function sizeCanvas(canvas) {
-    const rect = canvas.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const w = Math.max(1, rect.width);
-    const h = Math.max(1, rect.height);
-    canvas.width = Math.floor(w * dpr);
-    canvas.height = Math.floor(h * dpr);
-    const ctx = canvas.getContext("2d");
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    return { ctx, w, h };
-  }
-
-  function drawKey(canvas, intensity, t) {
-    if (!canvas || intensity < 0.01) return;
-    const { ctx, w, h } = sizeCanvas(canvas);
-    ctx.clearRect(0, 0, w, h);
-
-    const cx = w * 0.32;
-    const cy = h * 0.5;
-    const models = 8;
-    const accent = "0, 134, 255";
-
-    ctx.strokeStyle = `rgba(${accent}, ${0.06 * intensity})`;
-    ctx.lineWidth = 1;
-    for (let g = 0; g < 6; g++) {
-      const y = h * (0.15 + g * 0.14);
-      ctx.beginPath();
-      ctx.moveTo(w * 0.08, y);
-      ctx.lineTo(w * 0.92, y);
-      ctx.stroke();
-    }
-
-    for (let i = 0; i < models; i++) {
-      const a = -0.95 + (i / (models - 1)) * 1.9;
-      const reach = (70 + i * 14) * intensity;
-      const x = cx + Math.cos(a) * reach;
-      const y = cy + Math.sin(a) * reach * 0.58;
-      const pulse = 0.55 + Math.sin(t * 2.4 + i * 0.7) * 0.45;
-
-      ctx.beginPath();
-      ctx.moveTo(cx + 14, cy);
-      ctx.lineTo(x, y);
-      ctx.strokeStyle = `rgba(${accent}, ${0.12 + intensity * 0.4 * pulse})`;
-      ctx.lineWidth = 1.25;
-      ctx.stroke();
-
-      const pkt = (t * 0.35 + i * 0.11) % 1;
-      const px = cx + 14 + (x - cx - 14) * pkt;
-      const py = cy + (y - cy) * pkt;
-      ctx.beginPath();
-      ctx.arc(px, py, 2.2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${accent}, ${intensity * pulse})`;
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.arc(x, y, 4.5 + Math.sin(t * 2 + i) * 1.1, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${accent}, ${0.3 + intensity * 0.55})`;
-      ctx.fill();
-      ctx.strokeStyle = `rgba(${accent}, ${0.5 + intensity * 0.4})`;
-      ctx.lineWidth = 1.2;
-      ctx.stroke();
-    }
-
-    ctx.beginPath();
-    ctx.arc(cx, cy, 15, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${accent}, ${0.18 + intensity * 0.45})`;
-    ctx.fill();
-    ctx.strokeStyle = `rgba(${accent}, 0.85)`;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(cx + 14, cy);
-    ctx.lineTo(cx + 48 * intensity, cy);
-    ctx.lineTo(cx + 48 * intensity, cy + 9);
-    ctx.moveTo(cx + 36 * intensity, cy);
-    ctx.lineTo(cx + 36 * intensity, cy + 7);
-    ctx.stroke();
-  }
-
-  function drawTeams(canvas, intensity, t) {
-    if (!canvas || intensity < 0.01) return;
-    const { ctx, w, h } = sizeCanvas(canvas);
-    ctx.clearRect(0, 0, w, h);
-
-    const accent = "0, 134, 255";
-    const hub = { x: w * 0.55, y: h * 0.5 };
-    const nodes = [
-      { x: w * 0.16, y: h * 0.22 },
-      { x: w * 0.18, y: h * 0.5 },
-      { x: w * 0.16, y: h * 0.78 },
-      { x: w * 0.8, y: h * 0.26 },
-      { x: w * 0.84, y: h * 0.5 },
-      { x: w * 0.8, y: h * 0.76 },
-    ];
-
-    for (let r = 0; r < 3; r++) {
-      ctx.beginPath();
-      ctx.ellipse(hub.x, hub.y, 55 + r * 38, 32 + r * 22, 0, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(${accent}, ${0.06 + intensity * 0.08})`;
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    }
-
-    nodes.forEach((n, i) => {
-      ctx.beginPath();
-      ctx.moveTo(n.x, n.y);
-      ctx.lineTo(hub.x, hub.y);
-      ctx.strokeStyle = `rgba(${accent}, ${0.1 + intensity * 0.35})`;
-      ctx.lineWidth = 1.3;
-      ctx.stroke();
-
-      const pulse = 0.5 + Math.sin(t * 2.1 + i) * 0.5;
-      const pkt = (t * 0.28 + i * 0.13) % 1;
-      const px = n.x + (hub.x - n.x) * pkt;
-      const py = n.y + (hub.y - n.y) * pkt;
-      ctx.beginPath();
-      ctx.arc(px, py, 2.4, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${accent}, ${intensity * pulse})`;
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, 6.5, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(90, 168, 255, ${0.22 + intensity * 0.5})`;
-      ctx.fill();
-      ctx.strokeStyle = `rgba(${accent}, ${0.45 + intensity * 0.4})`;
-      ctx.lineWidth = 1.4;
-      ctx.stroke();
-    });
-
-    ctx.beginPath();
-    ctx.arc(hub.x, hub.y, 13, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${accent}, ${0.22 + intensity * 0.5})`;
-    ctx.fill();
-    ctx.strokeStyle = "#0086ff";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    const scan = t * 1.1;
-    ctx.beginPath();
-    ctx.arc(hub.x, hub.y, 42, scan, scan + 0.9);
-    ctx.strokeStyle = `rgba(${accent}, ${0.35 * intensity})`;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  }
-
-  function drawSecurity(canvas, intensity, t) {
-    if (!canvas || intensity < 0.01) return;
-    const { ctx, w, h } = sizeCanvas(canvas);
-    ctx.clearRect(0, 0, w, h);
-
-    const accent = "0, 134, 255";
-    const cx = w * 0.5;
-    const cy = h * 0.48;
-
-    for (let r = 0; r < 4; r++) {
-      const rad = (48 + r * 22) * intensity;
-      ctx.beginPath();
-      ctx.arc(cx, cy, rad, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(${accent}, ${0.05 + intensity * 0.07 * (1 - r * 0.15)})`;
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    }
-
-    const s = intensity;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy - 68 * s);
-    ctx.lineTo(cx + 54 * s, cy - 38 * s);
-    ctx.lineTo(cx + 46 * s, cy + 28 * s);
-    ctx.quadraticCurveTo(cx, cy + 72 * s, cx - 46 * s, cy + 28 * s);
-    ctx.lineTo(cx - 54 * s, cy - 38 * s);
-    ctx.closePath();
-    ctx.fillStyle = `rgba(${accent}, ${0.07 + intensity * 0.16})`;
-    ctx.fill();
-    ctx.strokeStyle = `rgba(${accent}, ${0.35 + intensity * 0.5})`;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(cx, cy - 10, 9 * s, Math.PI, 0);
-    ctx.strokeStyle = `rgba(${accent}, ${0.7})`;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = `rgba(${accent}, ${0.2 + intensity * 0.45})`;
-    ctx.fillRect(cx - 12 * s, cy - 10, 24 * s, 20 * s);
-
-    for (let i = 0; i < 6; i++) {
-      const ang = t * 0.65 + i * ((Math.PI * 2) / 6);
-      const r0 = 110 + Math.sin(t + i) * 8;
-      const x = cx + Math.cos(ang) * r0;
-      const y = cy + Math.sin(ang) * r0 * 0.55;
-      const hitR = 58 * intensity;
-      const hx = cx + Math.cos(ang) * hitR;
-      const hy = cy + Math.sin(ang) * hitR * 0.55;
-
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.lineTo(hx, hy);
-      ctx.strokeStyle = `rgba(255, 110, 110, ${0.18 * intensity})`;
-      ctx.lineWidth = 1.2;
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.arc(x, y, 3.2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 110, 110, ${0.3 + (1 - intensity) * 0.15})`;
-      ctx.fill();
-    }
-
-    const pulse = 0.5 + Math.sin(t * 2.2) * 0.5;
-    ctx.beginPath();
-    ctx.arc(cx, cy, 28 * intensity, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(${accent}, ${0.15 * pulse * intensity})`;
-    ctx.lineWidth = 3;
-    ctx.stroke();
-  }
-
-  const canvases = {
-    key: root.querySelector('[data-viz="key"]'),
-    teams: root.querySelector('[data-viz="teams"]'),
-    security: root.querySelector('[data-viz="security"]'),
-  };
 
   let ticking = false;
   function update() {
@@ -559,16 +291,223 @@ function initValueStory() {
     requestAnimationFrame(update);
   }
 
+  update();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+}
+
+/**
+ * One API stage: dashed lines merge → TokenRouter hub → diverge,
+ * then elements fade, hub zooms into a product UI "video" frame.
+ * Scroll-scrubbed; pauses when scroll stops.
+ */
+function initOneApiStage() {
+  const stage = document.querySelector("[data-oneapi-stage]");
+  if (!stage) return;
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const canvas = stage.querySelector("[data-oneapi-canvas]");
+  const videoFrame = stage.querySelector("[data-oneapi-video]");
+  const staticImg = stage.querySelector("[data-oneapi-static]");
+
+  if (staticImg) staticImg.style.display = "none";
+
+  function clamp(n, a, b) {
+    return Math.min(b, Math.max(a, n));
+  }
+
+  function smoothstep(edge0, edge1, x) {
+    const t = clamp((x - edge0) / (edge1 - edge0), 0, 1);
+    return t * t * (3 - 2 * t);
+  }
+
+  function progressFor() {
+    const rect = stage.getBoundingClientRect();
+    const vh = window.innerHeight || 1;
+    const total = Math.max(1, rect.height - vh);
+    return clamp(-rect.top / total, 0, 1);
+  }
+
+  let lastP = 0;
+  let animT = 0;
+  let scrolling = false;
+  let scrollTimeout = null;
+
+  function markScroll() {
+    scrolling = true;
+    if (scrollTimeout) clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      scrolling = false;
+    }, 120);
+  }
+
+  function sizeCanvas() {
+    if (!canvas) return null;
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = Math.max(1, rect.width);
+    const h = Math.max(1, rect.height);
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { ctx, w, h };
+  }
+
+  function draw(p, t) {
+    const sized = sizeCanvas();
+    if (!sized) return;
+    const { ctx, w, h } = sized;
+    ctx.clearRect(0, 0, w, h);
+
+    const cx = w * 0.5;
+    const cy = h * 0.5;
+    const accent = "0, 134, 255";
+
+    // Phases: 0–0.35 lines merge+diverge, 0.35–0.65 fade others, 0.65–1 zoom hub → video
+    const linePhase = smoothstep(0, 0.35, p);
+    const fadeOthers = smoothstep(0.35, 0.62, p);
+    const zoomPhase = smoothstep(0.55, 0.92, p);
+    const showVideo = smoothstep(0.78, 0.95, p);
+
+    const leftApps = [
+      { label: "OpenClaw", y: 0.22 },
+      { label: "OpenCode", y: 0.38 },
+      { label: "Codex", y: 0.54 },
+      { label: "Claude", y: 0.7 },
+    ];
+    const rightApps = [
+      { label: "Cherry", y: 0.22 },
+      { label: "Cursor", y: 0.38 },
+      { label: "Continue", y: 0.54 },
+      { label: "Apps", y: 0.7 },
+    ];
+
+    const hubR = 28 + zoomPhase * 80;
+    const othersAlpha = 1 - fadeOthers;
+
+    // Dashed lines left → hub
+    leftApps.forEach((app, i) => {
+      const x0 = w * 0.08;
+      const y0 = h * app.y;
+      const dashOffset = (t * 40 + i * 12) % 24;
+      ctx.save();
+      ctx.globalAlpha = othersAlpha * linePhase;
+      ctx.setLineDash([6, 6]);
+      ctx.lineDashOffset = -dashOffset;
+      ctx.beginPath();
+      ctx.moveTo(x0, y0);
+      ctx.quadraticCurveTo(w * 0.28, y0, cx - hubR - 4, cy);
+      ctx.strokeStyle = `rgba(${accent}, 0.55)`;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // node
+      ctx.beginPath();
+      ctx.arc(x0, y0, 7, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${accent}, 0.2)`;
+      ctx.fill();
+      ctx.strokeStyle = `rgba(${accent}, 0.7)`;
+      ctx.stroke();
+
+      ctx.font = "12px 'PP Neue Montreal', system-ui, sans-serif";
+      ctx.fillStyle = `rgba(18, 19, 23, ${0.75 * othersAlpha})`;
+      ctx.fillText(app.label, x0 + 12, y0 + 4);
+      ctx.restore();
+    });
+
+    // Dashed lines hub → right
+    rightApps.forEach((app, i) => {
+      const x1 = w * 0.92;
+      const y1 = h * app.y;
+      const dashOffset = (t * 40 + i * 12) % 24;
+      ctx.save();
+      ctx.globalAlpha = othersAlpha * linePhase;
+      ctx.setLineDash([6, 6]);
+      ctx.lineDashOffset = -dashOffset;
+      ctx.beginPath();
+      ctx.moveTo(cx + hubR + 4, cy);
+      ctx.quadraticCurveTo(w * 0.72, y1, x1, y1);
+      ctx.strokeStyle = `rgba(${accent}, 0.55)`;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.beginPath();
+      ctx.arc(x1, y1, 7, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${accent}, 0.2)`;
+      ctx.fill();
+      ctx.strokeStyle = `rgba(${accent}, 0.7)`;
+      ctx.stroke();
+
+      ctx.font = "12px 'PP Neue Montreal', system-ui, sans-serif";
+      ctx.fillStyle = `rgba(18, 19, 23, ${0.75 * othersAlpha})`;
+      ctx.textAlign = "right";
+      ctx.fillText(app.label, x1 - 12, y1 + 4);
+      ctx.textAlign = "left";
+      ctx.restore();
+    });
+
+    // Hub (TokenRouter)
+    ctx.save();
+    ctx.globalAlpha = 1;
+    const scale = 1 + zoomPhase * 1.8;
+    ctx.translate(cx, cy);
+    ctx.scale(scale, scale);
+    ctx.translate(-cx, -cy);
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, 32, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${accent}, ${0.15 + zoomPhase * 0.25})`;
+    ctx.fill();
+    ctx.strokeStyle = "#0086ff";
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    ctx.font = "600 13px 'PP Neue Montreal', system-ui, sans-serif";
+    ctx.fillStyle = "#0086ff";
+    ctx.textAlign = "center";
+    ctx.fillText("TokenRouter", cx, cy + 4);
+    ctx.textAlign = "left";
+    ctx.restore();
+
+    // Video frame visibility
+    if (videoFrame) {
+      videoFrame.style.opacity = String(showVideo);
+      videoFrame.style.pointerEvents = showVideo > 0.5 ? "auto" : "none";
+      videoFrame.style.transform = `scale(${0.85 + showVideo * 0.15})`;
+      if (showVideo > 0.6) {
+        const vid = videoFrame.querySelector("video, [data-product-ui]");
+        if (vid && vid.play && typeof vid.play === "function") {
+          try { vid.play().catch(() => {}); } catch (_) {}
+        }
+        videoFrame.classList.add("is-playing");
+      } else {
+        videoFrame.classList.remove("is-playing");
+      }
+    }
+
+    // Hide canvas when fully in video mode
+    if (canvas) {
+      canvas.style.opacity = String(1 - showVideo * 0.95);
+    }
+  }
+
   function loop(ts) {
-    vizState.t = ts * 0.001;
-    drawKey(canvases.key, vizState.key, vizState.t);
-    drawTeams(canvases.teams, vizState.teams, vizState.t);
-    drawSecurity(canvases.security, vizState.security, vizState.t);
+    animT = ts * 0.001;
+    const p = progressFor();
+    lastP = p;
+    // Only advance line dash animation while scrolling (or first paint)
+    draw(p, scrolling ? animT : animT * 0.15);
     requestAnimationFrame(loop);
   }
 
-  update();
+  function onScroll() {
+    markScroll();
+  }
+
   requestAnimationFrame(loop);
   window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll, { passive: true });
+  window.addEventListener("resize", markScroll, { passive: true });
 }
