@@ -1,5 +1,6 @@
 /**
- * Option 2 — theme toggle + scroll wash + Apple-style reveals + value story + oneapi stage.
+ * Option 2 — theme, wash, reveals, value story (letter-by-letter),
+ * rotating tagline, One API stage (logos + growing rectangular hub → demo).
  */
 (() => {
   ensureStylesheet("/src/option2-value-story.css");
@@ -10,6 +11,7 @@
   initReveals();
   initScaleExpand();
   initValueStory();
+  initTaglineRotate();
   initOneApiStage();
 })();
 
@@ -27,9 +29,8 @@ function injectOneApiStageMarkup() {
   const oneapiSection = document.querySelector('[data-section="oneapi"]');
   if (!oneapiSection) return;
 
-  // Prefer replacing the static image area inside the section
-  const imgWrap = oneapiSection.querySelector(".mt-\\[30px\\], [class*=\"mt-[30px]\"], .lg\\:mt-\\[72px\\]")
-    || oneapiSection.querySelector("img")?.parentElement;
+  const imgWrap =
+    oneapiSection.querySelector("img")?.parentElement || null;
 
   const stage = document.createElement("div");
   stage.className = "oneapi-stage";
@@ -38,41 +39,47 @@ function injectOneApiStageMarkup() {
     <div class="oneapi-stage__sticky">
       <div class="oneapi-stage__canvas-wrap">
         <canvas class="oneapi-stage__canvas" data-oneapi-canvas></canvas>
-        <div class="oneapi-stage__video" data-oneapi-video aria-hidden="true">
-          <div class="product-ui" data-product-ui>
-            <div class="product-ui__bar">
-              <span class="product-ui__dot"></span>
-              <span class="product-ui__dot"></span>
-              <span class="product-ui__dot"></span>
-              <span class="product-ui__title">TokenRouter Console</span>
-            </div>
-            <div class="product-ui__body">
-              <div class="product-ui__nav">
-                <div class="product-ui__nav-item is-active">Models</div>
-                <div class="product-ui__nav-item">API Keys</div>
-                <div class="product-ui__nav-item">Usage</div>
-                <div class="product-ui__nav-item">Billing</div>
+        <div class="oneapi-stage__hub" data-oneapi-hub>
+          <img class="oneapi-stage__hub-logo" src="/assets/logo-without-title-8.png" alt="" width="22" height="22" />
+          <span class="oneapi-stage__hub-label">TokenRouter</span>
+          <div class="oneapi-stage__demo" data-oneapi-demo aria-hidden="true">
+            <div class="product-ui" data-product-ui>
+              <div class="product-ui__bar">
+                <span class="product-ui__dot"></span>
+                <span class="product-ui__dot"></span>
+                <span class="product-ui__dot"></span>
+                <span class="product-ui__title">TokenRouter Console</span>
               </div>
-              <div class="product-ui__main">
-                <div class="product-ui__row">
-                  <strong style="font-size:13px">openai/gpt-5.6-sol</strong>
-                  <span class="product-ui__badge">live</span>
-                  <span class="product-ui__metric">12.4k tok/min</span>
+              <div class="product-ui__body">
+                <div class="product-ui__nav">
+                  <div class="product-ui__nav-item is-active" data-nav="0">Models</div>
+                  <div class="product-ui__nav-item" data-nav="1">API Keys</div>
+                  <div class="product-ui__nav-item" data-nav="2">Usage</div>
+                  <div class="product-ui__nav-item" data-nav="3">Billing</div>
                 </div>
-                <div class="product-ui__row">
-                  <strong style="font-size:13px">anthropic/claude-fable-5</strong>
-                  <span class="product-ui__badge">live</span>
-                  <span class="product-ui__metric">8.1k tok/min</span>
-                </div>
-                <div class="product-ui__row">
-                  <strong style="font-size:13px">x-ai/grok-4.5</strong>
-                  <span class="product-ui__badge">live</span>
-                  <span class="product-ui__metric">6.7k tok/min</span>
-                </div>
-                <div class="product-ui__row">
-                  <strong style="font-size:13px">google/gemini-3.5-flash</strong>
-                  <span class="product-ui__badge">live</span>
-                  <span class="product-ui__metric">15.2k tok/min</span>
+                <div class="product-ui__main">
+                  <div class="product-ui__cursor" data-ui-cursor></div>
+                  <div class="product-ui__row" data-row="0">
+                    <strong style="font-size:13px">openai/gpt-5.6-sol</strong>
+                    <span class="product-ui__badge">live</span>
+                    <span class="product-ui__metric" data-metric>12.4k tok/min</span>
+                  </div>
+                  <div class="product-ui__row" data-row="1">
+                    <strong style="font-size:13px">anthropic/claude-fable-5</strong>
+                    <span class="product-ui__badge">live</span>
+                    <span class="product-ui__metric" data-metric>8.1k tok/min</span>
+                  </div>
+                  <div class="product-ui__row" data-row="2">
+                    <strong style="font-size:13px">x-ai/grok-4.5</strong>
+                    <span class="product-ui__badge">live</span>
+                    <span class="product-ui__metric" data-metric>6.7k tok/min</span>
+                  </div>
+                  <div class="product-ui__row" data-row="3">
+                    <strong style="font-size:13px">google/gemini-3.5-flash</strong>
+                    <span class="product-ui__badge">live</span>
+                    <span class="product-ui__metric" data-metric>15.2k tok/min</span>
+                  </div>
+                  <div class="product-ui__stream" data-stream></div>
                 </div>
               </div>
             </div>
@@ -83,10 +90,11 @@ function injectOneApiStageMarkup() {
   `;
 
   if (imgWrap) {
-    // Hide original images, insert stage after the text block
     oneapiSection.querySelectorAll("img").forEach((img) => {
-      img.setAttribute("data-oneapi-static", "");
-      img.style.display = "none";
+      if (!img.closest("[data-oneapi-stage]")) {
+        img.setAttribute("data-oneapi-static", "");
+        img.style.display = "none";
+      }
     });
     imgWrap.parentElement?.insertBefore(stage, imgWrap);
     imgWrap.style.display = "none";
@@ -246,20 +254,16 @@ function initScaleExpand() {
     const rect = track.getBoundingClientRect();
     const vh = window.innerHeight || 1;
     const total = Math.max(1, rect.height - vh);
-    const raw = -rect.top / total;
-    return clamp(raw, 0, 1);
+    return clamp(-rect.top / total, 0, 1);
   }
 
   function apply(block, p) {
     const frame = block.querySelector("[data-scale-frame]");
     if (!frame) return;
     const e = reduce ? 1 : p * p * (3 - 2 * p);
-    const inset = (1 - e) * 28;
-    const radius = (1 - e) * 24;
-    const border = (1 - e) * 0.14;
-    frame.style.setProperty("--scale-inset", `${inset}px`);
-    frame.style.setProperty("--scale-radius", `${radius}px`);
-    frame.style.setProperty("--scale-border", String(border));
+    frame.style.setProperty("--scale-inset", `${(1 - e) * 28}px`);
+    frame.style.setProperty("--scale-radius", `${(1 - e) * 24}px`);
+    frame.style.setProperty("--scale-border", String((1 - e) * 0.14));
     frame.dataset.expanded = e > 0.92 ? "true" : "false";
   }
 
@@ -280,33 +284,54 @@ function initScaleExpand() {
   window.addEventListener("resize", onScroll, { passive: true });
 }
 
+/** Letter-by-letter value story; unlit = transparent white; One/All accent when lit */
 function initValueStory() {
   const root = document.querySelector("[data-value-story]");
   if (!root) return;
 
-  let headline = root.querySelector("[data-story-headline]");
+  const headline = root.querySelector("[data-story-headline]");
   if (headline) {
-    headline.innerHTML = `
-      <span class="value-story__headline-line">
-        <span class="value-story__word value-story__word--accent" data-word="0">One</span>
-        <span class="value-story__word" data-word="1">TokenRouter</span>
-      </span>
-      <span class="value-story__headline-line">
-        <span class="value-story__word value-story__word--accent" data-word="2">All</span>
-        <span class="value-story__word" data-word="3">Models</span>
-      </span>
-    `;
+    const lines = [
+      [
+        { text: "One", accent: true },
+        { text: "TokenRouter", accent: false },
+      ],
+      [
+        { text: "All", accent: true },
+        { text: "Models", accent: false },
+      ],
+    ];
+
+    let letterIndex = 0;
+    headline.innerHTML = lines
+      .map(
+        (line) =>
+          `<span class="value-story__headline-line">` +
+          line
+            .map((word) => {
+              const letters = [...word.text]
+                .map((ch) => {
+                  const i = letterIndex++;
+                  const acc = word.accent ? " value-story__letter--accent" : "";
+                  return `<span class="value-story__letter${acc}" data-letter="${i}">${ch}</span>`;
+                })
+                .join("");
+              return `<span class="value-story__word">${letters}</span>`;
+            })
+            .join("") +
+          `</span>`
+      )
+      .join("");
   }
 
-  root.querySelectorAll(".value-story__panels").forEach((el) => el.remove());
+  root.querySelectorAll(".value-story__panels, .value-story__scrub").forEach((el) => el.remove());
 
-  const words = [...root.querySelectorAll("[data-word]")];
+  const letters = [...root.querySelectorAll("[data-letter]")];
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const wordCount = words.length || 4;
+  const letterCount = letters.length || 1;
 
   if (reduce) {
-    root.style.setProperty("--hl-opacity", "1");
-    words.forEach((w) => w.style.setProperty("--word-lit", "1"));
+    letters.forEach((el) => el.classList.add("is-lit"));
     return;
   }
 
@@ -319,10 +344,6 @@ function initValueStory() {
     return t * t * (3 - 2 * t);
   }
 
-  function segment(p, a, b) {
-    return smoothstep(a, b, p);
-  }
-
   function progressFor() {
     const rect = root.getBoundingClientRect();
     const vh = window.innerHeight || 1;
@@ -331,20 +352,20 @@ function initValueStory() {
   }
 
   function apply(p) {
-    const wordEnd = 0.55;
-    words.forEach((el, i) => {
-      const start = (i / wordCount) * wordEnd;
-      const end = ((i + 1) / wordCount) * wordEnd;
-      const lit = segment(p, start, end) >= 0.5 ? 1 : 0;
-      el.style.setProperty("--word-lit", String(lit));
+    const letterEnd = 0.62;
+    letters.forEach((el, i) => {
+      const start = (i / letterCount) * letterEnd;
+      const end = ((i + 0.85) / letterCount) * letterEnd;
+      const lit = smoothstep(start, end, p) >= 0.45;
+      el.classList.toggle("is-lit", lit);
+      el.style.setProperty("--letter-lit", lit ? "1" : "0");
     });
 
-    const hlOut = segment(p, 0.72, 0.92);
-    root.style.setProperty("--hl-opacity", (1 - hlOut).toFixed(4));
-    root.style.setProperty("--hl-y", `${(hlOut * -36).toFixed(2)}px`);
-    root.style.setProperty("--hl-scale", (1 - hlOut * 0.06).toFixed(4));
-    root.style.setProperty("--hl-blur", `${(hlOut * 6).toFixed(2)}px`);
-    root.style.setProperty("--scrub", `${(p * 100).toFixed(2)}%`);
+    const hlOut = smoothstep(0.78, 0.95, p);
+    root.style.setProperty("--hl-opacity", (1 - hlOut * 0.35).toFixed(4));
+    root.style.setProperty("--hl-y", `${(hlOut * -24).toFixed(2)}px`);
+    root.style.setProperty("--hl-scale", (1 - hlOut * 0.04).toFixed(4));
+    root.style.setProperty("--hl-blur", `${(hlOut * 4).toFixed(2)}px`);
   }
 
   let ticking = false;
@@ -364,12 +385,66 @@ function initValueStory() {
   window.addEventListener("resize", onScroll, { passive: true });
 }
 
+/** Faster → Better → Cheaper, one large word at a time */
+function initTaglineRotate() {
+  const tagline = document.querySelector(".tr-landing-hero-tagline");
+  if (!tagline) return;
+
+  const words = ["Faster", "Better", "Cheaper"];
+  tagline.innerHTML = words
+    .map(
+      (w, i) =>
+        `<span data-rotate-word="${i}"${i === 0 ? ' class="is-active"' : ""}>${w}</span>`
+    )
+    .join("");
+
+  const els = [...tagline.querySelectorAll("[data-rotate-word]")];
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    els.forEach((el) => el.classList.add("is-active"));
+    return;
+  }
+
+  let idx = 0;
+  setInterval(() => {
+    els[idx].classList.remove("is-active");
+    idx = (idx + 1) % els.length;
+    els[idx].classList.add("is-active");
+  }, 2200);
+}
+
+/**
+ * One API: dashed lines + logo+name nodes → rectangular hub grows to fill
+ * wrap and reveals looping animated product console (not a static screenshot).
+ */
 function initOneApiStage() {
   const stage = document.querySelector("[data-oneapi-stage]");
   if (!stage) return;
 
   const canvas = stage.querySelector("[data-oneapi-canvas]");
-  const videoFrame = stage.querySelector("[data-oneapi-video]");
+  const hub = stage.querySelector("[data-oneapi-hub]");
+  const demo = stage.querySelector("[data-oneapi-demo]");
+  const wrap = stage.querySelector(".oneapi-stage__canvas-wrap");
+
+  const apps = [
+    { label: "OpenClaw", side: "left", y: 0.2, color: "#6366f1", icon: "/assets/clawith.png" },
+    { label: "OpenCode", side: "left", y: 0.38, color: "#10a37f", icon: "/assets/models/openai.svg" },
+    { label: "Codex", side: "left", y: 0.56, color: "#111111", icon: "/assets/models/openai.svg" },
+    { label: "Claude Code", side: "left", y: 0.74, color: "#d97757", icon: "/assets/models/claude-color.svg" },
+    { label: "Cherry Studio", side: "right", y: 0.2, color: "#ec4899", icon: "/assets/fellou.png" },
+    { label: "Cursor", side: "right", y: 0.38, color: "#3b82f6", icon: "/assets/models/xai.svg" },
+    { label: "Continue", side: "right", y: 0.56, color: "#8b5cf6", icon: "/assets/models/gemini-color.svg" },
+    { label: "Your Apps", side: "right", y: 0.74, color: "#0ea5e9", icon: "/assets/logo-without-title-8.png" },
+  ];
+
+  const iconCache = {};
+  apps.forEach((app) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = app.icon;
+    img.onload = () => {
+      iconCache[app.label] = img;
+    };
+  });
 
   function clamp(n, a, b) {
     return Math.min(b, Math.max(a, n));
@@ -390,6 +465,7 @@ function initOneApiStage() {
   let animT = 0;
   let scrolling = false;
   let scrollTimeout = null;
+  let demoStarted = false;
 
   function markScroll() {
     scrolling = true;
@@ -412,6 +488,17 @@ function initOneApiStage() {
     return { ctx, w, h };
   }
 
+  function drawRoundedRect(ctx, x, y, w, h, r) {
+    const rr = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + rr, y);
+    ctx.arcTo(x + w, y, x + w, y + h, rr);
+    ctx.arcTo(x + w, y + h, x, y + h, rr);
+    ctx.arcTo(x, y + h, x, y, rr);
+    ctx.arcTo(x, y, x + w, y, rr);
+    ctx.closePath();
+  }
+
   function draw(p, t) {
     const sized = sizeCanvas();
     if (!sized) return;
@@ -421,123 +508,126 @@ function initOneApiStage() {
     const cx = w * 0.5;
     const cy = h * 0.5;
     const accent = "0, 134, 255";
-    const isDark = document.body.dataset.theme === "dark" || document.body.classList.contains("theme-liquid--dark");
+    const isDark =
+      document.body.dataset.theme === "dark" ||
+      document.body.classList.contains("theme-liquid--dark");
     const textRgb = isDark ? "232, 238, 248" : "18, 19, 23";
 
-    const linePhase = smoothstep(0, 0.32, p);
-    const fadeOthers = smoothstep(0.32, 0.58, p);
-    const zoomPhase = smoothstep(0.5, 0.88, p);
-    const showVideo = smoothstep(0.72, 0.94, p);
-
-    const leftApps = [
-      { label: "OpenClaw", y: 0.2 },
-      { label: "OpenCode", y: 0.38 },
-      { label: "Codex", y: 0.56 },
-      { label: "Claude Code", y: 0.74 },
-    ];
-    const rightApps = [
-      { label: "Cherry Studio", y: 0.2 },
-      { label: "Cursor", y: 0.38 },
-      { label: "Continue", y: 0.56 },
-      { label: "Your Apps", y: 0.74 },
-    ];
-
+    const linePhase = smoothstep(0, 0.28, p);
+    const fadeOthers = smoothstep(0.3, 0.55, p);
+    const grow = smoothstep(0.48, 0.82, p);
+    const showDemo = smoothstep(0.72, 0.9, p);
     const othersAlpha = 1 - fadeOthers;
-    const hubR = 30;
 
-    leftApps.forEach((app, i) => {
-      const x0 = w * 0.1;
+    // Hub geometry for line endpoints (before full expand)
+    const hubW = 160 + grow * (w - 160);
+    const hubH = 56 + grow * (h - 56);
+    const hubLeft = cx - hubW / 2;
+    const hubTop = cy - hubH / 2;
+
+    apps.forEach((app, i) => {
+      const isLeft = app.side === "left";
+      const x0 = isLeft ? w * 0.08 : w * 0.92;
       const y0 = h * app.y;
+      const targetX = isLeft ? hubLeft : hubLeft + hubW;
+      const targetY = cy;
       const dashOffset = (t * 48 + i * 14) % 20;
+
       ctx.save();
       ctx.globalAlpha = Math.max(0, othersAlpha * linePhase);
+
       ctx.setLineDash([5, 7]);
       ctx.lineDashOffset = -dashOffset;
       ctx.beginPath();
-      ctx.moveTo(x0 + 10, y0);
-      ctx.quadraticCurveTo(w * 0.3, y0, cx - hubR - 6, cy);
-      ctx.strokeStyle = `rgba(${accent}, 0.6)`;
-      ctx.lineWidth = 1.6;
+      ctx.moveTo(isLeft ? x0 + 36 : x0 - 36, y0);
+      ctx.quadraticCurveTo(isLeft ? w * 0.28 : w * 0.72, y0, targetX, targetY);
+      ctx.strokeStyle = `rgba(${accent}, 0.55)`;
+      ctx.lineWidth = 1.5;
       ctx.stroke();
       ctx.setLineDash([]);
 
-      ctx.beginPath();
-      ctx.arc(x0, y0, 8, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${accent}, 0.18)`;
+      // Logo chip + name
+      const chip = 28;
+      const chipX = isLeft ? x0 : x0 - chip;
+      const chipY = y0 - chip / 2;
+      drawRoundedRect(ctx, chipX, chipY, chip, chip, 7);
+      ctx.fillStyle = "rgba(255,255,255,0.92)";
+      if (isDark) ctx.fillStyle = "rgba(30,40,58,0.95)";
       ctx.fill();
-      ctx.strokeStyle = `rgba(${accent}, 0.75)`;
-      ctx.lineWidth = 1.4;
+      ctx.strokeStyle = `rgba(${accent}, 0.25)`;
+      ctx.lineWidth = 1;
       ctx.stroke();
+
+      const icon = iconCache[app.label];
+      if (icon) {
+        try {
+          ctx.drawImage(icon, chipX + 5, chipY + 5, 18, 18);
+        } catch (_) {
+          /* tainted */
+        }
+      } else {
+        ctx.fillStyle = app.color;
+        ctx.beginPath();
+        ctx.arc(chipX + chip / 2, chipY + chip / 2, 7, 0, Math.PI * 2);
+        ctx.fill();
+      }
 
       ctx.font = "500 12px 'PP Neue Montreal', system-ui, sans-serif";
-      ctx.fillStyle = `rgba(${textRgb}, ${0.8 * othersAlpha})`;
-      ctx.fillText(app.label, x0 + 14, y0 + 4);
-      ctx.restore();
-    });
-
-    rightApps.forEach((app, i) => {
-      const x1 = w * 0.9;
-      const y1 = h * app.y;
-      const dashOffset = (t * 48 + i * 14) % 20;
-      ctx.save();
-      ctx.globalAlpha = Math.max(0, othersAlpha * linePhase);
-      ctx.setLineDash([5, 7]);
-      ctx.lineDashOffset = -dashOffset;
-      ctx.beginPath();
-      ctx.moveTo(cx + hubR + 6, cy);
-      ctx.quadraticCurveTo(w * 0.7, y1, x1 - 10, y1);
-      ctx.strokeStyle = `rgba(${accent}, 0.6)`;
-      ctx.lineWidth = 1.6;
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      ctx.beginPath();
-      ctx.arc(x1, y1, 8, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${accent}, 0.18)`;
-      ctx.fill();
-      ctx.strokeStyle = `rgba(${accent}, 0.75)`;
-      ctx.lineWidth = 1.4;
-      ctx.stroke();
-
-      ctx.font = "500 12px 'PP Neue Montreal', system-ui, sans-serif";
-      ctx.fillStyle = `rgba(${textRgb}, ${0.8 * othersAlpha})`;
-      ctx.textAlign = "right";
-      ctx.fillText(app.label, x1 - 14, y1 + 4);
+      ctx.fillStyle = `rgba(${textRgb}, ${0.85 * othersAlpha})`;
+      if (isLeft) {
+        ctx.textAlign = "left";
+        ctx.fillText(app.label, chipX + chip + 8, y0 + 4);
+      } else {
+        ctx.textAlign = "right";
+        ctx.fillText(app.label, chipX - 8, y0 + 4);
+      }
       ctx.textAlign = "left";
       ctx.restore();
     });
 
-    // Hub zoom
-    ctx.save();
-    const scale = 1 + zoomPhase * 2.2;
-    ctx.translate(cx, cy);
-    ctx.scale(scale, scale);
-    ctx.translate(-cx, -cy);
+    // Drive DOM hub size — rectangular grow replaces canvas stage
+    if (hub && wrap) {
+      const wrapRect = wrap.getBoundingClientRect();
+      const baseW = 160;
+      const baseH = 56;
+      const targetW = wrapRect.width;
+      const targetH = wrapRect.height;
+      const curW = baseW + (targetW - baseW) * grow;
+      const curH = baseH + (targetH - baseH) * grow;
+      const radius = 12 + (20 - 12) * (1 - grow) + grow * 0; // stay slightly rounded then match wrap
 
-    ctx.beginPath();
-    ctx.arc(cx, cy, hubR, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${accent}, ${0.12 + zoomPhase * 0.3})`;
-    ctx.fill();
-    ctx.strokeStyle = "#0086ff";
-    ctx.lineWidth = 2.4;
-    ctx.stroke();
+      hub.style.width = `${curW}px`;
+      hub.style.height = `${curH}px`;
+      hub.style.borderRadius = `${12 * (1 - grow) + 20 * Math.min(grow, 0.15)}px`;
+      if (grow > 0.98) {
+        hub.style.width = "100%";
+        hub.style.height = "100%";
+        hub.style.left = "0";
+        hub.style.top = "0";
+        hub.style.transform = "none";
+        hub.style.borderRadius = "20px";
+      } else {
+        hub.style.left = "50%";
+        hub.style.top = "50%";
+        hub.style.transform = "translate(-50%, -50%)";
+      }
 
-    ctx.font = "600 12px 'PP Neue Montreal', system-ui, sans-serif";
-    ctx.fillStyle = "#0086ff";
-    ctx.textAlign = "center";
-    ctx.fillText("TokenRouter", cx, cy + 4);
-    ctx.textAlign = "left";
-    ctx.restore();
+      hub.classList.toggle("is-expanded", grow > 0.55);
+      hub.classList.toggle("is-demo", showDemo > 0.5);
 
-    if (videoFrame) {
-      videoFrame.style.opacity = String(showVideo);
-      videoFrame.style.pointerEvents = showVideo > 0.5 ? "auto" : "none";
-      videoFrame.style.transform = `scale(${0.88 + showVideo * 0.12})`;
-      if (showVideo > 0.55) videoFrame.classList.add("is-playing");
-      else videoFrame.classList.remove("is-playing");
+      if (demo) {
+        demo.setAttribute("aria-hidden", showDemo > 0.5 ? "false" : "true");
+      }
+
+      if (canvas) {
+        canvas.style.opacity = String(Math.max(0, 1 - grow * 1.15));
+      }
+
+      if (showDemo > 0.55 && !demoStarted) {
+        demoStarted = true;
+        startProductDemo(stage);
+      }
     }
-
-    if (canvas) canvas.style.opacity = String(Math.max(0, 1 - showVideo));
   }
 
   function loop(ts) {
@@ -549,4 +639,82 @@ function initOneApiStage() {
   requestAnimationFrame(loop);
   window.addEventListener("scroll", markScroll, { passive: true });
   window.addEventListener("resize", markScroll, { passive: true });
+}
+
+/** Looping console demo: nav highlight, metric ticks, stream text, cursor */
+function startProductDemo(stage) {
+  const root = stage.querySelector("[data-product-ui]");
+  if (!root || root.dataset.demoRunning) return;
+  root.dataset.demoRunning = "1";
+
+  const navItems = [...root.querySelectorAll("[data-nav]")];
+  const rows = [...root.querySelectorAll("[data-row]")];
+  const metrics = [...root.querySelectorAll("[data-metric]")];
+  const stream = root.querySelector("[data-stream]");
+  const cursor = root.querySelector("[data-ui-cursor]");
+
+  const base = [12.4, 8.1, 6.7, 15.2];
+  let navIdx = 0;
+  let rowIdx = 0;
+  let streamLines = [
+    "> route openai/gpt-5.6-sol  latency 42ms",
+    "> cache hit  63%   cost −18%",
+    "> failover → anthropic/claude-fable-5",
+  ];
+  let streamPtr = 0;
+  let streamChar = 0;
+
+  function tickMetrics() {
+    metrics.forEach((el, i) => {
+      const n = base[i] + (Math.random() - 0.4) * 1.8;
+      el.textContent = `${n.toFixed(1)}k tok/min`;
+    });
+  }
+
+  function cycleNav() {
+    navItems.forEach((el) => el.classList.remove("is-active"));
+    navIdx = (navIdx + 1) % navItems.length;
+    navItems[navIdx].classList.add("is-active");
+  }
+
+  function flashRow() {
+    rows.forEach((el) => el.classList.remove("is-flash"));
+    rowIdx = (rowIdx + 1) % rows.length;
+    rows[rowIdx].classList.add("is-flash");
+    if (cursor && rows[rowIdx]) {
+      const r = rows[rowIdx].getBoundingClientRect();
+      const parent = rows[rowIdx].offsetParent || root.querySelector(".product-ui__main");
+      const pr = parent.getBoundingClientRect();
+      cursor.style.left = `${r.left - pr.left + 24}px`;
+      cursor.style.top = `${r.top - pr.top + r.height / 2 - 5}px`;
+    }
+  }
+
+  function typeStream() {
+    if (!stream) return;
+    const line = streamLines[streamPtr % streamLines.length];
+    streamChar += 1;
+    const shown = line.slice(0, streamChar);
+    const prev =
+      streamPtr === 0
+        ? ""
+        : streamLines
+            .slice(Math.max(0, streamPtr - 2), streamPtr)
+            .map((l) => l)
+            .join("\n") + (streamPtr > 0 ? "\n" : "");
+    stream.innerHTML = (prev + shown)
+      .replace(/>/g, '<span class="tok">></span>')
+      .replace(/\n/g, "<br/>");
+    if (streamChar >= line.length) {
+      streamChar = 0;
+      streamPtr += 1;
+    }
+  }
+
+  setInterval(tickMetrics, 900);
+  setInterval(cycleNav, 3200);
+  setInterval(flashRow, 1600);
+  setInterval(typeStream, 45);
+  tickMetrics();
+  flashRow();
 }

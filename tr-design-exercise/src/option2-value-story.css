@@ -4,7 +4,6 @@
   --hl-y: 0px;
   --hl-scale: 1;
   --hl-blur: 0px;
-  --scrub: 0%;
   position: relative;
   height: 220vh;
   z-index: 1;
@@ -31,7 +30,7 @@
   justify-content: center;
 }
 
-/* Centered two-line headline — words fully hidden until lit */
+/* Two-line headline — always visible at low opacity; letters light up on scroll */
 .theme-liquid .value-story__headline {
   position: absolute;
   left: 50%;
@@ -43,7 +42,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.08em;
+  gap: 0.1em;
   font-family: "PP Neue Montreal", system-ui, sans-serif;
   font-weight: 500;
   font-size: clamp(42px, 7.5vw, 92px);
@@ -64,63 +63,55 @@
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: center;
-  gap: 0.28em 0.32em;
+  gap: 0;
 }
 
 .theme-liquid .value-story__word {
-  display: inline-block;
-  color: #121317;
-  /* Fully hidden when not lit — no ghost/low-opacity text */
-  opacity: var(--word-lit, 0);
-  transition: none;
-  will-change: opacity;
+  display: inline-flex;
+  white-space: pre;
 }
 
-.theme-liquid .value-story__word--accent {
+/* Unlit = soft transparent white; lit = full ink / accent */
+.theme-liquid .value-story__letter {
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.28);
+  opacity: 1;
+  transition: none;
+  will-change: color, filter;
+  filter: brightness(calc(0.75 + var(--letter-lit, 0) * 0.25));
+}
+
+.theme-liquid .value-story__letter.is-lit {
+  color: #121317;
+}
+
+.theme-liquid .value-story__letter--accent.is-lit {
   color: #0086ff;
 }
 
-/* Benefits removed */
-.theme-liquid .value-story__panels {
+/* Space between words */
+.theme-liquid .value-story__word + .value-story__word {
+  margin-left: 0.32em;
+}
+
+.theme-liquid .value-story__panels,
+.theme-liquid .value-story__scrub {
   display: none !important;
 }
 
-.theme-liquid .value-story__scrub {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  background: rgba(18, 19, 23, 0.1);
-  overflow: hidden;
-  z-index: 4;
+.theme-liquid.theme-liquid--dark .value-story__letter,
+.theme-liquid[data-theme="dark"] .value-story__letter {
+  color: rgba(255, 255, 255, 0.22);
 }
 
-.theme-liquid .value-story__scrub-fill {
-  height: 100%;
-  width: var(--scrub);
-  background: linear-gradient(90deg, #0086ff, #5aa8ff);
-  will-change: width;
-}
-
-.theme-liquid.theme-liquid--dark .value-story__headline,
-.theme-liquid[data-theme="dark"] .value-story__headline {
-  color: #f2f5fa;
-}
-
-.theme-liquid.theme-liquid--dark .value-story__word,
-.theme-liquid[data-theme="dark"] .value-story__word {
+.theme-liquid.theme-liquid--dark .value-story__letter.is-lit,
+.theme-liquid[data-theme="dark"] .value-story__letter.is-lit {
   color: #e8eef8;
 }
 
-.theme-liquid.theme-liquid--dark .value-story__word--accent,
-.theme-liquid[data-theme="dark"] .value-story__word--accent {
+.theme-liquid.theme-liquid--dark .value-story__letter--accent.is-lit,
+.theme-liquid[data-theme="dark"] .value-story__letter--accent.is-lit {
   color: #5aa8ff;
-}
-
-.theme-liquid.theme-liquid--dark .value-story__scrub,
-.theme-liquid[data-theme="dark"] .value-story__scrub {
-  background: rgba(255, 255, 255, 0.1);
 }
 
 @media (max-width: 900px) {
@@ -164,11 +155,21 @@
     width: auto;
   }
 
-  .theme-liquid .value-story__word {
-    opacity: 1;
+  .theme-liquid .value-story__letter {
+    color: #121317;
   }
 
-  .theme-liquid .value-story__scrub {
-    display: none;
+  .theme-liquid .value-story__letter--accent {
+    color: #0086ff;
+  }
+
+  .theme-liquid.theme-liquid--dark .value-story__letter,
+  .theme-liquid[data-theme="dark"] .value-story__letter {
+    color: #e8eef8;
+  }
+
+  .theme-liquid.theme-liquid--dark .value-story__letter--accent,
+  .theme-liquid[data-theme="dark"] .value-story__letter--accent {
+    color: #5aa8ff;
   }
 }
