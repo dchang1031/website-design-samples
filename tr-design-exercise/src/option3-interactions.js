@@ -46,7 +46,6 @@
       const total = Math.max(1, root.offsetHeight - window.innerHeight);
       const p = clamp(-rect.top / total, 0, 1);
 
-      // Letters light progressively, then the whole sentence blurs and fades while staying centered.
       const letters = root.querySelectorAll("[data-letter]");
       const count = Math.max(letters.length, 1);
       const litEnd = 0.56;
@@ -57,8 +56,10 @@
         el.classList.toggle("is-lit", lit);
       });
 
+      // Keep the headline fully opaque while it is being revealed/lit.
+      // Only fade the entire sentence after the reveal is complete.
       const fade = smoothstep(0.58, 0.96, p);
-      root.style.setProperty("--o3-headline-opacity", (0.12 * (1 - fade)).toFixed(4));
+      root.style.setProperty("--o3-headline-opacity", (1 - fade).toFixed(4));
       root.style.setProperty("--hl-blur", `${(fade * 7).toFixed(2)}px`);
     };
 
@@ -87,7 +88,6 @@
       const total = Math.max(1, hero.offsetHeight - window.innerHeight);
       const p = clamp(-rect.top / total, 0, 1);
 
-      // Unified Model Access rolls in first; the left-side copy follows it.
       const model = smoothstep(0.03, 0.32, p);
       const copy = smoothstep(0.30, 0.62, p);
       hero.style.setProperty("--o3-model-opacity", model.toFixed(4));
