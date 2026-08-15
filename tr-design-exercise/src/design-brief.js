@@ -11,7 +11,6 @@ const BRIEF_HTML = `
         </div>
         <button type="button" class="design-brief__close" data-design-brief-close aria-label="Close">&times;</button>
       </header>
-
       <div class="design-brief__body">
         <section class="design-brief__section">
           <h3 class="design-brief__section-title">项目背景</h3>
@@ -19,7 +18,6 @@ const BRIEF_HTML = `
           <p>本次希望基于现有 TokenRouter 官网，对<strong>官网首页（Homepage）</strong>进行一次重新设计。</p>
           <p>本次作业主要希望了解候选人的视觉设计能力、品牌理解、UX 判断以及对科技类产品的设计表达能力，并非实际商业项目交付。</p>
         </section>
-
         <section class="design-brief__section">
           <h3 class="design-brief__section-title">设计要求</h3>
           <p>请在现有官网内容和产品定位的基础上，对 TokenRouter Homepage 整体进行重新设计。</p>
@@ -30,7 +28,6 @@ const BRIEF_HTML = `
           <div class="design-brief__chips" aria-label="Desired style"><span class="design-brief__chip">Modern</span><span class="design-brief__chip">Professional</span><span class="design-brief__chip">Technology</span><span class="design-brief__chip">Premium</span></div>
           <p>希望形成与 TokenRouter 产品本身有关的设计语言。</p>
         </section>
-
         <section class="design-brief__section">
           <h3 class="design-brief__section-title">动效与交互</h3>
           <p>希望新版首页能够适当加入 Motion Design / Micro-interactions，提升整体体验和品牌感。</p>
@@ -38,7 +35,6 @@ const BRIEF_HTML = `
           <ul class="design-brief__list"><li>Hero 主视觉</li><li>Token / Data Flow</li><li>Model Routing</li><li>页面滚动</li><li>Hover</li><li>Section Transition</li><li>其他能够强化品牌或帮助理解产品的交互</li></ul>
           <p>我们更关注动效是否与整体设计理念和产品概念结合，而不是单纯追求复杂效果。</p>
         </section>
-
         <section class="design-brief__section">
           <h3 class="design-brief__section-title">交付内容</h3>
           <p>只需要完成：</p>
@@ -65,6 +61,28 @@ function ensureBrief() {
   return root;
 }
 
+function ensureOpenTriggers() {
+  const desktopNav = document.querySelector(".tr-nav-links");
+  if (desktopNav && !desktopNav.querySelector("[data-design-brief-open]")) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "tr-nav-brief";
+    button.setAttribute("data-design-brief-open", "");
+    button.textContent = "Design Exercise";
+    desktopNav.appendChild(button);
+  }
+
+  const mobileDrawer = document.querySelector(".tr-landing-mobile-menu__drawer");
+  if (mobileDrawer && !mobileDrawer.querySelector("[data-design-brief-open]")) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "tr-landing-mobile-menu__item tr-landing-mobile-menu__brief";
+    button.setAttribute("data-design-brief-open", "");
+    button.textContent = "Design Exercise";
+    mobileDrawer.appendChild(button);
+  }
+}
+
 function openBrief() {
   const root = ensureBrief();
   root.hidden = false;
@@ -81,11 +99,11 @@ function closeBrief() {
 
 function bind() {
   const root = ensureBrief();
+  ensureOpenTriggers();
+
   const closeButton = root.querySelector(".design-brief__close");
   const backdrop = root.querySelector(".design-brief__backdrop");
 
-  // Bind the modal's own close controls directly. This avoids relying solely on
-  // document-level delegation, which can be affected by page-specific scripts.
   closeButton?.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -93,6 +111,7 @@ function bind() {
   });
   backdrop?.addEventListener("click", (event) => {
     event.preventDefault();
+    event.stopPropagation();
     closeBrief();
   });
 
@@ -102,12 +121,14 @@ function bind() {
     const openEl = target.closest("[data-design-brief-open]");
     if (openEl) {
       event.preventDefault();
+      event.stopPropagation();
       openBrief();
       return;
     }
     const closeEl = target.closest("[data-design-brief-close]");
     if (closeEl) {
       event.preventDefault();
+      event.stopPropagation();
       closeBrief();
     }
   });
