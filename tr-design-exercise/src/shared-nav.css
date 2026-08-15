@@ -18,28 +18,16 @@
 @media (min-width:768px){.tr-landing-brand-link{display:flex}.tr-landing-header-nav-link{display:inline}.tr-nav-brief{display:inline-flex}.tr-nav-theme-slot:not(:empty){display:inline-flex}}@media (min-width:1024px){.tr-landing-header-nav-link{margin-left:28px}.tr-landing-header-nav-link:first-child{margin-left:0}.tr-nav-brief{margin-left:28px}}@media (max-width:767px){.tr-nav-menu-toggle{display:inline-flex}.tr-landing-brand-link{display:flex;width:28px;height:28px}.tr-landing-brand-logo-image{display:none!important}.tr-landing-brand-mobile-image{display:block!important}.tr-nav-links{display:none}.tr-nav-theme-slot:not(:empty){display:inline-flex}.promo{padding:0 16px 16px}.promo::before,.promo::after{display:none}.promo__badge{display:none}.promo__copy{margin:0;font-size:15px;line-height:1.25;white-space:normal;text-align:center}.promo__copy .promo-banner-copy-row{justify-content:center;white-space:normal;flex-wrap:wrap}.promo__copy .promo-banner-copy-row>p{white-space:normal;text-align:center;font-size:15px}.promo__copy .promo-banner-copy-row>a{margin-left:8px;font-size:14px}}
 
 /* Only the top navigation is interactive. Everything else remains visually static. */
-.tr-landing-page a,
-.tr-landing-page button {
-  cursor: default !important;
-}
-.tr-landing-page a:not(.tr-landing-header-nav-link):not(.tr-nav-brief):not(.tr-landing-mobile-menu__item):not(.tr-landing-mobile-menu__overlay),
-.tr-landing-page button:not(.tr-nav-brief):not(.tr-nav-menu-toggle):not(.tr-landing-mobile-menu__item):not(.tr-landing-mobile-menu__overlay) {
-  pointer-events: none !important;
-}
+body a,
+body button { cursor: default !important; }
+body a:not(.tr-landing-header-nav-link):not(.tr-nav-brief):not(.tr-landing-mobile-menu__item):not(.tr-landing-mobile-menu__overlay),
+body button:not(.tr-nav-brief):not(.tr-nav-menu-toggle):not(.tr-landing-mobile-menu__item):not(.tr-landing-mobile-menu__overlay) { pointer-events: none !important; }
 .tr-landing-brand-link,
-.tr-landing-mobile-menu__brand {
-  pointer-events: none !important;
-  cursor: default !important;
-}
+.tr-landing-mobile-menu__brand { pointer-events: none !important; cursor: default !important; }
 .tr-landing-header-nav-link,
 .tr-nav-brief,
 .tr-nav-menu-toggle,
 .tr-landing-mobile-menu__item,
-.tr-landing-mobile-menu__overlay {
-  pointer-events: auto;
-  cursor: pointer !important;
-}
+.tr-landing-mobile-menu__overlay { pointer-events: auto !important; cursor: pointer !important; }
 .tr-landing-hero-url-box,
-.tr-landing-hero-copy-button {
-  background: #fff !important;
-}
+.tr-landing-hero-copy-button { background: #fff !important; }
