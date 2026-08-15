@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/logo-without-title.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#03050a" />
+    <meta name="description" content="TokenRouter — one API that routes AI traffic across models, regions, and cost profiles." />
+    <title>TokenRouter - Option 1</title>
+    <link rel="stylesheet" href="/src/replica.css" />
+    <link rel="stylesheet" href="/src/option3-theme.css" />
+    <link rel="stylesheet" href="/src/shared-nav.css" />
+  </head>
+  <body class="theme-signal">
+    <div class="sig-page">
+      <div class="sr-only">
+        <h1>TokenRouter — route AI traffic worldwide</h1>
+        <p>A unified AI model hub that intelligently routes tokens across models, regions, and budgets.</p>
+      </div>
+
+      <header id="site-header" class="tr-landing-header site-header">
+        <div class="tr-nav-inner">
+          <button id="mobile-menu-btn" class="tr-nav-menu-toggle" type="button" aria-label="Open menu">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M3 5.5H19M3 11H19M3 16.5H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+          <a href="/current.html" class="tr-landing-brand-link" aria-label="TokenRouter">
+            <img alt="TokenRouter" class="tr-landing-brand-logo-image" src="/assets/logo.png" />
+            <img alt="TokenRouter" class="tr-landing-brand-mobile-image" src="/assets/logo-without-title-8.png" />
+          </a>
+          <div class="tr-nav-end">
+            <nav class="tr-nav-links" aria-label="Primary">
+              <a href="/current.html" class="tr-landing-header-nav-link">Current</a>
+              <a href="/option-1.html" class="tr-landing-header-nav-link is-active">Option 1</a>
+              <a href="/option-2.html" class="tr-landing-header-nav-link">Option 2</a>
+              <a href="/option-3.html" class="tr-landing-header-nav-link">Option 3</a>
+              <a href="/option-4.html" class="tr-landing-header-nav-link">Option 4</a>
+              <button type="button" class="tr-nav-brief" data-design-brief-open>Design Exercise</button>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      <div id="mobile-menu" class="tr-landing-mobile-menu" hidden>
+        <button class="tr-landing-mobile-menu__overlay" id="mobile-menu-close" type="button" aria-label="Close menu"></button>
+        <div class="tr-landing-mobile-menu__drawer">
+          <a href="/current.html" class="tr-landing-mobile-menu__brand"><img alt="TokenRouter" src="/assets/logo.png" /></a>
+          <a href="/current.html" class="tr-landing-mobile-menu__item">Current</a>
+          <a href="/option-1.html" class="tr-landing-mobile-menu__item is-active">Option 1</a>
+          <a href="/option-2.html" class="tr-landing-mobile-menu__item">Option 2</a>
+          <a href="/option-3.html" class="tr-landing-mobile-menu__item">Option 3</a>
+          <a href="/option-4.html" class="tr-landing-mobile-menu__item">Option 4</a>
+          <button type="button" class="tr-landing-mobile-menu__item tr-landing-mobile-menu__brief" data-design-brief-open>Design Exercise</button>
+        </div>
+      </div>
+
+      <div style="height:64px"></div>
+
+      <main>
+        <section class="globe-hero" aria-label="Global routing map">
+          <canvas id="globe-canvas" class="globe-hero__canvas" aria-hidden="true"></canvas>
+          <div class="globe-hero__veil" aria-hidden="true"></div>
+          <div class="globe-city-tip" id="globe-tip" role="status">
+            <div class="globe-city-tip__name" data-tip-name></div>
+            <div class="globe-city-tip__meta" data-tip-meta></div>
+          </div>
+
+          <div class="globe-hero__copy">
+            <div class="sig-reveal">
+              <div class="globe-kicker"><span class="globe-kicker__dot" aria-hidden="true"></span> Live · 12 regions lighting up</div>
+              <h2 class="globe-hero__title">AI traffic<br />finds its<br /><em>way</em></h2>
+              <p class="globe-hero__lede">
+                One control plane. Every model. Tokens route themselves toward the best path — by city, cost, and latency.
+              </p>
+              <div class="globe-hero__actions">
+                <a class="sig-btn sig-btn--primary" href="#">Start routing</a>
+                <a class="sig-btn sig-btn--ghost" href="#policy">Watch a decision</a>
+              </div>
+            </div>
+
+            <div class="globe-hero__bottom sig-reveal">
+              <div class="globe-live">
+                <div class="globe-live__label">Where requests are landing</div>
+                <div class="globe-live__feed" data-live-feed><strong>San Francisco</strong> · 18.2k req/min · via GPT-4o</div>
+              </div>
+              <div class="globe-stats">
+                <div>
+                  <strong data-count="142+" data-suffix="+">0</strong>
+                  Cities
+                </div>
+                <div>
+                  <strong data-count="38%" data-suffix="%">0%</strong>
+                  Cost cut
+                </div>
+                <div>
+                  <strong data-count="24ms" data-suffix="ms">0ms</strong>
+                  Route pick
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="giant sig-reveal" aria-label="Positioning">
+          <p class="giant__eyebrow">TokenRouter</p>
+          <h2 class="giant__word">
+            <em>One</em>
+            <span>API</span>
+            <em>Every</em>
+            <span>model</span>
+          </h2>
+          <p class="giant__note">
+            Drop in an OpenAI-compatible endpoint. Keep your SDK. Swap providers, regions, and fallbacks without rewriting product code.
+          </p>
+        </section>
+
+        <section class="chapters" aria-label="How TokenRouter works">
+          <div class="chapters__sticky">
+            <div class="chapters__index" data-chapter-index>01</div>
+            <h2 class="chapters__title" data-chapter-title>Token</h2>
+            <p class="chapters__text" data-chapter-text>
+              Every request is an atomic unit of spend — metered, attributed, and ready to route before it leaves your boundary.
+            </p>
+            <div class="chapters__visual" aria-hidden="true">
+              <canvas id="chapter-canvas"></canvas>
+            </div>
+          </div>
+
+          <div class="chapters__rail">
+            <article class="chapter-card is-active" data-chapter data-index="01" data-title="Token" data-blurb="Every request is an atomic unit of spend — metered, attributed, and ready to route before it leaves your boundary.">
+              <div class="chapter-card__tag">Concept 01</div>
+              <h3 class="chapter-card__title">Tokens are the currency of AI</h3>
+              <p class="chapter-card__body">
+                TokenRouter treats tokens as first-class traffic: priced in flight, capped by policy, and visible on a single ledger across every provider you touch.
+              </p>
+              <div class="chapter-card__pills">
+                <span class="chapter-pill">Metering</span>
+                <span class="chapter-pill">Budgets</span>
+                <span class="chapter-pill">Attribution</span>
+              </div>
+            </article>
+
+            <article class="chapter-card" data-chapter data-index="02" data-title="Route" data-blurb="Policies score latency, region, model health, and spend — then lock a path in milliseconds.">
+              <div class="chapter-card__tag">Concept 02</div>
+              <h3 class="chapter-card__title">Routing is the product</h3>
+              <p class="chapter-card__body">
+                Speed, quality, or budget — pick a posture and the lattice rewires. Failover is automatic. Your users never see the seam.
+              </p>
+              <div class="chapter-card__pills">
+                <span class="chapter-pill">Latency</span>
+                <span class="chapter-pill">Failover</span>
+                <span class="chapter-pill">Regions</span>
+              </div>
+            </article>
+
+            <article class="chapter-card" data-chapter data-index="03" data-title="Connect" data-blurb="One OpenAI-shaped API connects apps to a verified catalog of models — without new integrations.">
+              <div class="chapter-card__tag">Concept 03</div>
+              <h3 class="chapter-card__title">Connections without rewrites</h3>
+              <p class="chapter-card__body">
+                Point existing clients at TokenRouter. Speak OpenAI, Claude, or Gemini protocols. The hub normalizes the rest.
+              </p>
+              <div class="chapter-card__pills">
+                <span class="chapter-pill">OpenAI API</span>
+                <span class="chapter-pill">Claude API</span>
+                <span class="chapter-pill">Gemini API</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="policy sig-reveal" id="policy" data-policy>
+          <div class="policy__head">
+            <h2 class="policy__title">Ask the router</h2>
+            <p class="policy__lede">
+              Change the policy. Watch packets re-home. This is the mechanic behind every TokenRouter request — made visible.
+            </p>
+          </div>
+
+          <div class="policy__board">
+            <div class="policy__controls">
+              <button type="button" class="policy-btn is-active" data-policy-btn>
+                <div class="policy-btn__label">Policy A</div>
+                <div class="policy-btn__title">Speed</div>
+                <div class="policy-btn__text">Lowest latency path wins. Ideal for chat and agents.</div>
+              </button>
+              <button type="button" class="policy-btn" data-policy-btn>
+                <div class="policy-btn__label">Policy B</div>
+                <div class="policy-btn__title">Quality</div>
+                <div class="policy-btn__text">Prefer frontier models when the prompt looks hard.</div>
+              </button>
+              <button type="button" class="policy-btn" data-policy-btn>
+                <div class="policy-btn__label">Policy C</div>
+                <div class="policy-btn__title">Budget</div>
+                <div class="policy-btn__text">Squeeze cost until a quality floor is breached.</div>
+              </button>
+            </div>
+
+            <div class="policy__stage">
+              <canvas aria-hidden="true"></canvas>
+              <div class="policy__readout">
+                <div class="policy__metric">Latency<strong data-m-lat>—</strong></div>
+                <div class="policy__metric">Cost / 1k<strong data-m-cost>—</strong></div>
+                <div class="policy__metric">Model<strong data-m-model>—</strong></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="finale sig-reveal">
+          <h2 class="finale__title">Put the world on one key</h2>
+          <p class="finale__text">
+            Create an account, drop in the endpoint, and let TokenRouter decide where every token should go.
+          </p>
+          <div class="finale__actions">
+            <a class="sig-btn sig-btn--primary" href="#">Create account</a>
+            <a class="sig-btn sig-btn--ghost" href="#">Read the docs</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="sig-footer">
+        <div>
+          <strong>TokenRouter</strong>
+          <div style="margin-top:6px">Global routing for the model era.</div>
+        </div>
+        <div>© Artemis Tokenrouter Inc. · Option 1</div>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/replica.js"></script>
+    <script type="module" src="/src/option3-motion.js"></script>
+    <script type="module" src="/src/design-brief.js"></script>
+  </body>
+</html>
