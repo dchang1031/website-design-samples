@@ -1134,3 +1134,288 @@ html body.theme-liquid[data-theme="dark"] .tr-landing-faq-expand-icon {
     inset: calc(72px + var(--scale-inset)) var(--scale-inset) var(--scale-inset);
   }
 }
+
+/* —— Scroll value story (before hero) —— */
+.theme-liquid .value-story {
+  position: relative;
+  height: 620vh;
+  z-index: 1;
+}
+
+.theme-liquid .value-story__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 140px 48px 48px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.theme-liquid .value-story__stage {
+  position: relative;
+  width: min(920px, 100%);
+  min-height: min(520px, calc(100vh - 200px));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.theme-liquid .value-story__eyebrow {
+  margin: 0 0 20px;
+  font-family: "PP Neue Montreal", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0086ff;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.theme-liquid .value-story.is-benefits .value-story__eyebrow {
+  opacity: 1;
+  transform: none;
+}
+
+.theme-liquid .value-story__headline {
+  margin: 0;
+  font-family: "PP Neue Montreal", system-ui, sans-serif;
+  font-weight: 500;
+  font-size: clamp(48px, 8.5vw, 96px);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: #121317;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease;
+  transform-origin: left top;
+}
+
+.theme-liquid .value-story__headline-line {
+  display: block;
+}
+
+.theme-liquid .value-story__headline-line--accent {
+  color: #0086ff;
+}
+
+.theme-liquid .value-story.is-benefits .value-story__headline {
+  transform: scale(0.42);
+  opacity: 0.55;
+  margin-bottom: 8px;
+}
+
+.theme-liquid .value-story__benefits {
+  position: relative;
+  margin-top: 28px;
+  min-height: 220px;
+}
+
+.theme-liquid .value-story__benefit {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  max-width: 640px;
+  opacity: 0;
+  transform: translateY(36px);
+  pointer-events: none;
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.theme-liquid .value-story__benefit.is-active {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.theme-liquid .value-story__benefit.is-exit {
+  opacity: 0;
+  transform: translateY(-28px);
+}
+
+.theme-liquid .value-story:not(.is-benefits) .value-story__benefit {
+  opacity: 0 !important;
+  transform: translateY(40px) !important;
+  pointer-events: none !important;
+}
+
+.theme-liquid .value-story__index {
+  font-family: "PP Neue Montreal", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #0086ff;
+  margin-bottom: 14px;
+}
+
+.theme-liquid .value-story__title {
+  margin: 0;
+  font-family: "PP Neue Montreal", system-ui, sans-serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: #121317;
+}
+
+.theme-liquid .value-story__text {
+  margin: 16px 0 0;
+  max-width: 46ch;
+  font-size: 18px;
+  line-height: 1.55;
+  color: #45474d;
+}
+
+.theme-liquid .value-story__progress {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 40px;
+}
+
+.theme-liquid .value-story__progress-track {
+  flex: 1;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(18, 19, 23, 0.12);
+  overflow: hidden;
+}
+
+.theme-liquid .value-story__progress-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #0086ff, #5aa8ff);
+  transition: width 0.2s linear;
+}
+
+.theme-liquid .value-story__dots {
+  display: flex;
+  gap: 8px;
+}
+
+.theme-liquid .value-story__dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(18, 19, 23, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.theme-liquid .value-story__dot.is-active {
+  background: #0086ff;
+  transform: scale(1.25);
+}
+
+.theme-liquid .value-story__hint {
+  margin: 18px 0 0;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: #8a8f98;
+  transition: opacity 0.35s ease;
+}
+
+.theme-liquid .value-story.is-benefits .value-story__hint {
+  opacity: 0;
+}
+
+/* Dark theme */
+.theme-liquid.theme-liquid--dark .value-story__headline,
+.theme-liquid[data-theme="dark"] .value-story__headline,
+.theme-liquid.theme-liquid--dark .value-story__title,
+.theme-liquid[data-theme="dark"] .value-story__title {
+  color: #f2f5fa;
+}
+
+.theme-liquid.theme-liquid--dark .value-story__text,
+.theme-liquid[data-theme="dark"] .value-story__text {
+  color: #9aa6bc;
+}
+
+.theme-liquid.theme-liquid--dark .value-story__progress-track,
+.theme-liquid[data-theme="dark"] .value-story__progress-track {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.theme-liquid.theme-liquid--dark .value-story__dot,
+.theme-liquid[data-theme="dark"] .value-story__dot {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.theme-liquid.theme-liquid--dark .value-story__dot.is-active,
+.theme-liquid[data-theme="dark"] .value-story__dot.is-active {
+  background: #5aa8ff;
+}
+
+.theme-liquid.theme-liquid--dark .value-story__hint,
+.theme-liquid[data-theme="dark"] .value-story__hint {
+  color: #7d889c;
+}
+
+.theme-liquid.theme-liquid--dark .value-story.is-benefits .value-story__headline,
+.theme-liquid[data-theme="dark"] .value-story.is-benefits .value-story__headline {
+  opacity: 0.45;
+}
+
+@media (max-width: 767px) {
+  .theme-liquid .value-story {
+    height: 560vh;
+  }
+
+  .theme-liquid .value-story__sticky {
+    padding: 120px 24px 32px;
+  }
+
+  .theme-liquid .value-story.is-benefits .value-story__headline {
+    transform: scale(0.5);
+  }
+
+  .theme-liquid .value-story__benefits {
+    min-height: 260px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-liquid .value-story {
+    height: auto;
+  }
+
+  .theme-liquid .value-story__sticky {
+    position: relative;
+    height: auto;
+    padding: 80px 24px 48px;
+  }
+
+  .theme-liquid .value-story__headline,
+  .theme-liquid .value-story__eyebrow,
+  .theme-liquid .value-story__benefit,
+  .theme-liquid .value-story__progress-fill {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .theme-liquid .value-story__benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    min-height: 0;
+  }
+
+  .theme-liquid .value-story__benefit {
+    position: relative;
+    pointer-events: auto !important;
+  }
+
+  .theme-liquid .value-story__hint {
+    display: none;
+  }
+}

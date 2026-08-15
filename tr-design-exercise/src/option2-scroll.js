@@ -6,6 +6,7 @@
   initScrollWash();
   initReveals();
   initScaleExpand();
+  initValueStory();
 })();
 
 function initThemeToggle() {
@@ -189,6 +190,103 @@ function initScaleExpand() {
     ticking = true;
     requestAnimationFrame(update);
   }
+
+  update();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+}
+
+/**
+ * Scroll storytelling before hero:
+ * step 0 = headline only
+ * steps 1..N = one benefit at a time
+ */
+function initValueStory() {
+  const root = document.querySelector("[data-value-story]");
+  if (!root) return;
+
+  const benefits = [...root.querySelectorAll(".value-story__benefit")];
+  const dots = [...root.querySelectorAll("[data-story-dot]")];
+  const fill = root.querySelector("[data-story-progress]");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const totalSteps = benefits.length + 1; // +1 for headline-only beat
+  let active = -1;
+
+  if (reduce) {
+    root.classList.add("is-benefits");
+    benefits.forEach((b) => {
+      b.hidden = false;
+      b.classList.add("is-active");
+      b.removeAttribute("hidden");
+    });
+    if (fill) fill.style.width = "100%";
+    return;
+  }
+
+  function setStep(step) {
+    const next = Math.max(0, Math.min(totalSteps - 1, step));
+    if (next === active) {
+      if (fill) fill.style.width = `${((next + 1) / totalSteps) * 100}%`;
+      return;
+    }
+    active = next;
+
+    const showingBenefits = active > 0;
+    root.classList.toggle("is-benefits", showingBenefits);
+
+    benefits.forEach((el, i) => {
+      const benefitStep = i + 1;
+      const on = showingBenefits && benefitStep === active;
+      el.classList.toggle("is-active", on);
+      el.classList.toggle("is-exit", showingBenefits && benefitStep < active);
+      if (!on) el.setAttribute("aria-hidden", "true");
+      else el.removeAttribute("aria-hidden");
+    });
+
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("is-active", i === active);
+    });
+
+    if (fill) fill.style.width = `${((active + 1) / totalSteps) * 100}%`;
+  }
+
+  function progressFor() {
+    const rect = root.getBoundingClientRect();
+    const vh = window.innerHeight || 1;
+    const total = Math.max(1, rect.height - vh);
+    const raw = -rect.top / total;
+    return Math.min(1, Math.max(0, raw));
+  }
+
+  function update() {
+    const p = progressFor();
+    // Hold headline a bit longer at the start
+    const eased = p < 0.12 ? 0 : (p - 0.12) / 0.88;
+    const step = Math.min(totalSteps - 1, Math.floor(eased * totalSteps));
+    setStep(step);
+  }
+
+  let ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      update();
+    });
+  }
+
+  dots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+      const idx = Number(dot.getAttribute("data-story-dot") || "0");
+      const rect = root.getBoundingClientRect();
+      const absoluteTop = window.scrollY + rect.top;
+      const scrollable = Math.max(1, root.offsetHeight - window.innerHeight);
+      // Map step index back into scroll range (accounting for headline hold)
+      const t = idx === 0 ? 0 : 0.12 + (idx / totalSteps) * 0.88;
+      window.scrollTo({ top: absoluteTop + t * scrollable, behavior: "smooth" });
+    });
+  });
 
   update();
   window.addEventListener("scroll", onScroll, { passive: true });
