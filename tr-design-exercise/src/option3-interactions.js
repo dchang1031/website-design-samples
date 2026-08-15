@@ -42,11 +42,19 @@
     const headline = story?.querySelector(".value-story__headline");
     if (!story || !headline) return;
 
-    // Remove the headline from the scrolling/sticky DOM entirely. This prevents
-    // any transform/positioning on an ancestor from affecting its viewport center.
+    // Take the headline completely out of Option 2's scrolling layout.
     document.body.appendChild(headline);
+    headline.style.setProperty("position", "fixed", "important");
+    headline.style.setProperty("top", "50vh", "important");
+    headline.style.setProperty("left", "50vw", "important");
+    headline.style.setProperty("right", "auto", "important");
+    headline.style.setProperty("bottom", "auto", "important");
+    headline.style.setProperty("margin", "0", "important");
+    headline.style.setProperty("transform", "translate3d(-50%, -50%, 0)", "important");
+    headline.style.setProperty("pointer-events", "none", "important");
+    headline.style.setProperty("z-index", "100", "important");
 
-    const letters = headline.querySelectorAll("[data-letter]");
+    const letters = [...headline.querySelectorAll("[data-letter]")];
     const count = Math.max(letters.length, 1);
 
     const apply = () => {
@@ -54,19 +62,30 @@
       const total = Math.max(1, story.offsetHeight - window.innerHeight);
       const p = clamp(-rect.top / total, 0, 1);
 
-      // Light the sentence progressively while it remains in exactly the same
-      // viewport position. Once the reveal is complete, blur and fade it in place.
       const litEnd = 0.56;
       letters.forEach((el, i) => {
         const start = (i / count) * litEnd;
         const end = ((i + 0.8) / count) * litEnd;
         const lit = reduce || smoothstep(start, end, p) >= 0.45;
         el.classList.toggle("is-lit", lit);
+        // Inline values deliberately win over all Option 2 palette rules.
+        el.style.setProperty("opacity", "1", "important");
+        el.style.setProperty(
+          "color",
+          lit
+            ? (el.classList.contains("value-story__letter--accent") ? "#0086ff" : "#000000")
+            : "rgba(0, 0, 0, 0.32)",
+          "important"
+        );
       });
 
-      const fade = smoothstep(0.62, 0.96, p);
-      headline.style.setProperty("--o3-headline-opacity", (1 - fade).toFixed(4));
-      headline.style.setProperty("--hl-blur", `${(fade * 7).toFixed(2)}px`);
+      // Stay fully opaque through the reveal. Fade only after every letter is lit.
+      const fade = smoothstep(0.62, 0.94, p);
+      headline.style.setProperty("opacity", (1 - fade).toFixed(4), "important");
+      headline.style.setProperty("filter", `blur(${(fade * 7).toFixed(2)}px)`, "important");
+      headline.style.setProperty("top", "50vh", "important");
+      headline.style.setProperty("left", "50vw", "important");
+      headline.style.setProperty("transform", "translate3d(-50%, -50%, 0)", "important");
     };
 
     apply();
@@ -86,27 +105,21 @@
   }
 
   function initHeroSequence() {
-    const hero = document.querySelector("[data-section=\"hero\"]");
+    const hero = document.querySelector('[data-section="hero"]');
     if (!hero) return;
 
     const apply = () => {
       const rect = hero.getBoundingClientRect();
       const total = Math.max(1, hero.offsetHeight - window.innerHeight);
       const p = clamp(-rect.top / total, 0, 1);
-
-      const model = smoothstep(0.03, 0.32, p);
-      const copy = smoothstep(0.30, 0.62, p);
-      hero.style.setProperty("--o3-model-opacity", model.toFixed(4));
-      hero.style.setProperty("--o3-hero-copy-opacity", copy.toFixed(4));
+      hero.style.setProperty("--o3-model-opacity", smoothstep(0.03, 0.32, p).toFixed(4));
+      hero.style.setProperty("--o3-hero-copy-opacity", smoothstep(0.30, 0.62, p).toFixed(4));
     };
 
     apply();
     if (!reduce) {
       let ticking = false;
-      const update = () => {
-        ticking = false;
-        apply();
-      };
+      const update = () => { ticking = false; apply(); };
       window.addEventListener("scroll", () => {
         if (ticking) return;
         ticking = true;
