@@ -23,25 +23,11 @@ const BRIEF_HTML = `
         <section class="design-brief__section">
           <h3 class="design-brief__section-title">设计要求</h3>
           <p>请在现有官网内容和产品定位的基础上，对 TokenRouter Homepage 整体进行重新设计。</p>
-          <div class="design-brief__callout">
-            核心原则是：简洁、清晰、易用，同时比现有版本具有更强的设计感和品牌辨识度。
-          </div>
+          <div class="design-brief__callout">核心原则是：简洁、清晰、易用，同时比现有版本具有更强的设计感和品牌辨识度。</div>
           <p>我们希望新版设计能够体现 TokenRouter 自身的产品和品牌特点，可以围绕以下概念进行视觉探索：</p>
-          <div class="design-brief__chips" aria-label="Visual exploration themes">
-            <span class="design-brief__chip">Token</span>
-            <span class="design-brief__chip">Routing</span>
-            <span class="design-brief__chip">AI Models</span>
-            <span class="design-brief__chip">Data Flow</span>
-            <span class="design-brief__chip">Connection</span>
-            <span class="design-brief__chip">API / AI Infrastructure</span>
-          </div>
+          <div class="design-brief__chips" aria-label="Visual exploration themes"><span class="design-brief__chip">Token</span><span class="design-brief__chip">Routing</span><span class="design-brief__chip">AI Models</span><span class="design-brief__chip">Data Flow</span><span class="design-brief__chip">Connection</span><span class="design-brief__chip">API / AI Infrastructure</span></div>
           <p>整体风格希望更加：</p>
-          <div class="design-brief__chips" aria-label="Desired style">
-            <span class="design-brief__chip">Modern</span>
-            <span class="design-brief__chip">Professional</span>
-            <span class="design-brief__chip">Technology</span>
-            <span class="design-brief__chip">Premium</span>
-          </div>
+          <div class="design-brief__chips" aria-label="Desired style"><span class="design-brief__chip">Modern</span><span class="design-brief__chip">Professional</span><span class="design-brief__chip">Technology</span><span class="design-brief__chip">Premium</span></div>
           <p>希望形成与 TokenRouter 产品本身有关的设计语言。</p>
         </section>
 
@@ -49,15 +35,7 @@ const BRIEF_HTML = `
           <h3 class="design-brief__section-title">动效与交互</h3>
           <p>希望新版首页能够适当加入 Motion Design / Micro-interactions，提升整体体验和品牌感。</p>
           <p>动效的数量和形式不做限制，由候选人根据自己的设计方案决定。可以用于：</p>
-          <ul class="design-brief__list">
-            <li>Hero 主视觉</li>
-            <li>Token / Data Flow</li>
-            <li>Model Routing</li>
-            <li>页面滚动</li>
-            <li>Hover</li>
-            <li>Section Transition</li>
-            <li>其他能够强化品牌或帮助理解产品的交互</li>
-          </ul>
+          <ul class="design-brief__list"><li>Hero 主视觉</li><li>Token / Data Flow</li><li>Model Routing</li><li>页面滚动</li><li>Hover</li><li>Section Transition</li><li>其他能够强化品牌或帮助理解产品的交互</li></ul>
           <p>我们更关注动效是否与整体设计理念和产品概念结合，而不是单纯追求复杂效果。</p>
         </section>
 
@@ -66,13 +44,7 @@ const BRIEF_HTML = `
           <p>只需要完成：</p>
           <div class="design-brief__callout"><strong>TokenRouter Homepage Desktop Version</strong></div>
           <p>本次作业不要求达到实际上线级别的完整度，我们更关注候选人的：</p>
-          <ul class="design-brief__list">
-            <li>Design Style</li>
-            <li>Brand Thinking</li>
-            <li>UX Judgment</li>
-            <li>Visual Quality</li>
-            <li>Motion &amp; Interaction</li>
-          </ul>
+          <ul class="design-brief__list"><li>Design Style</li><li>Brand Thinking</li><li>UX Judgment</li><li>Visual Quality</li><li>Motion &amp; Interaction</li></ul>
           <p class="design-brief__meta">建议整体投入时间控制在 1–2 小时以内</p>
           <p>我们鼓励候选人灵活使用自己熟悉的 AI 工具提升设计和实现效率。</p>
           <p>最终可以提交 Figma 设计稿，也可以直接提交可交互的 Web Prototype / Demo，不限制具体实现方式。</p>
@@ -97,8 +69,7 @@ function openBrief() {
   const root = ensureBrief();
   root.hidden = false;
   document.body.classList.add("design-brief-open");
-  const closeBtn = root.querySelector(".design-brief__close");
-  closeBtn?.focus();
+  root.querySelector(".design-brief__close")?.focus();
 }
 
 function closeBrief() {
@@ -109,16 +80,32 @@ function closeBrief() {
 }
 
 function bind() {
-  ensureBrief();
+  const root = ensureBrief();
+  const closeButton = root.querySelector(".design-brief__close");
+  const backdrop = root.querySelector(".design-brief__backdrop");
+
+  // Bind the modal's own close controls directly. This avoids relying solely on
+  // document-level delegation, which can be affected by page-specific scripts.
+  closeButton?.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    closeBrief();
+  });
+  backdrop?.addEventListener("click", (event) => {
+    event.preventDefault();
+    closeBrief();
+  });
 
   document.addEventListener("click", (event) => {
-    const openEl = event.target.closest("[data-design-brief-open]");
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const openEl = target.closest("[data-design-brief-open]");
     if (openEl) {
       event.preventDefault();
       openBrief();
       return;
     }
-    const closeEl = event.target.closest("[data-design-brief-close]");
+    const closeEl = target.closest("[data-design-brief-close]");
     if (closeEl) {
       event.preventDefault();
       closeBrief();
@@ -131,7 +118,7 @@ function bind() {
 }
 
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", bind);
+  document.addEventListener("DOMContentLoaded", bind, { once: true });
 } else {
   bind();
 }
