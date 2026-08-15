@@ -54,9 +54,6 @@
               <a href="/option-4.html" class="tr-landing-header-nav-link">Option 4</a>
               <button type="button" class="tr-nav-brief" data-design-brief-open>Design Exercise</button>
             </nav>
-            <div class="tr-landing-header-divider" aria-hidden="true"></div>
-            <button class="tr-landing-header-action" type="button">Sign In</button>
-            <button class="tr-landing-header-action" type="button">Sign Up</button>
           </div>
         </div>
       </header>
@@ -113,16 +110,17 @@
         <!-- Scroll-scrub value story: headline fades into benefits -->
         <section class="value-story" data-value-story aria-label="TokenRouter value">
           <div class="value-story__sticky">
+            <div class="value-story__grid" aria-hidden="true"></div>
             <div class="value-story__frame">
               <h2 class="value-story__headline" data-story-headline>
-                <span class="value-story__headline-line">One TokenRouter</span>
-                <span class="value-story__headline-line value-story__headline-line--accent">All Models</span>
+                <span class="value-story__headline-line"><span class="value-story__hl">One</span> TokenRouter</span>
+                <span class="value-story__headline-line"><span class="value-story__hl">All</span> Models</span>
               </h2>
 
               <div class="value-story__panels">
                 <article class="value-story__panel" data-benefit="0" aria-hidden="true">
                   <div class="value-story__copy">
-                    <div class="value-story__index">01</div>
+                    <div class="value-story__tag"><span class="value-story__tag-dot"></span>Access Layer</div>
                     <h3 class="value-story__title">One login. One key.<br />Dozens of models.</h3>
                     <p class="value-story__text">Access dozens of different AI models through a single platform — one login and one API key for your whole stack.</p>
                   </div>
@@ -133,7 +131,7 @@
 
                 <article class="value-story__panel" data-benefit="1" aria-hidden="true">
                   <div class="value-story__copy">
-                    <div class="value-story__index">02</div>
+                    <div class="value-story__tag"><span class="value-story__tag-dot"></span>Team Infrastructure</div>
                     <h3 class="value-story__title">Built for<br />enterprise teams</h3>
                     <p class="value-story__text">Designed specifically for businesses and enterprise engineering teams — not hobby experiments.</p>
                   </div>
@@ -144,7 +142,7 @@
 
                 <article class="value-story__panel" data-benefit="2" aria-hidden="true">
                   <div class="value-story__copy">
-                    <div class="value-story__index">03</div>
+                    <div class="value-story__tag"><span class="value-story__tag-dot"></span>Security Layer</div>
                     <h3 class="value-story__title">Enterprise<br />security</h3>
                     <p class="value-story__text">A bank or healthcare company cannot send customer data through a public hobbyist tool. TokenRouter locks down AI connections so data never leaks out.</p>
                   </div>
@@ -152,6 +150,12 @@
                     <canvas data-viz="security"></canvas>
                   </div>
                 </article>
+              </div>
+
+              <div class="value-story__hud" data-story-hud aria-hidden="true">
+                <span class="value-story__hud-dot" data-hud="0"></span>
+                <span class="value-story__hud-dot" data-hud="1"></span>
+                <span class="value-story__hud-dot" data-hud="2"></span>
               </div>
 
               <div class="value-story__scrub" aria-hidden="true">
