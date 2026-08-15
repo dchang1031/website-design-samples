@@ -1,0 +1,228 @@
+/* Hero cleanup + enlarged URL box + One API stage */
+
+/* Remove TOKENROUTER badge and the duplicate "One TokenRouter / All Models" title above FasterBetterCheaper */
+.theme-liquid [data-section="hero"] .tr-landing-hero-badge,
+.theme-liquid [data-section="hero"] .tr-landing-hero-title {
+  display: none !important;
+}
+
+/* Enlarge the API URL container */
+.theme-liquid .tr-landing-hero-url-box {
+  min-height: 64px !important;
+  height: auto !important;
+  padding: 14px 12px 14px 20px !important;
+  border-radius: 16px !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+@media (min-width: 1024px) {
+  .theme-liquid .tr-landing-hero-url-box {
+    min-height: 72px !important;
+    padding: 16px 14px 16px 22px !important;
+    border-radius: 18px !important;
+  }
+
+  .theme-liquid .tr-landing-hero-url-text {
+    font-size: 18px !important;
+  }
+
+  .theme-liquid .tr-landing-hero-copy-button {
+    height: 44px !important;
+    min-width: 100px !important;
+    font-size: 15px !important;
+  }
+}
+
+/* One API scroll stage */
+.theme-liquid .oneapi-stage {
+  position: relative;
+  height: 320vh;
+  z-index: 1;
+}
+
+.theme-liquid .oneapi-stage__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 24px 40px;
+  box-sizing: border-box;
+}
+
+.theme-liquid .oneapi-stage__canvas-wrap {
+  position: relative;
+  width: min(1100px, 100%);
+  height: min(420px, 52vh);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(0, 134, 255, 0.14);
+  box-shadow: 0 20px 60px rgba(70, 100, 150, 0.1);
+}
+
+.theme-liquid .oneapi-stage__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.theme-liquid .oneapi-stage__video {
+  position: absolute;
+  inset: 8%;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0d121b;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: none;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.theme-liquid .oneapi-stage__video.is-playing [data-product-ui] {
+  animation-play-state: running;
+}
+
+/* Simulated product UI (screen-recording look) */
+.theme-liquid .product-ui {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: "PP Neue Montreal", system-ui, sans-serif;
+  color: #e8eef8;
+  background: linear-gradient(160deg, #121a28 0%, #0d121b 100%);
+}
+
+.theme-liquid .product-ui__bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.theme-liquid .product-ui__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff5f57;
+}
+.theme-liquid .product-ui__dot:nth-child(2) { background: #febc2e; }
+.theme-liquid .product-ui__dot:nth-child(3) { background: #28c840; }
+
+.theme-liquid .product-ui__title {
+  margin-left: 8px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.theme-liquid .product-ui__body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  min-height: 0;
+}
+
+.theme-liquid .product-ui__nav {
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 12px;
+  font-size: 12px;
+}
+
+.theme-liquid .product-ui__nav-item {
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+  opacity: 0.65;
+}
+
+.theme-liquid .product-ui__nav-item.is-active {
+  background: rgba(0, 134, 255, 0.18);
+  color: #7eb0ff;
+  opacity: 1;
+}
+
+.theme-liquid .product-ui__main {
+  padding: 16px 18px;
+  overflow: hidden;
+}
+
+.theme-liquid .product-ui__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  animation: product-ui-pulse 2.4s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.theme-liquid .oneapi-stage__video.is-playing .product-ui__row {
+  animation-play-state: running;
+}
+
+.theme-liquid .product-ui__row:nth-child(2) { animation-delay: 0.3s; }
+.theme-liquid .product-ui__row:nth-child(3) { animation-delay: 0.6s; }
+.theme-liquid .product-ui__row:nth-child(4) { animation-delay: 0.9s; }
+
+@keyframes product-ui-pulse {
+  0%, 100% { border-color: rgba(255, 255, 255, 0.08); }
+  50% { border-color: rgba(0, 134, 255, 0.45); box-shadow: 0 0 0 1px rgba(0, 134, 255, 0.15); }
+}
+
+.theme-liquid .product-ui__badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(0, 134, 255, 0.2);
+  color: #7eb0ff;
+}
+
+.theme-liquid .product-ui__metric {
+  margin-left: auto;
+  font-size: 11px;
+  opacity: 0.55;
+  font-variant-numeric: tabular-nums;
+}
+
+.theme-liquid.theme-liquid--dark .oneapi-stage__canvas-wrap,
+.theme-liquid[data-theme="dark"] .oneapi-stage__canvas-wrap {
+  background: rgba(16, 24, 40, 0.55);
+  border-color: rgba(90, 168, 255, 0.18);
+}
+
+@media (max-width: 767px) {
+  .theme-liquid .product-ui__body {
+    grid-template-columns: 1fr;
+  }
+  .theme-liquid .product-ui__nav {
+    display: none;
+  }
+  .theme-liquid .oneapi-stage {
+    height: 280vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-liquid .oneapi-stage {
+    height: auto;
+  }
+  .theme-liquid .oneapi-stage__sticky {
+    position: relative;
+    height: auto;
+  }
+  .theme-liquid .product-ui__row {
+    animation: none;
+  }
+}
