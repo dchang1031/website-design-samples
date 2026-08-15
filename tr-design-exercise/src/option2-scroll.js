@@ -1,20 +1,107 @@
 /**
- * Option 2 — theme toggle + scroll wash + Apple-style reveals + value story.
+ * Option 2 — theme, wash, reveals, value story (letter-by-letter),
+ * rotating tagline, One API stage (logos + growing rectangular hub → demo).
  */
 (() => {
-  // Ensure value-story upgrade stylesheet is present
-  if (!document.querySelector('link[href*="option2-value-story.css"]')) {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "/src/option2-value-story.css";
-    document.head.appendChild(link);
-  }
+  ensureStylesheet("/src/option2-value-story.css");
+  ensureStylesheet("/src/option2-hero-tweaks.css");
+  injectOneApiStageMarkup();
   initThemeToggle();
   initScrollWash();
   initReveals();
   initScaleExpand();
   initValueStory();
+  initTaglineRotate();
+  initOneApiStage();
 })();
+
+function ensureStylesheet(href) {
+  if (document.querySelector(`link[href*="${href.split("/").pop()}"]`)) return;
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = href;
+  document.head.appendChild(link);
+}
+
+function injectOneApiStageMarkup() {
+  if (document.querySelector("[data-oneapi-stage]")) return;
+
+  const oneapiSection = document.querySelector('[data-section="oneapi"]');
+  if (!oneapiSection) return;
+
+  const imgWrap =
+    oneapiSection.querySelector("img")?.parentElement || null;
+
+  const stage = document.createElement("div");
+  stage.className = "oneapi-stage";
+  stage.setAttribute("data-oneapi-stage", "");
+  stage.innerHTML = `
+    <div class="oneapi-stage__sticky">
+      <div class="oneapi-stage__canvas-wrap">
+        <canvas class="oneapi-stage__canvas" data-oneapi-canvas></canvas>
+        <div class="oneapi-stage__hub" data-oneapi-hub>
+          <img class="oneapi-stage__hub-logo" src="/assets/logo-without-title-8.png" alt="" width="22" height="22" />
+          <span class="oneapi-stage__hub-label">TokenRouter</span>
+          <div class="oneapi-stage__demo" data-oneapi-demo aria-hidden="true">
+            <div class="product-ui" data-product-ui>
+              <div class="product-ui__bar">
+                <span class="product-ui__dot"></span>
+                <span class="product-ui__dot"></span>
+                <span class="product-ui__dot"></span>
+                <span class="product-ui__title">TokenRouter Console</span>
+              </div>
+              <div class="product-ui__body">
+                <div class="product-ui__nav">
+                  <div class="product-ui__nav-item is-active" data-nav="0">Models</div>
+                  <div class="product-ui__nav-item" data-nav="1">API Keys</div>
+                  <div class="product-ui__nav-item" data-nav="2">Usage</div>
+                  <div class="product-ui__nav-item" data-nav="3">Billing</div>
+                </div>
+                <div class="product-ui__main">
+                  <div class="product-ui__cursor" data-ui-cursor></div>
+                  <div class="product-ui__row" data-row="0">
+                    <strong style="font-size:13px">openai/gpt-5.6-sol</strong>
+                    <span class="product-ui__badge">live</span>
+                    <span class="product-ui__metric" data-metric>12.4k tok/min</span>
+                  </div>
+                  <div class="product-ui__row" data-row="1">
+                    <strong style="font-size:13px">anthropic/claude-fable-5</strong>
+                    <span class="product-ui__badge">live</span>
+                    <span class="product-ui__metric" data-metric>8.1k tok/min</span>
+                  </div>
+                  <div class="product-ui__row" data-row="2">
+                    <strong style="font-size:13px">x-ai/grok-4.5</strong>
+                    <span class="product-ui__badge">live</span>
+                    <span class="product-ui__metric" data-metric>6.7k tok/min</span>
+                  </div>
+                  <div class="product-ui__row" data-row="3">
+                    <strong style="font-size:13px">google/gemini-3.5-flash</strong>
+                    <span class="product-ui__badge">live</span>
+                    <span class="product-ui__metric" data-metric>15.2k tok/min</span>
+                  </div>
+                  <div class="product-ui__stream" data-stream></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  if (imgWrap) {
+    oneapiSection.querySelectorAll("img").forEach((img) => {
+      if (!img.closest("[data-oneapi-stage]")) {
+        img.setAttribute("data-oneapi-static", "");
+        img.style.display = "none";
+      }
+    });
+    imgWrap.parentElement?.insertBefore(stage, imgWrap);
+    imgWrap.style.display = "none";
+  } else {
+    oneapiSection.appendChild(stage);
+  }
+}
 
 function initThemeToggle() {
   const root = document.body;
@@ -167,20 +254,16 @@ function initScaleExpand() {
     const rect = track.getBoundingClientRect();
     const vh = window.innerHeight || 1;
     const total = Math.max(1, rect.height - vh);
-    const raw = -rect.top / total;
-    return clamp(raw, 0, 1);
+    return clamp(-rect.top / total, 0, 1);
   }
 
   function apply(block, p) {
     const frame = block.querySelector("[data-scale-frame]");
     if (!frame) return;
     const e = reduce ? 1 : p * p * (3 - 2 * p);
-    const inset = (1 - e) * 28;
-    const radius = (1 - e) * 24;
-    const border = (1 - e) * 0.14;
-    frame.style.setProperty("--scale-inset", `${inset}px`);
-    frame.style.setProperty("--scale-radius", `${radius}px`);
-    frame.style.setProperty("--scale-border", String(border));
+    frame.style.setProperty("--scale-inset", `${(1 - e) * 28}px`);
+    frame.style.setProperty("--scale-radius", `${(1 - e) * 24}px`);
+    frame.style.setProperty("--scale-border", String((1 - e) * 0.14));
     frame.dataset.expanded = e > 0.92 ? "true" : "false";
   }
 
@@ -201,49 +284,54 @@ function initScaleExpand() {
   window.addEventListener("resize", onScroll, { passive: true });
 }
 
-/**
- * Apple / Scale-style scroll-scrub value story.
- * - Centered headline lights word-by-word as you scroll
- * - Stop → holds; reverse → reverses
- * - Headline fades; three benefits enter one at a time with technical canvas viz
- */
+/** Letter-by-letter value story; unlit = transparent white; One/All accent when lit */
 function initValueStory() {
   const root = document.querySelector("[data-value-story]");
   if (!root) return;
 
-  // Upgrade headline to word-by-word spans if needed (main-branch HTML)
-  let headline = root.querySelector("[data-story-headline]");
-  if (headline && !root.querySelector("[data-word]")) {
-    headline.innerHTML = [
-      '<span class="value-story__word value-story__word--accent" data-word="0">One</span>',
-      '<span class="value-story__word" data-word="1">TokenRouter,</span>',
-      '<span class="value-story__word value-story__word--accent" data-word="2">all</span>',
-      '<span class="value-story__word" data-word="3">models</span>',
-    ].join("\n                ");
-  }
-  // Hide legacy index numbers
-  root.querySelectorAll(".value-story__index").forEach((el) => {
-    el.style.display = "none";
-  });
+  const headline = root.querySelector("[data-story-headline]");
+  if (headline) {
+    const lines = [
+      [
+        { text: "One", accent: true },
+        { text: "TokenRouter", accent: false },
+      ],
+      [
+        { text: "All", accent: true },
+        { text: "Models", accent: false },
+      ],
+    ];
 
-  const words = [...root.querySelectorAll("[data-word]")];
-  const panels = [...root.querySelectorAll("[data-benefit]")];
+    let letterIndex = 0;
+    headline.innerHTML = lines
+      .map(
+        (line) =>
+          `<span class="value-story__headline-line">` +
+          line
+            .map((word) => {
+              const letters = [...word.text]
+                .map((ch) => {
+                  const i = letterIndex++;
+                  const acc = word.accent ? " value-story__letter--accent" : "";
+                  return `<span class="value-story__letter${acc}" data-letter="${i}">${ch}</span>`;
+                })
+                .join("");
+              return `<span class="value-story__word">${letters}</span>`;
+            })
+            .join("") +
+          `</span>`
+      )
+      .join("");
+  }
+
+  root.querySelectorAll(".value-story__panels, .value-story__scrub").forEach((el) => el.remove());
+
+  const letters = [...root.querySelectorAll("[data-letter]")];
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const wordCount = words.length || 4;
-  const vizState = { key: 0, teams: 0, security: 0, t: 0 };
+  const letterCount = letters.length || 1;
 
   if (reduce) {
-    root.style.setProperty("--hl-opacity", "1");
-    root.style.setProperty("--b0", "1");
-    root.style.setProperty("--b1", "1");
-    root.style.setProperty("--b2", "1");
-    root.style.setProperty("--b0-x", "0px");
-    root.style.setProperty("--b1-x", "0px");
-    root.style.setProperty("--b2-x", "0px");
-    words.forEach((w) => {
-      w.style.setProperty("--word-lit", "1");
-    });
-    panels.forEach((p) => p.removeAttribute("aria-hidden"));
+    letters.forEach((el) => el.classList.add("is-lit"));
     return;
   }
 
@@ -256,16 +344,6 @@ function initValueStory() {
     return t * t * (3 - 2 * t);
   }
 
-  function segment(p, a, b) {
-    return smoothstep(a, b, p);
-  }
-
-  function crossfade(p, enterStart, enterEnd, exitStart, exitEnd) {
-    const enter = segment(p, enterStart, enterEnd);
-    const exit = segment(p, exitStart, exitEnd);
-    return clamp(enter * (1 - exit), 0, 1);
-  }
-
   function progressFor() {
     const rect = root.getBoundingClientRect();
     const vh = window.innerHeight || 1;
@@ -274,278 +352,21 @@ function initValueStory() {
   }
 
   function apply(p) {
-    const wordEnd = 0.28;
-    words.forEach((el, i) => {
-      const start = (i / wordCount) * wordEnd;
-      const end = ((i + 1) / wordCount) * wordEnd;
-      const lit = segment(p, start, end);
-      el.style.setProperty("--word-lit", lit.toFixed(4));
+    const letterEnd = 0.62;
+    letters.forEach((el, i) => {
+      const start = (i / letterCount) * letterEnd;
+      const end = ((i + 0.85) / letterCount) * letterEnd;
+      const lit = smoothstep(start, end, p) >= 0.45;
+      el.classList.toggle("is-lit", lit);
+      el.style.setProperty("--letter-lit", lit ? "1" : "0");
     });
 
-    const hlOut = segment(p, 0.4, 0.52);
-    const hlOpacity = 1 - hlOut;
-    const hlY = hlOut * -48;
-    const hlScale = 1 - hlOut * 0.08;
-    const hlBlur = hlOut * 8;
-
-    const b0 = crossfade(p, 0.42, 0.54, 0.64, 0.74);
-    const b1 = crossfade(p, 0.66, 0.76, 0.84, 0.94);
-    const b2 = segment(p, 0.86, 0.96);
-
-    const b0x = (1 - b0) * 40;
-    const b1x = (1 - b1) * 40;
-    const b2x = (1 - b2) * 40;
-    const b0s = 0.96 + b0 * 0.04;
-    const b1s = 0.96 + b1 * 0.04;
-    const b2s = 0.96 + b2 * 0.04;
-
-    root.style.setProperty("--hl-opacity", hlOpacity.toFixed(4));
-    root.style.setProperty("--hl-y", `${hlY.toFixed(2)}px`);
-    root.style.setProperty("--hl-scale", hlScale.toFixed(4));
-    root.style.setProperty("--hl-blur", `${hlBlur.toFixed(2)}px`);
-    root.style.setProperty("--b0", b0.toFixed(4));
-    root.style.setProperty("--b1", b1.toFixed(4));
-    root.style.setProperty("--b2", b2.toFixed(4));
-    root.style.setProperty("--b0-x", `${b0x.toFixed(2)}px`);
-    root.style.setProperty("--b1-x", `${b1x.toFixed(2)}px`);
-    root.style.setProperty("--b2-x", `${b2x.toFixed(2)}px`);
-    root.style.setProperty("--b0-s", b0s.toFixed(4));
-    root.style.setProperty("--b1-s", b1s.toFixed(4));
-    root.style.setProperty("--b2-s", b2s.toFixed(4));
-    root.style.setProperty("--scrub", `${(p * 100).toFixed(2)}%`);
-
-    vizState.key = b0;
-    vizState.teams = b1;
-    vizState.security = b2;
-
-    panels.forEach((panel, i) => {
-      const op = i === 0 ? b0 : i === 1 ? b1 : b2;
-      if (op > 0.18) panel.removeAttribute("aria-hidden");
-      else panel.setAttribute("aria-hidden", "true");
-    });
+    const hlOut = smoothstep(0.78, 0.95, p);
+    root.style.setProperty("--hl-opacity", (1 - hlOut * 0.35).toFixed(4));
+    root.style.setProperty("--hl-y", `${(hlOut * -24).toFixed(2)}px`);
+    root.style.setProperty("--hl-scale", (1 - hlOut * 0.04).toFixed(4));
+    root.style.setProperty("--hl-blur", `${(hlOut * 4).toFixed(2)}px`);
   }
-
-  function sizeCanvas(canvas) {
-    const rect = canvas.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const w = Math.max(1, rect.width);
-    const h = Math.max(1, rect.height);
-    canvas.width = Math.floor(w * dpr);
-    canvas.height = Math.floor(h * dpr);
-    const ctx = canvas.getContext("2d");
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    return { ctx, w, h };
-  }
-
-  function drawKey(canvas, intensity, t) {
-    if (!canvas || intensity < 0.01) return;
-    const { ctx, w, h } = sizeCanvas(canvas);
-    ctx.clearRect(0, 0, w, h);
-
-    const cx = w * 0.32;
-    const cy = h * 0.5;
-    const models = 8;
-    const accent = "0, 134, 255";
-
-    ctx.strokeStyle = `rgba(${accent}, ${0.06 * intensity})`;
-    ctx.lineWidth = 1;
-    for (let g = 0; g < 6; g++) {
-      const y = h * (0.15 + g * 0.14);
-      ctx.beginPath();
-      ctx.moveTo(w * 0.08, y);
-      ctx.lineTo(w * 0.92, y);
-      ctx.stroke();
-    }
-
-    for (let i = 0; i < models; i++) {
-      const a = -0.95 + (i / (models - 1)) * 1.9;
-      const reach = (70 + i * 14) * intensity;
-      const x = cx + Math.cos(a) * reach;
-      const y = cy + Math.sin(a) * reach * 0.58;
-      const pulse = 0.55 + Math.sin(t * 2.4 + i * 0.7) * 0.45;
-
-      ctx.beginPath();
-      ctx.moveTo(cx + 14, cy);
-      ctx.lineTo(x, y);
-      ctx.strokeStyle = `rgba(${accent}, ${0.12 + intensity * 0.4 * pulse})`;
-      ctx.lineWidth = 1.25;
-      ctx.stroke();
-
-      const pkt = (t * 0.35 + i * 0.11) % 1;
-      const px = cx + 14 + (x - cx - 14) * pkt;
-      const py = cy + (y - cy) * pkt;
-      ctx.beginPath();
-      ctx.arc(px, py, 2.2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${accent}, ${intensity * pulse})`;
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.arc(x, y, 4.5 + Math.sin(t * 2 + i) * 1.1, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${accent}, ${0.3 + intensity * 0.55})`;
-      ctx.fill();
-      ctx.strokeStyle = `rgba(${accent}, ${0.5 + intensity * 0.4})`;
-      ctx.lineWidth = 1.2;
-      ctx.stroke();
-    }
-
-    ctx.beginPath();
-    ctx.arc(cx, cy, 15, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${accent}, ${0.18 + intensity * 0.45})`;
-    ctx.fill();
-    ctx.strokeStyle = `rgba(${accent}, 0.85)`;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(cx + 14, cy);
-    ctx.lineTo(cx + 48 * intensity, cy);
-    ctx.lineTo(cx + 48 * intensity, cy + 9);
-    ctx.moveTo(cx + 36 * intensity, cy);
-    ctx.lineTo(cx + 36 * intensity, cy + 7);
-    ctx.stroke();
-  }
-
-  function drawTeams(canvas, intensity, t) {
-    if (!canvas || intensity < 0.01) return;
-    const { ctx, w, h } = sizeCanvas(canvas);
-    ctx.clearRect(0, 0, w, h);
-
-    const accent = "0, 134, 255";
-    const hub = { x: w * 0.55, y: h * 0.5 };
-    const nodes = [
-      { x: w * 0.16, y: h * 0.22 },
-      { x: w * 0.18, y: h * 0.5 },
-      { x: w * 0.16, y: h * 0.78 },
-      { x: w * 0.8, y: h * 0.26 },
-      { x: w * 0.84, y: h * 0.5 },
-      { x: w * 0.8, y: h * 0.76 },
-    ];
-
-    for (let r = 0; r < 3; r++) {
-      ctx.beginPath();
-      ctx.ellipse(hub.x, hub.y, 55 + r * 38, 32 + r * 22, 0, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(${accent}, ${0.06 + intensity * 0.08})`;
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    }
-
-    nodes.forEach((n, i) => {
-      ctx.beginPath();
-      ctx.moveTo(n.x, n.y);
-      ctx.lineTo(hub.x, hub.y);
-      ctx.strokeStyle = `rgba(${accent}, ${0.1 + intensity * 0.35})`;
-      ctx.lineWidth = 1.3;
-      ctx.stroke();
-
-      const pulse = 0.5 + Math.sin(t * 2.1 + i) * 0.5;
-      const pkt = (t * 0.28 + i * 0.13) % 1;
-      const px = n.x + (hub.x - n.x) * pkt;
-      const py = n.y + (hub.y - n.y) * pkt;
-      ctx.beginPath();
-      ctx.arc(px, py, 2.4, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${accent}, ${intensity * pulse})`;
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, 6.5, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(90, 168, 255, ${0.22 + intensity * 0.5})`;
-      ctx.fill();
-      ctx.strokeStyle = `rgba(${accent}, ${0.45 + intensity * 0.4})`;
-      ctx.lineWidth = 1.4;
-      ctx.stroke();
-    });
-
-    ctx.beginPath();
-    ctx.arc(hub.x, hub.y, 13, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${accent}, ${0.22 + intensity * 0.5})`;
-    ctx.fill();
-    ctx.strokeStyle = "#0086ff";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    const scan = t * 1.1;
-    ctx.beginPath();
-    ctx.arc(hub.x, hub.y, 42, scan, scan + 0.9);
-    ctx.strokeStyle = `rgba(${accent}, ${0.35 * intensity})`;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  }
-
-  function drawSecurity(canvas, intensity, t) {
-    if (!canvas || intensity < 0.01) return;
-    const { ctx, w, h } = sizeCanvas(canvas);
-    ctx.clearRect(0, 0, w, h);
-
-    const accent = "0, 134, 255";
-    const cx = w * 0.5;
-    const cy = h * 0.48;
-
-    for (let r = 0; r < 4; r++) {
-      const rad = (48 + r * 22) * intensity;
-      ctx.beginPath();
-      ctx.arc(cx, cy, rad, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(${accent}, ${0.05 + intensity * 0.07 * (1 - r * 0.15)})`;
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    }
-
-    const s = intensity;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy - 68 * s);
-    ctx.lineTo(cx + 54 * s, cy - 38 * s);
-    ctx.lineTo(cx + 46 * s, cy + 28 * s);
-    ctx.quadraticCurveTo(cx, cy + 72 * s, cx - 46 * s, cy + 28 * s);
-    ctx.lineTo(cx - 54 * s, cy - 38 * s);
-    ctx.closePath();
-    ctx.fillStyle = `rgba(${accent}, ${0.07 + intensity * 0.16})`;
-    ctx.fill();
-    ctx.strokeStyle = `rgba(${accent}, ${0.35 + intensity * 0.5})`;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(cx, cy - 10, 9 * s, Math.PI, 0);
-    ctx.strokeStyle = `rgba(${accent}, ${0.7})`;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = `rgba(${accent}, ${0.2 + intensity * 0.45})`;
-    ctx.fillRect(cx - 12 * s, cy - 10, 24 * s, 20 * s);
-
-    for (let i = 0; i < 6; i++) {
-      const ang = t * 0.65 + i * ((Math.PI * 2) / 6);
-      const r0 = 110 + Math.sin(t + i) * 8;
-      const x = cx + Math.cos(ang) * r0;
-      const y = cy + Math.sin(ang) * r0 * 0.55;
-      const hitR = 58 * intensity;
-      const hx = cx + Math.cos(ang) * hitR;
-      const hy = cy + Math.sin(ang) * hitR * 0.55;
-
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.lineTo(hx, hy);
-      ctx.strokeStyle = `rgba(255, 110, 110, ${0.18 * intensity})`;
-      ctx.lineWidth = 1.2;
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.arc(x, y, 3.2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 110, 110, ${0.3 + (1 - intensity) * 0.15})`;
-      ctx.fill();
-    }
-
-    const pulse = 0.5 + Math.sin(t * 2.2) * 0.5;
-    ctx.beginPath();
-    ctx.arc(cx, cy, 28 * intensity, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(${accent}, ${0.15 * pulse * intensity})`;
-    ctx.lineWidth = 3;
-    ctx.stroke();
-  }
-
-  const canvases = {
-    key: root.querySelector('[data-viz="key"]'),
-    teams: root.querySelector('[data-viz="teams"]'),
-    security: root.querySelector('[data-viz="security"]'),
-  };
 
   let ticking = false;
   function update() {
@@ -559,16 +380,341 @@ function initValueStory() {
     requestAnimationFrame(update);
   }
 
+  update();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+}
+
+/** Faster → Better → Cheaper, one large word at a time */
+function initTaglineRotate() {
+  const tagline = document.querySelector(".tr-landing-hero-tagline");
+  if (!tagline) return;
+
+  const words = ["Faster", "Better", "Cheaper"];
+  tagline.innerHTML = words
+    .map(
+      (w, i) =>
+        `<span data-rotate-word="${i}"${i === 0 ? ' class="is-active"' : ""}>${w}</span>`
+    )
+    .join("");
+
+  const els = [...tagline.querySelectorAll("[data-rotate-word]")];
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    els.forEach((el) => el.classList.add("is-active"));
+    return;
+  }
+
+  let idx = 0;
+  setInterval(() => {
+    els[idx].classList.remove("is-active");
+    idx = (idx + 1) % els.length;
+    els[idx].classList.add("is-active");
+  }, 2200);
+}
+
+/**
+ * One API: dashed lines + logo+name nodes → rectangular hub grows to fill
+ * wrap and reveals looping animated product console (not a static screenshot).
+ */
+function initOneApiStage() {
+  const stage = document.querySelector("[data-oneapi-stage]");
+  if (!stage) return;
+
+  const canvas = stage.querySelector("[data-oneapi-canvas]");
+  const hub = stage.querySelector("[data-oneapi-hub]");
+  const demo = stage.querySelector("[data-oneapi-demo]");
+  const wrap = stage.querySelector(".oneapi-stage__canvas-wrap");
+
+  const apps = [
+    { label: "OpenClaw", side: "left", y: 0.2, color: "#6366f1", icon: "/assets/clawith.png" },
+    { label: "OpenCode", side: "left", y: 0.38, color: "#10a37f", icon: "/assets/models/openai.svg" },
+    { label: "Codex", side: "left", y: 0.56, color: "#111111", icon: "/assets/models/openai.svg" },
+    { label: "Claude Code", side: "left", y: 0.74, color: "#d97757", icon: "/assets/models/claude-color.svg" },
+    { label: "Cherry Studio", side: "right", y: 0.2, color: "#ec4899", icon: "/assets/fellou.png" },
+    { label: "Cursor", side: "right", y: 0.38, color: "#3b82f6", icon: "/assets/models/xai.svg" },
+    { label: "Continue", side: "right", y: 0.56, color: "#8b5cf6", icon: "/assets/models/gemini-color.svg" },
+    { label: "Your Apps", side: "right", y: 0.74, color: "#0ea5e9", icon: "/assets/logo-without-title-8.png" },
+  ];
+
+  const iconCache = {};
+  apps.forEach((app) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = app.icon;
+    img.onload = () => {
+      iconCache[app.label] = img;
+    };
+  });
+
+  function clamp(n, a, b) {
+    return Math.min(b, Math.max(a, n));
+  }
+
+  function smoothstep(edge0, edge1, x) {
+    const t = clamp((x - edge0) / (edge1 - edge0), 0, 1);
+    return t * t * (3 - 2 * t);
+  }
+
+  function progressFor() {
+    const rect = stage.getBoundingClientRect();
+    const vh = window.innerHeight || 1;
+    const total = Math.max(1, rect.height - vh);
+    return clamp(-rect.top / total, 0, 1);
+  }
+
+  let animT = 0;
+  let scrolling = false;
+  let scrollTimeout = null;
+  let demoStarted = false;
+
+  function markScroll() {
+    scrolling = true;
+    if (scrollTimeout) clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      scrolling = false;
+    }, 140);
+  }
+
+  function sizeCanvas() {
+    if (!canvas) return null;
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = Math.max(1, rect.width);
+    const h = Math.max(1, rect.height);
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { ctx, w, h };
+  }
+
+  function drawRoundedRect(ctx, x, y, w, h, r) {
+    const rr = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + rr, y);
+    ctx.arcTo(x + w, y, x + w, y + h, rr);
+    ctx.arcTo(x + w, y + h, x, y + h, rr);
+    ctx.arcTo(x, y + h, x, y, rr);
+    ctx.arcTo(x, y, x + w, y, rr);
+    ctx.closePath();
+  }
+
+  function draw(p, t) {
+    const sized = sizeCanvas();
+    if (!sized) return;
+    const { ctx, w, h } = sized;
+    ctx.clearRect(0, 0, w, h);
+
+    const cx = w * 0.5;
+    const cy = h * 0.5;
+    const accent = "0, 134, 255";
+    const isDark =
+      document.body.dataset.theme === "dark" ||
+      document.body.classList.contains("theme-liquid--dark");
+    const textRgb = isDark ? "232, 238, 248" : "18, 19, 23";
+
+    const linePhase = smoothstep(0, 0.28, p);
+    const fadeOthers = smoothstep(0.3, 0.55, p);
+    const grow = smoothstep(0.48, 0.82, p);
+    const showDemo = smoothstep(0.72, 0.9, p);
+    const othersAlpha = 1 - fadeOthers;
+
+    // Hub geometry for line endpoints (before full expand)
+    const hubW = 160 + grow * (w - 160);
+    const hubH = 56 + grow * (h - 56);
+    const hubLeft = cx - hubW / 2;
+    const hubTop = cy - hubH / 2;
+
+    apps.forEach((app, i) => {
+      const isLeft = app.side === "left";
+      const x0 = isLeft ? w * 0.08 : w * 0.92;
+      const y0 = h * app.y;
+      const targetX = isLeft ? hubLeft : hubLeft + hubW;
+      const targetY = cy;
+      const dashOffset = (t * 48 + i * 14) % 20;
+
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, othersAlpha * linePhase);
+
+      ctx.setLineDash([5, 7]);
+      ctx.lineDashOffset = -dashOffset;
+      ctx.beginPath();
+      ctx.moveTo(isLeft ? x0 + 36 : x0 - 36, y0);
+      ctx.quadraticCurveTo(isLeft ? w * 0.28 : w * 0.72, y0, targetX, targetY);
+      ctx.strokeStyle = `rgba(${accent}, 0.55)`;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Logo chip + name
+      const chip = 28;
+      const chipX = isLeft ? x0 : x0 - chip;
+      const chipY = y0 - chip / 2;
+      drawRoundedRect(ctx, chipX, chipY, chip, chip, 7);
+      ctx.fillStyle = "rgba(255,255,255,0.92)";
+      if (isDark) ctx.fillStyle = "rgba(30,40,58,0.95)";
+      ctx.fill();
+      ctx.strokeStyle = `rgba(${accent}, 0.25)`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      const icon = iconCache[app.label];
+      if (icon) {
+        try {
+          ctx.drawImage(icon, chipX + 5, chipY + 5, 18, 18);
+        } catch (_) {
+          /* tainted */
+        }
+      } else {
+        ctx.fillStyle = app.color;
+        ctx.beginPath();
+        ctx.arc(chipX + chip / 2, chipY + chip / 2, 7, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.font = "500 12px 'PP Neue Montreal', system-ui, sans-serif";
+      ctx.fillStyle = `rgba(${textRgb}, ${0.85 * othersAlpha})`;
+      if (isLeft) {
+        ctx.textAlign = "left";
+        ctx.fillText(app.label, chipX + chip + 8, y0 + 4);
+      } else {
+        ctx.textAlign = "right";
+        ctx.fillText(app.label, chipX - 8, y0 + 4);
+      }
+      ctx.textAlign = "left";
+      ctx.restore();
+    });
+
+    // Drive DOM hub size — rectangular grow replaces canvas stage
+    if (hub && wrap) {
+      const wrapRect = wrap.getBoundingClientRect();
+      const baseW = 160;
+      const baseH = 56;
+      const targetW = wrapRect.width;
+      const targetH = wrapRect.height;
+      const curW = baseW + (targetW - baseW) * grow;
+      const curH = baseH + (targetH - baseH) * grow;
+      const radius = 12 + (20 - 12) * (1 - grow) + grow * 0; // stay slightly rounded then match wrap
+
+      hub.style.width = `${curW}px`;
+      hub.style.height = `${curH}px`;
+      hub.style.borderRadius = `${12 * (1 - grow) + 20 * Math.min(grow, 0.15)}px`;
+      if (grow > 0.98) {
+        hub.style.width = "100%";
+        hub.style.height = "100%";
+        hub.style.left = "0";
+        hub.style.top = "0";
+        hub.style.transform = "none";
+        hub.style.borderRadius = "20px";
+      } else {
+        hub.style.left = "50%";
+        hub.style.top = "50%";
+        hub.style.transform = "translate(-50%, -50%)";
+      }
+
+      hub.classList.toggle("is-expanded", grow > 0.55);
+      hub.classList.toggle("is-demo", showDemo > 0.5);
+
+      if (demo) {
+        demo.setAttribute("aria-hidden", showDemo > 0.5 ? "false" : "true");
+      }
+
+      if (canvas) {
+        canvas.style.opacity = String(Math.max(0, 1 - grow * 1.15));
+      }
+
+      if (showDemo > 0.55 && !demoStarted) {
+        demoStarted = true;
+        startProductDemo(stage);
+      }
+    }
+  }
+
   function loop(ts) {
-    vizState.t = ts * 0.001;
-    drawKey(canvases.key, vizState.key, vizState.t);
-    drawTeams(canvases.teams, vizState.teams, vizState.t);
-    drawSecurity(canvases.security, vizState.security, vizState.t);
+    animT = ts * 0.001;
+    draw(progressFor(), scrolling ? animT : animT * 0.12);
     requestAnimationFrame(loop);
   }
 
-  update();
   requestAnimationFrame(loop);
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll, { passive: true });
+  window.addEventListener("scroll", markScroll, { passive: true });
+  window.addEventListener("resize", markScroll, { passive: true });
+}
+
+/** Looping console demo: nav highlight, metric ticks, stream text, cursor */
+function startProductDemo(stage) {
+  const root = stage.querySelector("[data-product-ui]");
+  if (!root || root.dataset.demoRunning) return;
+  root.dataset.demoRunning = "1";
+
+  const navItems = [...root.querySelectorAll("[data-nav]")];
+  const rows = [...root.querySelectorAll("[data-row]")];
+  const metrics = [...root.querySelectorAll("[data-metric]")];
+  const stream = root.querySelector("[data-stream]");
+  const cursor = root.querySelector("[data-ui-cursor]");
+
+  const base = [12.4, 8.1, 6.7, 15.2];
+  let navIdx = 0;
+  let rowIdx = 0;
+  let streamLines = [
+    "> route openai/gpt-5.6-sol  latency 42ms",
+    "> cache hit  63%   cost −18%",
+    "> failover → anthropic/claude-fable-5",
+  ];
+  let streamPtr = 0;
+  let streamChar = 0;
+
+  function tickMetrics() {
+    metrics.forEach((el, i) => {
+      const n = base[i] + (Math.random() - 0.4) * 1.8;
+      el.textContent = `${n.toFixed(1)}k tok/min`;
+    });
+  }
+
+  function cycleNav() {
+    navItems.forEach((el) => el.classList.remove("is-active"));
+    navIdx = (navIdx + 1) % navItems.length;
+    navItems[navIdx].classList.add("is-active");
+  }
+
+  function flashRow() {
+    rows.forEach((el) => el.classList.remove("is-flash"));
+    rowIdx = (rowIdx + 1) % rows.length;
+    rows[rowIdx].classList.add("is-flash");
+    if (cursor && rows[rowIdx]) {
+      const r = rows[rowIdx].getBoundingClientRect();
+      const parent = rows[rowIdx].offsetParent || root.querySelector(".product-ui__main");
+      const pr = parent.getBoundingClientRect();
+      cursor.style.left = `${r.left - pr.left + 24}px`;
+      cursor.style.top = `${r.top - pr.top + r.height / 2 - 5}px`;
+    }
+  }
+
+  function typeStream() {
+    if (!stream) return;
+    const line = streamLines[streamPtr % streamLines.length];
+    streamChar += 1;
+    const shown = line.slice(0, streamChar);
+    const prev =
+      streamPtr === 0
+        ? ""
+        : streamLines
+            .slice(Math.max(0, streamPtr - 2), streamPtr)
+            .map((l) => l)
+            .join("\n") + (streamPtr > 0 ? "\n" : "");
+    stream.innerHTML = (prev + shown)
+      .replace(/>/g, '<span class="tok">></span>')
+      .replace(/\n/g, "<br/>");
+    if (streamChar >= line.length) {
+      streamChar = 0;
+      streamPtr += 1;
+    }
+  }
+
+  setInterval(tickMetrics, 900);
+  setInterval(cycleNav, 3200);
+  setInterval(flashRow, 1600);
+  setInterval(typeStream, 45);
+  tickMetrics();
+  flashRow();
 }
