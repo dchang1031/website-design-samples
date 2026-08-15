@@ -13,7 +13,7 @@
         theme: {
           extend: {
             fontFamily: {
-              sans: ['\"PP Neue Montreal\"', 'system-ui', 'sans-serif'],
+              sans: ['"PP Neue Montreal"', 'system-ui', 'sans-serif'],
             },
           },
         },
@@ -31,6 +31,17 @@
           if (!srcBody) throw new Error("no body");
           document.body.className = "";
           document.body.innerHTML = srcBody.innerHTML;
+
+          // Current is a separate entry point built from the production replica.
+          // Normalize the shared nav so Current is always the active tab,
+          // regardless of which option supplied the source markup.
+          document.querySelectorAll(".tr-landing-header-nav-link, .tr-landing-mobile-menu__item").forEach((el) => {
+            el.classList.remove("is-active");
+          });
+          document.querySelectorAll('a[href="/current.html"]').forEach((el) => {
+            el.classList.add("is-active");
+          });
+
           // Strip Option-2-only motion chrome
           document.querySelectorAll(".scroll-stage, [data-value-story], .value-story").forEach((el) => el.remove());
           document.querySelectorAll(".scale-expand").forEach((sec) => {
