@@ -1207,3 +1207,23 @@ img {
     border-bottom: 0;
   }
 }
+
+
+/* Footer readability on Option 1 blue canvas */
+.footer {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.footer a,
+.footer__legal-links a {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.footer__legal-copy,
+.footer__legal-copy p {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.footer__heading {
+  color: #fff;
+}
