@@ -13,6 +13,75 @@ const PROMOS = [
   },
 ];
 
+/** Canonical design-exercise nav after remap */
+const NAV_ITEMS = [
+  { href: "/current.html", label: "Current" },
+  { href: "/option-1.html", label: "Option 1" },
+  { href: "/option-2.html", label: "Option 2" },
+  { href: "/option-3.html", label: "Option 3" },
+  { href: "/option-4.html", label: "Option 4" },
+];
+
+function currentNavKey() {
+  const path = (location.pathname || "/").replace(/\/+$/, "") || "/";
+  if (path.endsWith("/current.html") || path.endsWith("/current")) return "/current.html";
+  if (path.endsWith("/option-1.html") || path.endsWith("/option-1")) return "/option-1.html";
+  if (path.endsWith("/option-2.html") || path.endsWith("/option-2")) return "/option-2.html";
+  if (path.endsWith("/option-3.html") || path.endsWith("/option-3")) return "/option-3.html";
+  if (path.endsWith("/option-4.html") || path.endsWith("/option-4")) return "/option-4.html";
+  // legacy: / was Option 1 design → now Option 4; default site open is Current via index redirect
+  if (path === "/" || path.endsWith("/index.html")) return "/current.html";
+  return path;
+}
+
+function initSharedNav() {
+  const active = currentNavKey();
+
+  // Desktop links
+  const nav = document.querySelector(".tr-nav-links");
+  if (nav) {
+    const brief = nav.querySelector("[data-design-brief-open], .tr-nav-brief");
+    nav.innerHTML = NAV_ITEMS.map((item) => {
+      const isActive = item.href === active;
+      return `<a href="${item.href}" class="tr-landing-header-nav-link${isActive ? " is-active" : ""}">${item.label}</a>`;
+    }).join("\n");
+    if (brief) nav.appendChild(brief);
+  }
+
+  // Mobile drawer items (keep brand + optional theme toggle)
+  const drawer = document.querySelector(".tr-landing-mobile-menu__drawer");
+  if (drawer) {
+    const brand = drawer.querySelector(".tr-landing-mobile-menu__brand");
+    const theme = drawer.querySelector("[data-theme-toggle]");
+    const brief = drawer.querySelector("[data-design-brief-open], .tr-landing-mobile-menu__brief");
+    // Remove old page links
+    drawer.querySelectorAll("a.tr-landing-mobile-menu__item").forEach((a) => a.remove());
+    const frag = document.createDocumentFragment();
+    NAV_ITEMS.forEach((item) => {
+      const a = document.createElement("a");
+      a.href = item.href;
+      a.className = `tr-landing-mobile-menu__item${item.href === active ? " is-active" : ""}`;
+      a.textContent = item.label;
+      frag.appendChild(a);
+    });
+    // Insert after theme or brand
+    const anchor = theme || brand;
+    if (anchor && anchor.nextSibling) {
+      drawer.insertBefore(frag, anchor.nextSibling);
+    } else if (brief) {
+      drawer.insertBefore(frag, brief);
+    } else {
+      drawer.appendChild(frag);
+    }
+  }
+
+  // Fix any leftover "/" Option 1 links in page chrome
+  document.querySelectorAll('a[href="/"]').forEach((a) => {
+    const t = (a.textContent || "").trim().toLowerCase();
+    if (t.includes("option 1")) a.setAttribute("href", "/option-1.html");
+  });
+}
+
 function initPromoBanner() {
   const badge = document.querySelector("[data-promo-badge]");
   const slide = document.querySelector("[data-promo-slide]");
@@ -33,7 +102,6 @@ function initPromoBanner() {
     if (badge) badge.textContent = promo.badgeLabel;
     slide.innerHTML = renderRow(promo);
     slide.style.animation = "none";
-    // restart animation
     void slide.offsetWidth;
     slide.style.animation = "";
     if (mobile) {
@@ -197,6 +265,7 @@ async function initModelMarquee() {
   requestAnimationFrame(step);
 }
 
+initSharedNav();
 initPromoBanner();
 initHeader();
 initCopy();
