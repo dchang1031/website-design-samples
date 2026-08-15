@@ -16,3 +16,30 @@
 .tr-landing-mobile-menu{position:fixed;inset:0;z-index:120;font-family:var(--tr-nav-font)}.tr-landing-mobile-menu[hidden]{display:none!important}.tr-landing-mobile-menu__overlay{position:absolute;inset:0;border:0;background:rgba(10,10,10,.45)}.tr-landing-mobile-menu__drawer{position:relative;width:min(300px,calc(100vw - 40px));height:100%;background:#fff;padding:24px 18px;display:flex;flex-direction:column;gap:4px;color:var(--tr-nav-ink);box-shadow:8px 0 30px rgba(18,19,23,.12)}.tr-landing-mobile-menu__brand{display:block;margin-bottom:16px}.tr-landing-mobile-menu__brand img{width:120px;height:auto;object-fit:contain;display:block}.tr-landing-mobile-menu__item{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:8px;font-size:15px;font-weight:500;color:#45474d;text-decoration:none;background:transparent;border:0;width:100%;text-align:left;cursor:pointer;font-family:var(--tr-nav-font)}.tr-landing-mobile-menu__item.is-active,.tr-landing-mobile-menu__item:hover{background:#f3f6fb;color:var(--tr-nav-ink)}.tr-landing-mobile-menu__item.is-active{font-weight:600}.tr-landing-mobile-menu__brief{margin-top:8px;height:40px;border-radius:100px;border:1px solid #d7dce5;background:#fff;color:var(--tr-nav-ink);font-size:14px;font-weight:500;cursor:pointer;font-family:var(--tr-nav-font)}.tr-landing-mobile-menu__brief:hover{border-color:var(--tr-nav-primary);color:var(--tr-nav-primary)}
 @keyframes promoBannerSlideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @media (min-width:768px){.tr-landing-brand-link{display:flex}.tr-landing-header-nav-link{display:inline}.tr-nav-brief{display:inline-flex}.tr-nav-theme-slot:not(:empty){display:inline-flex}}@media (min-width:1024px){.tr-landing-header-nav-link{margin-left:28px}.tr-landing-header-nav-link:first-child{margin-left:0}.tr-nav-brief{margin-left:28px}}@media (max-width:767px){.tr-nav-menu-toggle{display:inline-flex}.tr-landing-brand-link{display:flex;width:28px;height:28px}.tr-landing-brand-logo-image{display:none!important}.tr-landing-brand-mobile-image{display:block!important}.tr-nav-links{display:none}.tr-nav-theme-slot:not(:empty){display:inline-flex}.promo{padding:0 16px 16px}.promo::before,.promo::after{display:none}.promo__badge{display:none}.promo__copy{margin:0;font-size:15px;line-height:1.25;white-space:normal;text-align:center}.promo__copy .promo-banner-copy-row{justify-content:center;white-space:normal;flex-wrap:wrap}.promo__copy .promo-banner-copy-row>p{white-space:normal;text-align:center;font-size:15px}.promo__copy .promo-banner-copy-row>a{margin-left:8px;font-size:14px}}
+
+/* Only the top navigation is interactive. Everything else remains visually static. */
+.tr-landing-page a,
+.tr-landing-page button {
+  cursor: default !important;
+}
+.tr-landing-page a:not(.tr-landing-header-nav-link):not(.tr-nav-brief):not(.tr-landing-mobile-menu__item):not(.tr-landing-mobile-menu__overlay),
+.tr-landing-page button:not(.tr-nav-brief):not(.tr-nav-menu-toggle):not(.tr-landing-mobile-menu__item):not(.tr-landing-mobile-menu__overlay) {
+  pointer-events: none !important;
+}
+.tr-landing-brand-link,
+.tr-landing-mobile-menu__brand {
+  pointer-events: none !important;
+  cursor: default !important;
+}
+.tr-landing-header-nav-link,
+.tr-nav-brief,
+.tr-nav-menu-toggle,
+.tr-landing-mobile-menu__item,
+.tr-landing-mobile-menu__overlay {
+  pointer-events: auto;
+  cursor: pointer !important;
+}
+.tr-landing-hero-url-box,
+.tr-landing-hero-copy-button {
+  background: #fff !important;
+}
