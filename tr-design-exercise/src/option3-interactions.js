@@ -56,8 +56,7 @@
         el.classList.toggle("is-lit", lit);
       });
 
-      // Keep the headline fully opaque while it is being revealed/lit.
-      // Only fade the entire sentence after the reveal is complete.
+      // The headline remains fully opaque during the reveal. Only the final fade changes the parent opacity.
       const fade = smoothstep(0.58, 0.96, p);
       root.style.setProperty("--o3-headline-opacity", (1 - fade).toFixed(4));
       root.style.setProperty("--hl-blur", `${(fade * 7).toFixed(2)}px`);
