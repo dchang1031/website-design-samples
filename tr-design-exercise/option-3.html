@@ -13,7 +13,7 @@
         theme: {
           extend: {
             fontFamily: {
-              sans: ['\"PP Neue Montreal\"', 'system-ui', 'sans-serif'],
+              sans: ['"PP Neue Montreal"', 'system-ui', 'sans-serif'],
             },
           },
         },
@@ -23,8 +23,9 @@
     <link rel="stylesheet" href="/src/option2-theme.css" />
     <link rel="stylesheet" href="/src/shared-nav.css" />
     <link rel="stylesheet" href="/src/option3-mono-palette.css" />
+    <link rel="stylesheet" href="/src/option3-interactions.css" />
     <script>
-      // Clone Option 2 DOM (same interactions) then apply mono palette class
+      // Clone Option 2 DOM (same interactions) then apply mono palette class.
       (async function bootOption3() {
         try {
           const res = await fetch("/option-2.html", { cache: "no-store" });
@@ -32,21 +33,25 @@
           const doc = new DOMParser().parseFromString(html, "text/html");
           const srcBody = doc.body;
           if (!srcBody) return;
-          // adopt body children
           document.body.className = (srcBody.className || "theme-liquid") + " theme-mono-o3";
           document.body.innerHTML = srcBody.innerHTML;
-          // ensure mono stylesheet
           if (!document.querySelector('link[href*="option3-mono-palette"]')) {
             const l = document.createElement("link");
             l.rel = "stylesheet";
             l.href = "/src/option3-mono-palette.css";
             document.head.appendChild(l);
           }
-          // re-run page modules in order
+          if (!document.querySelector('link[href*="option3-interactions"]')) {
+            const l = document.createElement("link");
+            l.rel = "stylesheet";
+            l.href = "/src/option3-interactions.css";
+            document.head.appendChild(l);
+          }
           const mods = ["/src/replica.js", "/src/option2-scroll.js", "/src/design-brief.js"];
           for (const src of mods) {
             await import(src + "?v=o3");
           }
+          await import("/src/option3-interactions.js?v=o3");
         } catch (e) {
           console.error("Option 3 boot failed", e);
           document.body.innerHTML = '<p style="padding:2rem">Failed to load Option 3. <a href="/option-2.html">Open Option 2</a></p>';
