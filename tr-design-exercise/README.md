@@ -7,7 +7,7 @@ Static design options for the [TokenRouter](https://www.tokenrouter.com/) homepa
 - `/current.html` — Current (original TokenRouter homepage replica)
 - `/` — Option 1
 - `/option-2.html` — Option 2 (liquid motion + Scale-style expanding sections)
-- `/option-3.html` — Option 3 (Signal Lattice: premium routing identity + motion)
+- `/option-3.html` — Option 3 (Global Route: world-map hero, giant type, sticky chapters)
 
 Use the **Design Exercise** button in the top nav to open the hiring brief.
 

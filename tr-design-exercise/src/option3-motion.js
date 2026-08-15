@@ -1,41 +1,100 @@
 /**
- * Option 3 — Signal Lattice motion system
- * Hero mesh, live routing board, scroll reveals, step cycling.
+ * Option 3 — Global Route
+ * World-map hero, sticky chapters, policy playground.
  */
 
 function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-/* ── Scroll reveals ─────────────────────────────────────────── */
+/* Equirectangular project lon/lat → canvas */
+function project(lon, lat, w, h, pad = 0.08) {
+  const x = ((lon + 180) / 360) * w * (1 - pad * 2) + w * pad;
+  const y = ((90 - lat) / 180) * h * (1 - pad * 2) + h * pad * 0.6;
+  return { x, y };
+}
+
+const CITIES = [
+  { name: "San Francisco", lon: -122.4, lat: 37.8, rpm: "18.2k", model: "GPT-4o" },
+  { name: "New York", lon: -74.0, lat: 40.7, rpm: "22.1k", model: "Claude 3.5" },
+  { name: "São Paulo", lon: -46.6, lat: -23.5, rpm: "6.4k", model: "Gemini 1.5" },
+  { name: "London", lon: -0.1, lat: 51.5, rpm: "14.8k", model: "GPT-4o" },
+  { name: "Frankfurt", lon: 8.7, lat: 50.1, rpm: "11.3k", model: "Claude 3.5" },
+  { name: "Dubai", lon: 55.3, lat: 25.2, rpm: "5.1k", model: "DeepSeek" },
+  { name: "Mumbai", lon: 72.9, lat: 19.1, rpm: "9.7k", model: "Gemini 1.5" },
+  { name: "Singapore", lon: 103.8, lat: 1.3, rpm: "12.6k", model: "GPT-4o" },
+  { name: "Tokyo", lon: 139.7, lat: 35.7, rpm: "16.4k", model: "Claude 3.5" },
+  { name: "Seoul", lon: 126.9, lat: 37.5, rpm: "8.9k", model: "GPT-4o" },
+  { name: "Sydney", lon: 151.2, lat: -33.9, rpm: "4.8k", model: "Gemini 1.5" },
+  { name: "Toronto", lon: -79.4, lat: 43.7, rpm: "7.2k", model: "GPT-4o" },
+];
+
+/* Simplified continent outlines (lon/lat rings) — stylized, not geographic-accurate */
+const CONTINENTS = [
+  // North America
+  [
+    [-168, 71], [-140, 69], [-130, 55], [-124, 48], [-120, 34], [-110, 24],
+    [-97, 16], [-87, 21], [-80, 25], [-74, 40], [-70, 45], [-60, 47],
+    [-55, 53], [-60, 60], [-80, 72], [-120, 72], [-150, 70], [-168, 71],
+  ],
+  // South America
+  [
+    [-81, 12], [-70, 12], [-60, 5], [-50, -5], [-40, -10], [-35, -20],
+    [-40, -30], [-55, -40], [-70, -50], [-75, -40], [-72, -20], [-78, -5], [-81, 12],
+  ],
+  // Europe
+  [
+    [-10, 36], [-9, 44], [-5, 48], [0, 51], [5, 53], [10, 55], [20, 55],
+    [30, 60], [30, 70], [20, 70], [5, 62], [-5, 58], [-10, 52], [-10, 43], [-10, 36],
+  ],
+  // Africa
+  [
+    [-17, 32], [-10, 32], [0, 30], [10, 32], [25, 32], [35, 28], [40, 15],
+    [42, 0], [40, -10], [35, -25], [20, -35], [15, -30], [10, -15], [0, 5],
+    [-10, 5], [-15, 15], [-17, 25], [-17, 32],
+  ],
+  // Asia
+  [
+    [30, 70], [40, 65], [50, 55], [60, 45], [70, 40], [80, 30], [90, 25],
+    [100, 20], [110, 25], [120, 35], [130, 45], [140, 50], [145, 60],
+    [140, 70], [100, 75], [70, 72], [45, 70], [30, 70],
+  ],
+  // SE Asia / Australia
+  [
+    [110, 5], [120, 5], [130, -10], [140, -15], [150, -20], [153, -30],
+    [145, -38], [135, -35], [120, -30], [115, -20], [110, -5], [110, 5],
+  ],
+];
+
 function initReveals() {
   const nodes = document.querySelectorAll(".sig-reveal");
   if (!nodes.length) return;
-
   if (prefersReducedMotion()) {
     nodes.forEach((n) => n.classList.add("is-in"));
     return;
   }
-
   const io = new IntersectionObserver(
     (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-in");
-          io.unobserve(entry.target);
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-in");
+          io.unobserve(e.target);
         }
       });
     },
-    { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+    { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
   );
-
   nodes.forEach((n) => io.observe(n));
 }
 
-/* ── Hero canvas mesh ───────────────────────────────────────── */
-function initHeroMesh() {
-  const canvas = document.getElementById("sig-hero-canvas");
-  if (!canvas || prefersReducedMotion()) return;
+/* ── World map hero ─────────────────────────────────────────── */
+function initWorldMap() {
+  const canvas = document.getElementById("globe-canvas");
+  const tip = document.getElementById("globe-tip");
+  const tipName = tip?.querySelector("[data-tip-name]");
+  const tipMeta = tip?.querySelector("[data-tip-meta]");
+  const feed = document.querySelector("[data-live-feed]");
+  if (!canvas) return;
 
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
@@ -43,21 +102,18 @@ function initHeroMesh() {
   let w = 0;
   let h = 0;
   let raf = 0;
-  let nodes = [];
+  let hover = -1;
   let packets = [];
-  let mouse = { x: -9999, y: -9999 };
-  const statusEl = document.querySelector("[data-hero-route]");
+  let pulseT = 0;
+  let lastFeed = 0;
+  let feedIdx = 0;
+  const hub = { lon: -40, lat: 25 }; // Atlantic “control plane” bias — abstract
 
-  const NODE_COUNT = 52;
-  const LINK_DIST = 150;
-  const routeLabels = [
-    "GPT-4o · US-East",
-    "Claude 3.5 · US-West",
-    "Gemini 1.5 · EU",
-    "DeepSeek · APAC",
-  ];
-  let routeIdx = 0;
-  let lastRouteSwap = 0;
+  const routes = CITIES.map((c, i) => ({
+    from: c,
+    to: CITIES[(i + 3) % CITIES.length],
+    phase: Math.random(),
+  }));
 
   function resize() {
     const rect = canvas.getBoundingClientRect();
@@ -69,115 +125,177 @@ function initHeroMesh() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function seed() {
-    nodes = Array.from({ length: NODE_COUNT }, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      r: 1.2 + Math.random() * 1.8,
-      pulse: Math.random() * Math.PI * 2,
-    }));
-    packets = Array.from({ length: 12 }, () => makePacket());
+  function drawContinents() {
+    ctx.save();
+    CONTINENTS.forEach((ring) => {
+      ctx.beginPath();
+      ring.forEach(([lon, lat], i) => {
+        const p = project(lon, lat, w, h);
+        if (i === 0) ctx.moveTo(p.x, p.y);
+        else ctx.lineTo(p.x, p.y);
+      });
+      ctx.closePath();
+      ctx.fillStyle = "rgba(77, 124, 255, 0.06)";
+      ctx.fill();
+      ctx.strokeStyle = "rgba(92, 239, 255, 0.12)";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    });
+    ctx.restore();
   }
 
-  function makePacket() {
-    const a = nodes[Math.floor(Math.random() * nodes.length)];
-    const b = nodes[Math.floor(Math.random() * nodes.length)];
-    return {
-      from: a,
-      to: b,
-      t: Math.random(),
-      speed: 0.004 + Math.random() * 0.009,
-      hue: Math.random() > 0.45 ? "cyan" : "blue",
-    };
+  function drawGrid() {
+    ctx.save();
+    ctx.strokeStyle = "rgba(255,255,255,0.035)";
+    ctx.lineWidth = 1;
+    for (let lon = -180; lon <= 180; lon += 30) {
+      const a = project(lon, 80, w, h);
+      const b = project(lon, -60, w, h);
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
+    for (let lat = -60; lat <= 80; lat += 20) {
+      const a = project(-170, lat, w, h);
+      const b = project(170, lat, w, h);
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function arcPoints(a, b, steps = 48) {
+    const pts = [];
+    for (let i = 0; i <= steps; i++) {
+      const t = i / steps;
+      const lon = a.lon + (b.lon - a.lon) * t;
+      const lat = a.lat + (b.lat - a.lat) * t;
+      // lift arc
+      const lift = Math.sin(Math.PI * t) * (8 + Math.hypot(b.lon - a.lon, b.lat - a.lat) * 0.08);
+      const p = project(lon, lat + lift * 0.15, w, h);
+      // also offset visually upward in screen space
+      p.y -= Math.sin(Math.PI * t) * 28;
+      pts.push(p);
+    }
+    return pts;
+  }
+
+  function drawArc(pts, alpha = 0.25, width = 1.2) {
+    if (pts.length < 2) return;
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
+    for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+    ctx.strokeStyle = `rgba(92, 239, 255, ${alpha})`;
+    ctx.lineWidth = width;
+    ctx.stroke();
+  }
+
+  function spawnPacket() {
+    const r = routes[Math.floor(Math.random() * routes.length)];
+    packets.push({
+      pts: arcPoints(r.from, r.to),
+      t: 0,
+      speed: 0.006 + Math.random() * 0.008,
+      hue: Math.random() > 0.5 ? "cyan" : "blue",
+    });
+  }
+
+  function nearestCity(mx, my) {
+    let best = -1;
+    let bestD = 28;
+    CITIES.forEach((c, i) => {
+      const p = project(c.lon, c.lat, w, h);
+      const d = Math.hypot(p.x - mx, p.y - my);
+      if (d < bestD) {
+        bestD = d;
+        best = i;
+      }
+    });
+    return best;
   }
 
   function tick(ts) {
+    pulseT = ts;
     ctx.clearRect(0, 0, w, h);
 
-    const g = ctx.createRadialGradient(w * 0.55, h * 0.38, 0, w * 0.55, h * 0.38, w * 0.72);
-    g.addColorStop(0, "rgba(92, 225, 255, 0.05)");
-    g.addColorStop(0.55, "rgba(79, 124, 255, 0.03)");
+    // soft atmosphere
+    const g = ctx.createRadialGradient(w * 0.62, h * 0.42, 0, w * 0.62, h * 0.42, w * 0.55);
+    g.addColorStop(0, "rgba(77, 124, 255, 0.12)");
     g.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, w, h);
 
-    for (const n of nodes) {
-      n.x += n.vx;
-      n.y += n.vy;
-      n.pulse += 0.022;
-      if (n.x < 0 || n.x > w) n.vx *= -1;
-      if (n.y < 0 || n.y > h) n.vy *= -1;
+    drawGrid();
+    drawContinents();
 
-      const dx = mouse.x - n.x;
-      const dy = mouse.y - n.y;
-      const d2 = dx * dx + dy * dy;
-      if (d2 < 18000) {
-        n.vx += dx * 0.000025;
-        n.vy += dy * 0.000025;
-      }
-      n.vx *= 0.994;
-      n.vy *= 0.994;
+    // hub glow
+    const hubPt = project(hub.lon, hub.lat, w, h);
+    const hg = ctx.createRadialGradient(hubPt.x, hubPt.y, 0, hubPt.x, hubPt.y, 90);
+    hg.addColorStop(0, "rgba(92, 239, 255, 0.2)");
+    hg.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = hg;
+    ctx.fillRect(hubPt.x - 90, hubPt.y - 90, 180, 180);
+
+    // arcs city → hub (faint) + selected bright
+    CITIES.forEach((c, i) => {
+      const pts = arcPoints(c, hub);
+      const active = i === hover;
+      drawArc(pts, active ? 0.7 : 0.12, active ? 2 : 1);
+    });
+
+    // intercity routes
+    routes.forEach((r) => {
+      drawArc(arcPoints(r.from, r.to), 0.08, 1);
+    });
+
+    // packets
+    if (!prefersReducedMotion() && packets.length < 18 && Math.random() < 0.08) {
+      spawnPacket();
     }
-
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const a = nodes[i];
-        const b = nodes[j];
-        const dist = Math.hypot(a.x - b.x, a.y - b.y);
-        if (dist < LINK_DIST) {
-          const alpha = (1 - dist / LINK_DIST) * 0.38;
-          ctx.strokeStyle = `rgba(92, 225, 255, ${alpha})`;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.stroke();
-        }
-      }
-    }
-
-    for (const n of nodes) {
-      const glow = 0.45 + Math.sin(n.pulse) * 0.25;
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(244, 247, 251, ${0.55 + glow * 0.25})`;
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r * 3.6, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(92, 225, 255, ${0.05 + glow * 0.07})`;
-      ctx.fill();
-    }
-
-    for (let i = 0; i < packets.length; i++) {
-      const p = packets[i];
-      if (!p.from || !p.to) {
-        packets[i] = makePacket();
-        continue;
-      }
+    packets = packets.filter((p) => {
       p.t += p.speed;
-      if (p.t >= 1) {
-        packets[i] = makePacket();
-        continue;
-      }
-      const x = p.from.x + (p.to.x - p.from.x) * p.t;
-      const y = p.from.y + (p.to.y - p.from.y) * p.t;
-      const color = p.hue === "cyan" ? "92, 225, 255" : "79, 124, 255";
+      if (p.t >= 1) return false;
+      const idx = Math.min(p.pts.length - 1, Math.floor(p.t * (p.pts.length - 1)));
+      const pt = p.pts[idx];
+      const color = p.hue === "cyan" ? "92, 239, 255" : "77, 124, 255";
       ctx.beginPath();
-      ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+      ctx.arc(pt.x, pt.y, 2.6, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${color}, 0.95)`;
       ctx.fill();
       ctx.beginPath();
-      ctx.arc(x, y, 9, 0, Math.PI * 2);
+      ctx.arc(pt.x, pt.y, 10, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${color}, 0.12)`;
       ctx.fill();
-    }
+      return true;
+    });
 
-    if (statusEl && ts - lastRouteSwap > 2800) {
-      routeIdx = (routeIdx + 1) % routeLabels.length;
-      statusEl.textContent = routeLabels[routeIdx];
-      lastRouteSwap = ts;
+    // cities
+    CITIES.forEach((c, i) => {
+      const p = project(c.lon, c.lat, w, h);
+      const beat = 0.55 + Math.sin(ts * 0.004 + i) * 0.35;
+      const on = i === hover;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, on ? 18 : 10 + beat * 4, 0, Math.PI * 2);
+      ctx.fillStyle = on ? "rgba(92, 239, 255, 0.22)" : `rgba(92, 239, 255, ${0.08 + beat * 0.06})`;
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, on ? 4.5 : 2.8, 0, Math.PI * 2);
+      ctx.fillStyle = on ? "#fff" : "#5cefff";
+      ctx.fill();
+    });
+
+    // live feed
+    if (feed && ts - lastFeed > 2400) {
+      const c = CITIES[feedIdx % CITIES.length];
+      feed.innerHTML = `<strong>${c.name}</strong> · ${c.rpm} req/min · via ${c.model}`;
+      feed.classList.remove("is-swap");
+      void feed.offsetWidth;
+      feed.classList.add("is-swap");
+      feedIdx += 1;
+      lastFeed = ts;
     }
 
     raf = requestAnimationFrame(tick);
@@ -185,314 +303,349 @@ function initHeroMesh() {
 
   function onMove(e) {
     const rect = canvas.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left;
-    mouse.y = e.clientY - rect.top;
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    hover = nearestCity(mx, my);
+    if (hover >= 0 && tip && tipName && tipMeta) {
+      const c = CITIES[hover];
+      const p = project(c.lon, c.lat, w, h);
+      tip.style.left = `${p.x}px`;
+      tip.style.top = `${p.y}px`;
+      tipName.textContent = c.name;
+      tipMeta.innerHTML = `<span>${c.rpm}</span> req/min · routed via ${c.model}`;
+      tip.classList.add("is-on");
+    } else {
+      tip?.classList.remove("is-on");
+    }
   }
 
   function onLeave() {
-    mouse.x = -9999;
-    mouse.y = -9999;
+    hover = -1;
+    tip?.classList.remove("is-on");
   }
 
   resize();
-  seed();
+  for (let i = 0; i < 8; i++) spawnPacket();
   raf = requestAnimationFrame(tick);
 
-  window.addEventListener("resize", () => {
-    resize();
-    seed();
-  });
+  window.addEventListener("resize", resize);
   canvas.addEventListener("pointermove", onMove);
   canvas.addEventListener("pointerleave", onLeave);
-
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) cancelAnimationFrame(raf);
     else raf = requestAnimationFrame(tick);
   });
 }
 
-/* ── Live routing board ─────────────────────────────────────── */
-function initRoutingBoard() {
-  const board = document.querySelector("[data-route-board]");
-  if (!board) return;
+/* ── Sticky chapter sync ────────────────────────────────────── */
+function initChapters() {
+  const stickyTitle = document.querySelector("[data-chapter-title]");
+  const stickyText = document.querySelector("[data-chapter-text]");
+  const stickyIndex = document.querySelector("[data-chapter-index]");
+  const cards = [...document.querySelectorAll("[data-chapter]")];
+  const mini = document.getElementById("chapter-canvas");
+  if (!cards.length || !stickyTitle) return;
 
-  const svg = board.querySelector(".sig-route__svg");
-  const packetLayer = board.querySelector("[data-route-packets]");
-  const log = board.querySelector("[data-route-log]");
-  const latencyEl = document.querySelector("[data-metric-latency]");
-  const costEl = document.querySelector("[data-metric-cost]");
-  const routeEl = document.querySelector("[data-metric-route]");
-  const hub = board.querySelector(".sig-route__node--hub");
-  const models = [...board.querySelectorAll("[data-model-node]")];
-  const apps = [...board.querySelectorAll("[data-app-node]")];
+  let active = 0;
 
-  if (!svg || !packetLayer || !hub || models.length < 3 || apps.length < 3) return;
+  function paintMini(idx) {
+    if (!mini) return;
+    const ctx = mini.getContext("2d");
+    if (!ctx) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = mini.clientWidth;
+    const h = mini.clientHeight;
+    mini.width = w * dpr;
+    mini.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
 
-  const routes = [
-    { model: 0, app: 0, name: "GPT-4o", latency: "142ms", cost: "$0.0042", label: "Balanced · US-East" },
-    { model: 1, app: 1, name: "Claude 3.5", latency: "118ms", cost: "$0.0031", label: "Quality · US-West" },
-    { model: 2, app: 2, name: "Gemini 1.5", latency: "96ms", cost: "$0.0018", label: "Speed · EU-Central" },
+    const modes = ["token", "route", "connect"];
+    const mode = modes[idx] || "token";
+    const t = performance.now() * 0.001;
+
+    if (mode === "token") {
+      for (let i = 0; i < 18; i++) {
+        const x = 30 + i * 14;
+        const y = h / 2 + Math.sin(t * 2 + i * 0.4) * 28;
+        ctx.beginPath();
+        ctx.arc(x, y, 3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 200, 87, ${0.4 + (i % 3) * 0.2})`;
+        ctx.fill();
+      }
+      ctx.strokeStyle = "rgba(255,200,87,0.25)";
+      ctx.beginPath();
+      ctx.moveTo(24, h / 2);
+      for (let i = 0; i < 18; i++) {
+        ctx.lineTo(30 + i * 14, h / 2 + Math.sin(t * 2 + i * 0.4) * 28);
+      }
+      ctx.stroke();
+    } else if (mode === "route") {
+      const nodes = [
+        { x: 40, y: h * 0.3 },
+        { x: 40, y: h * 0.7 },
+        { x: w * 0.5, y: h * 0.5 },
+        { x: w - 40, y: h * 0.25 },
+        { x: w - 40, y: h * 0.55 },
+        { x: w - 40, y: h * 0.8 },
+      ];
+      const activePath = Math.floor(t) % 3;
+      [[0, 2, 3], [1, 2, 4], [0, 2, 5]].forEach((path, pi) => {
+        ctx.beginPath();
+        path.forEach((ni, i) => {
+          const n = nodes[ni];
+          if (i === 0) ctx.moveTo(n.x, n.y);
+          else ctx.lineTo(n.x, n.y);
+        });
+        ctx.strokeStyle = pi === activePath ? "rgba(92,239,255,0.85)" : "rgba(255,255,255,0.12)";
+        ctx.lineWidth = pi === activePath ? 2 : 1;
+        ctx.stroke();
+      });
+      nodes.forEach((n, i) => {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, i === 2 ? 7 : 4, 0, Math.PI * 2);
+        ctx.fillStyle = i === 2 ? "#5cefff" : "#4d7cff";
+        ctx.fill();
+      });
+      const path = [[0, 2, 3], [1, 2, 4], [0, 2, 5]][activePath];
+      const u = t % 1;
+      const segs = path.length - 1;
+      const seg = Math.min(segs - 1, Math.floor(u * segs));
+      const local = u * segs - seg;
+      const a = nodes[path[seg]];
+      const b = nodes[path[seg + 1]];
+      const px = a.x + (b.x - a.x) * local;
+      const py = a.y + (b.y - a.y) * local;
+      ctx.beginPath();
+      ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = "#fff";
+      ctx.fill();
+    } else {
+      for (let i = 0; i < 7; i++) {
+        const x = 40 + i * ((w - 80) / 6);
+        ctx.beginPath();
+        ctx.moveTo(x, 24);
+        ctx.lineTo(x, h - 24);
+        ctx.strokeStyle = "rgba(255,255,255,0.08)";
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(x, h / 2 + Math.sin(t + i) * 20, 5, 0, Math.PI * 2);
+        ctx.fillStyle = i % 2 ? "#5cefff" : "#4d7cff";
+        ctx.fill();
+      }
+      ctx.strokeStyle = "rgba(92,239,255,0.35)";
+      ctx.beginPath();
+      for (let i = 0; i < 7; i++) {
+        const x = 40 + i * ((w - 80) / 6);
+        const y = h / 2 + Math.sin(t + i) * 20;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+
+    if (!prefersReducedMotion()) requestAnimationFrame(() => paintMini(active));
+  }
+
+  function setActive(i) {
+    active = i;
+    cards.forEach((c, n) => c.classList.toggle("is-active", n === i));
+    const card = cards[i];
+    stickyIndex.textContent = card.dataset.index || `0${i + 1}`;
+    stickyTitle.textContent = card.dataset.title || "";
+    stickyText.textContent = card.dataset.blurb || "";
+  }
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const idx = cards.indexOf(e.target);
+        if (idx >= 0) setActive(idx);
+      });
+    },
+    { rootMargin: "-35% 0px -35% 0px", threshold: 0.1 }
+  );
+  cards.forEach((c) => io.observe(c));
+  setActive(0);
+  paintMini(0);
+  window.addEventListener("resize", () => paintMini(active));
+}
+
+/* ── Policy playground ──────────────────────────────────────── */
+function initPolicy() {
+  const root = document.querySelector("[data-policy]");
+  if (!root) return;
+  const canvas = root.querySelector("canvas");
+  const buttons = [...root.querySelectorAll("[data-policy-btn]")];
+  const mLat = root.querySelector("[data-m-lat]");
+  const mCost = root.querySelector("[data-m-cost]");
+  const mModel = root.querySelector("[data-m-model]");
+  if (!canvas || !buttons.length) return;
+
+  const policies = [
+    { id: "speed", lat: "96ms", cost: "$0.0018", model: "Gemini 1.5", color: "#5cefff" },
+    { id: "quality", lat: "142ms", cost: "$0.0042", model: "Claude 3.5", color: "#4d7cff" },
+    { id: "budget", lat: "118ms", cost: "$0.0011", model: "DeepSeek", color: "#ffc857" },
   ];
-
-  function centerOf(el) {
-    const br = board.getBoundingClientRect();
-    const r = el.getBoundingClientRect();
-    return {
-      x: r.left - br.left + r.width / 2,
-      y: r.top - br.top + r.height / 2,
-    };
-  }
-
-  function curve(a, b, bend) {
-    const mx = (a.x + b.x) / 2;
-    const my = (a.y + b.y) / 2 + bend;
-    return `M ${a.x} ${a.y} Q ${mx} ${my} ${b.x} ${b.y}`;
-  }
-
-  let pathEls = [];
   let active = 0;
   let packets = [];
-  let lastSpawn = 0;
-  let lastSwitch = 0;
-  let boardW = 0;
-  let boardH = 0;
+  let raf = 0;
+  let w = 0;
+  let h = 0;
 
-  function rebuildPaths() {
-    const rect = board.getBoundingClientRect();
-    boardW = rect.width;
-    boardH = rect.height;
-    svg.setAttribute("viewBox", `0 0 ${boardW} ${boardH}`);
-    svg.innerHTML = "";
-    pathEls = [];
+  const ctx = canvas.getContext("2d");
 
-    const hubPt = centerOf(hub);
-    routes.forEach((r, i) => {
-      const m = centerOf(models[r.model]);
-      const a = centerOf(apps[r.app]);
-      const d = `${curve(m, hubPt, (i - 1) * 18)} ${curve(hubPt, a, (i - 1) * -14).replace("M", "L")}`;
-      // Better: two path segments
-      const dIn = curve(m, hubPt, (i - 1) * 22);
-      const dOut = curve(hubPt, a, (i - 1) * -18);
-
-      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-      g.dataset.route = String(i);
-
-      [dIn, dOut].forEach((pathD) => {
-        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        path.setAttribute("d", pathD);
-        path.setAttribute("class", "sig-route-path");
-        if (i === active) path.classList.add("is-active");
-        g.appendChild(path);
-      });
-
-      svg.appendChild(g);
-      pathEls.push({
-        group: g,
-        paths: [...g.querySelectorAll("path")],
-        lengths: [...g.querySelectorAll("path")].map((p) => p.getTotalLength()),
-        route: r,
-      });
-    });
+  function size() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = rect.width;
+    h = rect.height;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function setActive(index) {
-    active = index;
-    pathEls.forEach((item, i) => {
-      item.paths.forEach((p) => p.classList.toggle("is-active", i === active));
-    });
-    models.forEach((n, i) => n.classList.toggle("is-lit", i === routes[active].model));
-    apps.forEach((n, i) => n.classList.toggle("is-lit", i === routes[active].app));
-    hub.classList.add("is-lit");
+  function apply(i) {
+    active = i;
+    buttons.forEach((b, n) => b.classList.toggle("is-active", n === i));
+    const p = policies[i];
+    if (mLat) mLat.textContent = p.lat;
+    if (mCost) mCost.textContent = p.cost;
+    if (mModel) mModel.textContent = p.model;
+    packets = [];
+  }
 
-    const r = routes[active];
-    if (latencyEl) latencyEl.textContent = r.latency;
-    if (costEl) costEl.textContent = r.cost;
-    if (routeEl) routeEl.textContent = r.label;
-    if (log) {
-      const line = document.createElement("div");
-      line.className = "sig-route-log__line is-new";
-      line.innerHTML = `<span>→</span> Routed to <strong>${r.name}</strong> · ${r.latency} · ${r.cost}`;
-      log.prepend(line);
-      while (log.children.length > 4) log.lastElementChild?.remove();
+  function frame() {
+    ctx.clearRect(0, 0, w, h);
+    const p = policies[active];
+    const left = [
+      { x: 70, y: h * 0.28, label: "App" },
+      { x: 70, y: h * 0.5, label: "SDK" },
+      { x: 70, y: h * 0.72, label: "Worker" },
+    ];
+    const hub = { x: w * 0.42, y: h * 0.48 };
+    const right = [
+      { x: w - 90, y: h * 0.25, label: "Gemini" },
+      { x: w - 90, y: h * 0.48, label: "Claude" },
+      { x: w - 90, y: h * 0.71, label: "DeepSeek" },
+    ];
+    const target = active;
+
+    left.forEach((n) => {
+      ctx.beginPath();
+      ctx.moveTo(n.x, n.y);
+      ctx.quadraticCurveTo((n.x + hub.x) / 2, n.y - 20, hub.x, hub.y);
+      ctx.strokeStyle = "rgba(255,255,255,0.12)";
+      ctx.stroke();
+    });
+    right.forEach((n, i) => {
+      ctx.beginPath();
+      ctx.moveTo(hub.x, hub.y);
+      ctx.quadraticCurveTo((hub.x + n.x) / 2, n.y + 10, n.x, n.y);
+      ctx.strokeStyle = i === target ? p.color : "rgba(255,255,255,0.1)";
+      ctx.lineWidth = i === target ? 2 : 1;
+      ctx.stroke();
+    });
+
+    const drawNode = (n, fill, big = false) => {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, big ? 12 : 8, 0, Math.PI * 2);
+      ctx.fillStyle = fill;
+      ctx.fill();
+      ctx.fillStyle = "rgba(243,246,251,0.85)";
+      ctx.font = "11px IBM Plex Mono, monospace";
+      ctx.fillText(n.label, n.x - 18, n.y + 28);
+    };
+    left.forEach((n) => drawNode(n, "#4d7cff"));
+    drawNode({ ...hub, label: "TokenRouter" }, p.color, true);
+    right.forEach((n, i) => drawNode(n, i === target ? p.color : "rgba(255,255,255,0.25)"));
+
+    if (!prefersReducedMotion() && Math.random() < 0.12) {
+      const src = left[Math.floor(Math.random() * left.length)];
+      packets.push({ stage: 0, t: 0, src, speed: 0.02 + Math.random() * 0.015 });
     }
-  }
-
-  function spawnPacket() {
-    const item = pathEls[active];
-    if (!item) return;
-    // travel along both segments sequentially
-    const el = document.createElement("div");
-    el.className = "sig-packet";
-    packetLayer.appendChild(el);
-    packets.push({
-      el,
-      item,
-      seg: 0,
-      t: 0,
-      speed: 0.012 + Math.random() * 0.008,
-    });
-  }
-
-  function frame(ts) {
-    if (!lastSpawn) lastSpawn = ts;
-    if (!lastSwitch) lastSwitch = ts;
-
-    if (!prefersReducedMotion()) {
-      if (ts - lastSpawn > 480) {
-        spawnPacket();
-        lastSpawn = ts;
-      }
-      if (ts - lastSwitch > 3400) {
-        setActive((active + 1) % routes.length);
-        lastSwitch = ts;
-      }
-    }
-
-    packets = packets.filter((p) => {
-      p.t += p.speed;
-      const path = p.item.paths[p.seg];
-      const len = p.item.lengths[p.seg];
-      if (!path || !len) {
-        p.el.remove();
-        return false;
-      }
-      if (p.t >= 1) {
-        if (p.seg < p.item.paths.length - 1) {
-          p.seg += 1;
-          p.t = 0;
-        } else {
-          p.el.remove();
-          return false;
+    packets = packets.filter((pk) => {
+      pk.t += pk.speed;
+      let x;
+      let y;
+      if (pk.stage === 0) {
+        const t = Math.min(1, pk.t);
+        x = pk.src.x + (hub.x - pk.src.x) * t;
+        y = pk.src.y + (hub.y - pk.src.y) * t - Math.sin(Math.PI * t) * 24;
+        if (pk.t >= 1) {
+          pk.stage = 1;
+          pk.t = 0;
         }
+      } else {
+        const dest = right[target];
+        const t = Math.min(1, pk.t);
+        x = hub.x + (dest.x - hub.x) * t;
+        y = hub.y + (dest.y - hub.y) * t - Math.sin(Math.PI * t) * 20;
+        if (pk.t >= 1) return false;
       }
-      const pt = path.getPointAtLength(len * Math.min(p.t, 1));
-      p.el.style.transform = `translate(${pt.x}px, ${pt.y}px) translate(-50%, -50%)`;
+      ctx.beginPath();
+      ctx.arc(x, y, 3, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
       return true;
     });
 
-    requestAnimationFrame(frame);
+    raf = requestAnimationFrame(frame);
   }
 
-  rebuildPaths();
-  setActive(0);
-
-  window.addEventListener("resize", () => {
-    rebuildPaths();
-    setActive(active);
-  });
-
-  models.forEach((node, i) => {
-    node.style.cursor = "pointer";
-    node.addEventListener("click", () => {
-      const idx = routes.findIndex((r) => r.model === i);
-      if (idx >= 0) {
-        setActive(idx);
-        lastSwitch = performance.now();
-      }
-    });
-  });
-
-  if (!prefersReducedMotion()) requestAnimationFrame(frame);
-}
-
-/* ── Step cycling ───────────────────────────────────────────── */
-function initSteps() {
-  const root = document.querySelector("[data-sig-steps]");
-  if (!root) return;
-
-  const steps = [...root.querySelectorAll("[data-step]")];
-  if (!steps.length) return;
-
-  let index = 0;
-  let timer = null;
-
-  function show(i) {
-    index = i;
-    steps.forEach((s, n) => s.classList.toggle("is-active", n === index));
-  }
-
-  function next() {
-    show((index + 1) % steps.length);
-  }
-
-  steps.forEach((s, i) => {
-    s.addEventListener("click", () => {
-      show(i);
-      restart();
-    });
-  });
-
-  function restart() {
-    if (timer) clearInterval(timer);
-    if (!prefersReducedMotion()) timer = setInterval(next, 3800);
-  }
-
-  show(0);
-  restart();
-}
-
-/* ── Card mouse glow ────────────────────────────────────────── */
-function initCardGlow() {
-  document.querySelectorAll("[data-glow]").forEach((card) => {
-    card.addEventListener("pointermove", (e) => {
-      const rect = card.getBoundingClientRect();
-      card.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-      card.style.setProperty("--my", `${e.clientY - rect.top}px`);
-    });
+  buttons.forEach((b, i) => b.addEventListener("click", () => apply(i)));
+  size();
+  apply(0);
+  raf = requestAnimationFrame(frame);
+  window.addEventListener("resize", size);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) cancelAnimationFrame(raf);
+    else raf = requestAnimationFrame(frame);
   });
 }
 
-/* ── Counter ticks ──────────────────────────────────────────── */
 function initCounters() {
   const nodes = document.querySelectorAll("[data-count]");
   if (!nodes.length) return;
-
   const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         const el = entry.target;
         const target = el.getAttribute("data-count") || "0";
-        const isMoney = target.includes("$");
-        const isPct = target.includes("%");
         const numeric = parseFloat(target.replace(/[^0-9.]/g, "")) || 0;
-        const suffix = el.getAttribute("data-suffix") || "";
-        const prefix = isMoney ? "$" : "";
-        const endSuffix = isPct ? "%" : suffix;
-
+        const isPct = target.includes("%");
+        const suffix = el.getAttribute("data-suffix") || (isPct ? "%" : "");
         if (prefersReducedMotion()) {
           el.textContent = target;
           io.unobserve(el);
           return;
         }
-
         const start = performance.now();
-        const dur = 1200;
-        function tick(now) {
-          const t = Math.min(1, (now - start) / dur);
+        const tick = (now) => {
+          const t = Math.min(1, (now - start) / 1100);
           const eased = 1 - Math.pow(1 - t, 3);
           const val = numeric * eased;
-          if (isMoney) el.textContent = `${prefix}${val.toFixed(4)}${endSuffix}`;
-          else if (Number.isInteger(numeric)) el.textContent = `${prefix}${Math.round(val).toLocaleString()}${endSuffix}`;
-          else el.textContent = `${prefix}${val.toFixed(1)}${endSuffix}`;
+          el.textContent = Number.isInteger(numeric)
+            ? `${Math.round(val).toLocaleString()}${suffix}`
+            : `${val.toFixed(1)}${suffix}`;
           if (t < 1) requestAnimationFrame(tick);
           else el.textContent = target;
-        }
+        };
         requestAnimationFrame(tick);
         io.unobserve(el);
       });
     },
     { threshold: 0.4 }
   );
-
   nodes.forEach((n) => io.observe(n));
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   initReveals();
-  initHeroMesh();
-  initRoutingBoard();
-  initSteps();
-  initCardGlow();
+  initWorldMap();
+  initChapters();
+  initPolicy();
   initCounters();
 });
