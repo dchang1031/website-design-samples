@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/logo-without-title.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#05070d" />
+    <meta name="description" content="A unified AI model hub for aggregation and distribution. TokenRouter converts leading LLMs into OpenAI, Claude, and Gemini compatible APIs with centralized management for individuals and enterprises." />
+    <title>TokenRouter - Option 3</title>
+    <link rel="stylesheet" href="/src/replica.css" />
+    <link rel="stylesheet" href="/src/option3-theme.css" />
+    <link rel="stylesheet" href="/src/shared-nav.css" />
+  </head>
+  <body class="theme-signal">
+    <div class="sig-page">
+      <div class="sr-only">
+        <h1>TokenRouter - Verified Models with Enterprise-Grade Controls</h1>
+        <p>A unified AI model hub for aggregation and distribution. TokenRouter converts leading LLMs into OpenAI, Claude, and Gemini compatible APIs with centralized management for individuals and enterprises.</p>
+      </div>
+
+      <header id="site-header" class="tr-landing-header site-header">
+        <div class="tr-nav-inner">
+          <button id="mobile-menu-btn" class="tr-nav-menu-toggle" type="button" aria-label="Open menu">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M3 5.5H19M3 11H19M3 16.5H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+          <a href="/current.html" class="tr-landing-brand-link" aria-label="TokenRouter">
+            <img alt="TokenRouter" class="tr-landing-brand-logo-image" src="/assets/logo.png" />
+            <img alt="TokenRouter" class="tr-landing-brand-mobile-image" src="/assets/logo-without-title-8.png" />
+          </a>
+          <div class="tr-nav-end">
+            <nav class="tr-nav-links" aria-label="Primary">
+              <a href="/current.html" class="tr-landing-header-nav-link">Current</a>
+              <a href="/" class="tr-landing-header-nav-link">Option 1</a>
+              <a href="/option-2.html" class="tr-landing-header-nav-link">Option 2</a>
+              <a href="/option-3.html" class="tr-landing-header-nav-link is-active">Option 3</a>
+              <button type="button" class="tr-nav-brief" data-design-brief-open>Design Exercise</button>
+            </nav>
+            <div class="tr-landing-header-divider" aria-hidden="true"></div>
+            <button class="tr-landing-header-action" type="button">Sign In</button>
+            <button class="tr-landing-header-action" type="button">Sign Up</button>
+          </div>
+        </div>
+      </header>
+
+      <div id="mobile-menu" class="tr-landing-mobile-menu" hidden>
+        <button class="tr-landing-mobile-menu__overlay" id="mobile-menu-close" type="button" aria-label="Close menu"></button>
+        <div class="tr-landing-mobile-menu__drawer">
+          <a href="/current.html" class="tr-landing-mobile-menu__brand"><img alt="TokenRouter" src="/assets/logo.png" /></a>
+          <a href="/current.html" class="tr-landing-mobile-menu__item">Current</a>
+          <a href="/" class="tr-landing-mobile-menu__item">Option 1</a>
+          <a href="/option-2.html" class="tr-landing-mobile-menu__item">Option 2</a>
+          <a href="/option-3.html" class="tr-landing-mobile-menu__item is-active">Option 3</a>
+          <button type="button" class="tr-landing-mobile-menu__item tr-landing-mobile-menu__brief" data-design-brief-open>Design Exercise</button>
+        </div>
+      </div>
+
+      <div class="h-16 w-full shrink-0" style="height:64px"></div>
+
+      <main>
+        <!-- Hero -->
+        <section class="sig-hero">
+          <div class="sig-hero__copy sig-reveal">
+            <div class="sig-kicker"><span class="sig-kicker__dot" aria-hidden="true"></span> Live model fabric</div>
+            <h2 class="sig-hero__title">Route every <em>token</em> with intent</h2>
+            <p class="sig-hero__lede">
+              TokenRouter is the control plane for AI connections — one API that intelligently routes traffic across models, regions, and cost profiles without rewriting your stack.
+            </p>
+            <div class="sig-hero__actions">
+              <a class="sig-btn sig-btn--primary" href="#">Start routing</a>
+              <a class="sig-btn sig-btn--ghost" href="#">Explore models</a>
+            </div>
+            <div class="sig-hero__meta">
+              <div>
+                <strong data-count="120+" data-suffix="+">0</strong>
+                Verified models
+              </div>
+              <div>
+                <strong data-count="38%" data-suffix="%">0%</strong>
+                Avg. cost saved
+              </div>
+              <div>
+                <strong data-count="99.9%" data-suffix="%">0%</strong>
+                Route uptime
+              </div>
+            </div>
+          </div>
+
+          <div class="sig-hero__stage sig-reveal">
+            <canvas id="sig-hero-canvas" class="sig-hero__canvas" aria-hidden="true"></canvas>
+            <div class="sig-hero__hud">
+              <div class="sig-chip"><span class="sig-chip__pulse" aria-hidden="true"></span> Tokens in flight</div>
+              <div class="sig-chip">Active path · <span data-hero-route>GPT-4o · US-East</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Concept rail -->
+        <section class="sig-rail" aria-label="Core concepts">
+          <article class="sig-rail__item sig-reveal">
+            <div class="sig-rail__label">01 · Token</div>
+            <h3 class="sig-rail__title">Atomic unit of spend</h3>
+            <p class="sig-rail__text">Every request is priced, metered, and attributed before it leaves your boundary.</p>
+          </article>
+          <article class="sig-rail__item sig-reveal">
+            <div class="sig-rail__label">02 · Routing</div>
+            <h3 class="sig-rail__title">Policy-aware paths</h3>
+            <p class="sig-rail__text">Latency, quality, and budget policies pick the best model in milliseconds.</p>
+          </article>
+          <article class="sig-rail__item sig-reveal">
+            <div class="sig-rail__label">03 · Data flow</div>
+            <h3 class="sig-rail__title">Observable streams</h3>
+            <p class="sig-rail__text">See packets move from app → hub → model with live cost and latency telemetry.</p>
+          </article>
+          <article class="sig-rail__item sig-reveal">
+            <div class="sig-rail__label">04 · AI connections</div>
+            <h3 class="sig-rail__title">One OpenAI-shaped API</h3>
+            <p class="sig-rail__text">Keep your SDKs. Swap providers, regions, and fallbacks without new integrations.</p>
+          </article>
+        </section>
+
+        <!-- Flow marquee -->
+        <div class="sig-flow" aria-hidden="true">
+          <div class="sig-flow__track">
+            <div class="sig-flow__item"><span>●</span> Request intake</div>
+            <div class="sig-flow__item"><span>●</span> Policy evaluate</div>
+            <div class="sig-flow__item"><span>●</span> Model select</div>
+            <div class="sig-flow__item"><span>●</span> Token stream</div>
+            <div class="sig-flow__item"><span>●</span> Cost settle</div>
+            <div class="sig-flow__item"><span>●</span> Fallback guard</div>
+            <div class="sig-flow__item"><span>●</span> Request intake</div>
+            <div class="sig-flow__item"><span>●</span> Policy evaluate</div>
+            <div class="sig-flow__item"><span>●</span> Model select</div>
+            <div class="sig-flow__item"><span>●</span> Token stream</div>
+            <div class="sig-flow__item"><span>●</span> Cost settle</div>
+            <div class="sig-flow__item"><span>●</span> Fallback guard</div>
+          </div>
+        </div>
+
+        <!-- Routing mechanics -->
+        <section class="sig-section">
+          <div class="sig-section__head sig-reveal">
+            <p class="sig-section__eyebrow">Product mechanics</p>
+            <h2 class="sig-section__title">Watch the route decide itself</h2>
+            <p class="sig-section__text">
+              Hover models to force a path. Packets travel through TokenRouter’s hub as policies rebalance for speed, quality, and cost in real time.
+            </p>
+          </div>
+
+          <div class="sig-route">
+            <div class="sig-route__board sig-reveal" data-route-board>
+              <svg class="sig-route__svg" aria-hidden="true"></svg>
+              <div class="sig-route__packets" data-route-packets></div>
+
+              <div class="sig-route__node sig-route__node--m1" data-model-node>GPT-4o<small>Balanced</small></div>
+              <div class="sig-route__node sig-route__node--m2" data-model-node>Claude 3.5<small>Quality</small></div>
+              <div class="sig-route__node sig-route__node--m3" data-model-node>Gemini 1.5<small>Speed</small></div>
+
+              <div class="sig-route__node sig-route__node--hub">TokenRouter<small>Intelligent hub</small></div>
+
+              <div class="sig-route__node sig-route__node--a1" data-app-node>OpenAI API<small>Compatible</small></div>
+              <div class="sig-route__node sig-route__node--a2" data-app-node>Claude API<small>Compatible</small></div>
+              <div class="sig-route__node sig-route__node--a3" data-app-node>Gemini API<small>Compatible</small></div>
+
+              <div class="sig-route__metrics">
+                <div class="sig-route__metric">Latency<strong data-metric-latency>—</strong></div>
+                <div class="sig-route__metric">Cost / 1k<strong data-metric-cost>—</strong></div>
+                <div class="sig-route__metric">Policy<strong data-metric-route>—</strong></div>
+              </div>
+            </div>
+
+            <div class="sig-route__steps sig-reveal" data-sig-steps>
+              <button type="button" class="sig-step is-active" data-step>
+                <div class="sig-step__index">Step 01</div>
+                <h3 class="sig-step__title">Ingest &amp; normalize</h3>
+                <p class="sig-step__text">Requests arrive in OpenAI, Claude, or Gemini shape and land in a single internal schema.</p>
+              </button>
+              <button type="button" class="sig-step" data-step>
+                <div class="sig-step__index">Step 02</div>
+                <h3 class="sig-step__title">Score the lattice</h3>
+                <p class="sig-step__text">Routing weights latency, region, model health, and spend caps before a path locks.</p>
+              </button>
+              <button type="button" class="sig-step" data-step>
+                <div class="sig-step__index">Step 03</div>
+                <h3 class="sig-step__title">Stream &amp; settle</h3>
+                <p class="sig-step__text">Tokens stream back on the original protocol while cost and usage settle to your wallet.</p>
+              </button>
+              <div class="sig-route-log" data-route-log aria-live="polite"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Capabilities -->
+        <section class="sig-section">
+          <div class="sig-section__head sig-reveal">
+            <p class="sig-section__eyebrow">Platform</p>
+            <h2 class="sig-section__title">Built for teams shipping AI in production</h2>
+            <p class="sig-section__text">Enterprise controls without enterprise friction — verification, budgets, and failover as first-class primitives.</p>
+          </div>
+          <div class="sig-grid">
+            <article class="sig-card sig-reveal" data-glow>
+              <div class="sig-card__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10h4l2-6 2 12 2-6h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <h3 class="sig-card__title">Adaptive failover</h3>
+              <p class="sig-card__text">Automatic path swaps when a provider degrades — your users keep streaming without code changes.</p>
+            </article>
+            <article class="sig-card sig-reveal" data-glow>
+              <div class="sig-card__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M10 6v4l2.5 2.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </div>
+              <h3 class="sig-card__title">Budget-aware routing</h3>
+              <p class="sig-card__text">Cap spend per key, project, or team. Routes soft-land onto cheaper models before hard limits hit.</p>
+            </article>
+            <article class="sig-card sig-reveal" data-glow>
+              <div class="sig-card__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 14V6a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.6"/><path d="M7 10h6M10 7v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </div>
+              <h3 class="sig-card__title">Unified observability</h3>
+              <p class="sig-card__text">One ledger for tokens, latency, and provider health — from playground experiments to enterprise SLAs.</p>
+            </article>
+            <article class="sig-card sig-reveal" data-glow>
+              <div class="sig-card__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 10a5 5 0 0110 0M3 10a7 7 0 0114 0M10 10v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </div>
+              <h3 class="sig-card__title">Verified model catalog</h3>
+              <p class="sig-card__text">Ship against models that are tested for compatibility, rate limits, and response fidelity.</p>
+            </article>
+            <article class="sig-card sig-reveal" data-glow>
+              <div class="sig-card__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 7h12M4 10h12M4 13h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </div>
+              <h3 class="sig-card__title">Policy as code</h3>
+              <p class="sig-card__text">Encode region, PII, and model allowlists once — every request inherits the same guardrails.</p>
+            </article>
+            <article class="sig-card sig-reveal" data-glow>
+              <div class="sig-card__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M6 10l2.5 2.5L14 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="10" r="7.25" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <h3 class="sig-card__title">Drop-in SDKs</h3>
+              <p class="sig-card__text">Point your existing OpenAI client at TokenRouter and unlock the full model lattice instantly.</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="sig-cta">
+          <div class="sig-cta__panel sig-reveal">
+            <h2 class="sig-cta__title">Put intelligence between your app and every model</h2>
+            <p class="sig-cta__text">Start with a single key. Route production traffic with confidence — and keep the freedom to switch models overnight.</p>
+            <div class="sig-cta__actions">
+              <a class="sig-btn sig-btn--primary" href="#">Create account</a>
+              <a class="sig-btn sig-btn--ghost" href="#">Talk to sales</a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="sig-footer">
+        <div>
+          <strong>TokenRouter</strong>
+          <p style="margin:8px 0 0">Intelligent routing for the model era.</p>
+        </div>
+        <div>© Artemis Tokenrouter Inc. Design exercise · Option 3</div>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/replica.js"></script>
+    <script type="module" src="/src/option3-motion.js"></script>
+    <script type="module" src="/src/design-brief.js"></script>
+  </body>
+</html>

@@ -99,6 +99,21 @@ button {
   display: block;
 }
 
+/* Only one brand asset at a time — full wordmark on desktop, mark on small screens */
+.tr-landing-brand-link .tr-landing-brand-mobile-image {
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .tr-landing-brand-link .tr-landing-brand-logo-image {
+    display: none !important;
+  }
+
+  .tr-landing-brand-link .tr-landing-brand-mobile-image {
+    display: block !important;
+  }
+}
+
 .tr-landing-theme-menu__trigger {
   width: 32px;
   height: 32px;

@@ -105,7 +105,7 @@ header.tr-landing-header#site-header.tr-landing-header--scrolled {
 }
 
 .tr-landing-brand-mobile-image {
-  display: none;
+  display: none !important;
   height: 28px;
   width: 28px;
   object-fit: contain;
@@ -372,11 +372,11 @@ header.tr-landing-header#site-header.tr-landing-header--scrolled {
   }
 
   .tr-landing-brand-logo-image {
-    display: none;
+    display: none !important;
   }
 
   .tr-landing-brand-mobile-image {
-    display: block;
+    display: block !important;
   }
 
   .tr-nav-links {

@@ -21,6 +21,7 @@ export default defineConfig({
         main: resolve(__dirname, "index.html"),
         current: resolve(__dirname, "current.html"),
         option2: resolve(__dirname, "option-2.html"),
+        option3: resolve(__dirname, "option-3.html"),
       },
     },
   },
