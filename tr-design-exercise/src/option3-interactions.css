@@ -35,41 +35,43 @@
   50% { transform: translate(-50%, -50%) scale(1.18); opacity: 1; }
 }
 
-/* The headline is always centered in the viewport and never translates upward. */
+/* Keep the headline completely independent from document scrolling. */
 .theme-liquid.theme-mono-o3 .value-story {
   height: 180vh;
 }
 
 .theme-liquid.theme-mono-o3 .value-story__sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
+  position: static !important;
+  height: 100vh !important;
   padding: 0 !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block !important;
 }
 
 .theme-liquid.theme-mono-o3 .value-story__frame {
   width: 100%;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
 }
 
 .theme-liquid.theme-mono-o3 .value-story__headline {
+  position: fixed !important;
   top: 50% !important;
   left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  opacity: var(--o3-headline-opacity, 0.12) !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  transform: translate3d(-50%, -50%, 0) !important;
+  opacity: var(--o3-headline-opacity, 0.32) !important;
   filter: blur(var(--hl-blur, 0px)) !important;
-  transition: opacity 80ms linear, filter 80ms linear;
+  transition: opacity 100ms linear, filter 100ms linear;
   will-change: opacity, filter;
+  z-index: 30;
+  pointer-events: none;
 }
 
 .theme-liquid.theme-mono-o3 .value-story__letter {
-  color: rgba(10, 10, 10, 0.12) !important;
+  color: rgba(0, 0, 0, 0.32) !important;
+  opacity: 1 !important;
   filter: none !important;
 }
 
@@ -115,7 +117,6 @@
   opacity: var(--o3-model-opacity, 0);
 }
 
-/* White URL bar and copy control. */
 .theme-liquid.theme-mono-o3 .tr-landing-hero-url-box,
 .theme-liquid.theme-mono-o3 .tr-landing-hero-copy-button {
   background: #fff !important;
