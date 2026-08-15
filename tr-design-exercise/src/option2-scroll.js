@@ -1,7 +1,14 @@
 /**
- * Option 2 — theme toggle + scroll wash + Apple-style reveals.
+ * Option 2 — theme toggle + scroll wash + Apple-style reveals + value story.
  */
 (() => {
+  // Ensure value-story upgrade stylesheet is present
+  if (!document.querySelector('link[href*="option2-value-story.css"]')) {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "/src/option2-value-story.css";
+    document.head.appendChild(link);
+  }
   initThemeToggle();
   initScrollWash();
   initReveals();
@@ -16,7 +23,6 @@ function initThemeToggle() {
 
   const storageKey = "option2-theme";
   const saved = localStorage.getItem(storageKey);
-  // Default dark for readability against the liquid stage
   const initial = saved === "light" ? "light" : "dark";
 
   const apply = (mode) => {
@@ -148,7 +154,6 @@ function initReveals() {
   });
 }
 
-
 function initScaleExpand() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const blocks = [...document.querySelectorAll("[data-scale-expand]")];
@@ -197,16 +202,34 @@ function initScaleExpand() {
 }
 
 /**
- * Scroll-scrub storytelling before hero.
- * Scroll progress continuously drives fades / slides.
- * Stop scrolling → animation holds. Scroll back → reverses.
+ * Apple / Scale-style scroll-scrub value story.
+ * - Centered headline lights word-by-word as you scroll
+ * - Stop → holds; reverse → reverses
+ * - Headline fades; three benefits enter one at a time with technical canvas viz
  */
 function initValueStory() {
   const root = document.querySelector("[data-value-story]");
   if (!root) return;
 
+  // Upgrade headline to word-by-word spans if needed (main-branch HTML)
+  let headline = root.querySelector("[data-story-headline]");
+  if (headline && !root.querySelector("[data-word]")) {
+    headline.innerHTML = [
+      '<span class="value-story__word value-story__word--accent" data-word="0">One</span>',
+      '<span class="value-story__word" data-word="1">TokenRouter,</span>',
+      '<span class="value-story__word value-story__word--accent" data-word="2">all</span>',
+      '<span class="value-story__word" data-word="3">models</span>',
+    ].join("\n                ");
+  }
+  // Hide legacy index numbers
+  root.querySelectorAll(".value-story__index").forEach((el) => {
+    el.style.display = "none";
+  });
+
+  const words = [...root.querySelectorAll("[data-word]")];
   const panels = [...root.querySelectorAll("[data-benefit]")];
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const wordCount = words.length || 4;
   const vizState = { key: 0, teams: 0, security: 0, t: 0 };
 
   if (reduce) {
@@ -217,6 +240,9 @@ function initValueStory() {
     root.style.setProperty("--b0-x", "0px");
     root.style.setProperty("--b1-x", "0px");
     root.style.setProperty("--b2-x", "0px");
+    words.forEach((w) => {
+      w.style.setProperty("--word-lit", "1");
+    });
     panels.forEach((p) => p.removeAttribute("aria-hidden"));
     return;
   }
@@ -248,37 +274,44 @@ function initValueStory() {
   }
 
   function apply(p) {
-    // Timeline (scrubbed, reversible):
-    // 0.00–0.16 headline hold
-    // 0.16–0.32 headline out / benefit 0 in
-    // 0.32–0.46 benefit 0 hold
-    // 0.46–0.60 benefit 0 out / benefit 1 in
-    // 0.60–0.74 benefit 1 hold
-    // 0.74–0.88 benefit 1 out / benefit 2 in
-    // 0.88–1.00 benefit 2 hold
+    const wordEnd = 0.28;
+    words.forEach((el, i) => {
+      const start = (i / wordCount) * wordEnd;
+      const end = ((i + 1) / wordCount) * wordEnd;
+      const lit = segment(p, start, end);
+      el.style.setProperty("--word-lit", lit.toFixed(4));
+    });
 
-    const hlOut = segment(p, 0.16, 0.32);
+    const hlOut = segment(p, 0.4, 0.52);
     const hlOpacity = 1 - hlOut;
-    const hlY = hlOut * -36;
-    const hlScale = 1 - hlOut * 0.12;
+    const hlY = hlOut * -48;
+    const hlScale = 1 - hlOut * 0.08;
+    const hlBlur = hlOut * 8;
 
-    const b0 = crossfade(p, 0.18, 0.34, 0.46, 0.6);
-    const b1 = crossfade(p, 0.48, 0.62, 0.74, 0.88);
-    const b2 = segment(p, 0.76, 0.9);
+    const b0 = crossfade(p, 0.42, 0.54, 0.64, 0.74);
+    const b1 = crossfade(p, 0.66, 0.76, 0.84, 0.94);
+    const b2 = segment(p, 0.86, 0.96);
 
-    const b0x = (1 - b0) * 56;
-    const b1x = (1 - b1) * 56;
-    const b2x = (1 - b2) * 56;
+    const b0x = (1 - b0) * 40;
+    const b1x = (1 - b1) * 40;
+    const b2x = (1 - b2) * 40;
+    const b0s = 0.96 + b0 * 0.04;
+    const b1s = 0.96 + b1 * 0.04;
+    const b2s = 0.96 + b2 * 0.04;
 
     root.style.setProperty("--hl-opacity", hlOpacity.toFixed(4));
     root.style.setProperty("--hl-y", `${hlY.toFixed(2)}px`);
     root.style.setProperty("--hl-scale", hlScale.toFixed(4));
+    root.style.setProperty("--hl-blur", `${hlBlur.toFixed(2)}px`);
     root.style.setProperty("--b0", b0.toFixed(4));
     root.style.setProperty("--b1", b1.toFixed(4));
     root.style.setProperty("--b2", b2.toFixed(4));
     root.style.setProperty("--b0-x", `${b0x.toFixed(2)}px`);
     root.style.setProperty("--b1-x", `${b1x.toFixed(2)}px`);
     root.style.setProperty("--b2-x", `${b2x.toFixed(2)}px`);
+    root.style.setProperty("--b0-s", b0s.toFixed(4));
+    root.style.setProperty("--b1-s", b1s.toFixed(4));
+    root.style.setProperty("--b2-s", b2s.toFixed(4));
     root.style.setProperty("--scrub", `${(p * 100).toFixed(2)}%`);
 
     vizState.key = b0;
@@ -287,7 +320,7 @@ function initValueStory() {
 
     panels.forEach((panel, i) => {
       const op = i === 0 ? b0 : i === 1 ? b1 : b2;
-      if (op > 0.2) panel.removeAttribute("aria-hidden");
+      if (op > 0.18) panel.removeAttribute("aria-hidden");
       else panel.setAttribute("aria-hidden", "true");
     });
   }
@@ -308,39 +341,67 @@ function initValueStory() {
     if (!canvas || intensity < 0.01) return;
     const { ctx, w, h } = sizeCanvas(canvas);
     ctx.clearRect(0, 0, w, h);
-    const cx = w * 0.28;
+
+    const cx = w * 0.32;
     const cy = h * 0.5;
-    const models = 7;
-    for (let i = 0; i < models; i++) {
-      const a = -0.9 + (i / (models - 1)) * 1.8;
-      const reach = 90 + i * 12;
-      const x = cx + Math.cos(a) * reach * intensity;
-      const y = cy + Math.sin(a) * reach * 0.55;
+    const models = 8;
+    const accent = "0, 134, 255";
+
+    ctx.strokeStyle = `rgba(${accent}, ${0.06 * intensity})`;
+    ctx.lineWidth = 1;
+    for (let g = 0; g < 6; g++) {
+      const y = h * (0.15 + g * 0.14);
       ctx.beginPath();
-      ctx.moveTo(cx + 18, cy);
-      ctx.lineTo(x, y);
-      ctx.strokeStyle = `rgba(0, 134, 255, ${0.15 + intensity * 0.45})`;
-      ctx.lineWidth = 1.5;
+      ctx.moveTo(w * 0.08, y);
+      ctx.lineTo(w * 0.92, y);
       ctx.stroke();
-      ctx.beginPath();
-      ctx.arc(x, y, 5 + Math.sin(t * 2 + i) * 1.2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0, 134, 255, ${0.35 + intensity * 0.55})`;
-      ctx.fill();
     }
-    // key body
+
+    for (let i = 0; i < models; i++) {
+      const a = -0.95 + (i / (models - 1)) * 1.9;
+      const reach = (70 + i * 14) * intensity;
+      const x = cx + Math.cos(a) * reach;
+      const y = cy + Math.sin(a) * reach * 0.58;
+      const pulse = 0.55 + Math.sin(t * 2.4 + i * 0.7) * 0.45;
+
+      ctx.beginPath();
+      ctx.moveTo(cx + 14, cy);
+      ctx.lineTo(x, y);
+      ctx.strokeStyle = `rgba(${accent}, ${0.12 + intensity * 0.4 * pulse})`;
+      ctx.lineWidth = 1.25;
+      ctx.stroke();
+
+      const pkt = (t * 0.35 + i * 0.11) % 1;
+      const px = cx + 14 + (x - cx - 14) * pkt;
+      const py = cy + (y - cy) * pkt;
+      ctx.beginPath();
+      ctx.arc(px, py, 2.2, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${accent}, ${intensity * pulse})`;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(x, y, 4.5 + Math.sin(t * 2 + i) * 1.1, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${accent}, ${0.3 + intensity * 0.55})`;
+      ctx.fill();
+      ctx.strokeStyle = `rgba(${accent}, ${0.5 + intensity * 0.4})`;
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+    }
+
     ctx.beginPath();
-    ctx.arc(cx, cy, 16, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(0, 134, 255, ${0.2 + intensity * 0.5})`;
+    ctx.arc(cx, cy, 15, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${accent}, ${0.18 + intensity * 0.45})`;
     ctx.fill();
-    ctx.strokeStyle = `rgba(0, 134, 255, ${0.7})`;
+    ctx.strokeStyle = `rgba(${accent}, 0.85)`;
     ctx.lineWidth = 2;
     ctx.stroke();
+
     ctx.beginPath();
     ctx.moveTo(cx + 14, cy);
-    ctx.lineTo(cx + 52 * intensity, cy);
-    ctx.lineTo(cx + 52 * intensity, cy + 10);
-    ctx.moveTo(cx + 40 * intensity, cy);
-    ctx.lineTo(cx + 40 * intensity, cy + 8);
+    ctx.lineTo(cx + 48 * intensity, cy);
+    ctx.lineTo(cx + 48 * intensity, cy + 9);
+    ctx.moveTo(cx + 36 * intensity, cy);
+    ctx.lineTo(cx + 36 * intensity, cy + 7);
     ctx.stroke();
   }
 
@@ -348,39 +409,64 @@ function initValueStory() {
     if (!canvas || intensity < 0.01) return;
     const { ctx, w, h } = sizeCanvas(canvas);
     ctx.clearRect(0, 0, w, h);
+
+    const accent = "0, 134, 255";
     const hub = { x: w * 0.55, y: h * 0.5 };
     const nodes = [
-      { x: w * 0.18, y: h * 0.25 },
-      { x: w * 0.2, y: h * 0.5 },
-      { x: w * 0.18, y: h * 0.75 },
-      { x: w * 0.78, y: h * 0.28 },
-      { x: w * 0.82, y: h * 0.52 },
-      { x: w * 0.78, y: h * 0.76 },
+      { x: w * 0.16, y: h * 0.22 },
+      { x: w * 0.18, y: h * 0.5 },
+      { x: w * 0.16, y: h * 0.78 },
+      { x: w * 0.8, y: h * 0.26 },
+      { x: w * 0.84, y: h * 0.5 },
+      { x: w * 0.8, y: h * 0.76 },
     ];
+
+    for (let r = 0; r < 3; r++) {
+      ctx.beginPath();
+      ctx.ellipse(hub.x, hub.y, 55 + r * 38, 32 + r * 22, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${accent}, ${0.06 + intensity * 0.08})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
     nodes.forEach((n, i) => {
       ctx.beginPath();
       ctx.moveTo(n.x, n.y);
       ctx.lineTo(hub.x, hub.y);
-      ctx.strokeStyle = `rgba(0, 134, 255, ${0.12 + intensity * 0.4})`;
+      ctx.strokeStyle = `rgba(${accent}, ${0.1 + intensity * 0.35})`;
+      ctx.lineWidth = 1.3;
+      ctx.stroke();
+
+      const pulse = 0.5 + Math.sin(t * 2.1 + i) * 0.5;
+      const pkt = (t * 0.28 + i * 0.13) % 1;
+      const px = n.x + (hub.x - n.x) * pkt;
+      const py = n.y + (hub.y - n.y) * pkt;
+      ctx.beginPath();
+      ctx.arc(px, py, 2.4, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${accent}, ${intensity * pulse})`;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, 6.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(90, 168, 255, ${0.22 + intensity * 0.5})`;
+      ctx.fill();
+      ctx.strokeStyle = `rgba(${accent}, ${0.45 + intensity * 0.4})`;
       ctx.lineWidth = 1.4;
       ctx.stroke();
-      const pulse = 0.5 + Math.sin(t * 2.2 + i) * 0.5;
-      const px = n.x + (hub.x - n.x) * ((t * 0.25 + i * 0.12) % 1);
-      const py = n.y + (hub.y - n.y) * ((t * 0.25 + i * 0.12) % 1);
-      ctx.beginPath();
-      ctx.arc(px, py, 2.5, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0, 134, 255, ${intensity * pulse})`;
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, 7, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(90, 168, 255, ${0.25 + intensity * 0.5})`;
-      ctx.fill();
     });
+
     ctx.beginPath();
-    ctx.arc(hub.x, hub.y, 14, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(0, 134, 255, ${0.25 + intensity * 0.55})`;
+    ctx.arc(hub.x, hub.y, 13, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${accent}, ${0.22 + intensity * 0.5})`;
     ctx.fill();
     ctx.strokeStyle = "#0086ff";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    const scan = t * 1.1;
+    ctx.beginPath();
+    ctx.arc(hub.x, hub.y, 42, scan, scan + 0.9);
+    ctx.strokeStyle = `rgba(${accent}, ${0.35 * intensity})`;
     ctx.lineWidth = 2;
     ctx.stroke();
   }
@@ -389,43 +475,70 @@ function initValueStory() {
     if (!canvas || intensity < 0.01) return;
     const { ctx, w, h } = sizeCanvas(canvas);
     ctx.clearRect(0, 0, w, h);
+
+    const accent = "0, 134, 255";
     const cx = w * 0.5;
     const cy = h * 0.48;
-    // shield
-    ctx.beginPath();
-    ctx.moveTo(cx, cy - 70 * intensity);
-    ctx.lineTo(cx + 58 * intensity, cy - 40 * intensity);
-    ctx.lineTo(cx + 50 * intensity, cy + 30 * intensity);
-    ctx.quadraticCurveTo(cx, cy + 78 * intensity, cx - 50 * intensity, cy + 30 * intensity);
-    ctx.lineTo(cx - 58 * intensity, cy - 40 * intensity);
-    ctx.closePath();
-    ctx.fillStyle = `rgba(0, 134, 255, ${0.08 + intensity * 0.18})`;
-    ctx.fill();
-    ctx.strokeStyle = `rgba(0, 134, 255, ${0.35 + intensity * 0.55})`;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    // lock
-    ctx.beginPath();
-    ctx.arc(cx, cy - 8, 10 * intensity, Math.PI, 0);
-    ctx.stroke();
-    ctx.fillStyle = `rgba(0, 134, 255, ${0.2 + intensity * 0.5})`;
-    ctx.fillRect(cx - 14 * intensity, cy - 8, 28 * intensity, 24 * intensity);
-    // sealed packets bouncing off
-    for (let i = 0; i < 5; i++) {
-      const ang = t * 0.7 + i * 1.2;
-      const r = 100 + i * 8;
-      const x = cx + Math.cos(ang) * r;
-      const y = cy + Math.sin(ang) * r * 0.55;
+
+    for (let r = 0; r < 4; r++) {
+      const rad = (48 + r * 22) * intensity;
       ctx.beginPath();
-      ctx.arc(x, y, 4, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 100, 100, ${0.25 + (1 - intensity) * 0.2})`;
-      ctx.fill();
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.lineTo(cx + Math.cos(ang) * 62 * intensity, cy + Math.sin(ang) * 40 * intensity);
-      ctx.strokeStyle = `rgba(255, 120, 120, ${0.2 * intensity})`;
+      ctx.arc(cx, cy, rad, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${accent}, ${0.05 + intensity * 0.07 * (1 - r * 0.15)})`;
+      ctx.lineWidth = 1;
       ctx.stroke();
     }
+
+    const s = intensity;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 68 * s);
+    ctx.lineTo(cx + 54 * s, cy - 38 * s);
+    ctx.lineTo(cx + 46 * s, cy + 28 * s);
+    ctx.quadraticCurveTo(cx, cy + 72 * s, cx - 46 * s, cy + 28 * s);
+    ctx.lineTo(cx - 54 * s, cy - 38 * s);
+    ctx.closePath();
+    ctx.fillStyle = `rgba(${accent}, ${0.07 + intensity * 0.16})`;
+    ctx.fill();
+    ctx.strokeStyle = `rgba(${accent}, ${0.35 + intensity * 0.5})`;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(cx, cy - 10, 9 * s, Math.PI, 0);
+    ctx.strokeStyle = `rgba(${accent}, ${0.7})`;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fillStyle = `rgba(${accent}, ${0.2 + intensity * 0.45})`;
+    ctx.fillRect(cx - 12 * s, cy - 10, 24 * s, 20 * s);
+
+    for (let i = 0; i < 6; i++) {
+      const ang = t * 0.65 + i * ((Math.PI * 2) / 6);
+      const r0 = 110 + Math.sin(t + i) * 8;
+      const x = cx + Math.cos(ang) * r0;
+      const y = cy + Math.sin(ang) * r0 * 0.55;
+      const hitR = 58 * intensity;
+      const hx = cx + Math.cos(ang) * hitR;
+      const hy = cy + Math.sin(ang) * hitR * 0.55;
+
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(hx, hy);
+      ctx.strokeStyle = `rgba(255, 110, 110, ${0.18 * intensity})`;
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(x, y, 3.2, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 110, 110, ${0.3 + (1 - intensity) * 0.15})`;
+      ctx.fill();
+    }
+
+    const pulse = 0.5 + Math.sin(t * 2.2) * 0.5;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 28 * intensity, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(${accent}, ${0.15 * pulse * intensity})`;
+    ctx.lineWidth = 3;
+    ctx.stroke();
   }
 
   const canvases = {
