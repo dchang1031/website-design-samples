@@ -35,40 +35,39 @@
   50% { transform: translate(-50%, -50%) scale(1.18); opacity: 1; }
 }
 
-/* Keep the headline completely independent from document scrolling. */
+/* The story still provides scroll distance, but its headline is removed from it by JS. */
 .theme-liquid.theme-mono-o3 .value-story {
   height: 180vh;
 }
 
-.theme-liquid.theme-mono-o3 .value-story__sticky {
-  position: static !important;
+.theme-liquid.theme-mono-o3 .value-story__sticky,
+.theme-liquid.theme-mono-o3 .value-story__frame {
   height: 100vh !important;
   padding: 0 !important;
-  display: block !important;
 }
 
-.theme-liquid.theme-mono-o3 .value-story__frame {
-  width: 100%;
-  height: 100vh;
-  display: block;
-}
-
+/* The headline is moved directly under <body> by option3-interactions.js.
+   It is therefore a true viewport layer and cannot inherit a scrolling ancestor's transform. */
 .theme-liquid.theme-mono-o3 .value-story__headline {
   position: fixed !important;
-  top: 50% !important;
-  left: 50% !important;
+  top: 50vh !important;
+  left: 50vw !important;
   right: auto !important;
   bottom: auto !important;
+  width: max-content;
+  max-width: calc(100vw - 48px);
   margin: 0 !important;
-  transform: translate3d(-50%, -50%, 0) !important;
-  opacity: var(--o3-headline-opacity, 0.32) !important;
+  transform: translate(-50%, -50%) !important;
+  opacity: var(--o3-headline-opacity, 1) !important;
   filter: blur(var(--hl-blur, 0px)) !important;
   transition: opacity 100ms linear, filter 100ms linear;
   will-change: opacity, filter;
-  z-index: 30;
+  z-index: 999;
   pointer-events: none;
 }
 
+/* Initial state is visible but intentionally subdued. The parent remains fully opaque
+   during the reveal so a lit letter can actually reach 100%. */
 .theme-liquid.theme-mono-o3 .value-story__letter {
   color: rgba(0, 0, 0, 0.32) !important;
   opacity: 1 !important;
@@ -85,7 +84,7 @@
   opacity: 1 !important;
 }
 
-/* Keep the hero content centered while it reveals; the model-access card comes first. */
+/* Keep the later hero sequence centered independently of the headline. */
 .theme-liquid.theme-mono-o3 .tr-landing-hero-section {
   min-height: 180vh !important;
   height: 180vh !important;
@@ -123,6 +122,10 @@
 }
 
 @media (max-width: 767px) {
+  .theme-liquid.theme-mono-o3 .value-story__headline {
+    max-width: calc(100vw - 32px);
+  }
+
   .theme-liquid.theme-mono-o3 .tr-landing-hero-section > div:first-child {
     display: flex;
     flex-direction: column;
