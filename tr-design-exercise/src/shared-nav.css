@@ -201,6 +201,35 @@ header.tr-landing-header#site-header.tr-landing-header--scrolled {
   flex: 0 0 auto;
 }
 
+/* Promo bar normalization for Option 4. Keep it visually compact and aligned
+   with the fixed 64px shared navigation instead of allowing page styles to
+   increase its height through padding/content sizing. */
+.promo {
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
+  padding: 0 var(--gutter);
+  overflow: hidden;
+}
+
+.promo__copy {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.promo__badge {
+  padding: 4px 8px;
+  font-size: 10px;
+}
+
+.promo__dots {
+  bottom: 3px;
+}
+
+.offset-header {
+  height: calc(var(--header-h) + 40px);
+}
+
 /* Mobile drawer — replica style */
 .tr-landing-mobile-menu {
   position: fixed;
