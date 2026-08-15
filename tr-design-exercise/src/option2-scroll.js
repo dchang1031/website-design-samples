@@ -2,12 +2,9 @@
  * Option 2 — theme toggle + scroll wash + Apple-style reveals + value story + oneapi stage.
  */
 (() => {
-  if (!document.querySelector('link[href*="option2-value-story.css"]')) {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "/src/option2-value-story.css";
-    document.head.appendChild(link);
-  }
+  ensureStylesheet("/src/option2-value-story.css");
+  ensureStylesheet("/src/option2-hero-tweaks.css");
+  injectOneApiStageMarkup();
   initThemeToggle();
   initScrollWash();
   initReveals();
@@ -15,6 +12,88 @@
   initValueStory();
   initOneApiStage();
 })();
+
+function ensureStylesheet(href) {
+  if (document.querySelector(`link[href*="${href.split("/").pop()}"]`)) return;
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = href;
+  document.head.appendChild(link);
+}
+
+function injectOneApiStageMarkup() {
+  if (document.querySelector("[data-oneapi-stage]")) return;
+
+  const oneapiSection = document.querySelector('[data-section="oneapi"]');
+  if (!oneapiSection) return;
+
+  // Prefer replacing the static image area inside the section
+  const imgWrap = oneapiSection.querySelector(".mt-\\[30px\\], [class*=\"mt-[30px]\"], .lg\\:mt-\\[72px\\]")
+    || oneapiSection.querySelector("img")?.parentElement;
+
+  const stage = document.createElement("div");
+  stage.className = "oneapi-stage";
+  stage.setAttribute("data-oneapi-stage", "");
+  stage.innerHTML = `
+    <div class="oneapi-stage__sticky">
+      <div class="oneapi-stage__canvas-wrap">
+        <canvas class="oneapi-stage__canvas" data-oneapi-canvas></canvas>
+        <div class="oneapi-stage__video" data-oneapi-video aria-hidden="true">
+          <div class="product-ui" data-product-ui>
+            <div class="product-ui__bar">
+              <span class="product-ui__dot"></span>
+              <span class="product-ui__dot"></span>
+              <span class="product-ui__dot"></span>
+              <span class="product-ui__title">TokenRouter Console</span>
+            </div>
+            <div class="product-ui__body">
+              <div class="product-ui__nav">
+                <div class="product-ui__nav-item is-active">Models</div>
+                <div class="product-ui__nav-item">API Keys</div>
+                <div class="product-ui__nav-item">Usage</div>
+                <div class="product-ui__nav-item">Billing</div>
+              </div>
+              <div class="product-ui__main">
+                <div class="product-ui__row">
+                  <strong style="font-size:13px">openai/gpt-5.6-sol</strong>
+                  <span class="product-ui__badge">live</span>
+                  <span class="product-ui__metric">12.4k tok/min</span>
+                </div>
+                <div class="product-ui__row">
+                  <strong style="font-size:13px">anthropic/claude-fable-5</strong>
+                  <span class="product-ui__badge">live</span>
+                  <span class="product-ui__metric">8.1k tok/min</span>
+                </div>
+                <div class="product-ui__row">
+                  <strong style="font-size:13px">x-ai/grok-4.5</strong>
+                  <span class="product-ui__badge">live</span>
+                  <span class="product-ui__metric">6.7k tok/min</span>
+                </div>
+                <div class="product-ui__row">
+                  <strong style="font-size:13px">google/gemini-3.5-flash</strong>
+                  <span class="product-ui__badge">live</span>
+                  <span class="product-ui__metric">15.2k tok/min</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  if (imgWrap) {
+    // Hide original images, insert stage after the text block
+    oneapiSection.querySelectorAll("img").forEach((img) => {
+      img.setAttribute("data-oneapi-static", "");
+      img.style.display = "none";
+    });
+    imgWrap.parentElement?.insertBefore(stage, imgWrap);
+    imgWrap.style.display = "none";
+  } else {
+    oneapiSection.appendChild(stage);
+  }
+}
 
 function initThemeToggle() {
   const root = document.body;
@@ -201,9 +280,6 @@ function initScaleExpand() {
   window.addEventListener("resize", onScroll, { passive: true });
 }
 
-/**
- * Value story: word-by-word light-up, fully hidden when off, two lines, no benefits.
- */
 function initValueStory() {
   const root = document.querySelector("[data-value-story]");
   if (!root) return;
@@ -222,7 +298,6 @@ function initValueStory() {
     `;
   }
 
-  // Remove benefit panels from DOM so they never show
   root.querySelectorAll(".value-story__panels").forEach((el) => el.remove());
 
   const words = [...root.querySelectorAll("[data-word]")];
@@ -256,26 +331,19 @@ function initValueStory() {
   }
 
   function apply(p) {
-    // Word-by-word over first ~55% of the section, then hold/fade
     const wordEnd = 0.55;
     words.forEach((el, i) => {
       const start = (i / wordCount) * wordEnd;
       const end = ((i + 1) / wordCount) * wordEnd;
-      // Snap fully on or fully off — no partial ghost opacity
       const lit = segment(p, start, end) >= 0.5 ? 1 : 0;
       el.style.setProperty("--word-lit", String(lit));
     });
 
     const hlOut = segment(p, 0.72, 0.92);
-    const hlOpacity = 1 - hlOut;
-    const hlY = hlOut * -36;
-    const hlScale = 1 - hlOut * 0.06;
-    const hlBlur = hlOut * 6;
-
-    root.style.setProperty("--hl-opacity", hlOpacity.toFixed(4));
-    root.style.setProperty("--hl-y", `${hlY.toFixed(2)}px`);
-    root.style.setProperty("--hl-scale", hlScale.toFixed(4));
-    root.style.setProperty("--hl-blur", `${hlBlur.toFixed(2)}px`);
+    root.style.setProperty("--hl-opacity", (1 - hlOut).toFixed(4));
+    root.style.setProperty("--hl-y", `${(hlOut * -36).toFixed(2)}px`);
+    root.style.setProperty("--hl-scale", (1 - hlOut * 0.06).toFixed(4));
+    root.style.setProperty("--hl-blur", `${(hlOut * 6).toFixed(2)}px`);
     root.style.setProperty("--scrub", `${(p * 100).toFixed(2)}%`);
   }
 
@@ -296,21 +364,12 @@ function initValueStory() {
   window.addEventListener("resize", onScroll, { passive: true });
 }
 
-/**
- * One API stage: dashed lines merge → TokenRouter hub → diverge,
- * then elements fade, hub zooms into a product UI "video" frame.
- * Scroll-scrubbed; pauses when scroll stops.
- */
 function initOneApiStage() {
   const stage = document.querySelector("[data-oneapi-stage]");
   if (!stage) return;
 
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const canvas = stage.querySelector("[data-oneapi-canvas]");
   const videoFrame = stage.querySelector("[data-oneapi-video]");
-  const staticImg = stage.querySelector("[data-oneapi-static]");
-
-  if (staticImg) staticImg.style.display = "none";
 
   function clamp(n, a, b) {
     return Math.min(b, Math.max(a, n));
@@ -328,7 +387,6 @@ function initOneApiStage() {
     return clamp(-rect.top / total, 0, 1);
   }
 
-  let lastP = 0;
   let animT = 0;
   let scrolling = false;
   let scrollTimeout = null;
@@ -338,7 +396,7 @@ function initOneApiStage() {
     if (scrollTimeout) clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
       scrolling = false;
-    }, 120);
+    }, 140);
   }
 
   function sizeCanvas() {
@@ -363,151 +421,132 @@ function initOneApiStage() {
     const cx = w * 0.5;
     const cy = h * 0.5;
     const accent = "0, 134, 255";
+    const isDark = document.body.dataset.theme === "dark" || document.body.classList.contains("theme-liquid--dark");
+    const textRgb = isDark ? "232, 238, 248" : "18, 19, 23";
 
-    // Phases: 0–0.35 lines merge+diverge, 0.35–0.65 fade others, 0.65–1 zoom hub → video
-    const linePhase = smoothstep(0, 0.35, p);
-    const fadeOthers = smoothstep(0.35, 0.62, p);
-    const zoomPhase = smoothstep(0.55, 0.92, p);
-    const showVideo = smoothstep(0.78, 0.95, p);
+    const linePhase = smoothstep(0, 0.32, p);
+    const fadeOthers = smoothstep(0.32, 0.58, p);
+    const zoomPhase = smoothstep(0.5, 0.88, p);
+    const showVideo = smoothstep(0.72, 0.94, p);
 
     const leftApps = [
-      { label: "OpenClaw", y: 0.22 },
+      { label: "OpenClaw", y: 0.2 },
       { label: "OpenCode", y: 0.38 },
-      { label: "Codex", y: 0.54 },
-      { label: "Claude", y: 0.7 },
+      { label: "Codex", y: 0.56 },
+      { label: "Claude Code", y: 0.74 },
     ];
     const rightApps = [
-      { label: "Cherry", y: 0.22 },
+      { label: "Cherry Studio", y: 0.2 },
       { label: "Cursor", y: 0.38 },
-      { label: "Continue", y: 0.54 },
-      { label: "Apps", y: 0.7 },
+      { label: "Continue", y: 0.56 },
+      { label: "Your Apps", y: 0.74 },
     ];
 
-    const hubR = 28 + zoomPhase * 80;
     const othersAlpha = 1 - fadeOthers;
+    const hubR = 30;
 
-    // Dashed lines left → hub
     leftApps.forEach((app, i) => {
-      const x0 = w * 0.08;
+      const x0 = w * 0.1;
       const y0 = h * app.y;
-      const dashOffset = (t * 40 + i * 12) % 24;
+      const dashOffset = (t * 48 + i * 14) % 20;
       ctx.save();
-      ctx.globalAlpha = othersAlpha * linePhase;
-      ctx.setLineDash([6, 6]);
+      ctx.globalAlpha = Math.max(0, othersAlpha * linePhase);
+      ctx.setLineDash([5, 7]);
       ctx.lineDashOffset = -dashOffset;
       ctx.beginPath();
-      ctx.moveTo(x0, y0);
-      ctx.quadraticCurveTo(w * 0.28, y0, cx - hubR - 4, cy);
-      ctx.strokeStyle = `rgba(${accent}, 0.55)`;
-      ctx.lineWidth = 1.5;
+      ctx.moveTo(x0 + 10, y0);
+      ctx.quadraticCurveTo(w * 0.3, y0, cx - hubR - 6, cy);
+      ctx.strokeStyle = `rgba(${accent}, 0.6)`;
+      ctx.lineWidth = 1.6;
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // node
       ctx.beginPath();
-      ctx.arc(x0, y0, 7, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${accent}, 0.2)`;
+      ctx.arc(x0, y0, 8, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${accent}, 0.18)`;
       ctx.fill();
-      ctx.strokeStyle = `rgba(${accent}, 0.7)`;
+      ctx.strokeStyle = `rgba(${accent}, 0.75)`;
+      ctx.lineWidth = 1.4;
       ctx.stroke();
 
-      ctx.font = "12px 'PP Neue Montreal', system-ui, sans-serif";
-      ctx.fillStyle = `rgba(18, 19, 23, ${0.75 * othersAlpha})`;
-      ctx.fillText(app.label, x0 + 12, y0 + 4);
+      ctx.font = "500 12px 'PP Neue Montreal', system-ui, sans-serif";
+      ctx.fillStyle = `rgba(${textRgb}, ${0.8 * othersAlpha})`;
+      ctx.fillText(app.label, x0 + 14, y0 + 4);
       ctx.restore();
     });
 
-    // Dashed lines hub → right
     rightApps.forEach((app, i) => {
-      const x1 = w * 0.92;
+      const x1 = w * 0.9;
       const y1 = h * app.y;
-      const dashOffset = (t * 40 + i * 12) % 24;
+      const dashOffset = (t * 48 + i * 14) % 20;
       ctx.save();
-      ctx.globalAlpha = othersAlpha * linePhase;
-      ctx.setLineDash([6, 6]);
+      ctx.globalAlpha = Math.max(0, othersAlpha * linePhase);
+      ctx.setLineDash([5, 7]);
       ctx.lineDashOffset = -dashOffset;
       ctx.beginPath();
-      ctx.moveTo(cx + hubR + 4, cy);
-      ctx.quadraticCurveTo(w * 0.72, y1, x1, y1);
-      ctx.strokeStyle = `rgba(${accent}, 0.55)`;
-      ctx.lineWidth = 1.5;
+      ctx.moveTo(cx + hubR + 6, cy);
+      ctx.quadraticCurveTo(w * 0.7, y1, x1 - 10, y1);
+      ctx.strokeStyle = `rgba(${accent}, 0.6)`;
+      ctx.lineWidth = 1.6;
       ctx.stroke();
       ctx.setLineDash([]);
 
       ctx.beginPath();
-      ctx.arc(x1, y1, 7, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${accent}, 0.2)`;
+      ctx.arc(x1, y1, 8, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${accent}, 0.18)`;
       ctx.fill();
-      ctx.strokeStyle = `rgba(${accent}, 0.7)`;
+      ctx.strokeStyle = `rgba(${accent}, 0.75)`;
+      ctx.lineWidth = 1.4;
       ctx.stroke();
 
-      ctx.font = "12px 'PP Neue Montreal', system-ui, sans-serif";
-      ctx.fillStyle = `rgba(18, 19, 23, ${0.75 * othersAlpha})`;
+      ctx.font = "500 12px 'PP Neue Montreal', system-ui, sans-serif";
+      ctx.fillStyle = `rgba(${textRgb}, ${0.8 * othersAlpha})`;
       ctx.textAlign = "right";
-      ctx.fillText(app.label, x1 - 12, y1 + 4);
+      ctx.fillText(app.label, x1 - 14, y1 + 4);
       ctx.textAlign = "left";
       ctx.restore();
     });
 
-    // Hub (TokenRouter)
+    // Hub zoom
     ctx.save();
-    ctx.globalAlpha = 1;
-    const scale = 1 + zoomPhase * 1.8;
+    const scale = 1 + zoomPhase * 2.2;
     ctx.translate(cx, cy);
     ctx.scale(scale, scale);
     ctx.translate(-cx, -cy);
 
     ctx.beginPath();
-    ctx.arc(cx, cy, 32, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${accent}, ${0.15 + zoomPhase * 0.25})`;
+    ctx.arc(cx, cy, hubR, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${accent}, ${0.12 + zoomPhase * 0.3})`;
     ctx.fill();
     ctx.strokeStyle = "#0086ff";
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = 2.4;
     ctx.stroke();
 
-    ctx.font = "600 13px 'PP Neue Montreal', system-ui, sans-serif";
+    ctx.font = "600 12px 'PP Neue Montreal', system-ui, sans-serif";
     ctx.fillStyle = "#0086ff";
     ctx.textAlign = "center";
     ctx.fillText("TokenRouter", cx, cy + 4);
     ctx.textAlign = "left";
     ctx.restore();
 
-    // Video frame visibility
     if (videoFrame) {
       videoFrame.style.opacity = String(showVideo);
       videoFrame.style.pointerEvents = showVideo > 0.5 ? "auto" : "none";
-      videoFrame.style.transform = `scale(${0.85 + showVideo * 0.15})`;
-      if (showVideo > 0.6) {
-        const vid = videoFrame.querySelector("video, [data-product-ui]");
-        if (vid && vid.play && typeof vid.play === "function") {
-          try { vid.play().catch(() => {}); } catch (_) {}
-        }
-        videoFrame.classList.add("is-playing");
-      } else {
-        videoFrame.classList.remove("is-playing");
-      }
+      videoFrame.style.transform = `scale(${0.88 + showVideo * 0.12})`;
+      if (showVideo > 0.55) videoFrame.classList.add("is-playing");
+      else videoFrame.classList.remove("is-playing");
     }
 
-    // Hide canvas when fully in video mode
-    if (canvas) {
-      canvas.style.opacity = String(1 - showVideo * 0.95);
-    }
+    if (canvas) canvas.style.opacity = String(Math.max(0, 1 - showVideo));
   }
 
   function loop(ts) {
     animT = ts * 0.001;
-    const p = progressFor();
-    lastP = p;
-    // Only advance line dash animation while scrolling (or first paint)
-    draw(p, scrolling ? animT : animT * 0.15);
+    draw(progressFor(), scrolling ? animT : animT * 0.12);
     requestAnimationFrame(loop);
   }
 
-  function onScroll() {
-    markScroll();
-  }
-
   requestAnimationFrame(loop);
-  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("scroll", markScroll, { passive: true });
   window.addEventListener("resize", markScroll, { passive: true });
 }
