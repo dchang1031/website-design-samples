@@ -6,7 +6,7 @@ A collection of website design exercises. Each folder is a standalone project.
 
 | Exercise | Description |
 |---|---|
-| [tr-design-exercise](./tr-design-exercise) | TokenRouter homepage design options (Current + Current + Options 1–3) |
+| [tr-design-exercise](./tr-design-exercise) | TokenRouter homepage design options (Current + Current + Options 1–2) |
 
 ## How to run an exercise
 

@@ -136,9 +136,28 @@
   pointer-events: none;
 }
 
-.theme-liquid .tr-landing-page > *:not(.scroll-stage) {
+.theme-liquid .tr-landing-page > *:not(.scroll-stage):not(header):not(.tr-landing-header):not(#mobile-menu):not(.tr-landing-mobile-menu) {
   position: relative;
   z-index: 1;
+}
+
+/* Keep promo flush under the 64px replica nav (do not let the rule above demote fixed) */
+.theme-liquid .tr-landing-page > .fixed {
+  position: fixed !important;
+  top: 64px !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 30 !important;
+}
+
+.theme-liquid .tr-landing-header.site-header,
+.theme-liquid header.tr-landing-header#site-header {
+  position: fixed !important;
+  top: 0 !important;
+  height: 64px !important;
+  min-height: 64px !important;
+  max-height: 64px !important;
+  overflow: hidden !important;
 }
 
 .theme-liquid .promo-banner {
@@ -163,7 +182,6 @@
 .theme-liquid .tr-landing-hero-badge,
 .theme-liquid .tr-landing-section-badge,
 .theme-liquid .tr-landing-hero-secondary-button,
-.theme-liquid .tr-landing-cta-secondary,
 .theme-liquid .tr-landing-hero-copy-button,
 .theme-liquid:not(.theme-liquid--dark):not([data-theme="dark"]) .tr-landing-model-access-panel,
 .theme-liquid:not(.theme-liquid--dark):not([data-theme="dark"]) .tr-landing-model-access-row,
@@ -872,4 +890,167 @@ html body.theme-liquid[data-theme="dark"] .tr-landing-faq-expand-icon {
   height: 64px !important;
   min-height: 64px !important;
   max-height: 64px !important;
+}
+
+/* CTA: no glass/card shell behind the headline */
+.theme-liquid .tr-landing-cta-section,
+.theme-liquid .tr-landing-cta-section > div,
+.theme-liquid.theme-liquid--dark .tr-landing-cta-section,
+.theme-liquid[data-theme="dark"] .tr-landing-cta-section,
+.theme-liquid[data-theme="dark"] .tr-landing-cta-section > div {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 0 !important;
+}
+
+.theme-liquid .tr-landing-cta-secondary {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Enterprise icons readable on dark cards */
+.theme-liquid.theme-liquid--dark .tr-landing-enterprise-card-icon,
+.theme-liquid[data-theme="dark"] .tr-landing-enterprise-card-icon {
+  background: rgba(126, 176, 255, 0.18) !important;
+  border: 1px solid rgba(126, 176, 255, 0.35) !important;
+  color: #fff !important;
+}
+
+.theme-liquid.theme-liquid--dark .tr-landing-enterprise-card-icon img,
+.theme-liquid[data-theme="dark"] .tr-landing-enterprise-card-icon img,
+.theme-liquid.theme-liquid--dark .tr-landing-enterprise-card-icon svg,
+.theme-liquid[data-theme="dark"] .tr-landing-enterprise-card-icon svg {
+  filter: brightness(0) invert(1) !important;
+  opacity: 1 !important;
+}
+
+.theme-liquid.theme-liquid--dark .tr-landing-enterprise-card-title,
+.theme-liquid[data-theme="dark"] .tr-landing-enterprise-card-title {
+  color: #f3f6fb !important;
+}
+
+.theme-liquid.theme-liquid--dark .tr-landing-enterprise-card-tag,
+.theme-liquid[data-theme="dark"] .tr-landing-enterprise-card-tag {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  color: #c9d4e5 !important;
+}
+
+/* FAQ list: dark surface so light text is readable */
+.theme-liquid.theme-liquid--dark .tr-landing-faq-list,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-list {
+  background: rgba(14, 20, 32, 0.92) !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+.theme-liquid.theme-liquid--dark .tr-landing-faq-question,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-question,
+.theme-liquid.theme-liquid--dark .tr-landing-faq-section .tr-landing-section-title,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-section .tr-landing-section-title {
+  color: #f3f6fb !important;
+}
+
+.theme-liquid.theme-liquid--dark .tr-landing-faq-answer,
+.theme-liquid.theme-liquid--dark .tr-landing-faq-answer p,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-answer,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-answer p,
+.theme-liquid.theme-liquid--dark .tr-landing-section-text,
+.theme-liquid[data-theme="dark"] .tr-landing-section-text {
+  color: #b7c2d4 !important;
+}
+
+.theme-liquid.theme-liquid--dark .tr-landing-faq-trigger,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-trigger {
+  background: transparent !important;
+}
+
+.theme-liquid.theme-liquid--dark .tr-landing-faq-trigger:hover,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-trigger:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.theme-liquid.theme-liquid--dark .tr-landing-faq-item,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-item {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+
+/* —— Scale-style expanding sections (ported onto Option 2) —— */
+.theme-liquid .scale-expand {
+  position: relative;
+  height: 180vh;
+  background: transparent;
+}
+
+.theme-liquid .scale-expand__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  overflow: hidden;
+}
+
+.theme-liquid .scale-expand__frame {
+  --scale-inset: 28px;
+  --scale-radius: 24px;
+  --scale-border: 0.14;
+  position: absolute;
+  inset: calc(88px + var(--scale-inset)) var(--scale-inset) var(--scale-inset);
+  border-radius: var(--scale-radius);
+  overflow: auto;
+  background: rgba(14, 22, 36, 0.92);
+  border: 1px solid rgba(255, 255, 255, calc(var(--scale-border)));
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  will-change: inset, border-radius;
+}
+
+.theme-liquid .scale-expand__frame[data-expanded="true"] {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.theme-liquid .scale-expand__content {
+  min-height: 100%;
+  padding: clamp(28px, 5vw, 72px) clamp(20px, 4vw, 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.theme-liquid .scale-expand--navy .scale-expand__frame {
+  background: rgba(8, 28, 56, 0.94);
+}
+
+.theme-liquid .scale-expand--mid .scale-expand__frame {
+  background: rgba(16, 30, 52, 0.94);
+}
+
+.theme-liquid .scale-expand--deep .scale-expand__frame {
+  background: rgba(10, 14, 24, 0.96);
+}
+
+.theme-liquid .scale-expand .tr-landing-logo-wall,
+.theme-liquid .scale-expand .tr-landing-oneapi-section,
+.theme-liquid .scale-expand .tr-landing-enterprise-section,
+.theme-liquid .scale-expand .tr-landing-faq-section {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+@media (max-width: 767px) {
+  .theme-liquid .scale-expand {
+    height: 160vh;
+  }
+  .theme-liquid .scale-expand__frame {
+    inset: calc(72px + var(--scale-inset)) var(--scale-inset) var(--scale-inset);
+  }
 }
