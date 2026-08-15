@@ -6,7 +6,7 @@ A collection of website design exercises. Each folder is a standalone project.
 
 | Exercise | Description |
 |---|---|
-| [tr-design-exercise](./tr-design-exercise) | TokenRouter homepage design options (Options 1–4) |
+| [tr-design-exercise](./tr-design-exercise) | TokenRouter homepage design options (Current + Options 1–4) |
 
 ## How to run an exercise
 
@@ -16,4 +16,4 @@ npm install
 npm run dev
 ```
 
-Then open the URL Vite prints (usually `http://localhost:5173/option-4.html`).
+Then open the URL Vite prints (usually `http://localhost:5173/current.html`).

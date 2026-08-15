@@ -80,85 +80,7 @@ img {
   padding-inline: var(--gutter);
 }
 
-/* Header */
-.site-header {
-  position: fixed;
-  inset: 0 0 auto;
-  z-index: 50;
-  height: var(--header-h);
-  border-bottom: var(--line-w) solid var(--line);
-  background: rgba(122, 166, 235, 0.94);
-  backdrop-filter: blur(12px);
-}
-
-.site-header__inner {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  font-size: 18px;
-}
-
-.brand__mark {
-  width: 28px;
-  height: 14px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #4d8cff, #1a4dff 55%, #6a3cff);
-  position: relative;
-  flex: 0 0 auto;
-}
-
-.brand__mark::after {
-  content: "";
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--white);
-}
-
-.nav {
-  display: none;
-  align-items: center;
-  gap: 8px;
-}
-
-.nav a,
-.bracket-link {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--muted);
-  padding: 8px 10px;
-  border: 1px solid transparent;
-  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-}
-
-.nav a:hover,
-.bracket-link:hover {
-  color: var(--ink);
-  border-color: var(--line-strong);
-  background: rgba(255, 255, 255, 0.35);
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
+/* Page buttons (header chrome comes from shared-nav.css) */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -200,15 +122,21 @@ img {
   width: 100%;
 }
 
-.menu-toggle {
-  width: 40px;
-  height: 40px;
-  border: var(--line-w) solid var(--line-strong);
-  background: transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+.bracket-link {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.bracket-link:hover {
+  color: var(--ink);
+  border-color: var(--line-strong);
+  background: rgba(255, 255, 255, 0.35);
 }
 
 /* Promo */
@@ -366,7 +294,7 @@ img {
   height: auto;
   object-fit: contain;
   background: transparent;
-  filter: none;
+  filter: brightness(0) invert(1);
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.45s ease, transform 0.45s ease;
@@ -717,8 +645,13 @@ img {
   display: block;
 }
 
-.model-row__logo--mono img {
-  filter: none;
+.model-viewport--panel .model-row__logo {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.model-viewport--panel .model-row__logo img,
+.model-viewport--panel .model-row__logo--mono img {
+  filter: brightness(0) invert(1);
 }
 
 .model-row__name {
@@ -831,8 +764,8 @@ img {
   max-height: 36px;
   width: auto;
   object-fit: contain;
-  filter: grayscale(1) contrast(1.1);
-  opacity: 0.82;
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
 }
 
 /* One API */
@@ -1149,46 +1082,6 @@ img {
   margin-top: 6px;
 }
 
-/* Mobile menu */
-.mobile-menu {
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-}
-
-.mobile-menu[hidden] {
-  display: none !important;
-}
-
-.mobile-menu__overlay {
-  position: absolute;
-  inset: 0;
-  border: 0;
-  background: rgba(10, 10, 10, 0.45);
-}
-
-.mobile-menu__drawer {
-  position: relative;
-  width: min(300px, calc(100vw - 40px));
-  height: 100%;
-  background: var(--bg-soft);
-  border-right: var(--line-w) solid var(--line);
-  padding: 24px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.mobile-menu__drawer a {
-  font-family: var(--mono);
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 12px 10px;
-  border: var(--line-w) solid var(--line);
-  background: rgba(255, 255, 255, 0.3);
-}
-
 @keyframes rise {
   from {
     opacity: 0;
@@ -1212,14 +1105,6 @@ img {
 }
 
 @media (min-width: 768px) {
-  .nav {
-    display: flex;
-  }
-
-  .menu-toggle {
-    display: none;
-  }
-
   .logo-wall {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -1321,4 +1206,24 @@ img {
   .metric:last-child {
     border-bottom: 0;
   }
+}
+
+
+/* Footer readability on Option 1 blue canvas */
+.footer {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.footer a,
+.footer__legal-links a {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.footer__legal-copy,
+.footer__legal-copy p {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.footer__heading {
+  color: #fff;
 }
