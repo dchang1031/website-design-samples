@@ -1,0 +1,133 @@
+/* Option 3 = Option 2 interactions + Option 4 mono B/W palette */
+.theme-liquid.theme-mono-o3 {
+  --glass-text: #0a0a0a;
+  --glass-muted: #4a4a4a;
+  --wash-a: 180, 180, 185;
+  --wash-b: 210, 210, 215;
+  --wash-c: 230, 230, 235;
+  background: #fff !important;
+  color: #0a0a0a;
+}
+
+.theme-liquid.theme-mono-o3 .scroll-stage {
+  background: #fff !important;
+}
+
+.theme-liquid.theme-mono-o3 .scroll-stage__grid {
+  background-color: #fff !important;
+  background-image:
+    linear-gradient(rgba(10, 10, 10, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 10, 10, 0.08) 1px, transparent 1px) !important;
+  background-size: 80px 80px !important;
+  opacity: 1 !important;
+  transform: none !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+.theme-liquid.theme-mono-o3 .scroll-stage__grid::before,
+.theme-liquid.theme-mono-o3 .scroll-stage__grid::after {
+  display: none !important;
+}
+
+.theme-liquid.theme-mono-o3 .scroll-stage__wash {
+  mix-blend-mode: multiply;
+  opacity: 0.25 !important;
+}
+
+.theme-liquid.theme-mono-o3 .scroll-stage__veil {
+  background: linear-gradient(180deg, rgba(255,255,255,0.2), transparent 30%, transparent 70%, rgba(255,255,255,0.5)) !important;
+}
+
+.theme-liquid.theme-mono-o3 .tr-landing-hero-url-box,
+.theme-liquid.theme-mono-o3 .tr-landing-logo-card,
+.theme-liquid.theme-mono-o3 .tr-landing-enterprise-card,
+.theme-liquid.theme-mono-o3 .tr-landing-model-access-panel,
+.theme-liquid.theme-mono-o3 .tr-landing-model-access-row,
+.theme-liquid.theme-mono-o3 .tr-landing-hero-badge,
+.theme-liquid.theme-mono-o3 .tr-landing-section-badge,
+.theme-liquid.theme-mono-o3 .tr-landing-hero-primary-button,
+.theme-liquid.theme-mono-o3 .tr-landing-hero-secondary-button,
+.theme-liquid.theme-mono-o3 .tr-landing-cta-primary,
+.theme-liquid.theme-mono-o3 .tr-landing-cta-secondary,
+.theme-liquid.theme-mono-o3 .oneapi-stage__canvas-wrap,
+.theme-liquid.theme-mono-o3 .oneapi-stage__hub,
+.theme-liquid.theme-mono-o3 .value-story__viz {
+  border-radius: 0 !important;
+}
+
+.theme-liquid.theme-mono-o3 .tr-landing-hero-primary-button,
+.theme-liquid.theme-mono-o3 .tr-landing-cta-primary,
+.theme-liquid.theme-mono-o3 a[class*="bg-[#0086FF]"],
+.theme-liquid.theme-mono-o3 a[class*="bg-[#0086ff]"] {
+  background: #0a0a0a !important;
+  border-color: #0a0a0a !important;
+  box-shadow: none !important;
+  color: #fff !important;
+}
+
+.theme-liquid.theme-mono-o3 .tr-landing-hero-secondary-button,
+.theme-liquid.theme-mono-o3 .tr-landing-cta-secondary {
+  background: #fff !important;
+  border: 1px solid #0a0a0a !important;
+  color: #0a0a0a !important;
+}
+
+.theme-liquid.theme-mono-o3 .value-story__letter.is-lit {
+  color: #0a0a0a !important;
+}
+
+.theme-liquid.theme-mono-o3 .value-story__letter--accent.is-lit {
+  color: #0086ff !important;
+}
+
+.theme-liquid.theme-mono-o3 .value-story__letter {
+  color: rgba(10, 10, 10, 0.22) !important;
+}
+
+.theme-liquid.theme-mono-o3 .tr-landing-hero-tagline {
+  color: #0a0a0a !important;
+}
+
+.theme-liquid.theme-mono-o3 .oneapi-stage__hub {
+  background: #fff !important;
+  border: 1.5px solid #0a0a0a !important;
+  box-shadow: none !important;
+}
+
+.theme-liquid.theme-mono-o3 .oneapi-stage__hub-label {
+  color: #0a0a0a !important;
+}
+
+.theme-liquid.theme-mono-o3 .oneapi-stage__canvas-wrap {
+  background: #fff !important;
+  border: 1px solid #0a0a0a !important;
+  box-shadow: none !important;
+}
+
+.theme-liquid.theme-mono-o3 .scale-expand__frame {
+  background: #fff !important;
+  border-color: #0a0a0a !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.theme-liquid.theme-mono-o3 .tr-landing-enterprise-card,
+.theme-liquid.theme-mono-o3 .tr-landing-model-access-panel,
+.theme-liquid.theme-mono-o3 .tr-landing-logo-card {
+  background: #fff !important;
+  border: 1px solid #0a0a0a !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.theme-liquid.theme-mono-o3 .promo-banner {
+  background: #0a0a0a !important;
+}
+
+.theme-liquid.theme-mono-o3.theme-liquid--dark,
+.theme-liquid.theme-mono-o3[data-theme="dark"] {
+  --glass-text: #0a0a0a;
+  --glass-muted: #4a4a4a;
+  background: #fff !important;
+}

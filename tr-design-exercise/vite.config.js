@@ -20,6 +20,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "index.html"),
         current: resolve(__dirname, "current.html"),
+        option1: resolve(__dirname, "option-1.html"),
         option2: resolve(__dirname, "option-2.html"),
         option3: resolve(__dirname, "option-3.html"),
         option4: resolve(__dirname, "option-4.html"),
