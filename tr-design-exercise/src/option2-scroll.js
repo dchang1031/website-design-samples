@@ -290,6 +290,12 @@ function initValueStory() {
       if (op > 0.2) panel.removeAttribute("aria-hidden");
       else panel.setAttribute("aria-hidden", "true");
     });
+
+    let active = -1;
+    if (b0 >= b1 && b0 >= b2 && b0 > 0.2) active = 0;
+    else if (b1 >= b0 && b1 >= b2 && b1 > 0.2) active = 1;
+    else if (b2 > 0.2) active = 2;
+    root.dataset.activeBenefit = String(active);
   }
 
   function sizeCanvas(canvas) {
@@ -304,10 +310,56 @@ function initValueStory() {
     return { ctx, w, h };
   }
 
+  function drawTechFrame(ctx, w, h, intensity, t) {
+    // Faint blueprint dot-grid
+    const spacing = 24;
+    ctx.fillStyle = `rgba(0, 134, 255, ${0.12 * intensity})`;
+    for (let x = spacing / 2; x < w; x += spacing) {
+      for (let y = spacing / 2; y < h; y += spacing) {
+        ctx.beginPath();
+        ctx.arc(x, y, 0.9, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // Viewfinder corner brackets
+    const m = 10;
+    const len = 22;
+    ctx.strokeStyle = `rgba(0, 134, 255, ${0.35 * intensity})`;
+    ctx.lineWidth = 1.5;
+    const corners = [
+      [m, m, 1, 1],
+      [w - m, m, -1, 1],
+      [m, h - m, 1, -1],
+      [w - m, h - m, -1, -1],
+    ];
+    corners.forEach(([x, y, dx, dy]) => {
+      ctx.beginPath();
+      ctx.moveTo(x, y + len * dy);
+      ctx.lineTo(x, y);
+      ctx.lineTo(x + len * dx, y);
+      ctx.stroke();
+    });
+
+    // Sweeping scan line
+    const sweep = (t * 0.18) % 1;
+    const sy = sweep * h;
+    const grad = ctx.createLinearGradient(0, sy - 40, 0, sy + 40);
+    grad.addColorStop(0, "rgba(0, 134, 255, 0)");
+    grad.addColorStop(0.5, `rgba(0, 134, 255, ${0.16 * intensity})`);
+    grad.addColorStop(1, "rgba(0, 134, 255, 0)");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, sy - 40, w, 80);
+  }
+
   function drawKey(canvas, intensity, t) {
-    if (!canvas || intensity < 0.01) return;
+    if (!canvas || intensity < 0.01) {
+      if (canvas) { const { ctx, w, h } = sizeCanvas(canvas); ctx.clearRect(0, 0, w, h); }
+      return;
+    }
     const { ctx, w, h } = sizeCanvas(canvas);
     ctx.clearRect(0, 0, w, h);
+    drawTechFrame(ctx, w, h, intensity, t);
     const cx = w * 0.28;
     const cy = h * 0.5;
     const models = 7;
@@ -345,9 +397,13 @@ function initValueStory() {
   }
 
   function drawTeams(canvas, intensity, t) {
-    if (!canvas || intensity < 0.01) return;
+    if (!canvas || intensity < 0.01) {
+      if (canvas) { const { ctx, w, h } = sizeCanvas(canvas); ctx.clearRect(0, 0, w, h); }
+      return;
+    }
     const { ctx, w, h } = sizeCanvas(canvas);
     ctx.clearRect(0, 0, w, h);
+    drawTechFrame(ctx, w, h, intensity, t);
     const hub = { x: w * 0.55, y: h * 0.5 };
     const nodes = [
       { x: w * 0.18, y: h * 0.25 },
@@ -386,9 +442,13 @@ function initValueStory() {
   }
 
   function drawSecurity(canvas, intensity, t) {
-    if (!canvas || intensity < 0.01) return;
+    if (!canvas || intensity < 0.01) {
+      if (canvas) { const { ctx, w, h } = sizeCanvas(canvas); ctx.clearRect(0, 0, w, h); }
+      return;
+    }
     const { ctx, w, h } = sizeCanvas(canvas);
     ctx.clearRect(0, 0, w, h);
+    drawTechFrame(ctx, w, h, intensity, t);
     const cx = w * 0.5;
     const cy = h * 0.48;
     // shield
