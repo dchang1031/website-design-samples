@@ -38,16 +38,24 @@
   }
 
   function initHeadline() {
-    const root = document.querySelector("[data-value-story]");
-    if (!root) return;
+    const story = document.querySelector("[data-value-story]");
+    const headline = story?.querySelector(".value-story__headline");
+    if (!story || !headline) return;
+
+    // Remove the headline from the scrolling/sticky DOM entirely. This prevents
+    // any transform/positioning on an ancestor from affecting its viewport center.
+    document.body.appendChild(headline);
+
+    const letters = headline.querySelectorAll("[data-letter]");
+    const count = Math.max(letters.length, 1);
 
     const apply = () => {
-      const rect = root.getBoundingClientRect();
-      const total = Math.max(1, root.offsetHeight - window.innerHeight);
+      const rect = story.getBoundingClientRect();
+      const total = Math.max(1, story.offsetHeight - window.innerHeight);
       const p = clamp(-rect.top / total, 0, 1);
 
-      const letters = root.querySelectorAll("[data-letter]");
-      const count = Math.max(letters.length, 1);
+      // Light the sentence progressively while it remains in exactly the same
+      // viewport position. Once the reveal is complete, blur and fade it in place.
       const litEnd = 0.56;
       letters.forEach((el, i) => {
         const start = (i / count) * litEnd;
@@ -56,10 +64,9 @@
         el.classList.toggle("is-lit", lit);
       });
 
-      // The headline remains fully opaque during the reveal. Only the final fade changes the parent opacity.
-      const fade = smoothstep(0.58, 0.96, p);
-      root.style.setProperty("--o3-headline-opacity", (1 - fade).toFixed(4));
-      root.style.setProperty("--hl-blur", `${(fade * 7).toFixed(2)}px`);
+      const fade = smoothstep(0.62, 0.96, p);
+      headline.style.setProperty("--o3-headline-opacity", (1 - fade).toFixed(4));
+      headline.style.setProperty("--hl-blur", `${(fade * 7).toFixed(2)}px`);
     };
 
     apply();
