@@ -266,12 +266,12 @@
   background: rgba(255, 255, 255, 0.5) !important;
 }
 
-.theme-liquid .tr-landing-faq-section [class*="bg-[#ebf5ff]"],
-.theme-liquid .tr-landing-faq-section [class*="bg-sky"],
-.theme-liquid .tr-landing-faq-section [class*="rounded-3xl"],
-.theme-liquid .tr-landing-faq-section [class*="rounded-[20px]"],
-.theme-liquid .tr-landing-faq-section details,
-.theme-liquid .tr-landing-faq-section [class*="border"] {
+.theme-liquid:not(.theme-liquid--dark):not([data-theme="dark"]) .tr-landing-faq-section [class*="bg-[#ebf5ff]"],
+.theme-liquid:not(.theme-liquid--dark):not([data-theme="dark"]) .tr-landing-faq-section [class*="bg-sky"],
+.theme-liquid:not(.theme-liquid--dark):not([data-theme="dark"]) .tr-landing-faq-section [class*="rounded-3xl"],
+.theme-liquid:not(.theme-liquid--dark):not([data-theme="dark"]) .tr-landing-faq-section [class*="rounded-[20px]"],
+.theme-liquid:not(.theme-liquid--dark):not([data-theme="dark"]) .tr-landing-faq-section details,
+.theme-liquid:not(.theme-liquid--dark):not([data-theme="dark"]) .tr-landing-faq-section [class*="border"] {
   background: linear-gradient(
     155deg,
     rgba(255, 255, 255, 0.58),
@@ -864,8 +864,37 @@ html body.theme-liquid[data-theme="dark"] .tr-landing-faq-expand-icon {
 
 .theme-liquid.theme-liquid--dark .tr-landing-footer-logo-image,
 .theme-liquid[data-theme="dark"] .tr-landing-footer-logo-image {
-  filter: brightness(0) invert(1);
-  opacity: 0.95;
+  display: none !important;
+}
+
+.theme-liquid .tr-landing-footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  background: transparent;
+}
+
+.theme-liquid .tr-landing-footer-mark {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: block;
+  flex: 0 0 auto;
+}
+
+.theme-liquid .tr-landing-footer-wordmark {
+  font-family: "PP Neue Montreal", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #121317;
+  line-height: 1;
+}
+
+.theme-liquid.theme-liquid--dark .tr-landing-footer-wordmark,
+.theme-liquid[data-theme="dark"] .tr-landing-footer-wordmark {
+  color: #ffffff !important;
 }
 
 .theme-liquid.theme-liquid--dark .tr-landing-cta-secondary,
@@ -941,17 +970,56 @@ html body.theme-liquid[data-theme="dark"] .tr-landing-faq-expand-icon {
   color: #c9d4e5 !important;
 }
 
-/* FAQ list: dark surface so light text is readable */
+/* FAQ list + drawers: full dark theme */
+.theme-liquid.theme-liquid--dark .tr-landing-faq-list,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-list,
+.theme-liquid.theme-liquid--dark .tr-landing-faq-item,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-item,
+.theme-liquid.theme-liquid--dark .tr-landing-faq-panel,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-panel,
+.theme-liquid.theme-liquid--dark .tr-landing-faq-trigger,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-trigger,
+.theme-liquid.theme-liquid--dark .tr-landing-faq-section [class*="border"],
+.theme-liquid[data-theme="dark"] .tr-landing-faq-section [class*="border"],
+.theme-liquid.theme-liquid--dark .tr-landing-faq-section [class*="rounded"],
+.theme-liquid[data-theme="dark"] .tr-landing-faq-section [class*="rounded"],
+.theme-liquid.theme-liquid--dark .tr-landing-faq-help-card,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-help-card {
+  background: rgba(12, 18, 30, 0.96) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #eef3fb !important;
+}
+
 .theme-liquid.theme-liquid--dark .tr-landing-faq-list,
 .theme-liquid[data-theme="dark"] .tr-landing-faq-list {
-  background: rgba(14, 20, 32, 0.92) !important;
-  border-color: rgba(255, 255, 255, 0.16) !important;
+  background: rgba(10, 16, 28, 0.98) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+}
+
+.theme-liquid.theme-liquid--dark .tr-landing-faq-item,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-item {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-top: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  box-shadow: none !important;
+}
+
+.theme-liquid.theme-liquid--dark .tr-landing-faq-item:last-child,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-item:last-child {
+  border-bottom: 0 !important;
 }
 
 .theme-liquid.theme-liquid--dark .tr-landing-faq-question,
 .theme-liquid[data-theme="dark"] .tr-landing-faq-question,
 .theme-liquid.theme-liquid--dark .tr-landing-faq-section .tr-landing-section-title,
-.theme-liquid[data-theme="dark"] .tr-landing-faq-section .tr-landing-section-title {
+.theme-liquid[data-theme="dark"] .tr-landing-faq-section .tr-landing-section-title,
+.theme-liquid.theme-liquid--dark .tr-landing-faq-help-title,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-help-title {
   color: #f3f6fb !important;
 }
 
@@ -960,7 +1028,9 @@ html body.theme-liquid[data-theme="dark"] .tr-landing-faq-expand-icon {
 .theme-liquid[data-theme="dark"] .tr-landing-faq-answer,
 .theme-liquid[data-theme="dark"] .tr-landing-faq-answer p,
 .theme-liquid.theme-liquid--dark .tr-landing-section-text,
-.theme-liquid[data-theme="dark"] .tr-landing-section-text {
+.theme-liquid[data-theme="dark"] .tr-landing-section-text,
+.theme-liquid.theme-liquid--dark .tr-landing-faq-help-text,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-help-text {
   color: #b7c2d4 !important;
 }
 
@@ -974,11 +1044,21 @@ html body.theme-liquid[data-theme="dark"] .tr-landing-faq-expand-icon {
   background: rgba(255, 255, 255, 0.05) !important;
 }
 
-.theme-liquid.theme-liquid--dark .tr-landing-faq-item,
-.theme-liquid[data-theme="dark"] .tr-landing-faq-item {
-  border-color: rgba(255, 255, 255, 0.12) !important;
+.theme-liquid.theme-liquid--dark .tr-landing-faq-expand-icon,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-expand-icon {
+  color: #d7e0ee !important;
+  -webkit-text-fill-color: #d7e0ee !important;
 }
 
+.theme-liquid.theme-liquid--dark .tr-landing-faq-panel,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-panel,
+.theme-liquid.theme-liquid--dark .tr-landing-faq-panel > div,
+.theme-liquid[data-theme="dark"] .tr-landing-faq-panel > div,
+.theme-liquid.theme-liquid--dark .tr-landing-faq-panel [class*="px-"],
+.theme-liquid[data-theme="dark"] .tr-landing-faq-panel [class*="px-"] {
+  background: transparent !important;
+  box-shadow: none !important;
+}
 
 /* —— Scale-style expanding sections (ported onto Option 2) —— */
 .theme-liquid .scale-expand {
