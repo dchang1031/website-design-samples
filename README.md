@@ -1,17 +1,19 @@
-# TokenRouter Homepage Recreation
+# Website Design Samples
 
-Static 1:1 recreation of the [TokenRouter](https://www.tokenrouter.com/) home page only. Links are non-functional placeholders.
+A collection of website design exercises. Each folder is a standalone project.
 
-## Develop
+## Exercises
+
+| Exercise | Description |
+|---|---|
+| [tr-design-exercise](./tr-design-exercise) | TokenRouter homepage design options (Options 1–4) |
+
+## How to run an exercise
 
 ```bash
+cd tr-design-exercise
 npm install
 npm run dev
 ```
 
-## Build
-
-```bash
-npm run build
-npm run preview
-```
+Then open the URL Vite prints (usually `http://localhost:5173/option-4.html`).
