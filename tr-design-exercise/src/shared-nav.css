@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
 
+/* Shared top nav + mobile drawer — keep identical across all pages.
+   Load this stylesheet after page themes so chrome stays locked. */
+
 :root {
   --shared-ink: #101010;
   --shared-muted: #5c5c5a;

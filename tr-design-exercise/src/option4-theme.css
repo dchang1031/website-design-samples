@@ -85,66 +85,6 @@
   border-bottom: 1px solid var(--sic-line);
 }
 
-/* Header — quiet, hairline */
-.theme-sic .site-header {
-  background: rgba(252, 252, 252, 0.94) !important;
-  border-bottom: 1px solid var(--sic-line) !important;
-  color: var(--sic-ink);
-  backdrop-filter: blur(8px);
-}
-
-.theme-sic .site-header .brand {
-  font-family: var(--sic-display);
-  font-weight: 300;
-  letter-spacing: -0.02em;
-  font-size: 26px;
-}
-
-.theme-sic .site-header .brand__mark {
-  background: var(--sic-accent);
-}
-
-.theme-sic .site-header .nav a {
-  color: rgba(0, 0, 0, 0.5);
-  border: 0;
-  background: transparent !important;
-  text-transform: none;
-  letter-spacing: 0;
-  font-family: var(--sic-sans);
-  font-size: 13px;
-}
-
-.theme-sic .site-header .nav a:hover,
-.theme-sic .site-header .nav a.is-active {
-  color: var(--sic-accent);
-  border: 0;
-  background: transparent !important;
-}
-
-.theme-sic .site-header .btn {
-  min-height: 32px;
-  padding: 4px 10px;
-  border-radius: 2px;
-  font-size: 13px;
-}
-
-.theme-sic .site-header .btn--filled {
-  background: var(--sic-accent) !important;
-  border-color: var(--sic-accent) !important;
-  color: #fcfcfc !important;
-}
-
-.theme-sic .site-header .btn--ghost {
-  border-color: transparent;
-  color: var(--sic-ink);
-}
-
-.theme-sic .mobile-menu__drawer {
-  background: var(--sic-bg) !important;
-  border-right: 1px solid var(--sic-line);
-  color: var(--sic-ink);
-}
-
 .theme-sic .promo-banner {
   background: var(--sic-accent) !important;
 }

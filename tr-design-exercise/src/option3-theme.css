@@ -141,41 +141,6 @@
   z-index: 1;
 }
 
-/* Nav — frosted glass */
-.theme-liquid .site-header {
-  background: rgba(255, 255, 255, 0.48) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5) !important;
-  box-shadow: 0 1px 0 rgba(40, 60, 100, 0.06);
-  backdrop-filter: blur(20px) saturate(1.35);
-  -webkit-backdrop-filter: blur(20px) saturate(1.35);
-}
-
-.theme-liquid .site-header .nav a.is-active,
-.theme-liquid .site-header .nav a:hover {
-  background: rgba(255, 255, 255, 0.7) !important;
-  border-color: rgba(40, 60, 100, 0.1) !important;
-  border-radius: 999px;
-}
-
-.theme-liquid .site-header .btn--filled {
-  background: #1a4dff !important;
-  border-color: #1a4dff !important;
-  color: #fff !important;
-  border-radius: 999px;
-}
-
-.theme-liquid .site-header .btn--ghost {
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(10px);
-}
-
-.theme-liquid .mobile-menu__drawer {
-  background: rgba(255, 255, 255, 0.78) !important;
-  backdrop-filter: blur(24px) saturate(1.3);
-  -webkit-backdrop-filter: blur(24px) saturate(1.3);
-}
-
 .theme-liquid .promo-banner {
   background: rgba(30, 45, 75, 0.62) !important;
   backdrop-filter: blur(16px) saturate(1.2);
@@ -466,10 +431,7 @@
 }
 
 @media (max-width: 899px) {
-  .theme-liquid .site-header__inner {
-    gap: 8px;
-  }
-
+  /* Keep theme toggle reachable without restyling the shared nav bar */
   .theme-liquid .header-actions {
     display: flex !important;
   }
@@ -542,27 +504,6 @@
 .theme-liquid[data-theme="dark"] .scroll-stage__wash {
   mix-blend-mode: screen;
   opacity: 0.75;
-}
-
-.theme-liquid.theme-liquid--dark .site-header,
-.theme-liquid[data-theme="dark"] .site-header {
-  background: rgba(16, 22, 34, 0.72) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-  color: var(--glass-text);
-}
-
-.theme-liquid.theme-liquid--dark .site-header .nav a,
-.theme-liquid[data-theme="dark"] .site-header .nav a {
-  color: #9aacc6;
-}
-
-.theme-liquid.theme-liquid--dark .site-header .nav a.is-active,
-.theme-liquid.theme-liquid--dark .site-header .nav a:hover,
-.theme-liquid[data-theme="dark"] .site-header .nav a.is-active,
-.theme-liquid[data-theme="dark"] .site-header .nav a:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border-color: rgba(255, 255, 255, 0.18) !important;
-  color: #fff !important;
 }
 
 .theme-liquid.theme-liquid--dark .theme-toggle,
@@ -712,12 +653,6 @@ body[data-theme="dark"] .tr-landing-model-access-row:hover {
   color: var(--glass-text) !important;
 }
 
-.theme-liquid.theme-liquid--dark .mobile-menu__drawer,
-.theme-liquid[data-theme="dark"] .mobile-menu__drawer {
-  background: rgba(16, 22, 34, 0.92) !important;
-  color: var(--glass-text);
-}
-
 .theme-liquid.theme-liquid--dark .tr-landing-faq-section [class*="bg-[#ebf5ff]"],
 .theme-liquid.theme-liquid--dark .tr-landing-faq-section [class*="rounded-3xl"],
 .theme-liquid.theme-liquid--dark .tr-landing-faq-section [class*="rounded-[20px]"],
@@ -730,35 +665,6 @@ body[data-theme="dark"] .tr-landing-model-access-row:hover {
     rgba(20, 28, 42, 0.5)
   ) !important;
   border-color: rgba(255, 255, 255, 0.14) !important;
-}
-
-/*
-  Dark theme: no black / near-black text.
-  Catches shared-nav ghost buttons + inline style="color:#121317" model rows.
-*/
-.theme-liquid.theme-liquid--dark .site-header .brand,
-.theme-liquid.theme-liquid--dark .site-header .btn--ghost,
-.theme-liquid.theme-liquid--dark .mobile-menu__drawer,
-.theme-liquid.theme-liquid--dark .mobile-menu__drawer .brand,
-.theme-liquid.theme-liquid--dark .mobile-menu__drawer a,
-.theme-liquid.theme-liquid--dark .mobile-menu__drawer .btn--ghost,
-.theme-liquid.theme-liquid--dark .menu-toggle,
-.theme-liquid[data-theme="dark"] .site-header .brand,
-.theme-liquid[data-theme="dark"] .site-header .btn--ghost,
-.theme-liquid[data-theme="dark"] .mobile-menu__drawer,
-.theme-liquid[data-theme="dark"] .mobile-menu__drawer .brand,
-.theme-liquid[data-theme="dark"] .mobile-menu__drawer a,
-.theme-liquid[data-theme="dark"] .mobile-menu__drawer .btn--ghost,
-.theme-liquid[data-theme="dark"] .menu-toggle {
-  color: var(--glass-text) !important;
-}
-
-.theme-liquid.theme-liquid--dark .site-header .btn--ghost,
-.theme-liquid.theme-liquid--dark .mobile-menu__drawer .btn--ghost,
-.theme-liquid[data-theme="dark"] .site-header .btn--ghost,
-.theme-liquid[data-theme="dark"] .mobile-menu__drawer .btn--ghost {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border-color: rgba(255, 255, 255, 0.16) !important;
 }
 
 .theme-liquid.theme-liquid--dark .tr-landing-model-access-model-name,
@@ -847,24 +753,10 @@ body[data-theme="dark"] .tr-landing-model-access-row:hover {
 }
 
 /*
-  Hard-stop black/near-black paints on dark.
+  Hard-stop black/near-black paints on dark (page chrome only — shared nav stays locked).
   Some Chromium builds report `color` oddly on buttons/links under color-scheme:dark;
   set both color and -webkit-text-fill-color.
 */
-html body.theme-liquid.theme-liquid--dark .site-header,
-html body.theme-liquid[data-theme="dark"] .site-header,
-html body.theme-liquid.theme-liquid--dark .site-header .brand,
-html body.theme-liquid[data-theme="dark"] .site-header .brand,
-html body.theme-liquid.theme-liquid--dark .site-header .btn,
-html body.theme-liquid[data-theme="dark"] .site-header .btn,
-html body.theme-liquid.theme-liquid--dark .site-header .btn--ghost,
-html body.theme-liquid[data-theme="dark"] .site-header .btn--ghost,
-html body.theme-liquid.theme-liquid--dark .site-header .nav a,
-html body.theme-liquid[data-theme="dark"] .site-header .nav a,
-html body.theme-liquid.theme-liquid--dark .site-header .nav a.is-active,
-html body.theme-liquid[data-theme="dark"] .site-header .nav a.is-active,
-html body.theme-liquid.theme-liquid--dark .site-header .nav a:hover,
-html body.theme-liquid[data-theme="dark"] .site-header .nav a:hover,
 html body.theme-liquid.theme-liquid--dark .theme-toggle,
 html body.theme-liquid[data-theme="dark"] .theme-toggle,
 html body.theme-liquid.theme-liquid--dark .tr-landing-hero-copy-button,
@@ -877,22 +769,6 @@ html body.theme-liquid.theme-liquid--dark [class*="text-[#333]"],
 html body.theme-liquid[data-theme="dark"] [class*="text-[#333]"] {
   color: #eef3fb !important;
   -webkit-text-fill-color: #eef3fb !important;
-}
-
-html body.theme-liquid.theme-liquid--dark .site-header .nav a.is-active,
-html body.theme-liquid[data-theme="dark"] .site-header .nav a.is-active,
-html body.theme-liquid.theme-liquid--dark .site-header .nav a:hover,
-html body.theme-liquid[data-theme="dark"] .site-header .nav a:hover {
-  background: rgba(255, 255, 255, 0.12) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-}
-
-html body.theme-liquid.theme-liquid--dark .site-header .btn--filled,
-html body.theme-liquid[data-theme="dark"] .site-header .btn--filled {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
 }
 
 html body.theme-liquid.theme-liquid--dark .tr-landing-faq-expand-icon,
