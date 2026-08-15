@@ -2,6 +2,13 @@
  * Option 2 — theme toggle + scroll wash + Apple-style reveals + value story.
  */
 (() => {
+  // Ensure value-story upgrade stylesheet is present
+  if (!document.querySelector('link[href*="option2-value-story.css"]')) {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "/src/option2-value-story.css";
+    document.head.appendChild(link);
+  }
   initThemeToggle();
   initScrollWash();
   initReveals();
@@ -203,6 +210,21 @@ function initScaleExpand() {
 function initValueStory() {
   const root = document.querySelector("[data-value-story]");
   if (!root) return;
+
+  // Upgrade headline to word-by-word spans if needed (main-branch HTML)
+  let headline = root.querySelector("[data-story-headline]");
+  if (headline && !root.querySelector("[data-word]")) {
+    headline.innerHTML = [
+      '<span class="value-story__word value-story__word--accent" data-word="0">One</span>',
+      '<span class="value-story__word" data-word="1">TokenRouter,</span>',
+      '<span class="value-story__word value-story__word--accent" data-word="2">all</span>',
+      '<span class="value-story__word" data-word="3">models</span>',
+    ].join("\n                ");
+  }
+  // Hide legacy index numbers
+  root.querySelectorAll(".value-story__index").forEach((el) => {
+    el.style.display = "none";
+  });
 
   const words = [...root.querySelectorAll("[data-word]")];
   const panels = [...root.querySelectorAll("[data-benefit]")];
