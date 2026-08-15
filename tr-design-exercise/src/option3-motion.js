@@ -99,6 +99,35 @@ function initWorldMap() {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
+  const mono = document.body.classList.contains("theme-mono");
+  const palette = mono
+    ? {
+        grid: "rgba(10,10,10,0.08)",
+        landFill: "rgba(10,10,10,0.04)",
+        landStroke: "rgba(10,10,10,0.22)",
+        atmosphere: "rgba(0,134,255,0.06)",
+        hub: "rgba(0,134,255,0.14)",
+        arc: "0, 134, 255",
+        packetA: "0, 134, 255",
+        packetB: "0, 102, 204",
+        city: "#0086ff",
+        cityGlow: "rgba(0,134,255,",
+        clear: "#ffffff",
+      }
+    : {
+        grid: "rgba(255,255,255,0.035)",
+        landFill: "rgba(77, 124, 255, 0.06)",
+        landStroke: "rgba(92, 239, 255, 0.12)",
+        atmosphere: "rgba(77, 124, 255, 0.12)",
+        hub: "rgba(92, 239, 255, 0.2)",
+        arc: "92, 239, 255",
+        packetA: "92, 239, 255",
+        packetB: "77, 124, 255",
+        city: "#5cefff",
+        cityGlow: "rgba(92, 239, 255,",
+        clear: null,
+      };
+
   let w = 0;
   let h = 0;
   let raf = 0;
@@ -135,9 +164,9 @@ function initWorldMap() {
         else ctx.lineTo(p.x, p.y);
       });
       ctx.closePath();
-      ctx.fillStyle = "rgba(77, 124, 255, 0.06)";
+      ctx.fillStyle = palette.landFill;
       ctx.fill();
-      ctx.strokeStyle = "rgba(92, 239, 255, 0.12)";
+      ctx.strokeStyle = palette.landStroke;
       ctx.lineWidth = 1;
       ctx.stroke();
     });
@@ -146,7 +175,7 @@ function initWorldMap() {
 
   function drawGrid() {
     ctx.save();
-    ctx.strokeStyle = "rgba(255,255,255,0.035)";
+    ctx.strokeStyle = palette.grid;
     ctx.lineWidth = 1;
     for (let lon = -180; lon <= 180; lon += 30) {
       const a = project(lon, 80, w, h);
@@ -173,10 +202,8 @@ function initWorldMap() {
       const t = i / steps;
       const lon = a.lon + (b.lon - a.lon) * t;
       const lat = a.lat + (b.lat - a.lat) * t;
-      // lift arc
       const lift = Math.sin(Math.PI * t) * (8 + Math.hypot(b.lon - a.lon, b.lat - a.lat) * 0.08);
       const p = project(lon, lat + lift * 0.15, w, h);
-      // also offset visually upward in screen space
       p.y -= Math.sin(Math.PI * t) * 28;
       pts.push(p);
     }
@@ -188,7 +215,7 @@ function initWorldMap() {
     ctx.beginPath();
     ctx.moveTo(pts[0].x, pts[0].y);
     for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
-    ctx.strokeStyle = `rgba(92, 239, 255, ${alpha})`;
+    ctx.strokeStyle = `rgba(${palette.arc}, ${alpha})`;
     ctx.lineWidth = width;
     ctx.stroke();
   }
@@ -219,11 +246,15 @@ function initWorldMap() {
 
   function tick(ts) {
     pulseT = ts;
-    ctx.clearRect(0, 0, w, h);
+    if (palette.clear) {
+      ctx.fillStyle = palette.clear;
+      ctx.fillRect(0, 0, w, h);
+    } else {
+      ctx.clearRect(0, 0, w, h);
+    }
 
-    // soft atmosphere
     const g = ctx.createRadialGradient(w * 0.62, h * 0.42, 0, w * 0.62, h * 0.42, w * 0.55);
-    g.addColorStop(0, "rgba(77, 124, 255, 0.12)");
+    g.addColorStop(0, palette.atmosphere);
     g.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, w, h);
@@ -231,27 +262,23 @@ function initWorldMap() {
     drawGrid();
     drawContinents();
 
-    // hub glow
     const hubPt = project(hub.lon, hub.lat, w, h);
     const hg = ctx.createRadialGradient(hubPt.x, hubPt.y, 0, hubPt.x, hubPt.y, 90);
-    hg.addColorStop(0, "rgba(92, 239, 255, 0.2)");
+    hg.addColorStop(0, palette.hub);
     hg.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = hg;
     ctx.fillRect(hubPt.x - 90, hubPt.y - 90, 180, 180);
 
-    // arcs city → hub (faint) + selected bright
     CITIES.forEach((c, i) => {
       const pts = arcPoints(c, hub);
       const active = i === hover;
       drawArc(pts, active ? 0.7 : 0.12, active ? 2 : 1);
     });
 
-    // intercity routes
     routes.forEach((r) => {
       drawArc(arcPoints(r.from, r.to), 0.08, 1);
     });
 
-    // packets
     if (!prefersReducedMotion() && packets.length < 18 && Math.random() < 0.08) {
       spawnPacket();
     }
@@ -260,7 +287,7 @@ function initWorldMap() {
       if (p.t >= 1) return false;
       const idx = Math.min(p.pts.length - 1, Math.floor(p.t * (p.pts.length - 1)));
       const pt = p.pts[idx];
-      const color = p.hue === "cyan" ? "92, 239, 255" : "77, 124, 255";
+      const color = p.hue === "cyan" ? palette.packetA : palette.packetB;
       ctx.beginPath();
       ctx.arc(pt.x, pt.y, 2.6, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${color}, 0.95)`;
@@ -272,22 +299,20 @@ function initWorldMap() {
       return true;
     });
 
-    // cities
     CITIES.forEach((c, i) => {
       const p = project(c.lon, c.lat, w, h);
       const beat = 0.55 + Math.sin(ts * 0.004 + i) * 0.35;
       const on = i === hover;
       ctx.beginPath();
       ctx.arc(p.x, p.y, on ? 18 : 10 + beat * 4, 0, Math.PI * 2);
-      ctx.fillStyle = on ? "rgba(92, 239, 255, 0.22)" : `rgba(92, 239, 255, ${0.08 + beat * 0.06})`;
+      ctx.fillStyle = on ? `${palette.cityGlow}0.22)` : `${palette.cityGlow}${0.08 + beat * 0.06})`;
       ctx.fill();
       ctx.beginPath();
       ctx.arc(p.x, p.y, on ? 4.5 : 2.8, 0, Math.PI * 2);
-      ctx.fillStyle = on ? "#fff" : "#5cefff";
+      ctx.fillStyle = on ? (mono ? "#0a0a0a" : "#fff") : palette.city;
       ctx.fill();
     });
 
-    // live feed
     if (feed && ts - lastFeed > 2400) {
       const c = CITIES[feedIdx % CITIES.length];
       feed.innerHTML = `<strong>${c.name}</strong> · ${c.rpm} req/min · via ${c.model}`;

@@ -197,98 +197,265 @@ function initScaleExpand() {
 }
 
 /**
- * Scroll storytelling before hero:
- * step 0 = headline only
- * steps 1..N = one benefit at a time
+ * Scroll-scrub storytelling before hero.
+ * Scroll progress continuously drives fades / slides.
+ * Stop scrolling → animation holds. Scroll back → reverses.
  */
 function initValueStory() {
   const root = document.querySelector("[data-value-story]");
   if (!root) return;
 
-  const benefits = [...root.querySelectorAll(".value-story__benefit")];
-  const dots = [...root.querySelectorAll("[data-story-dot]")];
-  const fill = root.querySelector("[data-story-progress]");
+  const panels = [...root.querySelectorAll("[data-benefit]")];
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const totalSteps = benefits.length + 1; // +1 for headline-only beat
-  let active = -1;
+  const vizState = { key: 0, teams: 0, security: 0, t: 0 };
 
   if (reduce) {
-    root.classList.add("is-benefits");
-    benefits.forEach((b) => {
-      b.hidden = false;
-      b.classList.add("is-active");
-      b.removeAttribute("hidden");
-    });
-    if (fill) fill.style.width = "100%";
+    root.style.setProperty("--hl-opacity", "1");
+    root.style.setProperty("--b0", "1");
+    root.style.setProperty("--b1", "1");
+    root.style.setProperty("--b2", "1");
+    root.style.setProperty("--b0-x", "0px");
+    root.style.setProperty("--b1-x", "0px");
+    root.style.setProperty("--b2-x", "0px");
+    panels.forEach((p) => p.removeAttribute("aria-hidden"));
     return;
   }
 
-  function setStep(step) {
-    const next = Math.max(0, Math.min(totalSteps - 1, step));
-    if (next === active) {
-      if (fill) fill.style.width = `${((next + 1) / totalSteps) * 100}%`;
-      return;
-    }
-    active = next;
+  function clamp(n, a, b) {
+    return Math.min(b, Math.max(a, n));
+  }
 
-    const showingBenefits = active > 0;
-    root.classList.toggle("is-benefits", showingBenefits);
+  function smoothstep(edge0, edge1, x) {
+    const t = clamp((x - edge0) / (edge1 - edge0), 0, 1);
+    return t * t * (3 - 2 * t);
+  }
 
-    benefits.forEach((el, i) => {
-      const benefitStep = i + 1;
-      const on = showingBenefits && benefitStep === active;
-      el.classList.toggle("is-active", on);
-      el.classList.toggle("is-exit", showingBenefits && benefitStep < active);
-      if (!on) el.setAttribute("aria-hidden", "true");
-      else el.removeAttribute("aria-hidden");
-    });
+  function segment(p, a, b) {
+    return smoothstep(a, b, p);
+  }
 
-    dots.forEach((dot, i) => {
-      dot.classList.toggle("is-active", i === active);
-    });
-
-    if (fill) fill.style.width = `${((active + 1) / totalSteps) * 100}%`;
+  function crossfade(p, enterStart, enterEnd, exitStart, exitEnd) {
+    const enter = segment(p, enterStart, enterEnd);
+    const exit = segment(p, exitStart, exitEnd);
+    return clamp(enter * (1 - exit), 0, 1);
   }
 
   function progressFor() {
     const rect = root.getBoundingClientRect();
     const vh = window.innerHeight || 1;
     const total = Math.max(1, rect.height - vh);
-    const raw = -rect.top / total;
-    return Math.min(1, Math.max(0, raw));
+    return clamp(-rect.top / total, 0, 1);
   }
 
-  function update() {
-    const p = progressFor();
-    // Hold headline a bit longer at the start
-    const eased = p < 0.12 ? 0 : (p - 0.12) / 0.88;
-    const step = Math.min(totalSteps - 1, Math.floor(eased * totalSteps));
-    setStep(step);
+  function apply(p) {
+    // Timeline (scrubbed, reversible):
+    // 0.00–0.16 headline hold
+    // 0.16–0.32 headline out / benefit 0 in
+    // 0.32–0.46 benefit 0 hold
+    // 0.46–0.60 benefit 0 out / benefit 1 in
+    // 0.60–0.74 benefit 1 hold
+    // 0.74–0.88 benefit 1 out / benefit 2 in
+    // 0.88–1.00 benefit 2 hold
+
+    const hlOut = segment(p, 0.16, 0.32);
+    const hlOpacity = 1 - hlOut;
+    const hlY = hlOut * -36;
+    const hlScale = 1 - hlOut * 0.12;
+
+    const b0 = crossfade(p, 0.18, 0.34, 0.46, 0.6);
+    const b1 = crossfade(p, 0.48, 0.62, 0.74, 0.88);
+    const b2 = segment(p, 0.76, 0.9);
+
+    const b0x = (1 - b0) * 56;
+    const b1x = (1 - b1) * 56;
+    const b2x = (1 - b2) * 56;
+
+    root.style.setProperty("--hl-opacity", hlOpacity.toFixed(4));
+    root.style.setProperty("--hl-y", `${hlY.toFixed(2)}px`);
+    root.style.setProperty("--hl-scale", hlScale.toFixed(4));
+    root.style.setProperty("--b0", b0.toFixed(4));
+    root.style.setProperty("--b1", b1.toFixed(4));
+    root.style.setProperty("--b2", b2.toFixed(4));
+    root.style.setProperty("--b0-x", `${b0x.toFixed(2)}px`);
+    root.style.setProperty("--b1-x", `${b1x.toFixed(2)}px`);
+    root.style.setProperty("--b2-x", `${b2x.toFixed(2)}px`);
+    root.style.setProperty("--scrub", `${(p * 100).toFixed(2)}%`);
+
+    vizState.key = b0;
+    vizState.teams = b1;
+    vizState.security = b2;
+
+    panels.forEach((panel, i) => {
+      const op = i === 0 ? b0 : i === 1 ? b1 : b2;
+      if (op > 0.2) panel.removeAttribute("aria-hidden");
+      else panel.setAttribute("aria-hidden", "true");
+    });
   }
+
+  function sizeCanvas(canvas) {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = Math.max(1, rect.width);
+    const h = Math.max(1, rect.height);
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { ctx, w, h };
+  }
+
+  function drawKey(canvas, intensity, t) {
+    if (!canvas || intensity < 0.01) return;
+    const { ctx, w, h } = sizeCanvas(canvas);
+    ctx.clearRect(0, 0, w, h);
+    const cx = w * 0.28;
+    const cy = h * 0.5;
+    const models = 7;
+    for (let i = 0; i < models; i++) {
+      const a = -0.9 + (i / (models - 1)) * 1.8;
+      const reach = 90 + i * 12;
+      const x = cx + Math.cos(a) * reach * intensity;
+      const y = cy + Math.sin(a) * reach * 0.55;
+      ctx.beginPath();
+      ctx.moveTo(cx + 18, cy);
+      ctx.lineTo(x, y);
+      ctx.strokeStyle = `rgba(0, 134, 255, ${0.15 + intensity * 0.45})`;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(x, y, 5 + Math.sin(t * 2 + i) * 1.2, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0, 134, 255, ${0.35 + intensity * 0.55})`;
+      ctx.fill();
+    }
+    // key body
+    ctx.beginPath();
+    ctx.arc(cx, cy, 16, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0, 134, 255, ${0.2 + intensity * 0.5})`;
+    ctx.fill();
+    ctx.strokeStyle = `rgba(0, 134, 255, ${0.7})`;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx + 14, cy);
+    ctx.lineTo(cx + 52 * intensity, cy);
+    ctx.lineTo(cx + 52 * intensity, cy + 10);
+    ctx.moveTo(cx + 40 * intensity, cy);
+    ctx.lineTo(cx + 40 * intensity, cy + 8);
+    ctx.stroke();
+  }
+
+  function drawTeams(canvas, intensity, t) {
+    if (!canvas || intensity < 0.01) return;
+    const { ctx, w, h } = sizeCanvas(canvas);
+    ctx.clearRect(0, 0, w, h);
+    const hub = { x: w * 0.55, y: h * 0.5 };
+    const nodes = [
+      { x: w * 0.18, y: h * 0.25 },
+      { x: w * 0.2, y: h * 0.5 },
+      { x: w * 0.18, y: h * 0.75 },
+      { x: w * 0.78, y: h * 0.28 },
+      { x: w * 0.82, y: h * 0.52 },
+      { x: w * 0.78, y: h * 0.76 },
+    ];
+    nodes.forEach((n, i) => {
+      ctx.beginPath();
+      ctx.moveTo(n.x, n.y);
+      ctx.lineTo(hub.x, hub.y);
+      ctx.strokeStyle = `rgba(0, 134, 255, ${0.12 + intensity * 0.4})`;
+      ctx.lineWidth = 1.4;
+      ctx.stroke();
+      const pulse = 0.5 + Math.sin(t * 2.2 + i) * 0.5;
+      const px = n.x + (hub.x - n.x) * ((t * 0.25 + i * 0.12) % 1);
+      const py = n.y + (hub.y - n.y) * ((t * 0.25 + i * 0.12) % 1);
+      ctx.beginPath();
+      ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0, 134, 255, ${intensity * pulse})`;
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, 7, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(90, 168, 255, ${0.25 + intensity * 0.5})`;
+      ctx.fill();
+    });
+    ctx.beginPath();
+    ctx.arc(hub.x, hub.y, 14, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0, 134, 255, ${0.25 + intensity * 0.55})`;
+    ctx.fill();
+    ctx.strokeStyle = "#0086ff";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  function drawSecurity(canvas, intensity, t) {
+    if (!canvas || intensity < 0.01) return;
+    const { ctx, w, h } = sizeCanvas(canvas);
+    ctx.clearRect(0, 0, w, h);
+    const cx = w * 0.5;
+    const cy = h * 0.48;
+    // shield
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 70 * intensity);
+    ctx.lineTo(cx + 58 * intensity, cy - 40 * intensity);
+    ctx.lineTo(cx + 50 * intensity, cy + 30 * intensity);
+    ctx.quadraticCurveTo(cx, cy + 78 * intensity, cx - 50 * intensity, cy + 30 * intensity);
+    ctx.lineTo(cx - 58 * intensity, cy - 40 * intensity);
+    ctx.closePath();
+    ctx.fillStyle = `rgba(0, 134, 255, ${0.08 + intensity * 0.18})`;
+    ctx.fill();
+    ctx.strokeStyle = `rgba(0, 134, 255, ${0.35 + intensity * 0.55})`;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    // lock
+    ctx.beginPath();
+    ctx.arc(cx, cy - 8, 10 * intensity, Math.PI, 0);
+    ctx.stroke();
+    ctx.fillStyle = `rgba(0, 134, 255, ${0.2 + intensity * 0.5})`;
+    ctx.fillRect(cx - 14 * intensity, cy - 8, 28 * intensity, 24 * intensity);
+    // sealed packets bouncing off
+    for (let i = 0; i < 5; i++) {
+      const ang = t * 0.7 + i * 1.2;
+      const r = 100 + i * 8;
+      const x = cx + Math.cos(ang) * r;
+      const y = cy + Math.sin(ang) * r * 0.55;
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 100, 100, ${0.25 + (1 - intensity) * 0.2})`;
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(cx + Math.cos(ang) * 62 * intensity, cy + Math.sin(ang) * 40 * intensity);
+      ctx.strokeStyle = `rgba(255, 120, 120, ${0.2 * intensity})`;
+      ctx.stroke();
+    }
+  }
+
+  const canvases = {
+    key: root.querySelector('[data-viz="key"]'),
+    teams: root.querySelector('[data-viz="teams"]'),
+    security: root.querySelector('[data-viz="security"]'),
+  };
 
   let ticking = false;
+  function update() {
+    ticking = false;
+    apply(progressFor());
+  }
+
   function onScroll() {
     if (ticking) return;
     ticking = true;
-    requestAnimationFrame(() => {
-      ticking = false;
-      update();
-    });
+    requestAnimationFrame(update);
   }
 
-  dots.forEach((dot) => {
-    dot.addEventListener("click", () => {
-      const idx = Number(dot.getAttribute("data-story-dot") || "0");
-      const rect = root.getBoundingClientRect();
-      const absoluteTop = window.scrollY + rect.top;
-      const scrollable = Math.max(1, root.offsetHeight - window.innerHeight);
-      // Map step index back into scroll range (accounting for headline hold)
-      const t = idx === 0 ? 0 : 0.12 + (idx / totalSteps) * 0.88;
-      window.scrollTo({ top: absoluteTop + t * scrollable, behavior: "smooth" });
-    });
-  });
+  function loop(ts) {
+    vizState.t = ts * 0.001;
+    drawKey(canvases.key, vizState.key, vizState.t);
+    drawTeams(canvases.teams, vizState.teams, vizState.t);
+    drawSecurity(canvases.security, vizState.security, vizState.t);
+    requestAnimationFrame(loop);
+  }
 
   update();
+  requestAnimationFrame(loop);
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll, { passive: true });
 }

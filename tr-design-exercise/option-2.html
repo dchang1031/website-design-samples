@@ -51,6 +51,7 @@
               <a href="/" class="tr-landing-header-nav-link">Option 1</a>
               <a href="/option-2.html" class="tr-landing-header-nav-link is-active">Option 2</a>
               <a href="/option-3.html" class="tr-landing-header-nav-link">Option 3</a>
+              <a href="/option-4.html" class="tr-landing-header-nav-link">Option 4</a>
               <button type="button" class="tr-nav-brief" data-design-brief-open>Design Exercise</button>
             </nav>
             <div class="tr-landing-header-divider" aria-hidden="true"></div>
@@ -73,6 +74,7 @@
           <a href="/" class="tr-landing-mobile-menu__item">Option 1</a>
           <a href="/option-2.html" class="tr-landing-mobile-menu__item is-active">Option 2</a>
           <a href="/option-3.html" class="tr-landing-mobile-menu__item">Option 3</a>
+          <a href="/option-4.html" class="tr-landing-mobile-menu__item">Option 4</a>
           <button type="button" class="tr-landing-mobile-menu__item tr-landing-mobile-menu__brief" data-design-brief-open>Design Exercise</button>
         </div>
       </div>
@@ -108,60 +110,53 @@
       <div class="h-16 w-full shrink-0"></div>
 
       <main class="min-h-screen">
-        <!-- Scroll value story: headline first, then one benefit at a time -->
-        <section class="value-story" data-value-story aria-label="Why TokenRouter">
+        <!-- Scroll-scrub value story: headline fades into benefits -->
+        <section class="value-story" data-value-story aria-label="TokenRouter value">
           <div class="value-story__sticky">
-            <div class="value-story__stage">
-              <p class="value-story__eyebrow" data-story-eyebrow>Why businesses choose TokenRouter</p>
-
+            <div class="value-story__frame">
               <h2 class="value-story__headline" data-story-headline>
                 <span class="value-story__headline-line">One TokenRouter</span>
                 <span class="value-story__headline-line value-story__headline-line--accent">All Models</span>
               </h2>
 
-              <div class="value-story__benefits" data-story-benefits aria-live="polite">
-                <article class="value-story__benefit" data-story-step="0" aria-hidden="true">
-                  <div class="value-story__index">01</div>
-                  <h3 class="value-story__title">One login. One key. Dozens of models.</h3>
-                  <p class="value-story__text">Access dozens of different AI models through a single platform — one login and one API key for your whole stack.</p>
+              <div class="value-story__panels">
+                <article class="value-story__panel" data-benefit="0" aria-hidden="true">
+                  <div class="value-story__copy">
+                    <div class="value-story__index">01</div>
+                    <h3 class="value-story__title">One login. One key.<br />Dozens of models.</h3>
+                    <p class="value-story__text">Access dozens of different AI models through a single platform — one login and one API key for your whole stack.</p>
+                  </div>
+                  <div class="value-story__viz" aria-hidden="true">
+                    <canvas data-viz="key"></canvas>
+                  </div>
                 </article>
-                <article class="value-story__benefit" data-story-step="1" aria-hidden="true">
-                  <div class="value-story__index">02</div>
-                  <h3 class="value-story__title">Built for enterprise teams</h3>
-                  <p class="value-story__text">Designed specifically for businesses and enterprise engineering teams — not hobby experiments.</p>
+
+                <article class="value-story__panel" data-benefit="1" aria-hidden="true">
+                  <div class="value-story__copy">
+                    <div class="value-story__index">02</div>
+                    <h3 class="value-story__title">Built for<br />enterprise teams</h3>
+                    <p class="value-story__text">Designed specifically for businesses and enterprise engineering teams — not hobby experiments.</p>
+                  </div>
+                  <div class="value-story__viz" aria-hidden="true">
+                    <canvas data-viz="teams"></canvas>
+                  </div>
                 </article>
-                <article class="value-story__benefit" data-story-step="2" aria-hidden="true">
-                  <div class="value-story__index">03</div>
-                  <h3 class="value-story__title">Enterprise security</h3>
-                  <p class="value-story__text">A bank or healthcare company cannot send customer data through a public hobbyist tool. TokenRouter locks down AI connections so data never leaks out.</p>
-                </article>
-                <article class="value-story__benefit" data-story-step="3" aria-hidden="true">
-                  <div class="value-story__index">04</div>
-                  <h3 class="value-story__title">Granular tracking</h3>
-                  <p class="value-story__text">See exactly which feature — or which user — is racking up the highest AI bills, so finance and engineering stay aligned.</p>
-                </article>
-                <article class="value-story__benefit" data-story-step="4" aria-hidden="true">
-                  <div class="value-story__index">05</div>
-                  <h3 class="value-story__title">Guaranteed reliability</h3>
-                  <p class="value-story__text">OpenRouter is built for speed and experimentation without strict uptime guarantees. TokenRouter is built so critical business applications do not crash during heavy traffic — with SLAs to match.</p>
+
+                <article class="value-story__panel" data-benefit="2" aria-hidden="true">
+                  <div class="value-story__copy">
+                    <div class="value-story__index">03</div>
+                    <h3 class="value-story__title">Enterprise<br />security</h3>
+                    <p class="value-story__text">A bank or healthcare company cannot send customer data through a public hobbyist tool. TokenRouter locks down AI connections so data never leaks out.</p>
+                  </div>
+                  <div class="value-story__viz" aria-hidden="true">
+                    <canvas data-viz="security"></canvas>
+                  </div>
                 </article>
               </div>
 
-              <div class="value-story__progress" aria-hidden="true">
-                <div class="value-story__progress-track">
-                  <div class="value-story__progress-fill" data-story-progress></div>
-                </div>
-                <div class="value-story__dots" data-story-dots>
-                  <button type="button" class="value-story__dot is-active" data-story-dot="0" aria-label="Show headline"></button>
-                  <button type="button" class="value-story__dot" data-story-dot="1" aria-label="Benefit 1"></button>
-                  <button type="button" class="value-story__dot" data-story-dot="2" aria-label="Benefit 2"></button>
-                  <button type="button" class="value-story__dot" data-story-dot="3" aria-label="Benefit 3"></button>
-                  <button type="button" class="value-story__dot" data-story-dot="4" aria-label="Benefit 4"></button>
-                  <button type="button" class="value-story__dot" data-story-dot="5" aria-label="Benefit 5"></button>
-                </div>
+              <div class="value-story__scrub" aria-hidden="true">
+                <div class="value-story__scrub-fill" data-story-progress></div>
               </div>
-
-              <p class="value-story__hint" data-story-hint>Scroll to see what makes TokenRouter different</p>
             </div>
           </div>
         </section>

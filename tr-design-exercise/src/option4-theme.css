@@ -1,0 +1,252 @@
+/* Option 4 — Mono Grid: ultra-minimal B/W light theme (sharp edges only) */
+
+.theme-mono {
+  --ink: #ffffff;
+  --text: #0a0a0a;
+  --muted: #4a4a4a;
+  --line: #0a0a0a;
+  --cyan: #0086ff;
+  --blue: #0066cc;
+  --amber: #ffc857;
+  color-scheme: light;
+  background: #fff !important;
+  color: #0a0a0a !important;
+}
+
+body.theme-mono,
+.theme-mono .sig-page {
+  background: #fff !important;
+  color: #0a0a0a !important;
+  overflow-x: hidden;
+}
+
+.theme-mono .sig-page {
+  background: #fff !important;
+  /* full-page grid */
+  background-image:
+    linear-gradient(to right, rgba(10, 10, 10, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10, 10, 10, 0.08) 1px, transparent 1px) !important;
+  background-size: 80px 80px !important;
+}
+
+/* Kill every round corner on this page */
+.theme-mono *,
+.theme-mono *::before,
+.theme-mono *::after {
+  border-radius: 0 !important;
+}
+
+/* Typography + color overrides */
+.theme-mono .globe-kicker,
+.theme-mono .giant__eyebrow,
+.theme-mono .chapters__index,
+.theme-mono .chapter-card__tag,
+.theme-mono .policy-btn__label,
+.theme-mono .globe-live__label {
+  color: #0a0a0a !important;
+}
+
+.theme-mono .globe-kicker__dot,
+.theme-mono .globe-chip__pulse,
+.theme-mono .sig-chip__pulse {
+  background: #0086ff !important;
+  box-shadow: none !important;
+}
+
+.theme-mono .globe-hero__title,
+.theme-mono .giant__word,
+.theme-mono .chapters__title,
+.theme-mono .chapter-card__title,
+.theme-mono .policy__title,
+.theme-mono .finale__title,
+.theme-mono .globe-stats strong,
+.theme-mono .sig-footer strong {
+  color: #0a0a0a !important;
+}
+
+.theme-mono .globe-hero__title em,
+.theme-mono .giant__word em {
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  color: transparent !important;
+  -webkit-text-stroke: 1.5px #0a0a0a;
+}
+
+.theme-mono .giant__word span {
+  color: transparent !important;
+  -webkit-text-stroke: 1.5px #0a0a0a;
+}
+
+.theme-mono .globe-hero__lede,
+.theme-mono .giant__note,
+.theme-mono .chapters__text,
+.theme-mono .chapter-card__body,
+.theme-mono .policy__lede,
+.theme-mono .finale__text,
+.theme-mono .policy-btn__text,
+.theme-mono .globe-live__feed,
+.theme-mono .sig-footer,
+.theme-mono .globe-stats {
+  color: #4a4a4a !important;
+}
+
+.theme-mono .globe-live__feed strong {
+  color: #0a0a0a !important;
+}
+
+/* Hero veil → white wash so map sits on white */
+.theme-mono .globe-hero__veil {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.45) 45%, rgba(255, 255, 255, 0.2) 70%, rgba(255, 255, 255, 0.7) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, transparent 30%, transparent 65%, rgba(255, 255, 255, 0.85) 100%) !important;
+}
+
+.theme-mono .globe-hero {
+  border-bottom: 1px solid #0a0a0a;
+}
+
+.theme-mono .globe-city-tip {
+  background: #fff !important;
+  border: 1px solid #0a0a0a !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  color: #0a0a0a;
+}
+
+.theme-mono .globe-city-tip__meta {
+  color: #4a4a4a !important;
+}
+
+.theme-mono .globe-city-tip__meta span {
+  color: #0086ff !important;
+}
+
+/* Buttons — sharp rectangles */
+.theme-mono .sig-btn {
+  border-radius: 0 !important;
+  min-height: 48px;
+  font-weight: 600;
+}
+
+.theme-mono .sig-btn--primary {
+  background: #0a0a0a !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  border: 1px solid #0a0a0a !important;
+}
+
+.theme-mono .sig-btn--primary:hover {
+  background: #fff !important;
+  color: #0a0a0a !important;
+}
+
+.theme-mono .sig-btn--ghost {
+  background: #fff !important;
+  border: 1px solid #0a0a0a !important;
+  color: #0a0a0a !important;
+  backdrop-filter: none !important;
+}
+
+.theme-mono .sig-btn--ghost:hover {
+  background: #0a0a0a !important;
+  color: #fff !important;
+}
+
+/* Section dividers via hard grid lines */
+.theme-mono .giant,
+.theme-mono .chapters,
+.theme-mono .policy,
+.theme-mono .finale,
+.theme-mono .sig-footer {
+  border-top: 1px solid #0a0a0a !important;
+  background: #fff !important;
+}
+
+.theme-mono .giant {
+  /* cut into grid cells */
+  border-left: 1px solid #0a0a0a;
+  border-right: 1px solid #0a0a0a;
+  margin-left: 48px;
+  margin-right: 48px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.theme-mono .chapters__sticky {
+  background: #fff !important;
+  border-right: 1px solid #0a0a0a !important;
+}
+
+.theme-mono .chapters__visual {
+  border: 1px solid #0a0a0a !important;
+  background: #fff !important;
+  border-radius: 0 !important;
+}
+
+.theme-mono .chapter-card {
+  border-bottom: 1px solid #0a0a0a !important;
+}
+
+.theme-mono .chapter-pill {
+  border: 1px solid #0a0a0a !important;
+  background: #fff !important;
+  color: #0a0a0a !important;
+  border-radius: 0 !important;
+}
+
+.theme-mono .policy-btn {
+  border: 1px solid #0a0a0a !important;
+  background: #fff !important;
+  border-radius: 0 !important;
+}
+
+.theme-mono .policy-btn.is-active {
+  background: #0a0a0a !important;
+  color: #fff !important;
+}
+
+.theme-mono .policy-btn.is-active .policy-btn__label,
+.theme-mono .policy-btn.is-active .policy-btn__text {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.theme-mono .policy-btn.is-active .policy-btn__title {
+  color: #fff !important;
+}
+
+.theme-mono .policy__stage {
+  border: 1px solid #0a0a0a !important;
+  background: #fff !important;
+  border-radius: 0 !important;
+}
+
+.theme-mono .policy__metric {
+  border: 1px solid #0a0a0a !important;
+  background: #fff !important;
+  backdrop-filter: none !important;
+  border-radius: 0 !important;
+  color: #4a4a4a !important;
+}
+
+.theme-mono .policy__metric strong {
+  color: #0a0a0a !important;
+}
+
+.theme-mono .finale::before {
+  display: none !important;
+}
+
+.theme-mono .sig-chip {
+  border: 1px solid #0a0a0a !important;
+  background: #fff !important;
+  color: #0a0a0a !important;
+  backdrop-filter: none !important;
+}
+
+/* Soft blue accents only on interactive cyan cues in mono live feed */
+.theme-mono .globe-kicker {
+  border: 1px solid #0a0a0a;
+  background: #fff;
+  padding: 8px 12px;
+}
