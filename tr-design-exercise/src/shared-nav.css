@@ -32,17 +32,23 @@
 .tr-landing-header-divider, .tr-landing-header-action { display:none !important; }
 .tr-nav-theme-slot { display:none; margin-left:12px; flex:0 0 auto; }
 
-/* Promo bar — same geometry and assets as Current. */
+/* Promo bar — same visual geometry as Current. */
 .promo { position:fixed; top:var(--tr-nav-h); left:0; right:0; z-index:40; min-height:64px; height:64px; width:100%; padding:0 24px; overflow:hidden; background:#0086ff; color:#fff; display:flex; align-items:center; justify-content:center; }
 .promo::before, .promo::after { content:""; position:absolute; top:50%; width:46px; height:46px; transform:translateY(-50%); background:url("/assets/firework.png") center / contain no-repeat; pointer-events:none; }
 .promo::before { left:24px; } .promo::after { right:24px; }
 .promo__badge { position:relative; display:inline-flex; align-items:center; justify-content:center; gap:8px; width:168px; min-width:168px; height:40px; padding:8px 12px; border:0; border-radius:8px; background:rgba(255,255,255,.16); color:#fff; font-family:var(--tr-nav-font); font-size:14px; font-weight:500; line-height:1; letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; }
-.promo__badge::before { content:""; width:17px; height:17px; flex:0 0 17px; background:url("/assets/gift.png") center / contain no-repeat; }
+.promo__badge::before { display:none; }
+.promo__badge img { display:block; width:17px; height:17px; max-width:17px; max-height:17px; flex:0 0 17px; object-fit:contain; }
 .promo__copy { display:flex; align-items:center; justify-content:flex-start; min-width:0; margin:0 0 0 16px; padding:0; color:#fff; font-family:var(--tr-nav-font); font-size:15px; line-height:1.25; white-space:nowrap; }
+.promo__copy .promo-banner-copy-row { align-items:center; display:flex; justify-content:flex-start; min-width:0; white-space:nowrap; }
+.promo__copy .promo-banner-copy-row > p { margin:0; color:#fff; font-family:var(--tr-nav-font); font-size:16px; line-height:1.4; white-space:nowrap; }
+.promo__copy .promo-banner-copy-row > a { display:inline-flex; align-items:center; gap:8px; margin-left:24px; border-bottom:1px solid #fff; color:#fff; font-family:var(--tr-nav-font); font-size:16px; line-height:1.4; white-space:nowrap; cursor:pointer; flex-shrink:0; }
+.promo__copy .promo-banner-copy-row > a svg { width:16px; height:16px; flex:0 0 16px; }
 .promo__action { border-bottom:1px solid #fff; white-space:nowrap; font-family:var(--tr-nav-font); font-size:14px; letter-spacing:0; text-transform:none; color:#fff; }
 .promo__dots { position:absolute; bottom:5px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:6px; }
 .promo__dot { width:4px; height:4px; border:0; border-radius:999px; padding:0; background:rgba(255,255,255,.7); cursor:pointer; transition:width .18s ease, background-color .18s ease, opacity .18s ease; }
 .promo__dot.is-active, .promo__dot:hover, .promo__dot:focus-visible { width:16px; background:#fff; }
+.promo [data-promo-slide] { animation: promoBannerSlideIn 360ms ease; }
 .offset-header { height:calc(var(--tr-nav-h) + 64px); }
 
 .tr-landing-mobile-menu { position:fixed; inset:0; z-index:120; font-family:var(--tr-nav-font); }
@@ -57,6 +63,8 @@
 .tr-landing-mobile-menu__brief { margin-top:8px; height:40px; border-radius:100px; border:1px solid #d7dce5; background:#fff; color:var(--tr-nav-ink); font-size:14px; font-weight:500; cursor:pointer; font-family:var(--tr-nav-font); }
 .tr-landing-mobile-menu__brief:hover { border-color:var(--tr-nav-primary); color:var(--tr-nav-primary); }
 
+@keyframes promoBannerSlideIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
 @media (min-width:768px) { .tr-landing-brand-link { display:flex; } .tr-landing-header-nav-link { display:inline; } .tr-nav-brief { display:inline-flex; } .tr-nav-theme-slot:not(:empty) { display:inline-flex; } }
 @media (min-width:1024px) { .tr-landing-header-nav-link { margin-left:28px; } .tr-landing-header-nav-link:first-child { margin-left:0; } .tr-nav-brief { margin-left:28px; } }
 @media (max-width:767px) {
@@ -70,4 +78,7 @@
   .promo::before, .promo::after { display:none; }
   .promo__badge { display:none; }
   .promo__copy { margin:0; font-size:15px; line-height:1.25; white-space:normal; text-align:center; }
+  .promo__copy .promo-banner-copy-row { justify-content:center; white-space:normal; flex-wrap:wrap; }
+  .promo__copy .promo-banner-copy-row > p { white-space:normal; text-align:center; font-size:15px; }
+  .promo__copy .promo-banner-copy-row > a { margin-left:8px; font-size:14px; }
 }
