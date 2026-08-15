@@ -250,3 +250,16 @@ body.theme-mono,
   background: #fff;
   padding: 8px 12px;
 }
+
+/* Absolute last word on radius — beat shared-nav / replica pills */
+.theme-mono .sig-btn,
+.theme-mono .sig-btn--primary,
+.theme-mono .sig-btn--ghost,
+.theme-mono .tr-landing-header-action,
+.theme-mono .tr-nav-brief,
+.theme-mono .policy-btn,
+.theme-mono .chapter-pill,
+.theme-mono button,
+.theme-mono a.sig-btn {
+  border-radius: 0 !important;
+}
