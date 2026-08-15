@@ -31,3 +31,13 @@ body button:not(.tr-nav-brief):not(.tr-nav-menu-toggle):not(.tr-landing-mobile-m
 .tr-landing-mobile-menu__overlay { pointer-events: auto !important; cursor: pointer !important; }
 .tr-landing-hero-url-box,
 .tr-landing-hero-copy-button { background: #fff !important; }
+
+/* Design Exercise is the one intentional non-navigation interaction. */
+.design-brief,
+.design-brief button,
+.design-brief__backdrop,
+.design-brief__close { pointer-events: auto !important; }
+.design-brief { z-index: 1000 !important; }
+.design-brief__card { z-index: 2 !important; pointer-events: auto !important; }
+.design-brief__backdrop { z-index: 0 !important; }
+.design-brief__close { position: relative; z-index: 3 !important; cursor: pointer !important; }
