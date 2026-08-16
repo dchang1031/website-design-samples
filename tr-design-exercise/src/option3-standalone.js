@@ -122,13 +122,13 @@
     const content = document.createElement('section');
     content.className = 'o3-oneapi-section';
     content.innerHTML = `
-      <div class="o3-oneapi-inner">
-        <div class="o3-oneapi-copy">
+      <div class="o3-oneapi-inner text-center">
+        <div class="o3-oneapi-copy mx-auto">
           <h2>One API for Any AI App</h2>
           <p>Fully OpenAI-compatible, with one base URL and one API key to power OpenClaw, OpenCode, Codex, Claude Code, Cherry Studio, and more — while managing all your token usage in one place.</p>
-          <div class="o3-oneapi-button">Claim Free Credits <span aria-hidden="true">↗</span></div>
         </div>
         <div class="o3-oneapi-stage" aria-hidden="true"><img src="/assets/oneapi.png" alt="" class="o3-oneapi-diagram" loading="lazy" /></div>
+        <div class="o3-oneapi-button mx-auto">Claim Free Credits <span aria-hidden="true">↗</span></div>
       </div>`;
     oneApiTrack.appendChild(sticky);
     sticky.appendChild(frame);
