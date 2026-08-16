@@ -2,11 +2,11 @@ import "./design-brief.css";
 
 const BRIEF_HTML = `
   <div class="design-brief" id="design-brief" hidden role="dialog" aria-modal="true" aria-labelledby="design-brief-title">
-    <button type="button" class="design-brief__backdrop" data-design-brief-close aria-label="Close design exercise"></button>
+    <button type="button" class="design-brief__backdrop" data-design-brief-close aria-label="Close design exercise" onclick="this.closest('.design-brief').hidden=true;document.body.classList.remove('design-brief-open')"></button>
     <div class="design-brief__card">
       <header class="design-brief__header">
         <div><p class="design-brief__eyebrow">Hiring brief</p><h2 class="design-brief__title" id="design-brief-title">TokenRouter UI/UX Design Exercise</h2></div>
-        <button type="button" class="design-brief__close" data-design-brief-close aria-label="Close">&times;</button>
+        <button type="button" class="design-brief__close" data-design-brief-close aria-label="Close" onclick="this.closest('.design-brief').hidden=true;document.body.classList.remove('design-brief-open')">&times;</button>
       </header>
       <div class="design-brief__body">
         <section class="design-brief__section"><h3 class="design-brief__section-title">项目背景</h3><p class="design-brief__lead">TokenRouter 是一个面向开发者和企业用户的 AI Model Platform，为用户提供统一的 AI 模型接入和使用体验。</p><p>本次希望基于现有 TokenRouter 官网，对<strong>官网首页（Homepage）</strong>进行一次重新设计。</p><p>本次作业主要希望了解候选人的视觉设计能力、品牌理解、UX 判断以及对科技类产品的设计表达能力，并非实际商业项目交付。</p></section>
@@ -62,8 +62,6 @@ function closeBrief() {
   document.body.classList.remove("design-brief-open");
 }
 
-// Expose these deliberately so the modal remains closable even when a page-specific
-// script stops propagation or uses a different event system.
 window.openDesignBrief = openBrief;
 window.closeDesignBrief = closeBrief;
 
@@ -71,7 +69,6 @@ function bind() {
   const root = ensureBrief();
   ensureOpenTriggers();
 
-  // Capture-phase delegation runs before page-specific bubbling handlers.
   document.addEventListener("click", (event) => {
     const target = event.target;
     if (!(target instanceof Element)) return;
@@ -94,17 +91,8 @@ function bind() {
     if (event.key === "Escape") closeBrief();
   }, true);
 
-  root?.querySelector(".design-brief__close")?.addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    closeBrief();
-  }, true);
-
-  root?.querySelector(".design-brief__backdrop")?.addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    closeBrief();
-  }, true);
+  root?.querySelector(".design-brief__close")?.addEventListener("click", closeBrief, true);
+  root?.querySelector(".design-brief__backdrop")?.addEventListener("click", closeBrief, true);
 }
 
 if (document.readyState === "loading") {
