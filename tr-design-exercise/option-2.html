@@ -524,7 +524,7 @@
         </section>
 
         <!-- Trusted By -->
-        <section class="scale-expand scale-expand--navy" data-scale-expand data-scale-kind="trusted">
+        <section class="scale-expand scale-expand--pin scale-expand--navy" data-scale-expand data-scale-mode="pin" data-scale-kind="trusted" style="--stack-z:1">
           <div class="scale-expand__sticky">
             <div class="scale-expand__frame" data-scale-frame>
               <div class="scale-expand__content">
@@ -590,7 +590,7 @@
         </section>
 
         <!-- One API Layer -->
-        <section class="scale-expand scale-expand--mid" data-scale-expand data-scale-kind="oneapi">
+        <section class="scale-expand scale-expand--pin scale-expand--mid" data-scale-expand data-scale-mode="pin" data-scale-kind="oneapi" style="--stack-z:2">
           <div class="scale-expand__sticky">
             <div class="scale-expand__frame" data-scale-frame>
               <div class="scale-expand__content">
@@ -617,8 +617,8 @@
           </div>
         </section>
 
-        <!-- Enterprise -->
-        <section class="scale-expand scale-expand--deep" data-scale-expand data-scale-kind="enterprise">
+        <!-- Enterprise (last card — expands, then scrolls up so all content is seen before FAQ) -->
+        <section class="scale-expand scale-expand--release scale-expand--deep" data-scale-expand data-scale-mode="release" data-scale-kind="enterprise" style="--stack-z:3">
           <div class="scale-expand__sticky">
             <div class="scale-expand__frame" data-scale-frame>
               <div class="scale-expand__content">
@@ -733,12 +733,7 @@
           </div>
         </section>
 
-        <!-- FAQ -->
-        <section class="scale-expand scale-expand--navy" data-scale-expand data-scale-kind="faq">
-          <div class="scale-expand__sticky">
-            <div class="scale-expand__frame" data-scale-frame>
-              <div class="scale-expand__content">
-
+        <!-- FAQ (waits until enterprise has fully scrolled past — not a stacked pin card) -->
         <section data-section="faq" data-reveal class="tr-landing-faq-section bg-white px-6 py-[30px] lg:px-0 lg:pb-[60px] lg:pt-[60px]">
           <div class="mx-auto max-w-[1440px] lg:px-[104px]">
             <div class="mb-6 lg:mb-7">
@@ -933,10 +928,6 @@
                   </div>
                 </div>
                 <a href="#" class="tr-landing-faq-action inline-flex h-10 w-fit shrink-0 items-center justify-center gap-2 rounded-full bg-[#0086ff] px-5 text-[15px] font-normal leading-[1.7] text-white hover:bg-[#0075ed]">Open Docs <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-              </div>
-            </div>
-          </div>
-        </section>
               </div>
             </div>
           </div>

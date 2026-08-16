@@ -158,19 +158,38 @@ function initScaleExpand() {
     return Math.min(b, Math.max(a, n));
   }
 
-  function progressFor(track) {
+  function smoothstep(t) {
+    const x = clamp(t, 0, 1);
+    return x * x * (3 - 2 * x);
+  }
+
+  /** Pin cards: expand while sticky; content stays optically centered. */
+  function progressPin(track) {
     const rect = track.getBoundingClientRect();
     const vh = window.innerHeight || 1;
     const total = Math.max(1, rect.height - vh);
-    const raw = -rect.top / total;
-    return clamp(raw, 0, 1);
+    return clamp(-rect.top / total, 0, 1);
   }
 
-  function apply(block, p) {
+  /**
+   * Release card: expand as the section enters the viewport,
+   * then let the whole card scroll up with its content.
+   */
+  function progressRelease(track) {
+    const rect = track.getBoundingClientRect();
+    const vh = window.innerHeight || 1;
+    // 0 when section top hits bottom of viewport; 1 when section top reaches header band
+    const start = vh * 0.92;
+    const end = 96;
+    return clamp((start - rect.top) / Math.max(1, start - end), 0, 1);
+  }
+
+  function applyPin(block, p) {
     const frame = block.querySelector("[data-scale-frame]");
     if (!frame) return;
-    const e = reduce ? 1 : p * p * (3 - 2 * p);
-    const inset = (1 - e) * 28;
+    // Expand in the first ~55% of the pin runway, then hold full-bleed while next card covers
+    const e = reduce ? 1 : smoothstep(clamp(p / 0.55, 0, 1));
+    const inset = (1 - e) * 32;
     const radius = (1 - e) * 24;
     const border = (1 - e) * 0.14;
     frame.style.setProperty("--scale-inset", `${inset}px`);
@@ -179,10 +198,29 @@ function initScaleExpand() {
     frame.dataset.expanded = e > 0.92 ? "true" : "false";
   }
 
+  function applyRelease(block, p) {
+    const frame = block.querySelector("[data-scale-frame]");
+    if (!frame) return;
+    const e = reduce ? 1 : smoothstep(p);
+    const inset = (1 - e) * 32;
+    const radius = (1 - e) * 24;
+    const border = (1 - e) * 0.14;
+    const top = 88 + inset * 0.35;
+    frame.style.setProperty("--scale-inset", `${inset}px`);
+    frame.style.setProperty("--scale-radius", `${radius}px`);
+    frame.style.setProperty("--scale-border", String(border));
+    frame.style.setProperty("--scale-top", `${top}px`);
+    frame.dataset.expanded = e > 0.92 ? "true" : "false";
+  }
+
   let ticking = false;
   function update() {
     ticking = false;
-    blocks.forEach((b) => apply(b, progressFor(b)));
+    blocks.forEach((block) => {
+      const mode = block.getAttribute("data-scale-mode") || "pin";
+      if (mode === "release") applyRelease(block, progressRelease(block));
+      else applyPin(block, progressPin(block));
+    });
   }
 
   function onScroll() {
