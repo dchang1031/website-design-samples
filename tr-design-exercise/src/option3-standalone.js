@@ -53,6 +53,21 @@
   window.addEventListener('scroll',onScroll,{passive:true});
   window.addEventListener('resize',onScroll,{passive:true});
 
+  function applyExpand(frame, progress) {
+    const easing = reduce ? 1 : smooth(0.04, 0.88, progress);
+    const inset = 28 * (1 - easing);
+    const radius = 24 * (1 - easing);
+    const borderAlpha = 0.10 * (1 - easing);
+    const shadowAlpha = 0.08 * (1 - easing);
+    // The card keeps expanding after its content reaches the viewport center.
+    const lift = 14 * (1 - smooth(0.04, 0.45, progress));
+    frame.style.inset = `${inset}px`;
+    frame.style.borderRadius = `${radius}px`;
+    frame.style.borderColor = `rgba(0,0,0,${borderAlpha})`;
+    frame.style.boxShadow = `0 20px 60px rgba(0,0,0,${shadowAlpha}), 0 4px 16px rgba(0,0,0,${shadowAlpha * 0.5})`;
+    frame.style.transform = `translate3d(0, ${lift}vh, 0)`;
+  }
+
   function initTrustedExpand() {
     const trusted = document.querySelector('[data-section="trusted"]');
     if (!trusted || trusted.closest('.o3-trusted-expand')) return;
@@ -77,37 +92,22 @@
     sticky.appendChild(frame);
     frame.appendChild(content);
     content.appendChild(trusted);
-    function apply(progress) {
-      const easing = reduce ? 1 : smooth(0.04, 0.88, progress);
-      const inset = 28 * (1 - easing);
-      const radius = 24 * (1 - easing);
-      const borderAlpha = 0.10 * (1 - easing);
-      const shadowAlpha = 0.08 * (1 - easing);
-      const lift = 14 * (1 - easing);
-      frame.style.inset = `${inset}px`;
-      frame.style.borderRadius = `${radius}px`;
-      frame.style.borderColor = `rgba(0,0,0,${borderAlpha})`;
-      frame.style.boxShadow = `0 20px 60px rgba(0,0,0,${shadowAlpha}), 0 4px 16px rgba(0,0,0,${shadowAlpha * 0.5})`;
-      frame.style.transform = `translate3d(0, ${lift}vh, 0)`;
-    }
     function progressFor() {
       const rect = track.getBoundingClientRect();
       const total = Math.max(1, rect.height - window.innerHeight);
       return clamp(-rect.top / total, 0, 1);
     }
-    let frameTicking = false;
-    const updateExpand = () => {
-      if (frameTicking) return;
-      frameTicking = true;
-      requestAnimationFrame(() => {
-        frameTicking = false;
-        apply(progressFor());
-      });
-    };
-    apply(0);
+    const updateExpand = () => applyExpand(frame, progressFor());
+    applyExpand(frame, 0);
     if (!reduce) {
-      window.addEventListener('scroll', updateExpand, { passive: true });
-      window.addEventListener('resize', updateExpand, { passive: true });
+      let frameTicking = false;
+      const onScroll = () => {
+        if (frameTicking) return;
+        frameTicking = true;
+        requestAnimationFrame(() => { frameTicking = false; updateExpand(); });
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
     }
     initOneApiCard(track);
   }
@@ -135,25 +135,12 @@
     sticky.appendChild(frame);
     frame.appendChild(content);
     afterTrack.after(oneApiTrack);
-    const apply = (progress) => {
-      const easing = reduce ? 1 : smooth(0.04, 0.88, progress);
-      const inset = 28 * (1 - easing);
-      const radius = 24 * (1 - easing);
-      const borderAlpha = 0.10 * (1 - easing);
-      const shadowAlpha = 0.08 * (1 - easing);
-      const lift = 14 * (1 - easing);
-      frame.style.inset = `${inset}px`;
-      frame.style.borderRadius = `${radius}px`;
-      frame.style.borderColor = `rgba(0,0,0,${borderAlpha})`;
-      frame.style.boxShadow = `0 20px 60px rgba(0,0,0,${shadowAlpha}), 0 4px 16px rgba(0,0,0,${shadowAlpha * 0.5})`;
-      frame.style.transform = `translate3d(0, ${lift}vh, 0)`;
-    };
     const updateOneApi = () => {
       const rect = oneApiTrack.getBoundingClientRect();
-      const total = Math.max(1, rect.height - window.innerHeight);
-      apply(clamp(-rect.top / total, 0, 1));
+      const total = Math.max(1, oneApiTrack.offsetHeight - window.innerHeight);
+      applyExpand(frame, clamp(-rect.top / total, 0, 1));
     };
-    apply(0);
+    applyExpand(frame, 0);
     if (!reduce) {
       let ticking = false;
       const onScroll = () => {
@@ -224,6 +211,55 @@
       <footer class="o3-footer"><div class="o3-footer-inner"><div class="o3-footer-brand"><img src="/assets/logo-without-title-8.png" alt="" /><strong>TokenRouter</strong></div><div class="o3-footer-links"><div><b>QUICK LINKS</b><span>Console</span><span>Models</span><span>Docs</span><span>Blog</span></div><div><b>COMPANY</b><span>About</span><span>Contact</span><span>Careers</span></div><div><b>LEGAL</b><span>Privacy</span><span>Terms</span><span>Security</span></div></div></div></footer>
     `;
     afterOneApi.after(stack);
+    initRemainingExpands(stack);
+  }
+
+  function initRemainingExpands(stack) {
+    const cards = [...stack.querySelectorAll('.o3-enterprise-card, .o3-faq-card, .o3-cta-card')];
+    cards.forEach((card, index) => {
+      if (card.parentElement.classList.contains('o3-expand-track')) return;
+      const track = document.createElement('section');
+      track.className = 'o3-expand-track';
+      track.setAttribute('aria-label', card.getAttribute('aria-label') || `Section ${index + 1}`);
+      const sticky = document.createElement('div');
+      sticky.className = 'o3-expand-sticky';
+      const frame = document.createElement('div');
+      frame.className = 'o3-expand-frame';
+      card.parentNode.insertBefore(track, card);
+      track.appendChild(sticky);
+      sticky.appendChild(frame);
+      frame.appendChild(card);
+
+      const apply = (progress) => {
+        const easing = reduce ? 1 : smooth(0.03, 0.88, progress);
+        const inset = 28 * (1 - easing);
+        const radius = 24 * (1 - easing);
+        const borderAlpha = 0.10 * (1 - easing);
+        const shadowAlpha = 0.08 * (1 - easing);
+        const lift = 16 * (1 - smooth(0.03, 0.45, progress));
+        frame.style.inset = `${inset}px`;
+        frame.style.borderRadius = `${radius}px`;
+        frame.style.borderColor = `rgba(0,0,0,${borderAlpha})`;
+        frame.style.boxShadow = `0 20px 60px rgba(0,0,0,${shadowAlpha}), 0 4px 16px rgba(0,0,0,${shadowAlpha * 0.5})`;
+        frame.style.transform = `translate3d(0, ${lift}vh, 0)`;
+      };
+      const update = () => {
+        const rect = track.getBoundingClientRect();
+        const total = Math.max(1, track.offsetHeight - window.innerHeight);
+        apply(clamp(-rect.top / total, 0, 1));
+      };
+      apply(0);
+      if (!reduce) {
+        let ticking = false;
+        const onScroll = () => {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => { ticking = false; update(); });
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+      }
+    });
   }
 
   function initReveals() {
