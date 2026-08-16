@@ -10,8 +10,8 @@
   function clamp(n,a,b){return Math.min(b,Math.max(a,n));}
   function smooth(a,b,x){const t=clamp((x-a)/(b-a),0,1);return t*t*(3-2*t);}
 
-  // Option 3 keeps its own implementation, but the Trusted By transition
-  // follows the same expanding-card choreography used by Option 2.
+  // Option 3 keeps its own implementation, but the lower cards follow the
+  // same expanding-card choreography used by Option 2.
   initTrustedExpand();
 
   // Same visual cadence as the Option 2 Faster / Better / Cheaper rotation,
@@ -39,7 +39,6 @@
     const total=Math.max(1,stage.offsetHeight-window.innerHeight);
     const p=clamp(-rect.top/total,0,1);
 
-    // Reveal each character, then fade the completed sentence in place.
     const revealEnd=.44;
     letters.forEach((el,i)=>{
       const start=(i/letters.length)*revealEnd;
@@ -51,7 +50,6 @@
     headline.style.opacity=String(1-fade);
     headline.style.filter=`blur(${(fade*8).toFixed(2)}px)`;
 
-    // Card first, then the Option-2-inspired left-side hero content.
     if(card) card.style.opacity=String(smooth(.52,.70,p));
     if(copy) copy.style.opacity=String(smooth(.68,.86,p));
   }
@@ -62,20 +60,10 @@
   window.addEventListener('scroll',onScroll,{passive:true});
   window.addEventListener('resize',onScroll,{passive:true});
 
-  function initTrustedExpand() {
-    const trusted = document.querySelector('[data-section="trusted"]');
-    if (!trusted || trusted.closest('.o3-trusted-expand')) return;
-
-    if (!document.querySelector('link[href*="option3-trusted-expand.css"]')) {
-      const stylesheet = document.createElement('link');
-      stylesheet.rel = 'stylesheet';
-      stylesheet.href = '/src/option3-trusted-expand.css';
-      document.head.appendChild(stylesheet);
-    }
-
+  function createExpandTrack(section, label, className = '') {
     const track = document.createElement('section');
-    track.className = 'o3-trusted-expand';
-    track.setAttribute('aria-label', 'Trusted By');
+    track.className = `o3-trusted-expand ${className}`.trim();
+    track.setAttribute('aria-label', label);
 
     const sticky = document.createElement('div');
     sticky.className = 'o3-trusted-expand__sticky';
@@ -87,11 +75,10 @@
     const content = document.createElement('div');
     content.className = 'o3-trusted-expand__content';
 
-    trusted.parentNode.insertBefore(track, trusted);
     track.appendChild(sticky);
     sticky.appendChild(frame);
     frame.appendChild(content);
-    content.appendChild(trusted);
+    content.appendChild(section);
 
     function apply(progress) {
       const easing = reduce ? 1 : smooth(0.04, 0.88, progress);
@@ -129,6 +116,41 @@
       window.addEventListener('scroll', updateExpand, { passive: true });
       window.addEventListener('resize', updateExpand, { passive: true });
     }
+    return track;
+  }
+
+  function initTrustedExpand() {
+    const trusted = document.querySelector('[data-section="trusted"]');
+    if (!trusted || trusted.closest('.o3-trusted-expand')) return;
+
+    if (!document.querySelector('link[href*="option3-trusted-expand.css"]')) {
+      const stylesheet = document.createElement('link');
+      stylesheet.rel = 'stylesheet';
+      stylesheet.href = '/src/option3-trusted-expand.css';
+      document.head.appendChild(stylesheet);
+    }
+
+    const trustedTrack = createExpandTrack(trusted, 'Trusted By');
+    trusted.parentNode.insertBefore(trustedTrack, trusted);
+
+    const oneApi = document.createElement('section');
+    oneApi.className = 'o3-oneapi-section';
+    oneApi.setAttribute('data-section', 'oneapi');
+    oneApi.innerHTML = `
+      <div class="o3-oneapi-inner">
+        <div class="o3-oneapi-stage" aria-hidden="true">
+          <img src="/assets/oneapi.png" alt="" class="o3-oneapi-diagram" loading="lazy" />
+        </div>
+        <div class="o3-oneapi-copy">
+          <h2>One API for Any AI App</h2>
+          <p>Fully OpenAI-compatible, with one base URL and one API key to power OpenClaw, OpenCode, Codex, Claude Code, Cherry Studio, and more — while managing all your token usage in one place.</p>
+          <div class="o3-oneapi-button">Claim Free Credits <span aria-hidden="true">↗</span></div>
+        </div>
+      </div>
+    `;
+
+    const oneApiTrack = createExpandTrack(oneApi, 'One API for Any AI App', 'o3-trusted-expand--oneapi');
+    trustedTrack.after(oneApiTrack);
   }
 
   function initReveals() {
