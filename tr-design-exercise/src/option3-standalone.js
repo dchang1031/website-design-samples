@@ -10,6 +10,10 @@
   function clamp(n,a,b){return Math.min(b,Math.max(a,n));}
   function smooth(a,b,x){const t=clamp((x-a)/(b-a),0,1);return t*t*(3-2*t);}
 
+  // Option 3 keeps its own implementation, but the Trusted By transition
+  // follows the same expanding-card choreography used by Option 2.
+  initTrustedExpand();
+
   // Same visual cadence as the Option 2 Faster / Better / Cheaper rotation,
   // but kept entirely inside standalone Option 3.
   const rotating = [...document.querySelectorAll('.o3-rotating-tagline > span')];
@@ -57,6 +61,75 @@
   update();
   window.addEventListener('scroll',onScroll,{passive:true});
   window.addEventListener('resize',onScroll,{passive:true});
+
+  function initTrustedExpand() {
+    const trusted = document.querySelector('[data-section="trusted"]');
+    if (!trusted || trusted.closest('.o3-trusted-expand')) return;
+
+    if (!document.querySelector('link[href*="option3-trusted-expand.css"]')) {
+      const stylesheet = document.createElement('link');
+      stylesheet.rel = 'stylesheet';
+      stylesheet.href = '/src/option3-trusted-expand.css';
+      document.head.appendChild(stylesheet);
+    }
+
+    const track = document.createElement('section');
+    track.className = 'o3-trusted-expand';
+    track.setAttribute('aria-label', 'Trusted By');
+
+    const sticky = document.createElement('div');
+    sticky.className = 'o3-trusted-expand__sticky';
+
+    const frame = document.createElement('div');
+    frame.className = 'o3-trusted-expand__frame';
+    frame.setAttribute('data-o3-trusted-frame', '');
+
+    const content = document.createElement('div');
+    content.className = 'o3-trusted-expand__content';
+
+    trusted.parentNode.insertBefore(track, trusted);
+    track.appendChild(sticky);
+    sticky.appendChild(frame);
+    frame.appendChild(content);
+    content.appendChild(trusted);
+
+    function apply(progress) {
+      const easing = reduce ? 1 : smooth(0.04, 0.88, progress);
+      const inset = 28 * (1 - easing);
+      const radius = 24 * (1 - easing);
+      const borderAlpha = 0.10 * (1 - easing);
+      const shadowAlpha = 0.08 * (1 - easing);
+      const lift = 14 * (1 - easing);
+
+      frame.style.inset = `${inset}px`;
+      frame.style.borderRadius = `${radius}px`;
+      frame.style.borderColor = `rgba(0,0,0,${borderAlpha})`;
+      frame.style.boxShadow = `0 20px 60px rgba(0,0,0,${shadowAlpha}), 0 4px 16px rgba(0,0,0,${shadowAlpha * 0.5})`;
+      frame.style.transform = `translate3d(0, ${lift}vh, 0)`;
+    }
+
+    function progressFor() {
+      const rect = track.getBoundingClientRect();
+      const total = Math.max(1, rect.height - window.innerHeight);
+      return clamp(-rect.top / total, 0, 1);
+    }
+
+    let frameTicking = false;
+    const updateExpand = () => {
+      if (frameTicking) return;
+      frameTicking = true;
+      requestAnimationFrame(() => {
+        frameTicking = false;
+        apply(progressFor());
+      });
+    };
+
+    apply(0);
+    if (!reduce) {
+      window.addEventListener('scroll', updateExpand, { passive: true });
+      window.addEventListener('resize', updateExpand, { passive: true });
+    }
+  }
 
   function initReveals() {
     const els = document.querySelectorAll("[data-reveal]");
