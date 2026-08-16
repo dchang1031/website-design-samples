@@ -4,7 +4,7 @@
   height: 220vh;
   z-index: 30;
   background: #fff;
-  margin-top: -20vh;
+  margin-top: -10vh;
 }
 
 .o3-trusted-expand__sticky {
@@ -41,7 +41,7 @@
   box-sizing: border-box;
   display: flex;
   align-items: flex-start;
-  padding-top: 40px !important;
+  padding-top: 80px !important;
   padding-bottom: 42px !important;
 }
 
@@ -64,11 +64,11 @@
 @media (max-width: 900px) {
   .o3-trusted-expand {
     height: 210vh;
-    margin-top: -10vh;
+    margin-top: -5vh;
   }
 
   .o3-trusted-expand [data-section="trusted"] {
-    padding-top: 40px !important;
+    padding-top: 80px !important;
     padding-bottom: 28px !important;
   }
 
