@@ -63,13 +63,14 @@
   box-shadow: none !important;
 }
 
-/* Isolated second card: does not alter the Trusted By card above. */
+/* The next card overlaps the final viewport of Trusted By and sits above it.
+   This lets Trusted By remain centered while the next card physically covers it. */
 .o3-oneapi-expand {
   position: relative;
   height: 220vh;
-  z-index: 29;
+  z-index: 31;
   background: #fff;
-  margin-top: 0;
+  margin-top: -100vh;
 }
 
 .o3-oneapi-expand__sticky {
