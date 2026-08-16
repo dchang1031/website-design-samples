@@ -89,4 +89,49 @@
   }
   initReveals();
 
+  function initScaleExpand() {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const blocks = [...document.querySelectorAll("[data-scale-expand]")];
+    if (!blocks.length) return;
+
+    function clamp(n, a, b) {
+      return Math.min(b, Math.max(a, n));
+    }
+
+    function progressFor(track) {
+      const rect = track.getBoundingClientRect();
+      const vh = window.innerHeight || 1;
+      const total = Math.max(1, rect.height - vh);
+      return clamp(-rect.top / total, 0, 1);
+    }
+
+    function apply(block, p) {
+      const frame = block.querySelector("[data-scale-frame]");
+      if (!frame) return;
+      const e = reduce ? 1 : p * p * (3 - 2 * p);
+      frame.style.setProperty("--scale-inset", `${(1 - e) * 28}px`);
+      frame.style.setProperty("--scale-radius", `${(1 - e) * 24}px`);
+      frame.style.setProperty("--scale-border", String((1 - e) * 0.14));
+      frame.dataset.expanded = e > 0.92 ? "true" : "false";
+    }
+
+    let ticking = false;
+    function update() {
+      ticking = false;
+      blocks.forEach((b) => apply(b, progressFor(b)));
+    }
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+  }
+
+  initScaleExpand();
+
 })();

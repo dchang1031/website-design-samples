@@ -42,16 +42,16 @@
   }
 }
 
-/* Option 3 Stacking Cards System */
+/* Option 3 Stacking Cards System (Option 3 Light Theme) */
 .o3-page .scale-expand {
   position: relative;
-  height: 180vh;
+  height: 220vh;
   background: transparent;
 }
 
 .o3-page .scale-expand[data-scale-kind="trusted"] { z-index: 10; }
 .o3-page .scale-expand[data-scale-kind="oneapi"] { z-index: 20; }
-.o3-page .scale-expand[data-scale-kind="enterprise"] { z-index: 30; height: 220vh; }
+.o3-page .scale-expand[data-scale-kind="enterprise"] { z-index: 30; height: 240vh; }
 
 .o3-page .scale-expand__sticky {
   position: sticky;
@@ -66,7 +66,7 @@
 .o3-page .scale-expand__frame {
   --scale-inset: 28px;
   --scale-radius: 28px;
-  --scale-border: 0.16;
+  --scale-border: 1;
   position: absolute;
   top: calc(64px + var(--scale-inset));
   bottom: var(--scale-inset);
@@ -74,10 +74,10 @@
   right: var(--scale-inset);
   border-radius: var(--scale-radius);
   overflow: auto;
-  border: 1px solid rgba(255, 255, 255, calc(var(--scale-border)));
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(20px) saturate(1.2);
-  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   will-change: top, bottom, left, right, border-radius;
 }
 
@@ -91,29 +91,60 @@
   width: 100%;
 }
 
+/* Light theme card backgrounds matching Option 3 design palette */
 .o3-page .scale-expand--navy .scale-expand__frame {
-  background: rgba(8, 28, 56, 0.96);
+  background: #ffffff;
 }
 
 .o3-page .scale-expand--mid .scale-expand__frame {
-  background: rgba(16, 30, 52, 0.96);
+  background: #f8fafc;
 }
 
 .o3-page .scale-expand--deep .scale-expand__frame {
-  background: rgba(10, 14, 24, 0.98);
+  background: #ffffff;
+}
+
+/* Option 3 Typography and element colors inside light cards */
+.o3-page .scale-expand .tr-landing-logo-wall-title,
+.o3-page .scale-expand .tr-landing-oneapi-title,
+.o3-page .scale-expand .tr-landing-enterprise-title,
+.o3-page .scale-expand h2,
+.o3-page .scale-expand h3 {
+  color: #121317 !important;
+}
+
+.o3-page .scale-expand .tr-landing-oneapi-text,
+.o3-page .scale-expand .tr-landing-enterprise-text,
+.o3-page .scale-expand .tr-landing-enterprise-card-desc {
+  color: #45474d !important;
+}
+
+.o3-page .scale-expand .tr-landing-logo-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.o3-page .scale-expand .tr-landing-logo-card img {
+  filter: none !important;
+  opacity: 1 !important;
 }
 
 /* Single clean card background for Enterprise (fixes double nested background) */
 .o3-page .scale-expand[data-scale-kind="enterprise"] .tr-landing-enterprise-card {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+}
+
+.o3-page .scale-expand[data-scale-kind="enterprise"] .tr-landing-enterprise-card-title {
+  color: #121317 !important;
 }
 
 .o3-page .scale-expand[data-scale-kind="enterprise"] .tr-landing-enterprise-card-icon {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  background: #eff6ff !important;
+  border: 1px solid #dbeafe !important;
+  color: #0086ff !important;
 }
 
 /* Post card flow for FAQ, CTA, Footer */
@@ -128,33 +159,4 @@
   opacity: 1 !important;
   filter: none !important;
   transform: none !important;
-}
-
-.o3-page .scale-expand .tr-landing-logo-wall-title,
-.o3-page .scale-expand .tr-landing-oneapi-title,
-.o3-page .scale-expand .tr-landing-enterprise-title,
-.o3-page .scale-expand .tr-landing-faq-title,
-.o3-page .scale-expand .tr-landing-cta-title,
-.o3-page .scale-expand h2,
-.o3-page .scale-expand h3,
-.o3-page .scale-expand [class*="text-[#121317]"] {
-  color: #ffffff !important;
-}
-
-.o3-page .scale-expand .tr-landing-oneapi-text,
-.o3-page .scale-expand .tr-landing-enterprise-text,
-.o3-page .scale-expand .tr-landing-enterprise-card-desc,
-.o3-page .scale-expand [class*="text-[#45474D]"],
-.o3-page .scale-expand [class*="text-[#45474d]"] {
-  color: #c0cbdb !important;
-}
-
-.o3-page .scale-expand .tr-landing-logo-card {
-  background: rgba(255, 255, 255, 0.12) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-.o3-page .scale-expand .tr-landing-logo-card img {
-  filter: brightness(0) invert(1) !important;
-  opacity: 0.95 !important;
 }
