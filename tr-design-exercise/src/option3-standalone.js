@@ -173,51 +173,105 @@
   }
 
   function initRemainingExpands(stack) {
-    const cards = [...stack.querySelectorAll('.o3-enterprise-card, .o3-faq-card, .o3-cta-card')];
-    cards.forEach((card, index) => {
-      if (card.parentElement.classList.contains('o3-expand-track')) return;
-      const track = document.createElement('section');
-      track.className = 'o3-expand-track';
-      track.setAttribute('aria-label', card.getAttribute('aria-label') || `Section ${index + 1}`);
-      const sticky = document.createElement('div');
-      sticky.className = 'o3-expand-sticky';
-      const frame = document.createElement('div');
-      frame.className = 'o3-expand-frame';
-      track.style.zIndex = String(40 + index);
-      card.parentNode.insertBefore(track, card);
-      track.appendChild(sticky);
-      sticky.appendChild(frame);
-      frame.appendChild(card);
-      const apply = (progress) => {
-        const easing = reduce ? 1 : smooth(0.03, 0.88, progress);
-        const inset = 28 * (1 - easing);
-        const radius = 24 * (1 - easing);
-        const borderAlpha = 0.10 * (1 - easing);
-        const shadowAlpha = 0.08 * (1 - easing);
-        const lift = 16 * (1 - smooth(0.03, 0.45, progress));
-        frame.style.inset = `${inset}px`;
-        frame.style.borderRadius = `${radius}px`;
-        frame.style.borderColor = `rgba(0,0,0,${borderAlpha})`;
-        frame.style.boxShadow = `0 20px 60px rgba(0,0,0,${shadowAlpha}), 0 4px 16px rgba(0,0,0,${shadowAlpha * 0.5})`;
-        frame.style.transform = `translate3d(0, ${lift}vh, 0)`;
-      };
-      const update = () => {
-        const rect = track.getBoundingClientRect();
-        const total = Math.max(1, track.offsetHeight - window.innerHeight);
-        apply(clamp(-rect.top / total, 0, 1));
-      };
-      apply(0);
-      if (!reduce) {
-        let ticking = false;
-        const onScroll = () => {
-          if (ticking) return;
-          ticking = true;
-          requestAnimationFrame(() => { ticking = false; update(); });
-        };
-        window.addEventListener('scroll', onScroll, { passive: true });
-        window.addEventListener('resize', onScroll, { passive: true });
-      }
+    const enterprise = stack.querySelector('.o3-enterprise-card');
+    if (!enterprise || enterprise.closest('.o3-expand-track')) return;
+
+    // Only Enterprise is a stacked expand card. FAQ / CTA stay in normal flow
+    // so they cannot appear until all Enterprise content has scrolled past.
+    const track = document.createElement('section');
+    track.className = 'o3-expand-track o3-expand-track--enterprise';
+    track.setAttribute('aria-label', 'Enterprise');
+
+    const sticky = document.createElement('div');
+    sticky.className = 'o3-expand-sticky';
+
+    const frame = document.createElement('div');
+    frame.className = 'o3-expand-frame';
+
+    enterprise.parentNode.insertBefore(track, enterprise);
+    track.appendChild(sticky);
+    sticky.appendChild(frame);
+    frame.appendChild(enterprise);
+
+    const expandDistance = () => Math.round((window.innerHeight || 800) * 1.05);
+
+    const apply = (progress) => {
+      const easing = reduce ? 1 : smooth(0.02, 0.62, progress);
+      const inset = 28 * (1 - easing);
+      const radius = 24 * (1 - easing);
+      const borderAlpha = 0.10 * (1 - easing);
+      const shadowAlpha = 0.08 * (1 - easing);
+      frame.style.setProperty('--o3-inset', `${inset}px`);
+      frame.style.setProperty('--o3-radius', `${radius}px`);
+      frame.style.borderColor = `rgba(0,0,0,${borderAlpha})`;
+      frame.style.boxShadow =
+        easing > 0.92
+          ? 'none'
+          : `0 20px 60px rgba(0,0,0,${shadowAlpha}), 0 4px 16px rgba(0,0,0,${shadowAlpha * 0.5})`;
+      frame.dataset.expanded = easing > 0.92 ? 'true' : 'false';
+    };
+
+    const update = () => {
+      // Stick + expand while covering One API, then release so the full
+      // enterprise card can scroll up (no center pin on this last card).
+      const rect = track.getBoundingClientRect();
+      const span = Math.max(1, expandDistance());
+      apply(clamp(-rect.top / span, 0, 1));
+    };
+
+    const sizeTrack = () => {
+      // Natural height first so sticky/content metrics are correct, then add an
+      // expand runway while covering One API. Sticky travel == expandDistance,
+      // so the tall enterprise card can release and scroll up afterward.
+      const vh = window.innerHeight || 800;
+      track.style.height = 'auto';
+      const stickyH = Math.max(
+        sticky.offsetHeight,
+        frame.offsetHeight,
+        enterprise.scrollHeight,
+        vh
+      );
+      track.style.height = `${expandDistance() + stickyH}px`;
+      // Spacer lives AFTER the track (not inside it) so it delays FAQ without
+      // keeping the enterprise card sticky longer.
+      faqSpacer.style.height = `${Math.round(vh * 0.9)}px`;
+    };
+
+    const faqSpacer = document.createElement('div');
+    faqSpacer.className = 'o3-enterprise-faq-spacer';
+    faqSpacer.setAttribute('aria-hidden', 'true');
+    track.after(faqSpacer);
+
+    apply(0);
+    sizeTrack();
+    requestAnimationFrame(() => {
+      sizeTrack();
+      update();
     });
+
+    if (!reduce) {
+      let ticking = false;
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          ticking = false;
+          update();
+        });
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener(
+        'resize',
+        () => {
+          sizeTrack();
+          update();
+        },
+        { passive: true }
+      );
+    } else {
+      apply(1);
+      track.style.height = 'auto';
+    }
   }
 
   function initReveals() {
