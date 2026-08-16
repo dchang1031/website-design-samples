@@ -1,0 +1,255 @@
+/* Option 3 — Trusted By + One API stacked expanding cards */
+
+.o3-trusted-expand {
+  position: relative;
+  height: 220vh;
+  z-index: 30;
+  background: #fff;
+  margin-top: -40vh;
+}
+
+.o3-trusted-expand__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.o3-trusted-expand__frame {
+  position: absolute;
+  inset: 28px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04);
+  transform: translate3d(0, 14vh, 0);
+  will-change: inset, transform, border-radius, border-color, box-shadow;
+  transition: none;
+}
+
+.o3-trusted-expand__content {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.o3-trusted-expand [data-section="trusted"] {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 0 42px !important;
+}
+
+.o3-trusted-expand [data-section="trusted"] > div {
+  width: 100%;
+  gap: 22px !important;
+}
+
+.o3-trusted-expand .tr-landing-logo-wall-title {
+  color: #000 !important;
+  margin: 0 !important;
+}
+
+.o3-trusted-expand .tr-landing-logo-card {
+  background: #fff !important;
+  border-color: #e9edf2 !important;
+  box-shadow: none !important;
+}
+
+/* One API begins overlapping Trusted By so it can scroll up and cover it */
+.o3-oneapi-expand {
+  position: relative;
+  height: 220vh;
+  z-index: 31;
+  background: transparent;
+  margin-top: -100vh;
+}
+
+.o3-oneapi-expand__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+.o3-oneapi-expand__frame {
+  position: absolute;
+  inset: 28px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04);
+  transform: translate3d(0, 14vh, 0);
+  will-change: inset, transform, border-radius, border-color, box-shadow;
+  transition: none;
+}
+
+.o3-oneapi-section {
+  min-height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 42px !important;
+  background: transparent;
+}
+
+.o3-oneapi-inner {
+  width: min(1120px, 100%);
+  display: grid;
+  grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: 72px;
+}
+
+.o3-oneapi-copy {
+  max-width: 620px;
+}
+
+.o3-oneapi-copy h2 {
+  margin: 0;
+  color: #121317;
+  font-family: "PP Neue Montreal", system-ui, sans-serif;
+  font-size: clamp(34px, 4.8vw, 56px);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.o3-oneapi-copy p {
+  margin: 16px 0 0;
+  color: #45474d;
+  font-size: clamp(15px, 1.5vw, 18px);
+  line-height: 1.7;
+}
+
+.o3-oneapi-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+  min-height: 48px;
+  padding: 0 24px;
+  border-radius: 999px;
+  background: #0086ff;
+  color: #fff;
+  font-size: 18px;
+}
+
+.o3-oneapi-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.o3-oneapi-diagram {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+}
+
+@media (max-width: 900px) {
+  .o3-trusted-expand {
+    height: 210vh;
+    margin-top: -10vh;
+  }
+
+  .o3-trusted-expand [data-section="trusted"] {
+    padding: 0 24px !important;
+  }
+
+  .o3-trusted-expand [data-section="trusted"] > div {
+    gap: 16px !important;
+  }
+
+  .o3-trusted-expand__frame {
+    border-radius: 20px;
+    transform: translate3d(0, 18vh, 0);
+  }
+
+  .o3-oneapi-expand {
+    height: 220vh;
+    margin-top: -90vh;
+  }
+
+  .o3-oneapi-expand__frame {
+    border-radius: 20px;
+  }
+
+  .o3-oneapi-section {
+    padding: 42px 24px !important;
+  }
+
+  .o3-oneapi-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .o3-oneapi-stage {
+    order: -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .o3-trusted-expand {
+    height: auto;
+    margin-top: 0;
+  }
+
+  .o3-trusted-expand__sticky {
+    position: relative;
+    height: auto;
+  }
+
+  .o3-trusted-expand__frame {
+    position: relative;
+    inset: auto !important;
+    transform: none !important;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .o3-trusted-expand__content {
+    height: auto;
+    overflow: visible;
+  }
+
+  .o3-trusted-expand [data-section="trusted"] {
+    height: auto;
+  }
+
+  .o3-oneapi-expand {
+    height: auto;
+    margin-top: 0;
+  }
+
+  .o3-oneapi-expand__sticky {
+    position: relative;
+    height: auto;
+  }
+
+  .o3-oneapi-expand__frame {
+    position: relative;
+    inset: auto !important;
+    transform: none !important;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .o3-oneapi-section {
+    min-height: 0;
+  }
+}

@@ -5,7 +5,7 @@
     <link rel="icon" type="image/png" href="/logo-without-title.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#03050a" />
-    <meta name="description" content="TokenRouter — one API that routes AI traffic across models, regions, and cost profiles." />
+    <meta name="description" content="TokenRouter — Option 1." />
     <title>TokenRouter - Option 1</title>
     <link rel="stylesheet" href="/src/replica.css" />
     <link rel="stylesheet" href="/src/option3-theme.css" />
@@ -13,29 +13,26 @@
   </head>
   <body class="theme-signal">
     <div class="sig-page">
-      <div class="sr-only">
-        <h1>TokenRouter — route AI traffic worldwide</h1>
-        <p>A unified AI model hub that intelligently routes tokens across models, regions, and budgets.</p>
-      </div>
-
       <header id="site-header" class="tr-landing-header site-header">
         <div class="tr-nav-inner">
-          <button id="mobile-menu-btn" class="tr-nav-menu-toggle" type="button" aria-label="Open menu">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M3 5.5H19M3 11H19M3 16.5H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          </button>
-          <a href="/current.html" class="tr-landing-brand-link" aria-label="TokenRouter">
-            <img alt="TokenRouter" class="tr-landing-brand-logo-image" src="/assets/logo.png" />
-            <img alt="TokenRouter" class="tr-landing-brand-mobile-image" src="/assets/logo-without-title-8.png" />
+          <a href="/current.html" class="tr-nav-brand">
+            <img alt="TokenRouter" class="tr-landing-brand-logo-image" src="/logo-without-title.png" />
+            <span class="tr-nav-brand-text">TokenRouter</span>
           </a>
+          <button id="mobile-menu-btn" class="tr-nav-menu-toggle" type="button" aria-label="Open menu"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M3 5.5H19M3 11H19M3 16.5H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
           <div class="tr-nav-end">
             <nav class="tr-nav-links" aria-label="Primary">
               <a href="/current.html" class="tr-landing-header-nav-link">Current</a>
               <a href="/option-1.html" class="tr-landing-header-nav-link is-active">Option 1</a>
               <a href="/option-2.html" class="tr-landing-header-nav-link">Option 2</a>
               <a href="/option-3.html" class="tr-landing-header-nav-link">Option 3</a>
-              <a href="/option-4.html" class="tr-landing-header-nav-link">Option 4</a>
               <button type="button" class="tr-nav-brief" data-design-brief-open>Design Exercise</button>
             </nav>
+          </div>
+        </div>
+        <div class="tr-nav-bottom-bar">
+          <div class="tr-nav-bottom-content">
+            <span>TokenRouter — Option 1 Global Traffic Routing & Infrastructure</span>
           </div>
         </div>
       </header>
@@ -43,17 +40,16 @@
       <div id="mobile-menu" class="tr-landing-mobile-menu" hidden>
         <button class="tr-landing-mobile-menu__overlay" id="mobile-menu-close" type="button" aria-label="Close menu"></button>
         <div class="tr-landing-mobile-menu__drawer">
-          <a href="/current.html" class="tr-landing-mobile-menu__brand"><img alt="TokenRouter" src="/assets/logo.png" /></a>
+          <div class="tr-landing-mobile-menu__brand"><img alt="TokenRouter" src="/logo-without-title.png" /><span>TokenRouter</span></div>
           <a href="/current.html" class="tr-landing-mobile-menu__item">Current</a>
           <a href="/option-1.html" class="tr-landing-mobile-menu__item is-active">Option 1</a>
           <a href="/option-2.html" class="tr-landing-mobile-menu__item">Option 2</a>
           <a href="/option-3.html" class="tr-landing-mobile-menu__item">Option 3</a>
-          <a href="/option-4.html" class="tr-landing-mobile-menu__item">Option 4</a>
           <button type="button" class="tr-landing-mobile-menu__item tr-landing-mobile-menu__brief" data-design-brief-open>Design Exercise</button>
         </div>
       </div>
 
-      <div style="height:64px"></div>
+      <div class="offset-header"></div>
 
       <main>
         <section class="globe-hero" aria-label="Global routing map">
@@ -166,55 +162,6 @@
             </article>
           </div>
         </section>
-
-        <section class="policy sig-reveal" id="policy" data-policy>
-          <div class="policy__head">
-            <h2 class="policy__title">Ask the router</h2>
-            <p class="policy__lede">
-              Change the policy. Watch packets re-home. This is the mechanic behind every TokenRouter request — made visible.
-            </p>
-          </div>
-
-          <div class="policy__board">
-            <div class="policy__controls">
-              <button type="button" class="policy-btn is-active" data-policy-btn>
-                <div class="policy-btn__label">Policy A</div>
-                <div class="policy-btn__title">Speed</div>
-                <div class="policy-btn__text">Lowest latency path wins. Ideal for chat and agents.</div>
-              </button>
-              <button type="button" class="policy-btn" data-policy-btn>
-                <div class="policy-btn__label">Policy B</div>
-                <div class="policy-btn__title">Quality</div>
-                <div class="policy-btn__text">Prefer frontier models when the prompt looks hard.</div>
-              </button>
-              <button type="button" class="policy-btn" data-policy-btn>
-                <div class="policy-btn__label">Policy C</div>
-                <div class="policy-btn__title">Budget</div>
-                <div class="policy-btn__text">Squeeze cost until a quality floor is breached.</div>
-              </button>
-            </div>
-
-            <div class="policy__stage">
-              <canvas aria-hidden="true"></canvas>
-              <div class="policy__readout">
-                <div class="policy__metric">Latency<strong data-m-lat>—</strong></div>
-                <div class="policy__metric">Cost / 1k<strong data-m-cost>—</strong></div>
-                <div class="policy__metric">Model<strong data-m-model>—</strong></div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="finale sig-reveal">
-          <h2 class="finale__title">Put the world on one key</h2>
-          <p class="finale__text">
-            Create an account, drop in the endpoint, and let TokenRouter decide where every token should go.
-          </p>
-          <div class="finale__actions">
-            <a class="sig-btn sig-btn--primary" href="#">Create account</a>
-            <a class="sig-btn sig-btn--ghost" href="#">Read the docs</a>
-          </div>
-        </section>
       </main>
 
       <footer class="sig-footer">
@@ -222,7 +169,7 @@
           <strong>TokenRouter</strong>
           <div style="margin-top:6px">Global routing for the model era.</div>
         </div>
-        <div>© Artemis Tokenrouter Inc. · Option 1</div>
+        <div>© TokenRouter Inc. · Option 1</div>
       </footer>
     </div>
 

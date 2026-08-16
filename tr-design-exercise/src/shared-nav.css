@@ -1,43 +1,314 @@
-/* Shared top nav — original TokenRouter replica chrome (locked across all pages).
-   Do not restyle logo size, brand font, or nav link type size in page themes. */
+/* Shared top nav — Two-tier stacked navigation header across all pages.
+   Top bar: Logo on the left (/logo-without-title.png), Current, Option 1, Option 2, Option 3, and Design Exercise button.
+   Bottom bar: Full-width bar with background color #0086ff. */
 
 @font-face { font-family: "PP Neue Montreal"; src: url("/fonts/PPNeueMontreal-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: "PP Neue Montreal"; src: url("/fonts/PPNeueMontreal-Medium.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
 @font-face { font-family: "PP Neue Montreal"; src: url("/fonts/PPNeueMontreal-Medium.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
 
-:root { --tr-nav-font:"PP Neue Montreal",system-ui,-apple-system,sans-serif; --tr-nav-text:#45474d; --tr-nav-hover:#0086ff; --tr-nav-ink:#121317; --tr-nav-bg:#fff; --tr-nav-bg-scrolled:rgba(255,255,255,.92); --tr-nav-border:rgba(0,134,255,.08); --tr-nav-shadow:0 10px 30px rgba(18,19,23,.05); --tr-nav-divider:#eee; --tr-nav-primary:#0086ff; --tr-nav-primary-hover:#0075ed; --tr-nav-h:64px; }
-.site-header.tr-landing-header,header.tr-landing-header#site-header{position:fixed;inset:0 0 auto;z-index:100;height:var(--tr-nav-h);min-height:var(--tr-nav-h);max-height:var(--tr-nav-h);background:#fff;border-bottom:1px solid transparent;color:var(--tr-nav-ink);font-family:var(--tr-nav-font)}
-.site-header.tr-landing-header.tr-landing-header--scrolled,header.tr-landing-header#site-header.tr-landing-header--scrolled{background:var(--tr-nav-bg-scrolled);border-color:var(--tr-nav-border);box-shadow:var(--tr-nav-shadow);backdrop-filter:blur(14px)}
-.tr-nav-inner{margin:0 auto;width:100%;height:var(--tr-nav-h);padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:16px}.tr-nav-menu-toggle{display:none;width:36px;height:36px;align-items:center;justify-content:center;border:0;background:transparent;color:var(--tr-nav-ink);cursor:pointer;flex:0 0 auto;padding:0}.tr-landing-brand-link{display:none;height:42px;width:120px;flex:0 0 auto;align-items:center;background:transparent;text-decoration:none}.tr-landing-brand-logo-image{display:block;height:100%;width:100%;object-fit:contain}.tr-landing-brand-mobile-image{display:none!important;height:28px;width:28px;object-fit:contain}.tr-nav-end{display:flex;align-items:center;justify-content:flex-end;flex:1 1 auto;min-width:0;gap:0}.tr-nav-links{display:flex;align-items:center;justify-content:flex-end;flex:1 1 auto;min-width:0;overflow-x:auto;scrollbar-width:none;gap:0}.tr-nav-links::-webkit-scrollbar{display:none}.tr-landing-header-nav-link{display:none;color:var(--tr-nav-text);background:transparent;text-decoration:none;font-family:var(--tr-nav-font);font-size:16px;font-weight:400;line-height:1.4;white-space:nowrap;padding:0;border:0;margin-left:16px}.tr-landing-header-nav-link:first-child{margin-left:0}.tr-landing-header-nav-link:hover,.tr-landing-header-nav-link.is-active{color:var(--tr-nav-hover)}.tr-landing-header-nav-link.is-active{font-weight:600}.tr-nav-brief{display:none;margin-left:16px;height:32px;align-items:center;justify-content:center;padding:0 14px;border-radius:100px;border:1px solid #d7dce5;background:#fff;color:var(--tr-nav-ink);font-family:var(--tr-nav-font);font-size:13px;line-height:1.3;white-space:nowrap;cursor:pointer;flex:0 0 auto}.tr-nav-brief:hover{border-color:var(--tr-nav-primary);color:var(--tr-nav-primary)}.tr-landing-header-divider,.tr-landing-header-action{display:none!important}.tr-nav-theme-slot{display:none;margin-left:12px;flex:0 0 auto}
+:root {
+  --tr-nav-font: "PP Neue Montreal", system-ui, -apple-system, sans-serif;
+  --tr-nav-text: #45474d;
+  --tr-nav-hover: #0086ff;
+  --tr-nav-ink: #121317;
+  --tr-nav-bg: #fff;
+  --tr-nav-primary: #0086ff;
+  --tr-nav-h1: 64px;
+  --tr-nav-h2: 44px;
+  --tr-nav-total-h: 108px;
+}
 
-/* Promo bar: match Current's 64px blue bar, fireworks, badge, type and controls. */
-.promo{position:fixed;top:var(--tr-nav-h);left:0;right:0;z-index:40;min-height:64px;height:64px;width:100%;padding:0 24px;overflow:hidden;background:#0086ff;color:#fff;display:flex;align-items:center;justify-content:center}.promo::before,.promo::after{content:"";position:absolute;top:50%;width:46px;height:46px;transform:translateY(-50%);background:url("/assets/firework.png") center/contain no-repeat;pointer-events:none}.promo::before{left:24px}.promo::after{right:24px}.promo__badge{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;width:168px;min-width:168px;height:40px;padding:8px 12px;border:0;border-radius:8px;background:rgba(255,255,255,.16);color:#fff;font-family:var(--tr-nav-font);font-size:14px;font-weight:500;line-height:1;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}.promo__badge::before{content:"";display:block;width:17px!important;height:17px!important;min-width:17px!important;min-height:17px!important;flex:0 0 17px!important;background:url("/assets/gift.png") center/17px 17px no-repeat!important}.promo__copy{display:flex;align-items:center;justify-content:flex-start;min-width:0;margin:0 0 0 16px;padding:0;color:#fff;font-family:var(--tr-nav-font);font-size:15px;line-height:1.25;white-space:nowrap}.promo__copy .promo-banner-copy-row{align-items:center;display:flex;justify-content:flex-start;min-width:0;white-space:nowrap}.promo__copy .promo-banner-copy-row>p{margin:0;color:#fff;font-family:var(--tr-nav-font);font-size:16px;line-height:1.4;white-space:nowrap}.promo__copy .promo-banner-copy-row>a{display:inline-flex;align-items:center;gap:8px;margin-left:24px;border-bottom:1px solid #fff;color:#fff;font-family:var(--tr-nav-font);font-size:16px;line-height:1.4;white-space:nowrap;cursor:pointer;flex-shrink:0}.promo__copy .promo-banner-copy-row>a svg{width:16px;height:16px;flex:0 0 16px}.promo__action{border-bottom:1px solid #fff;white-space:nowrap;font-family:var(--tr-nav-font);font-size:14px;letter-spacing:0;text-transform:none;color:#fff}.promo__dots{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px}.promo__dot{width:4px;height:4px;border:0;border-radius:999px;padding:0;background:rgba(255,255,255,.7);cursor:pointer;transition:width .18s ease,background-color .18s ease,opacity .18s ease}.promo__dot.is-active,.promo__dot:hover,.promo__dot:focus-visible{width:16px;background:#fff}.promo [data-promo-slide]{animation:promoBannerSlideIn 360ms ease}.offset-header{height:calc(var(--tr-nav-h) + 64px)}
+.site-header.tr-landing-header,
+header.tr-landing-header#site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(18, 19, 23, 0.05);
+  font-family: var(--tr-nav-font);
+}
 
-.tr-landing-mobile-menu{position:fixed;inset:0;z-index:120;font-family:var(--tr-nav-font)}.tr-landing-mobile-menu[hidden]{display:none!important}.tr-landing-mobile-menu__overlay{position:absolute;inset:0;border:0;background:rgba(10,10,10,.45)}.tr-landing-mobile-menu__drawer{position:relative;width:min(300px,calc(100vw - 40px));height:100%;background:#fff;padding:24px 18px;display:flex;flex-direction:column;gap:4px;color:var(--tr-nav-ink);box-shadow:8px 0 30px rgba(18,19,23,.12)}.tr-landing-mobile-menu__brand{display:block;margin-bottom:16px}.tr-landing-mobile-menu__brand img{width:120px;height:auto;object-fit:contain;display:block}.tr-landing-mobile-menu__item{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:8px;font-size:15px;font-weight:500;color:#45474d;text-decoration:none;background:transparent;border:0;width:100%;text-align:left;cursor:pointer;font-family:var(--tr-nav-font)}.tr-landing-mobile-menu__item.is-active,.tr-landing-mobile-menu__item:hover{background:#f3f6fb;color:var(--tr-nav-ink)}.tr-landing-mobile-menu__item.is-active{font-weight:600}.tr-landing-mobile-menu__brief{margin-top:8px;height:40px;border-radius:100px;border:1px solid #d7dce5;background:#fff;color:var(--tr-nav-ink);font-size:14px;font-weight:500;cursor:pointer;font-family:var(--tr-nav-font)}.tr-landing-mobile-menu__brief:hover{border-color:var(--tr-nav-primary);color:var(--tr-nav-primary)}
-@keyframes promoBannerSlideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@media (min-width:768px){.tr-landing-brand-link{display:flex}.tr-landing-header-nav-link{display:inline}.tr-nav-brief{display:inline-flex}.tr-nav-theme-slot:not(:empty){display:inline-flex}}@media (min-width:1024px){.tr-landing-header-nav-link{margin-left:28px}.tr-landing-header-nav-link:first-child{margin-left:0}.tr-nav-brief{margin-left:28px}}@media (max-width:767px){.tr-nav-menu-toggle{display:inline-flex}.tr-landing-brand-link{display:flex;width:28px;height:28px}.tr-landing-brand-logo-image{display:none!important}.tr-landing-brand-mobile-image{display:block!important}.tr-nav-links{display:none}.tr-nav-theme-slot:not(:empty){display:inline-flex}.promo{padding:0 16px 16px}.promo::before,.promo::after{display:none}.promo__badge{display:none}.promo__copy{margin:0;font-size:15px;line-height:1.25;white-space:normal;text-align:center}.promo__copy .promo-banner-copy-row{justify-content:center;white-space:normal;flex-wrap:wrap}.promo__copy .promo-banner-copy-row>p{white-space:normal;text-align:center;font-size:15px}.promo__copy .promo-banner-copy-row>a{margin-left:8px;font-size:14px}}
+/* Tier 1: Top Bar */
+.tr-nav-inner {
+  margin: 0 auto;
+  width: 100%;
+  height: var(--tr-nav-h1);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-sizing: border-box;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
 
-/* Only the top navigation is interactive. Everything else remains visually static. */
+.tr-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--tr-nav-ink);
+  flex: 0 0 auto;
+}
+
+.tr-landing-brand-logo-image {
+  display: block;
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+.tr-nav-brand-text {
+  font-family: var(--tr-nav-font);
+  font-size: 18px;
+  font-weight: 600;
+  color: #121317;
+  letter-spacing: -0.01em;
+}
+
+.tr-nav-menu-toggle {
+  display: none;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--tr-nav-ink);
+  cursor: pointer;
+  flex: 0 0 auto;
+  padding: 0;
+}
+
+.tr-nav-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 20px;
+}
+
+.tr-nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+}
+
+.tr-landing-header-nav-link {
+  color: var(--tr-nav-text);
+  background: transparent;
+  text-decoration: none;
+  font-family: var(--tr-nav-font);
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 4px 0;
+  border: 0;
+  transition: color 0.15s ease;
+}
+
+.tr-landing-header-nav-link:hover,
+.tr-landing-header-nav-link.is-active {
+  color: var(--tr-nav-hover);
+}
+
+.tr-landing-header-nav-link.is-active {
+  font-weight: 600;
+}
+
+.tr-nav-brief {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid #0086ff;
+  background: #ebf5ff;
+  color: #0086ff;
+  font-family: var(--tr-nav-font);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  flex: 0 0 auto;
+  transition: all 0.15s ease;
+}
+
+.tr-nav-brief:hover {
+  background: #0086ff;
+  color: #fff;
+}
+
+/* Tier 2: Full width blue bottom bar */
+.tr-nav-bottom-bar {
+  width: 100%;
+  height: var(--tr-nav-h2);
+  background: #0086ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.tr-nav-bottom-content {
+  margin: 0 auto;
+  max-width: 1440px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: var(--tr-nav-font);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.offset-header {
+  height: var(--tr-nav-total-h);
+}
+
+/* Mobile menu overlay */
+.tr-landing-mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  font-family: var(--tr-nav-font);
+}
+
+.tr-landing-mobile-menu[hidden] {
+  display: none !important;
+}
+
+.tr-landing-mobile-menu__overlay {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(10, 10, 10, 0.45);
+}
+
+.tr-landing-mobile-menu__drawer {
+  position: relative;
+  width: min(300px, calc(100vw - 40px));
+  height: 100%;
+  background: #fff;
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--tr-nav-ink);
+  box-shadow: 8px 0 30px rgba(18, 19, 23, 0.12);
+}
+
+.tr-landing-mobile-menu__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.tr-landing-mobile-menu__brand img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.tr-landing-mobile-menu__item {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #45474d;
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--tr-nav-font);
+}
+
+.tr-landing-mobile-menu__item.is-active,
+.tr-landing-mobile-menu__item:hover {
+  background: #f3f6fb;
+  color: var(--tr-nav-ink);
+}
+
+.tr-landing-mobile-menu__item.is-active {
+  font-weight: 600;
+}
+
+.tr-landing-mobile-menu__brief {
+  margin-top: 8px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid #0086ff;
+  background: #ebf5ff;
+  color: #0086ff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--tr-nav-font);
+}
+
+@media (max-width: 767px) {
+  .tr-nav-menu-toggle {
+    display: inline-flex;
+  }
+  .tr-nav-links {
+    display: none;
+  }
+}
+
+/* Global Interaction Rules: Header navigation links and Design Exercise modal are interactive.
+   Page content body has default pointer-events rules per page requirements. */
 body a,
-body button { cursor: default !important; }
-body a:not(.tr-landing-header-nav-link):not(.tr-nav-brief):not(.tr-landing-mobile-menu__item):not(.tr-landing-mobile-menu__overlay),
-body button:not(.tr-nav-brief):not(.tr-nav-menu-toggle):not(.tr-landing-mobile-menu__item):not(.tr-landing-mobile-menu__overlay):not(.design-brief__close):not(.design-brief__backdrop) { pointer-events: none !important; }
-.tr-landing-brand-link,
-.tr-landing-mobile-menu__brand { pointer-events: none !important; cursor: default !important; }
+body button {
+  cursor: default !important;
+}
+
 .tr-landing-header-nav-link,
 .tr-nav-brief,
 .tr-nav-menu-toggle,
 .tr-landing-mobile-menu__item,
-.tr-landing-mobile-menu__overlay { pointer-events: auto !important; cursor: pointer !important; }
-.tr-landing-hero-url-box,
-.tr-landing-hero-copy-button { background: #fff !important; }
+.tr-landing-mobile-menu__overlay {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
 
-/* Design Exercise is the one intentional non-navigation interaction. */
 .design-brief,
 .design-brief button,
 .design-brief__backdrop,
-.design-brief__close { pointer-events: auto !important; }
-.design-brief { z-index: 1000 !important; }
-.design-brief__card { z-index: 2 !important; pointer-events: auto !important; }
-.design-brief__backdrop { z-index: 0 !important; }
-.design-brief__close { position: relative; z-index: 3 !important; cursor: pointer !important; }
+.design-brief__close {
+  pointer-events: auto !important;
+}
+
+.design-brief {
+  z-index: 1000 !important;
+}
+
+.design-brief__card {
+  z-index: 2 !important;
+  pointer-events: auto !important;
+}
+
+.design-brief__backdrop {
+  z-index: 0 !important;
+}
+
+.design-brief__close {
+  position: relative;
+  z-index: 3 !important;
+  cursor: pointer !important;
+}
