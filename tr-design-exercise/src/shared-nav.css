@@ -21,7 +21,7 @@
 body a,
 body button { cursor: default !important; }
 body a:not(.tr-landing-header-nav-link):not(.tr-nav-brief):not(.tr-landing-mobile-menu__item):not(.tr-landing-mobile-menu__overlay),
-body button:not(.tr-nav-brief):not(.tr-nav-menu-toggle):not(.tr-landing-mobile-menu__item):not(.tr-landing-mobile-menu__overlay) { pointer-events: none !important; }
+body button:not(.tr-nav-brief):not(.tr-nav-menu-toggle):not(.tr-landing-mobile-menu__item):not(.tr-landing-mobile-menu__overlay):not(.design-brief__close):not(.design-brief__backdrop) { pointer-events: none !important; }
 .tr-landing-brand-link,
 .tr-landing-mobile-menu__brand { pointer-events: none !important; cursor: default !important; }
 .tr-landing-header-nav-link,
