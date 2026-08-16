@@ -41,3 +41,120 @@
     filter: none !important;
   }
 }
+
+/* Option 3 Stacking Cards System */
+.o3-page .scale-expand {
+  position: relative;
+  height: 180vh;
+  background: transparent;
+}
+
+.o3-page .scale-expand[data-scale-kind="trusted"] { z-index: 10; }
+.o3-page .scale-expand[data-scale-kind="oneapi"] { z-index: 20; }
+.o3-page .scale-expand[data-scale-kind="enterprise"] { z-index: 30; height: 220vh; }
+
+.o3-page .scale-expand__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.o3-page .scale-expand__frame {
+  --scale-inset: 28px;
+  --scale-radius: 28px;
+  --scale-border: 0.16;
+  position: absolute;
+  top: calc(64px + var(--scale-inset));
+  bottom: var(--scale-inset);
+  left: var(--scale-inset);
+  right: var(--scale-inset);
+  border-radius: var(--scale-radius);
+  overflow: auto;
+  border: 1px solid rgba(255, 255, 255, calc(var(--scale-border)));
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  will-change: top, bottom, left, right, border-radius;
+}
+
+.o3-page .scale-expand__content {
+  min-height: 100%;
+  padding: clamp(28px, 4vw, 56px) clamp(20px, 4vw, 48px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.o3-page .scale-expand--navy .scale-expand__frame {
+  background: rgba(8, 28, 56, 0.96);
+}
+
+.o3-page .scale-expand--mid .scale-expand__frame {
+  background: rgba(16, 30, 52, 0.96);
+}
+
+.o3-page .scale-expand--deep .scale-expand__frame {
+  background: rgba(10, 14, 24, 0.98);
+}
+
+/* Single clean card background for Enterprise (fixes double nested background) */
+.o3-page .scale-expand[data-scale-kind="enterprise"] .tr-landing-enterprise-card {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.o3-page .scale-expand[data-scale-kind="enterprise"] .tr-landing-enterprise-card-icon {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+}
+
+/* Post card flow for FAQ, CTA, Footer */
+.o3-page .o3-post-cards-flow {
+  position: relative;
+  z-index: 40;
+  background: #ffffff;
+}
+
+.o3-page .scale-expand [data-reveal],
+.o3-page .scale-expand [data-reveal-child] {
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+.o3-page .scale-expand .tr-landing-logo-wall-title,
+.o3-page .scale-expand .tr-landing-oneapi-title,
+.o3-page .scale-expand .tr-landing-enterprise-title,
+.o3-page .scale-expand .tr-landing-faq-title,
+.o3-page .scale-expand .tr-landing-cta-title,
+.o3-page .scale-expand h2,
+.o3-page .scale-expand h3,
+.o3-page .scale-expand [class*="text-[#121317]"] {
+  color: #ffffff !important;
+}
+
+.o3-page .scale-expand .tr-landing-oneapi-text,
+.o3-page .scale-expand .tr-landing-enterprise-text,
+.o3-page .scale-expand .tr-landing-enterprise-card-desc,
+.o3-page .scale-expand [class*="text-[#45474D]"],
+.o3-page .scale-expand [class*="text-[#45474d]"] {
+  color: #c0cbdb !important;
+}
+
+.o3-page .scale-expand .tr-landing-logo-card {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.o3-page .scale-expand .tr-landing-logo-card img {
+  filter: brightness(0) invert(1) !important;
+  opacity: 0.95 !important;
+}
