@@ -1,0 +1,100 @@
+/* Option 3 — Trusted By: Option 2-style expanding card, adapted to the white palette. */
+.o3-trusted-expand {
+  position: relative;
+  height: 220vh;
+  z-index: 30;
+  background: #fff;
+}
+
+.o3-trusted-expand__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  box-sizing: border-box;
+}
+
+.o3-trusted-expand__frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, .10);
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .08), 0 4px 16px rgba(0, 0, 0, .04);
+  transform: translate3d(0, 22vh, 0);
+  will-change: transform, width, height, border-radius, border-color, box-shadow;
+  transition: none;
+}
+
+.o3-trusted-expand__content {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.o3-trusted-expand [data-section="trusted"] {
+  min-height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.o3-trusted-expand [data-section="trusted"] > div {
+  width: 100%;
+}
+
+.o3-trusted-expand .tr-landing-logo-wall-title {
+  color: #000 !important;
+}
+
+.o3-trusted-expand .tr-landing-logo-card {
+  background: #fff !important;
+  border-color: #e9edf2 !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 900px) {
+  .o3-trusted-expand {
+    height: 210vh;
+  }
+
+  .o3-trusted-expand__sticky {
+    padding: 20px;
+  }
+
+  .o3-trusted-expand__frame {
+    border-radius: 20px;
+    transform: translate3d(0, 18vh, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .o3-trusted-expand {
+    height: auto;
+  }
+
+  .o3-trusted-expand__sticky {
+    position: relative;
+    height: auto;
+    padding: 0;
+  }
+
+  .o3-trusted-expand__frame {
+    transform: none !important;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .o3-trusted-expand__content {
+    height: auto;
+  }
+}
