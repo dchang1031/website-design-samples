@@ -28,15 +28,18 @@
   transition: none;
 }
 
+/* The card itself expands with page scroll, but its contents never become an inner scroll surface. */
 .o3-trusted-expand__content {
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow: hidden;
   background: #fff;
   box-sizing: border-box;
 }
 
 .o3-trusted-expand [data-section="trusted"] {
+  width: 100%;
+  height: 100%;
   min-height: 100%;
   box-sizing: border-box;
   display: flex;
@@ -125,13 +128,24 @@
 .o3-oneapi-copy p {
   margin: 16px 0 0;
   color: #45474d;
-  font-family: "PP Neue Montreal", system-ui, sans-serif;
-  font-size: 18px;
+  font-size: clamp(15px, 1.5vw, 18px);
   line-height: 1.7;
 }
 
+.o3-oneapi-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+  min-height: 48px;
+  padding: 0 24px;
+  border-radius: 999px;
+  background: #0086ff;
+  color: #fff;
+  font-size: 18px;
+}
+
 .o3-oneapi-stage {
-  min-height: 420px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -139,26 +153,9 @@
 
 .o3-oneapi-diagram {
   display: block;
-  width: min(100%, 620px);
+  width: 100%;
+  max-width: 600px;
   height: auto;
-  object-fit: contain;
-}
-
-.o3-oneapi-button {
-  width: fit-content;
-  margin-top: 40px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 48px;
-  box-sizing: border-box;
-  padding: 0 24px;
-  border-radius: 999px;
-  background: #0086ff;
-  color: #fff;
-  font-family: "PP Neue Montreal", system-ui, sans-serif;
-  font-size: 18px;
-  line-height: 1.7;
 }
 
 @media (max-width: 900px) {
@@ -180,61 +177,36 @@
     transform: translate3d(0, 18vh, 0);
   }
 
-  .o3-oneapi-expand {
-    height: 210vh;
-  }
-
   .o3-oneapi-expand__frame {
     border-radius: 20px;
-    transform: translate3d(0, 18vh, 0);
   }
 
   .o3-oneapi-section {
-    padding: 44px 24px !important;
+    padding: 42px 24px !important;
   }
 
   .o3-oneapi-inner {
     grid-template-columns: 1fr;
-    gap: 28px;
-  }
-
-  .o3-oneapi-copy {
-    order: 1;
+    gap: 32px;
   }
 
   .o3-oneapi-stage {
-    min-height: 220px;
-    order: 2;
-  }
-
-  .o3-oneapi-copy p {
-    font-size: 15px;
-    line-height: 1.7;
-  }
-
-  .o3-oneapi-button {
-    margin-top: 28px;
-    min-height: 40px;
-    padding: 0 20px;
-    font-size: 15px;
+    order: -1;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .o3-trusted-expand,
-  .o3-oneapi-expand {
+  .o3-trusted-expand {
     height: auto;
     margin-top: 0;
   }
 
-  .o3-trusted-expand__sticky,
-  .o3-oneapi-expand__sticky {
+  .o3-trusted-expand__sticky {
     position: relative;
     height: auto;
   }
 
-  .o3-trusted-expand__frame,
-  .o3-oneapi-expand__frame {
+  .o3-trusted-expand__frame {
     position: relative;
     inset: auto !important;
     transform: none !important;
@@ -244,6 +216,11 @@
   }
 
   .o3-trusted-expand__content {
+    height: auto;
+    overflow: visible;
+  }
+
+  .o3-trusted-expand [data-section="trusted"] {
     height: auto;
   }
 }
