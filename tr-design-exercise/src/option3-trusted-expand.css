@@ -4,7 +4,7 @@
   height: 220vh;
   z-index: 30;
   background: #fff;
-  margin-top: -10vh;
+  margin-top: -40vh;
 }
 
 .o3-trusted-expand__sticky {
@@ -64,7 +64,7 @@
 @media (max-width: 900px) {
   .o3-trusted-expand {
     height: 210vh;
-    margin-top: -5vh;
+    margin-top: -10vh;
   }
 
   .o3-trusted-expand [data-section="trusted"] {
