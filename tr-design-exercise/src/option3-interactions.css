@@ -1,0 +1,148 @@
+/* Option 3 interaction choreography and background */
+
+.theme-liquid.theme-mono-o3,
+.theme-liquid.theme-mono-o3 .tr-landing-page,
+.theme-liquid.theme-mono-o3 .scroll-stage,
+.theme-liquid.theme-mono-o3 .scroll-stage__grid {
+  background: #fff !important;
+}
+
+.theme-liquid.theme-mono-o3 .scroll-stage__grid {
+  background-image: none !important;
+  overflow: hidden;
+}
+
+.theme-liquid.theme-mono-o3 .scroll-stage__grid::before,
+.theme-liquid.theme-mono-o3 .scroll-stage__grid::after {
+  display: none !important;
+}
+
+.option3-circle {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px solid rgba(10, 10, 10, 0.14);
+  border-radius: 50%;
+  background: transparent;
+  transform: translate(-50%, -50%) scale(1);
+  transform-origin: center center;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: option3CirclePulse var(--circle-duration, 6.5s) ease-in-out var(--circle-delay, 0s) infinite;
+}
+
+@keyframes option3CirclePulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.82); opacity: 0.55; }
+  50% { transform: translate(-50%, -50%) scale(1.18); opacity: 1; }
+}
+
+/* The story still provides scroll distance, but its headline is removed from it by JS. */
+.theme-liquid.theme-mono-o3 .value-story {
+  height: 180vh;
+}
+
+.theme-liquid.theme-mono-o3 .value-story__sticky,
+.theme-liquid.theme-mono-o3 .value-story__frame {
+  height: 100vh !important;
+  padding: 0 !important;
+}
+
+/* The headline is moved directly under <body> by option3-interactions.js.
+   It is therefore a true viewport layer and cannot inherit a scrolling ancestor's transform. */
+.theme-liquid.theme-mono-o3 .value-story__headline {
+  position: fixed !important;
+  top: 50vh !important;
+  left: 50vw !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: max-content;
+  max-width: calc(100vw - 48px);
+  margin: 0 !important;
+  transform: translate(-50%, -50%) !important;
+  opacity: var(--o3-headline-opacity, 1) !important;
+  filter: blur(var(--hl-blur, 0px)) !important;
+  transition: opacity 100ms linear, filter 100ms linear;
+  will-change: opacity, filter;
+  z-index: 999;
+  pointer-events: none;
+}
+
+/* Initial state is visible but intentionally subdued. The parent remains fully opaque
+   during the reveal so a lit letter can actually reach 100%. */
+.theme-liquid.theme-mono-o3 .value-story__letter {
+  color: rgba(0, 0, 0, 0.32) !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+.theme-liquid.theme-mono-o3 .value-story__letter.is-lit {
+  color: #000 !important;
+  opacity: 1 !important;
+}
+
+.theme-liquid.theme-mono-o3 .value-story__letter--accent.is-lit {
+  color: #0086ff !important;
+  opacity: 1 !important;
+}
+
+/* Keep the later hero sequence centered independently of the headline. */
+.theme-liquid.theme-mono-o3 .tr-landing-hero-section {
+  min-height: 180vh !important;
+  height: 180vh !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  position: relative;
+}
+
+.theme-liquid.theme-mono-o3 .tr-landing-hero-section > div:first-child {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 100vh;
+  display: grid;
+  align-items: center;
+  box-sizing: border-box;
+  padding-top: 64px;
+}
+
+.theme-liquid.theme-mono-o3 .tr-landing-hero-section > div:first-child > div:first-child,
+.theme-liquid.theme-mono-o3 .tr-landing-hero-section > div:first-child > div:last-child {
+  opacity: var(--o3-hero-copy-opacity, 0);
+  transform: translateY(0) !important;
+  transition: opacity 120ms linear;
+  will-change: opacity;
+}
+
+.theme-liquid.theme-mono-o3 .tr-landing-hero-section > div:first-child > div:last-child {
+  opacity: var(--o3-model-opacity, 0);
+}
+
+.theme-liquid.theme-mono-o3 .tr-landing-hero-url-box,
+.theme-liquid.theme-mono-o3 .tr-landing-hero-copy-button {
+  background: #fff !important;
+}
+
+@media (max-width: 767px) {
+  .theme-liquid.theme-mono-o3 .value-story__headline {
+    max-width: calc(100vw - 32px);
+  }
+
+  .theme-liquid.theme-mono-o3 .tr-landing-hero-section > div:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 20px 24px;
+  }
+
+  .theme-liquid.theme-mono-o3 .tr-landing-hero-section > div:first-child > div:first-child,
+  .theme-liquid.theme-mono-o3 .tr-landing-hero-section > div:first-child > div:last-child {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .option3-circle {
+    animation: none;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+}

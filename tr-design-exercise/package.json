@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --open /option-4.html",
+    "dev": "vite --open /current.html",
     "build": "vite build",
-    "preview": "vite preview --open /option-4.html"
+    "preview": "vite preview --open /current.html"
   },
   "devDependencies": {
     "vite": "^6.0.0"
