@@ -59,7 +59,6 @@
     const radius = 24 * (1 - easing);
     const borderAlpha = 0.10 * (1 - easing);
     const shadowAlpha = 0.08 * (1 - easing);
-    // The card keeps expanding after its content reaches the viewport center.
     const lift = 14 * (1 - smooth(0.04, 0.45, progress));
     frame.style.inset = `${inset}px`;
     frame.style.borderRadius = `${radius}px`;
@@ -162,54 +161,13 @@
       stylesheet.href = '/src/option3-remaining-sections.css';
       document.head.appendChild(stylesheet);
     }
-
     const stack = document.createElement('div');
     stack.className = 'o3-remaining-sections';
     stack.innerHTML = `
-      <section class="o3-remaining-card o3-enterprise-card" aria-label="Enterprise">
-        <div class="o3-remaining-inner">
-          <div class="o3-section-kicker">ENTERPRISE-READY</div>
-          <h2>Simple to Start, Powerful at<br class="o3-desktop-break" /> Enterprise Scale</h2>
-          <p>Start with simple model access. Add centralized billing, granular quota controls, audit-ready logs, and organization-wide visibility as your usage grows.</p>
-          <p>Already at scale? <span class="o3-static-link">Talk to sales.</span></p>
-          <div class="o3-enterprise-grid">
-            <article><img src="/assets/icons/billing.svg" alt="" /><h3>Centralized Billing and Admin Control</h3><p>Run all company usage under one organization account with unified billing, unified permissions, and no more individual recharge or reimbursement workflows.</p><div><span>Unified Billing</span><span>Org Admin</span><span>No Reimbursement</span></div></article>
-            <article><img src="/assets/icons/users.svg" alt="" /><h3>Granular Quota by Member or Department</h3><p>Set, adjust, and monitor quota at different levels. Allocate usage budgets in real time by user, by team, or by department as business needs change.</p><div><span>Quota Control</span><span>Per Team</span><span>Real-Time Allocation</span></div></article>
-            <article><img src="/assets/icons/routing.svg" alt="" /><h3>Always-On Routing with Multi-Channel Failover</h3><p>TokenRouter combines multiple upstream providers with owned inference cloud capacity, enabling automatic failover when one route degrades or becomes unavailable.</p><div><span>Failover</span><span>Multi-Upstream</span><span>High Availability</span></div></article>
-            <article><img src="/assets/icons/analytics.svg" alt="" /><h3>Organization-Wide Analytics and Usage Insights</h3><p>Track activity, cost, and usage trends across the company. Analyze adoption by model, by member, and by time period with clear multi-dimensional dashboards.</p><div><span>Usage Trends</span><span>Model Analytics</span><span>Team Activity</span></div></article>
-            <article><img src="/assets/icons/audit.svg" alt="" /><h3>Audit-Ready Logs and Full Traceability</h3><p>Every request, token spend, and access record can be traced back to the user and model involved, supporting internal governance, review, and operational auditing.</p><div><span>Audit Logs</span><span>Cost Traceability</span><span>Access Records</span></div></article>
-            <article><img src="/assets/icons/globe.svg" alt="" /><h3>Global Delivery for High Concurrency and Low Latency</h3><p>Global service nodes and close collaboration with model providers help deliver stable capacity, better concurrency handling, and lower-latency access across regions.</p><div><span>Global Nodes</span><span>Low Latency</span><span>High Concurrency</span></div></article>
-          </div>
-        </div>
-      </section>
-
-      <section class="o3-remaining-card o3-faq-card" aria-label="Frequently Asked Questions">
-        <div class="o3-remaining-inner">
-          <div class="o3-section-kicker">FAQ</div>
-          <h2>Frequently Asked Questions</h2>
-          <p class="o3-faq-intro">Quick answers to the questions developers ask most. Don't see yours? The full documentation has deeper guides, references.</p>
-          <div class="o3-faq-list">
-            <article><h3>1. What is TokenRouter?</h3><p>TokenRouter is a unified API gateway for accessing leading AI models across text, image, video, and audio. Instead of integrating with multiple model providers one by one, developers and enterprises can connect through TokenRouter and manage model access through a single interface.</p></article>
-            <article><h3>2. Why should I choose TokenRouter?</h3><p>TokenRouter helps teams reduce integration complexity by providing one unified API for multiple AI models and providers. It also centralizes billing, usage tracking, and cost visibility while supporting multi-provider routing and fallback.</p></article>
-            <article><h3>3. Is my team's data secure?</h3><p>TokenRouter is designed for controlled AI access with centralized management, usage visibility, and enterprise-oriented governance.</p></article>
-            <article><h3>4. How do I get support or report a bug?</h3><p>You can join the TokenRouter Discord community to ask questions, share feedback, or report technical issues. You can also contact the team directly through the Contact Us form.</p></article>
-            <article><h3>5. How is usage billed on TokenRouter?</h3><p>TokenRouter displays pricing for each model. Usage is billed according to the selected model, provider, and actual consumption, with usage and cost details available in Usage Logs.</p></article>
-            <article><h3>6. How often does TokenRouter add new models?</h3><p>TokenRouter continuously updates its model catalog to support newly released and widely used AI models across text, image, video, and audio.</p></article>
-            <article><h3>7. Does TokenRouter charge a platform fee?</h3><p>No, TokenRouter currently does not charge platform fees for Personal or Enterprise software features. Model usage is still charged based on the selected model, provider, and actual consumption.</p></article>
-            <article><h3>8. Can I request higher RPM or TPM limits?</h3><p>Yes. TokenRouter can support custom RPM and TPM limits for enterprise customers and high-volume use cases, subject to model, provider capacity, usage patterns, and technical feasibility.</p></article>
-            <article><h3>9. What happens if a model provider goes down?</h3><p>TokenRouter is designed to support automatic fallback across available providers where applicable, helping improve reliability for production applications.</p></article>
-            <article><h3>10. What payment and currency options does TokenRouter support?</h3><p>TokenRouter primarily uses Stripe as its payment channel and uses US dollars as the base billing currency. Prices are generally denominated in USD.</p></article>
-          </div>
-          <div class="o3-faq-help"><strong>Still Have Questions?</strong><span>Browse the full documentation for guides, references and end-to-end code samples.</span><span class="o3-static-button">Open Docs ↗</span></div>
-        </div>
-      </section>
-
-      <section class="o3-remaining-card o3-cta-card" aria-label="Call to action">
-        <div class="o3-remaining-inner"><h2>Ready to Roll TokenRouter Out Across Your Org?</h2><div class="o3-cta-buttons"><span class="o3-static-button o3-static-button--primary">Talk to Sales ↗</span><span class="o3-static-button">Start Free</span></div></div>
-      </section>
-
-      <footer class="o3-footer"><div class="o3-footer-inner"><div class="o3-footer-brand"><img src="/assets/logo-without-title-8.png" alt="" /><strong>TokenRouter</strong></div><div class="o3-footer-links"><div><b>QUICK LINKS</b><span>Console</span><span>Models</span><span>Docs</span><span>Blog</span></div><div><b>COMPANY</b><span>About</span><span>Contact</span><span>Careers</span></div><div><b>LEGAL</b><span>Privacy</span><span>Terms</span><span>Security</span></div></div></div></footer>
-    `;
+      <section class="o3-remaining-card o3-enterprise-card" aria-label="Enterprise"><div class="o3-remaining-inner"><div class="o3-section-kicker">ENTERPRISE-READY</div><h2>Simple to Start, Powerful at<br class="o3-desktop-break" /> Enterprise Scale</h2><p>Start with simple model access. Add centralized billing, granular quota controls, audit-ready logs, and organization-wide visibility as your usage grows.</p><p>Already at scale? <span class="o3-static-link">Talk to sales.</span></p><div class="o3-enterprise-grid"><article><img src="/assets/icons/billing.svg" alt="" /><h3>Centralized Billing and Admin Control</h3><p>Run all company usage under one organization account with unified billing, unified permissions, and no more individual recharge or reimbursement workflows.</p><div><span>Unified Billing</span><span>Org Admin</span><span>No Reimbursement</span></div></article><article><img src="/assets/icons/users.svg" alt="" /><h3>Granular Quota by Member or Department</h3><p>Set, adjust, and monitor quota at different levels. Allocate usage budgets in real time by user, by team, or by department as business needs change.</p><div><span>Quota Control</span><span>Per Team</span><span>Real-Time Allocation</span></div></article><article><img src="/assets/icons/routing.svg" alt="" /><h3>Always-On Routing with Multi-Channel Failover</h3><p>TokenRouter combines multiple upstream providers with owned inference cloud capacity, enabling automatic failover when one route degrades or becomes unavailable.</p><div><span>Failover</span><span>Multi-Upstream</span><span>High Availability</span></div></article><article><img src="/assets/icons/analytics.svg" alt="" /><h3>Organization-Wide Analytics and Usage Insights</h3><p>Track activity, cost, and usage trends across the company. Analyze adoption by model, by member, and by time period with clear multi-dimensional dashboards.</p><div><span>Usage Trends</span><span>Model Analytics</span><span>Team Activity</span></div></article><article><img src="/assets/icons/audit.svg" alt="" /><h3>Audit-Ready Logs and Full Traceability</h3><p>Every request, token spend, and access record can be traced back to the user and model involved, supporting internal governance, review, and operational auditing.</p><div><span>Audit Logs</span><span>Cost Traceability</span><span>Access Records</span></div></article><article><img src="/assets/icons/globe.svg" alt="" /><h3>Global Delivery for High Concurrency and Low Latency</h3><p>Global service nodes and close collaboration with model providers help deliver stable capacity, better concurrency handling, and lower-latency access across regions.</p><div><span>Global Nodes</span><span>Low Latency</span><span>High Concurrency</span></div></article></div></div></section>
+      <section class="o3-remaining-card o3-faq-card" aria-label="Frequently Asked Questions"><div class="o3-remaining-inner"><div class="o3-section-kicker">FAQ</div><h2>Frequently Asked Questions</h2><p class="o3-faq-intro">Quick answers to the questions developers ask most. Don't see yours? The full documentation has deeper guides, references.</p><div class="o3-faq-list"><article><h3>1. What is TokenRouter?</h3><p>TokenRouter is a unified API gateway for accessing leading AI models across text, image, video, and audio. Instead of integrating with multiple model providers one by one, developers and enterprises can connect through TokenRouter and manage model access through a single interface.</p></article><article><h3>2. Why should I choose TokenRouter?</h3><p>TokenRouter helps teams reduce integration complexity by providing one unified API for multiple AI models and providers. It also centralizes billing, usage tracking, and cost visibility while supporting multi-provider routing and fallback.</p></article><article><h3>3. Is my team's data secure?</h3><p>TokenRouter is designed for controlled AI access with centralized management, usage visibility, and enterprise-oriented governance.</p></article><article><h3>4. How do I get support or report a bug?</h3><p>You can join the TokenRouter Discord community to ask questions, share feedback, or report technical issues. You can also contact the team directly through the Contact Us form.</p></article><article><h3>5. How is usage billed on TokenRouter?</h3><p>TokenRouter displays pricing for each model. Usage is billed according to the selected model, provider, and actual consumption, with usage and cost details available in Usage Logs.</p></article><article><h3>6. How often does TokenRouter add new models?</h3><p>TokenRouter continuously updates its model catalog to support newly released and widely used AI models across text, image, video, and audio.</p></article><article><h3>7. Does TokenRouter charge a platform fee?</h3><p>No, TokenRouter currently does not charge platform fees for Personal or Enterprise software features. Model usage is still charged based on the selected model, provider, and actual consumption.</p></article><article><h3>8. Can I request higher RPM or TPM limits?</h3><p>Yes. TokenRouter can support custom RPM and TPM limits for enterprise customers and high-volume use cases, subject to model, provider capacity, usage patterns, and technical feasibility.</p></article><article><h3>9. What happens if a model provider goes down?</h3><p>TokenRouter is designed to support automatic fallback across available providers where applicable, helping improve reliability for production applications.</p></article><article><h3>10. What payment and currency options does TokenRouter support?</h3><p>TokenRouter primarily uses Stripe as its payment channel and uses US dollars as the base billing currency. Prices are generally denominated in USD.</p></article></div><div class="o3-faq-help"><strong>Still Have Questions?</strong><span>Browse the full documentation for guides, references and end-to-end code samples.</span><span class="o3-static-button">Open Docs ↗</span></div></div></section>
+      <section class="o3-remaining-card o3-cta-card" aria-label="Call to action"><div class="o3-remaining-inner"><h2>Ready to Roll TokenRouter Out Across Your Org?</h2><div class="o3-cta-buttons"><span class="o3-static-button o3-static-button--primary">Talk to Sales ↗</span><span class="o3-static-button">Start Free</span></div></div></section>
+      <footer class="o3-footer"><div class="o3-footer-inner"><div class="o3-footer-brand"><img src="/assets/logo-without-title-8.png" alt="" /><strong>TokenRouter</strong></div><div class="o3-footer-links"><div><b>QUICK LINKS</b><span>Console</span><span>Models</span><span>Docs</span><span>Blog</span></div><div><b>COMPANY</b><span>About</span><span>Contact</span><span>Careers</span></div><div><b>LEGAL</b><span>Privacy</span><span>Terms</span><span>Security</span></div></div></div></footer>`;
     afterOneApi.after(stack);
     initRemainingExpands(stack);
   }
@@ -225,11 +183,11 @@
       sticky.className = 'o3-expand-sticky';
       const frame = document.createElement('div');
       frame.className = 'o3-expand-frame';
+      track.style.zIndex = String(40 + index);
       card.parentNode.insertBefore(track, card);
       track.appendChild(sticky);
       sticky.appendChild(frame);
       frame.appendChild(card);
-
       const apply = (progress) => {
         const easing = reduce ? 1 : smooth(0.03, 0.88, progress);
         const inset = 28 * (1 - easing);
