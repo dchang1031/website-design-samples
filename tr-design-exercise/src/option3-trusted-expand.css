@@ -40,9 +40,8 @@
   min-height: 100%;
   box-sizing: border-box;
   display: flex;
-  align-items: flex-start;
-  padding-top: 80px !important;
-  padding-bottom: 42px !important;
+  align-items: center;
+  padding: 0 42px !important;
 }
 
 .o3-trusted-expand [data-section="trusted"] > div {
@@ -68,8 +67,7 @@
   }
 
   .o3-trusted-expand [data-section="trusted"] {
-    padding-top: 80px !important;
-    padding-bottom: 28px !important;
+    padding: 0 24px !important;
   }
 
   .o3-trusted-expand [data-section="trusted"] > div {
