@@ -217,7 +217,11 @@
         <div class="narrow">
           <p class="kicker"><span class="marker"></span>04 PLANT DISTURBANCE</p>
           <h2>One event, five endings: the chiller trip</h2>
-          <p class="lead muted">A power fault takes the lead chiller offline. The backup needs <span class="soft">8 to 12 minutes</span> to reach full capacity. The racks need cold water <span class="soft">every second</span>. A central plant has to decide which need comes first. Each fix for that decision creates the next problem.</p>
+          <div class="scrub" data-scrub>
+            <div class="scrub-inner">
+              <p class="lead muted">A power fault takes the lead chiller offline. The backup needs <span class="hl">8 to 12 minutes</span> to reach full capacity. The racks need cold water <span class="hl">every second</span>. A central plant has to decide which need comes first. Each fix for that decision creates the next problem.</p>
+            </div>
+          </div>
         </div>
 
         <div class="configs" id="configs">
@@ -377,7 +381,12 @@
         <div class="footer-left">
           <div>
             <p class="footer-lead">Energy is complicated. Reaching us isn’t.<br />Contact the ON team anytime.</p>
-            <button class="footer-cta" type="button">Get in touch</button>
+            <button class="footer-cta" type="button">
+              <span class="cta-streams" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+              <span class="cta-glow" aria-hidden="true"></span>
+              <span class="cta-fill" aria-hidden="true"></span>
+              <span class="cta-label">Get in touch</span>
+            </button>
           </div>
           <img class="footer-logo" src="assets/logo-footer.png" alt="ON" />
         </div>

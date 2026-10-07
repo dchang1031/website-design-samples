@@ -30,35 +30,10 @@ document.querySelectorAll(".dot-btn").forEach((btn) => {
   btn.appendChild(glyph(btn.hasAttribute("data-close") ? CROSS : PLUS));
 });
 
-/* Quote mark: pairs appear together, then dots go out one at a time. */
-(function playQuote() {
-  const circles = [...document.querySelectorAll(".quote-mark circle")];
-  const byPlace = (a, b) => {
-    const dy = parseFloat(b.getAttribute("cy")) - parseFloat(a.getAttribute("cy"));
-    return dy || parseFloat(a.getAttribute("cx")) - parseFloat(b.getAttribute("cx"));
-  };
-  const left = circles.filter((c) => parseFloat(c.getAttribute("cx")) < 70).sort(byPlace);
-  const right = circles.filter((c) => parseFloat(c.getAttribute("cx")) >= 70).sort(byPlace);
-  const pairs = left.map((dot, i) => [dot, right[i]].filter(Boolean));
-  const flat = pairs.flat();
-  const dim = "0.12";
-  flat.forEach((dot) => { dot.style.opacity = dim; });
-  const wait = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
-  async function loop() {
-    for (const pair of pairs) {
-      pair.forEach((dot) => { dot.style.opacity = "1"; });
-      await wait(280);
-    }
-    await wait(640);
-    for (const dot of flat) {
-      dot.style.opacity = dim;
-      await wait(240);
-    }
-    await wait(520);
-    loop();
-  }
-  loop();
-})();
+/* Quote mark: staggered flicker, short dim so most dots stay lit. */
+document.querySelectorAll(".quote-mark circle").forEach((dot, i) => {
+  dot.style.animationDelay = (i % 7) * 115 + "ms";
+});
 
 /* ---------- Menus ---------- */
 function closeMenus(except) {
@@ -126,24 +101,24 @@ function updateNavTone() {
 }
 
 /* ---------- Yellow shape ---------- */
-const summary = document.getElementById("summary");
-const yellow = summary.querySelector(".yellow-bg");
-let yellowTarget = 0;
+const yellow = document.querySelector("#summary .yellow-bg");
 let yellowShown = 0;
 
-function updateYellow() {
-  const rect = summary.getBoundingClientRect();
-  const center = rect.top + rect.height / 2;
-  const dist = Math.abs(center - window.innerHeight / 2);
-  const range = window.innerHeight * 1.05;
-  let t = 1 - Math.min(dist / range, 1);
-  t = t * t * (3 - 2 * t);
-  yellowTarget = t;
+function clamp01(value) {
+  return Math.min(1, Math.max(0, value));
 }
 
-function paintYellow() {
-  yellowShown += (yellowTarget - yellowShown) * 0.055;
-  if (Math.abs(yellowTarget - yellowShown) < 0.001) yellowShown = yellowTarget;
+function smoothstep(t) {
+  return t * t * (3 - 2 * t);
+}
+
+function updateYellow() {
+  const rect = yellow.getBoundingClientRect();
+  const vh = window.innerHeight;
+  const mid = vh / 2;
+  const enter = smoothstep(clamp01((vh - rect.top) / mid));
+  const leave = smoothstep(clamp01((vh - rect.bottom) / mid));
+  yellowShown = enter * (1 - leave);
   const inset = -140 + (16 + 140) * yellowShown;
   yellow.style.left = inset + "px";
   yellow.style.right = inset + "px";
@@ -164,81 +139,67 @@ function splitLetters(root) {
   });
 }
 
-const STICK = 96;
 const scrubs = [];
 document.querySelectorAll("[data-scrub]").forEach((scrub) => {
   splitLetters(scrub);
-  const inner = scrub.querySelector(".scrub-inner");
+  const chapter = scrub.closest(".chapter");
   const chars = [...scrub.querySelectorAll(".ch")];
   scrubs.push({
-    inner,
+    chapter,
     chars,
     progress: 0,
     lockY: 0,
-    runway: Math.min(520, Math.max(300, chars.length * 6)),
+    runway: Math.max(240, chars.length * 18),
   });
 });
 let scrubActive = null;
+let skipChapterWheel = false;
 
 function applyScrub(scrub) {
   const count = scrub.progress >= 0.995 ? scrub.chars.length : Math.floor(scrub.progress * scrub.chars.length);
   scrub.chars.forEach((ch, i) => ch.classList.toggle("on", i < count));
 }
 
-function engageScrub(scrub, event) {
-  const top = scrub.inner.getBoundingClientRect().top;
-  scrub.lockY = window.scrollY + (top - STICK);
-  window.scrollTo(0, scrub.lockY);
-  scrubActive = scrub;
-  const delta = event ? event.deltaY : 0;
-  scrub.progress = Math.min(1, Math.max(0, scrub.progress + delta / scrub.runway));
-  applyScrub(scrub);
-}
-
 function handleScrubWheel(event) {
   const dir = Math.sign(event.deltaY);
   if (!dir) return false;
-  if (scrubActive) {
-    const scrub = scrubActive;
-    if (dir > 0 && scrub.progress >= 1) {
+  if (dir < 0) {
+    if (scrubActive) {
       scrubActive = null;
-      return false;
+      skipChapterWheel = true;
     }
-    if (dir < 0 && scrub.progress <= 0) {
+    return false;
+  }
+  if (scrubActive) {
+    if (scrubActive.progress >= 1) {
       scrubActive = null;
       return false;
     }
     event.preventDefault();
-    scrub.progress = Math.min(1, Math.max(0, scrub.progress + event.deltaY / scrub.runway));
-    applyScrub(scrub);
-    window.scrollTo(0, scrub.lockY);
-    return true;
-  }
-  for (const scrub of scrubs) {
-    const top = scrub.inner.getBoundingClientRect().top;
-    if (dir > 0 && scrub.progress < 1 && top <= STICK + 30 && top >= STICK - 160) {
-      event.preventDefault();
-      engageScrub(scrub, event);
-      return true;
-    }
-    if (dir < 0 && scrub.progress > 0 && top <= STICK + 48 && top >= STICK - 80) {
-      event.preventDefault();
-      engageScrub(scrub, event);
-      return true;
-    }
-  }
-  return false;
-}
-
-function catchScrub() {
-  if (scrubActive) {
+    scrubActive.progress = Math.min(1, scrubActive.progress + event.deltaY / scrubActive.runway);
+    applyScrub(scrubActive);
     window.scrollTo(0, scrubActive.lockY);
     return true;
   }
   for (const scrub of scrubs) {
-    const top = scrub.inner.getBoundingClientRect().top;
-    if (scrub.progress < 1 && top < STICK - 1) {
-      engageScrub(scrub, null);
+    if (scrub.progress >= 1) continue;
+    const top = scrub.chapter.getBoundingClientRect().top;
+    const crossesTop = top > 0 && top - event.deltaY <= 2;
+    const holdingTop = top <= 2 && top >= -24;
+    if (crossesTop) {
+      event.preventDefault();
+      scrub.lockY = window.scrollY + top;
+      window.scrollTo(0, scrub.lockY);
+      scrubActive = scrub;
+      return true;
+    }
+    if (holdingTop) {
+      event.preventDefault();
+      scrub.lockY = window.scrollY + top;
+      window.scrollTo(0, scrub.lockY);
+      scrubActive = scrub;
+      scrub.progress = Math.min(1, scrub.progress + event.deltaY / scrub.runway);
+      applyScrub(scrub);
       return true;
     }
   }
@@ -258,11 +219,20 @@ const cardIO = new IntersectionObserver(
       card.style.animationDelay = (index % 2) * 70 + "ms";
       card.classList.add("in");
       cardIO.unobserve(card);
+      if (card.id === "point-05") armIllustration();
     });
   },
   { threshold: 0.45, rootMargin: "0px 0px -6% 0px" }
 );
 cards.forEach((card) => cardIO.observe(card));
+
+let illustrationLock = null;
+let illustrationDone = false;
+
+function armIllustration() {
+  if (illustrationDone || illustrationLock != null) return;
+  illustrationLock = window.scrollY;
+}
 
 /* ---------- Heat field ---------- */
 const heat = document.getElementById("heat-field");
@@ -307,6 +277,10 @@ function playHeat(dots) {
       item.node.style.opacity = "0.2";
     }, dimStart + i * 1.6);
   });
+  window.setTimeout(() => {
+    illustrationDone = true;
+    illustrationLock = null;
+  }, dimStart + above.length * 1.6 + 80);
 }
 
 let heatDots = null;
@@ -324,6 +298,10 @@ fetch("assets/heat-dots.json")
   .then((dots) => {
     heatDots = dots;
     maybeHeat();
+  })
+  .catch(() => {
+    illustrationDone = true;
+    illustrationLock = null;
   });
 
 /* ---------- Vertical dividers ---------- */
@@ -484,14 +462,16 @@ function playHandoff(fromIndex, dir) {
   }, 860);
 }
 
+let lastScrollY = 0;
 function guardChapterEdges() {
-  if (handoff || scrubActive) return;
   const y = window.scrollY;
+  const goingDown = y > lastScrollY + 1;
+  lastScrollY = y;
+  if (!goingDown || handoff || scrubActive || illustrationLock != null) return;
   for (let i = 0; i < chapters.length - 1; i += 1) {
     const end = chapterEnd(i);
     if (y > end + 2 && y < chapters[i + 1].offsetTop - 2) {
       window.scrollTo(0, Math.max(0, end));
-      playHandoff(i, 1);
       return;
     }
   }
@@ -516,19 +496,27 @@ function handleChapterWheel(event) {
   if (index < 0) return false;
   if (dir > 0 && index < chapters.length - 1) {
     const end = chapterEnd(index);
+    if (window.scrollY >= end - 1) {
+      event.preventDefault();
+      playHandoff(index, 1);
+      return true;
+    }
     if (window.scrollY + event.deltaY > end) {
       event.preventDefault();
       window.scrollTo(0, Math.max(0, end));
-      playHandoff(index, 1);
       return true;
     }
   }
   if (dir < 0 && index > 0) {
     const start = chapters[index].offsetTop;
+    if (window.scrollY <= start + 1) {
+      event.preventDefault();
+      playHandoff(index, -1);
+      return true;
+    }
     if (window.scrollY + event.deltaY < start) {
       event.preventDefault();
       window.scrollTo(0, start);
-      playHandoff(index, -1);
       return true;
     }
   }
@@ -603,10 +591,8 @@ function onScroll() {
   frame = requestAnimationFrame(() => {
     frame = 0;
     if (handoff) return;
-    if (catchScrub()) {
-      updateNavTone();
-      updateYellow();
-      return;
+    if (illustrationLock != null && Math.abs(window.scrollY - illustrationLock) > 1) {
+      window.scrollTo(0, illustrationLock);
     }
     guardChapterEdges();
     updateNavTone();
@@ -626,17 +612,16 @@ window.addEventListener("load", () => {
 });
 window.addEventListener("wheel", (event) => {
   if (document.body.classList.contains("lightbox-open")) return;
-  if (handoff) {
+  if (handoff || illustrationLock != null) {
     event.preventDefault();
+    if (illustrationLock != null) window.scrollTo(0, illustrationLock);
     return;
   }
+  skipChapterWheel = false;
   if (handleScrubWheel(event)) return;
+  if (skipChapterWheel) return;
   handleChapterWheel(event);
 }, { passive: false });
 
-function tick() {
-  paintYellow();
-  requestAnimationFrame(tick);
-}
-tick();
+updateYellow();
 onScroll();
