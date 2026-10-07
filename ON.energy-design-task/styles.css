@@ -278,9 +278,6 @@ main { position: relative; z-index: 1; }
 /* ---------- Chapters ---------- */
 .chapter { position: relative; background: #000000; }
 .chapter.chapter-char { background: #202020; }
-.chapter.is-front { z-index: 3; }
-.chapter.is-back { z-index: 2; }
-body.handoff-lock { overflow: hidden; }
 .section-pad { padding: 96px 36px 96px; }
 .kicker {
   display: flex;

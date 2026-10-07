@@ -139,32 +139,25 @@ function splitLetters(root) {
   });
 }
 
-const scrubs = [];
 document.querySelectorAll("[data-scrub]").forEach((scrub) => {
   splitLetters(scrub);
-  const chapter = scrub.closest(".chapter");
   const chars = [...scrub.querySelectorAll(".ch")];
-  const state = { chapter, chars, done: chars.length === 0, started: false };
-  scrubs.push(state);
+  if (!chars.length) return;
+  let started = false;
   const io = new IntersectionObserver((entries) => {
-    if (!entries.some((entry) => entry.isIntersecting) || state.started) return;
-    state.started = true;
+    if (!entries.some((entry) => entry.isIntersecting) || started) return;
+    started = true;
     io.disconnect();
     let index = 0;
     const step = () => {
       index += 1;
-      state.chars.forEach((ch, i) => ch.classList.toggle("on", i < index));
-      if (index < state.chars.length) window.setTimeout(step, 28);
-      else state.done = true;
+      chars.forEach((ch, i) => ch.classList.toggle("on", i < index));
+      if (index < chars.length) window.setTimeout(step, 28);
     };
     window.setTimeout(step, 120);
   }, { threshold: 0.45 });
   io.observe(scrub);
 });
-
-function highlightsDone(chapter) {
-  return scrubs.filter((scrub) => scrub.chapter === chapter).every((scrub) => scrub.done);
-}
 
 /* ---------- Cards ---------- */
 const points = document.getElementById("points");
@@ -178,9 +171,6 @@ const cardIO = new IntersectionObserver(
       const index = cards.indexOf(card);
       card.style.animationDelay = (index % 2) * 70 + "ms";
       card.classList.add("in");
-      card.addEventListener("animationend", (event) => {
-        if (event.animationName === "card-in") card.dataset.settled = "1";
-      }, { once: true });
       cardIO.unobserve(card);
     });
   },
@@ -295,7 +285,6 @@ function buildVLine(line) {
 document.querySelectorAll("[data-vline]").forEach(buildVLine);
 
 const vlineArmed = new WeakSet();
-const vlineDone = new WeakSet();
 function updateVLines() {
   [
     ["title-central", "#compare-02"],
@@ -308,8 +297,6 @@ function updateVLines() {
     if (title.getBoundingClientRect().top < NAV_H + 28) {
       vlineArmed.add(line);
       line.classList.add("play");
-      const count = line.querySelectorAll("i").length;
-      window.setTimeout(() => vlineDone.add(line), count * 14 + 180);
     }
   });
 }
@@ -339,7 +326,6 @@ function buildBeats() {
 }
 buildBeats();
 
-const beatDone = new WeakSet();
 function updateBeats() {
   const mid = window.innerHeight / 2;
   document.querySelectorAll("[data-beat]").forEach((beat) => {
@@ -351,163 +337,7 @@ function updateBeats() {
       dot.style.animationDelay = i * 16 + "ms";
     });
     beat.classList.add("play");
-    window.setTimeout(() => beatDone.add(beat), dots.length * 16 + 160);
   });
-}
-
-/* ---------- Chapter transitions ---------- */
-const chapters = [...document.querySelectorAll(".chapter")];
-const storyBg = document.querySelector(".story-bg");
-
-function chapterEnd(index) {
-  const chapter = chapters[index];
-  return chapter.offsetTop + chapter.offsetHeight - window.innerHeight;
-}
-
-let handoff = false;
-let handoffGen = 0;
-
-function syncStoryBg() {
-  if (handoff) return;
-  let bg = "#000000";
-  const y = window.scrollY + 1;
-  chapters.forEach((chapter) => {
-    if (y >= chapter.offsetTop && y < chapter.offsetTop + chapter.offsetHeight) {
-      bg = chapter.dataset.bg || bg;
-    }
-  });
-  storyBg.style.transition = "none";
-  storyBg.style.background = bg;
-}
-
-function chapterReady(chapter) {
-  if (!highlightsDone(chapter)) return false;
-  if (chapter.id === "s01") {
-    if (!cards.every((card) => card.dataset.settled === "1")) return false;
-    if (!illustrationDone) return false;
-  }
-  const line = chapter.querySelector("[data-vline]");
-  if (line && !vlineDone.has(line)) return false;
-  const beats = [...chapter.querySelectorAll("[data-beat]")];
-  if (beats.length && !beats.every((beat) => beatDone.has(beat))) return false;
-  return true;
-}
-
-function cancelHandoff() {
-  if (!handoff) return;
-  handoffGen += 1;
-  chapters.forEach((chapter) => {
-    chapter.style.transition = "none";
-    chapter.style.transform = "";
-    chapter.style.opacity = "";
-    chapter.style.background = "";
-    chapter.classList.remove("is-back", "is-front");
-  });
-  document.body.classList.remove("handoff-lock");
-  handoff = false;
-  syncStoryBg();
-}
-
-function playHandoff(fromIndex, dir) {
-  if (handoff) return;
-  const toIndex = fromIndex + dir;
-  if (toIndex < 0 || toIndex >= chapters.length) return;
-  const from = chapters[fromIndex];
-  const to = chapters[toIndex];
-  const vh = window.innerHeight;
-  const lockY = dir > 0 ? Math.max(0, chapterEnd(fromIndex)) : from.offsetTop;
-  const gen = ++handoffGen;
-  handoff = true;
-  document.body.classList.add("handoff-lock");
-  window.scrollTo(0, lockY);
-  from.classList.add("is-back");
-  to.classList.add("is-front");
-  storyBg.style.transition = "background-color 1.4s cubic-bezier(0.4, 0, 0.2, 1)";
-  storyBg.style.background = to.dataset.bg;
-  from.style.background = "transparent";
-  to.style.background = "transparent";
-
-  const ease = "cubic-bezier(0.22, 1, 0.36, 1)";
-  const dur = "700ms";
-  const fromEnd = dir > 0 ? `translate3d(0, ${-vh * 0.4}px, 0)` : `translate3d(0, ${vh * 0.4}px, 0)`;
-  const toStart = dir > 0 ? `translate3d(0, ${-vh * 0.5}px, 0)` : `translate3d(0, ${vh * 0.5}px, 0)`;
-  const toEnd = dir > 0 ? `translate3d(0, ${-vh}px, 0)` : `translate3d(0, ${vh}px, 0)`;
-  from.style.transition = "none";
-  to.style.transition = "none";
-  from.style.transform = "translate3d(0,0,0)";
-  from.style.opacity = "1";
-  to.style.opacity = "0";
-  to.style.transform = toStart;
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      if (!handoff) return;
-      from.style.transition = `transform ${dur} ${ease}, opacity ${dur} ${ease}`;
-      to.style.transition = `transform ${dur} ${ease}, opacity ${dur} ${ease}`;
-      from.style.transform = fromEnd;
-      from.style.opacity = "0";
-      to.style.transform = toEnd;
-      to.style.opacity = "1";
-    });
-  });
-
-  window.setTimeout(() => {
-    if (gen !== handoffGen) return;
-    const dest = dir > 0
-      ? to.offsetTop
-      : to.offsetTop + to.offsetHeight - window.innerHeight;
-    from.style.transition = "none";
-    to.style.transition = "none";
-    from.style.transform = "";
-    from.style.opacity = "";
-    from.style.background = "";
-    to.style.transform = "";
-    to.style.opacity = "";
-    to.style.background = "";
-    from.classList.remove("is-back");
-    to.classList.remove("is-front");
-    document.body.classList.remove("handoff-lock");
-    window.scrollTo(0, Math.max(0, dest));
-    handoff = false;
-    syncStoryBg();
-  }, 860);
-}
-
-function chapterIndexAt(y) {
-  let index = -1;
-  chapters.forEach((chapter, i) => {
-    if (y >= chapter.offsetTop - 1) index = i;
-  });
-  return index;
-}
-
-function handleChapterWheel(event) {
-  if (handoff) {
-    event.preventDefault();
-    return true;
-  }
-  const dir = Math.sign(event.deltaY);
-  if (!dir) return false;
-  const index = chapterIndexAt(window.scrollY);
-  if (index < 0) return false;
-  if (dir > 0 && index < chapters.length - 1) {
-    const end = chapterEnd(index);
-    const crosses = window.scrollY >= end - 1 || window.scrollY + event.deltaY > end;
-    if (!crosses) return false;
-    if (!chapterReady(chapters[index])) return false;
-    event.preventDefault();
-    playHandoff(index, 1);
-    return true;
-  }
-  if (dir < 0 && index > 0) {
-    const start = chapters[index].offsetTop;
-    const crosses = window.scrollY <= start + 1 || window.scrollY + event.deltaY < start;
-    if (!crosses) return false;
-    if (!chapterReady(chapters[index])) return false;
-    event.preventDefault();
-    playHandoff(index, -1);
-    return true;
-  }
-  return false;
 }
 
 function updateNavVisibility() {
@@ -594,8 +424,6 @@ function onScroll() {
     updateNavTone();
     updateNavVisibility();
     updateYellow();
-    if (handoff) return;
-    syncStoryBg();
     updateVLines();
     updateBeats();
     updatePhoto();
@@ -603,7 +431,7 @@ function onScroll() {
   });
 }
 window.addEventListener("scroll", () => {
-  if (!handoff) tryStartIllustration();
+  tryStartIllustration();
   onScroll();
 }, { passive: true });
 window.addEventListener("resize", () => {
@@ -614,18 +442,11 @@ window.addEventListener("resize", () => {
 window.addEventListener("load", () => {
   document.querySelectorAll("[data-vline]").forEach(buildVLine);
 });
-window.addEventListener("wheel", (event) => {
-  if (document.body.classList.contains("lightbox-open")) return;
-  handleChapterWheel(event);
-}, { passive: false });
-
 document.querySelector(".to-top").addEventListener("click", () => {
   closeMenus();
   closeLightbox();
-  cancelHandoff();
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
 updateYellow();
-syncStoryBg();
 onScroll();
