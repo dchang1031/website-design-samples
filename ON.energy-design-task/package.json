@@ -1,0 +1,7 @@
+{
+  "name": "on-energy-design-task",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js"
+  }
+}
