@@ -53,7 +53,13 @@ main { position: relative; z-index: 1; }
   right: 0;
   z-index: 40;
   pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
 }
+.nav.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+.nav.is-hidden .nav-bar { pointer-events: none; }
 .nav-bar {
   width: min(1440px, 100%);
   margin: 0 auto;
@@ -270,7 +276,8 @@ main { position: relative; z-index: 1; }
 }
 
 /* ---------- Chapters ---------- */
-.chapter { position: relative; background: transparent; }
+.chapter { position: relative; background: #000000; }
+.chapter.chapter-char { background: #202020; }
 .chapter.is-front { z-index: 3; }
 .chapter.is-back { z-index: 2; }
 body.handoff-lock { overflow: hidden; }
@@ -889,3 +896,24 @@ h2 {
 .lightbox-slot .dot-btn[data-expand] { display: none; }
 
 body.lightbox-open { overflow: hidden; }
+
+.to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 45;
+  height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--volt);
+  color: #000;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 36px;
+}
+.to-top:hover {
+  background: #000;
+  color: var(--volt);
+}

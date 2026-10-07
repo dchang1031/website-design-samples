@@ -116,9 +116,8 @@ function updateYellow() {
   const rect = yellow.getBoundingClientRect();
   const vh = window.innerHeight;
   const mid = vh / 2;
-  const span = vh * 1.35;
-  const enter = easeInOut(clamp01((mid + span - rect.top) / span));
-  const leave = easeInOut(clamp01((mid + span - rect.bottom) / span));
+  const enter = easeInOut(clamp01((vh - rect.top) / (vh - mid)));
+  const leave = easeInOut(clamp01((vh - rect.bottom) / (vh - NAV_H)));
   yellowShown = enter * (1 - leave);
   const inset = -140 + (16 + 140) * yellowShown;
   yellow.style.left = inset + "px";
@@ -145,102 +144,26 @@ document.querySelectorAll("[data-scrub]").forEach((scrub) => {
   splitLetters(scrub);
   const chapter = scrub.closest(".chapter");
   const chars = [...scrub.querySelectorAll(".ch")];
-  scrubs.push({
-    chapter,
-    chars,
-    progress: 0,
-    lockY: 0,
-    runway: Math.max(240, chars.length * 18),
-  });
+  const state = { chapter, chars, done: chars.length === 0, started: false };
+  scrubs.push(state);
+  const io = new IntersectionObserver((entries) => {
+    if (!entries.some((entry) => entry.isIntersecting) || state.started) return;
+    state.started = true;
+    io.disconnect();
+    let index = 0;
+    const step = () => {
+      index += 1;
+      state.chars.forEach((ch, i) => ch.classList.toggle("on", i < index));
+      if (index < state.chars.length) window.setTimeout(step, 28);
+      else state.done = true;
+    };
+    window.setTimeout(step, 120);
+  }, { threshold: 0.45 });
+  io.observe(scrub);
 });
-let scrubActive = null;
-let skipChapterWheel = false;
-const SCRUB_PAUSE = 480;
 
-function applyScrub(scrub) {
-  const count = scrub.progress >= 0.995 ? scrub.chars.length : Math.floor(scrub.progress * scrub.chars.length);
-  scrub.chars.forEach((ch, i) => ch.classList.toggle("on", i < count));
-}
-
-function parkScrub(scrub) {
-  const top = scrub.chapter.getBoundingClientRect().top;
-  scrub.lockY = window.scrollY + top;
-  window.scrollTo(0, scrub.lockY);
-  scrubActive = scrub;
-}
-
-function handleScrubWheel(event) {
-  const dir = Math.sign(event.deltaY);
-  if (!dir) return false;
-  if (dir < 0) {
-    if (scrubActive && scrubActive.progress < 1) {
-      scrubActive = null;
-      skipChapterWheel = true;
-    } else if (scrubActive && performance.now() < scrubActive.pauseUntil) {
-      event.preventDefault();
-      window.scrollTo(0, scrubActive.lockY);
-      return true;
-    } else if (scrubActive) {
-      scrubActive = null;
-    }
-    return false;
-  }
-  if (scrubActive) {
-    if (scrubActive.progress >= 1 && performance.now() >= (scrubActive.pauseUntil || 0)) {
-      scrubActive = null;
-    } else {
-      event.preventDefault();
-      window.scrollTo(0, scrubActive.lockY);
-      if (scrubActive.progress < 1) {
-        scrubActive.progress = Math.min(1, scrubActive.progress + event.deltaY / scrubActive.runway);
-        applyScrub(scrubActive);
-        if (scrubActive.progress >= 1) scrubActive.pauseUntil = performance.now() + SCRUB_PAUSE;
-      }
-      return true;
-    }
-  }
-  for (const scrub of scrubs) {
-    if (scrub.progress >= 1) continue;
-    const top = scrub.chapter.getBoundingClientRect().top;
-    if (top <= 0) continue;
-    const wouldPass = top <= event.deltaY + 4;
-    const inBand = top < 180;
-    if (!wouldPass && !inBand) continue;
-    event.preventDefault();
-    if (wouldPass || event.deltaY >= top) {
-      parkScrub(scrub);
-    } else {
-      window.scrollTo(0, window.scrollY + event.deltaY);
-    }
-    return true;
-  }
-  return false;
-}
-
-let pinning = false;
-function catchScrubOvershoot() {
-  if (pinning || handoff || illustrationLock != null) return;
-  if (scrubActive) {
-    const top = scrubActive.chapter.getBoundingClientRect().top;
-    if (top < -0.5) {
-      pinning = true;
-      window.scrollTo(0, window.scrollY + top);
-      pinning = false;
-    }
-    return;
-  }
-  for (const scrub of scrubs) {
-    if (scrub.progress >= 1) continue;
-    const top = scrub.chapter.getBoundingClientRect().top;
-    if (top < 0 && top > -36) {
-      pinning = true;
-      window.scrollTo(0, window.scrollY + top);
-      scrub.lockY = window.scrollY;
-      scrubActive = scrub;
-      pinning = false;
-      return;
-    }
-  }
+function highlightsDone(chapter) {
+  return scrubs.filter((scrub) => scrub.chapter === chapter).every((scrub) => scrub.done);
 }
 
 /* ---------- Cards ---------- */
@@ -255,6 +178,9 @@ const cardIO = new IntersectionObserver(
       const index = cards.indexOf(card);
       card.style.animationDelay = (index % 2) * 70 + "ms";
       card.classList.add("in");
+      card.addEventListener("animationend", (event) => {
+        if (event.animationName === "card-in") card.dataset.settled = "1";
+      }, { once: true });
       cardIO.unobserve(card);
     });
   },
@@ -262,7 +188,6 @@ const cardIO = new IntersectionObserver(
 );
 cards.forEach((card) => cardIO.observe(card));
 
-let illustrationLock = null;
 let illustrationDone = false;
 
 function card05BottomSeen() {
@@ -271,8 +196,7 @@ function card05BottomSeen() {
 }
 
 function tryStartIllustration() {
-  if (illustrationDone || illustrationLock != null || !card05BottomSeen()) return;
-  illustrationLock = window.scrollY;
+  if (illustrationDone || heatPlayed || !card05BottomSeen()) return;
   maybeHeat();
 }
 
@@ -321,7 +245,6 @@ function playHeat(dots) {
   });
   window.setTimeout(() => {
     illustrationDone = true;
-    illustrationLock = null;
   }, dimStart + above.length * 1.6 + 80);
 }
 
@@ -337,7 +260,6 @@ fetch("assets/heat-dots.json")
   })
   .catch(() => {
     illustrationDone = true;
-    illustrationLock = null;
   });
 
 /* ---------- Vertical dividers ---------- */
@@ -373,6 +295,7 @@ function buildVLine(line) {
 document.querySelectorAll("[data-vline]").forEach(buildVLine);
 
 const vlineArmed = new WeakSet();
+const vlineDone = new WeakSet();
 function updateVLines() {
   [
     ["title-central", "#compare-02"],
@@ -385,6 +308,8 @@ function updateVLines() {
     if (title.getBoundingClientRect().top < NAV_H + 28) {
       vlineArmed.add(line);
       line.classList.add("play");
+      const count = line.querySelectorAll("i").length;
+      window.setTimeout(() => vlineDone.add(line), count * 14 + 180);
     }
   });
 }
@@ -414,16 +339,19 @@ function buildBeats() {
 }
 buildBeats();
 
+const beatDone = new WeakSet();
 function updateBeats() {
   const mid = window.innerHeight / 2;
   document.querySelectorAll("[data-beat]").forEach((beat) => {
     if (beat.classList.contains("play")) return;
     const rect = beat.getBoundingClientRect();
     if (rect.top + rect.height / 2 > mid) return;
-    [...beat.querySelectorAll("i")].forEach((dot, i) => {
+    const dots = [...beat.querySelectorAll("i")];
+    dots.forEach((dot, i) => {
       dot.style.animationDelay = i * 16 + "ms";
     });
     beat.classList.add("play");
+    window.setTimeout(() => beatDone.add(beat), dots.length * 16 + 160);
   });
 }
 
@@ -437,6 +365,48 @@ function chapterEnd(index) {
 }
 
 let handoff = false;
+let handoffGen = 0;
+
+function syncStoryBg() {
+  if (handoff) return;
+  let bg = "#000000";
+  const y = window.scrollY + 1;
+  chapters.forEach((chapter) => {
+    if (y >= chapter.offsetTop && y < chapter.offsetTop + chapter.offsetHeight) {
+      bg = chapter.dataset.bg || bg;
+    }
+  });
+  storyBg.style.transition = "none";
+  storyBg.style.background = bg;
+}
+
+function chapterReady(chapter) {
+  if (!highlightsDone(chapter)) return false;
+  if (chapter.id === "s01") {
+    if (!cards.every((card) => card.dataset.settled === "1")) return false;
+    if (!illustrationDone) return false;
+  }
+  const line = chapter.querySelector("[data-vline]");
+  if (line && !vlineDone.has(line)) return false;
+  const beats = [...chapter.querySelectorAll("[data-beat]")];
+  if (beats.length && !beats.every((beat) => beatDone.has(beat))) return false;
+  return true;
+}
+
+function cancelHandoff() {
+  if (!handoff) return;
+  handoffGen += 1;
+  chapters.forEach((chapter) => {
+    chapter.style.transition = "none";
+    chapter.style.transform = "";
+    chapter.style.opacity = "";
+    chapter.style.background = "";
+    chapter.classList.remove("is-back", "is-front");
+  });
+  document.body.classList.remove("handoff-lock");
+  handoff = false;
+  syncStoryBg();
+}
 
 function playHandoff(fromIndex, dir) {
   if (handoff) return;
@@ -446,6 +416,7 @@ function playHandoff(fromIndex, dir) {
   const to = chapters[toIndex];
   const vh = window.innerHeight;
   const lockY = dir > 0 ? Math.max(0, chapterEnd(fromIndex)) : from.offsetTop;
+  const gen = ++handoffGen;
   handoff = true;
   document.body.classList.add("handoff-lock");
   window.scrollTo(0, lockY);
@@ -453,6 +424,8 @@ function playHandoff(fromIndex, dir) {
   to.classList.add("is-front");
   storyBg.style.transition = "background-color 1.4s cubic-bezier(0.4, 0, 0.2, 1)";
   storyBg.style.background = to.dataset.bg;
+  from.style.background = "transparent";
+  to.style.background = "transparent";
 
   const ease = "cubic-bezier(0.22, 1, 0.36, 1)";
   const dur = "700ms";
@@ -478,6 +451,7 @@ function playHandoff(fromIndex, dir) {
   });
 
   window.setTimeout(() => {
+    if (gen !== handoffGen) return;
     const dest = dir > 0
       ? to.offsetTop
       : to.offsetTop + to.offsetHeight - window.innerHeight;
@@ -485,29 +459,17 @@ function playHandoff(fromIndex, dir) {
     to.style.transition = "none";
     from.style.transform = "";
     from.style.opacity = "";
+    from.style.background = "";
     to.style.transform = "";
     to.style.opacity = "";
+    to.style.background = "";
     from.classList.remove("is-back");
     to.classList.remove("is-front");
     document.body.classList.remove("handoff-lock");
     window.scrollTo(0, Math.max(0, dest));
     handoff = false;
+    syncStoryBg();
   }, 860);
-}
-
-let lastScrollY = 0;
-function guardChapterEdges() {
-  const y = window.scrollY;
-  const goingDown = y > lastScrollY + 1;
-  lastScrollY = y;
-  if (!goingDown || handoff || scrubActive || illustrationLock != null) return;
-  for (let i = 0; i < chapters.length - 1; i += 1) {
-    const end = chapterEnd(i);
-    if (y > end + 2 && y < chapters[i + 1].offsetTop - 2) {
-      window.scrollTo(0, Math.max(0, end));
-      return;
-    }
-  }
 }
 
 function chapterIndexAt(y) {
@@ -529,31 +491,37 @@ function handleChapterWheel(event) {
   if (index < 0) return false;
   if (dir > 0 && index < chapters.length - 1) {
     const end = chapterEnd(index);
-    if (window.scrollY >= end - 1) {
-      event.preventDefault();
-      playHandoff(index, 1);
-      return true;
-    }
-    if (window.scrollY + event.deltaY > end) {
-      event.preventDefault();
-      window.scrollTo(0, Math.max(0, end));
-      return true;
-    }
+    const crosses = window.scrollY >= end - 1 || window.scrollY + event.deltaY > end;
+    if (!crosses) return false;
+    if (!chapterReady(chapters[index])) return false;
+    event.preventDefault();
+    playHandoff(index, 1);
+    return true;
   }
   if (dir < 0 && index > 0) {
     const start = chapters[index].offsetTop;
-    if (window.scrollY <= start + 1) {
-      event.preventDefault();
-      playHandoff(index, -1);
-      return true;
-    }
-    if (window.scrollY + event.deltaY < start) {
-      event.preventDefault();
-      window.scrollTo(0, start);
-      return true;
-    }
+    const crosses = window.scrollY <= start + 1 || window.scrollY + event.deltaY < start;
+    if (!crosses) return false;
+    if (!chapterReady(chapters[index])) return false;
+    event.preventDefault();
+    playHandoff(index, -1);
+    return true;
   }
   return false;
+}
+
+function updateNavVisibility() {
+  const footer = document.querySelector(".footer");
+  const nav = document.getElementById("nav");
+  const hide = footer.getBoundingClientRect().top < NAV_H;
+  if (hide && !nav.classList.contains("is-hidden")) {
+    document.querySelectorAll(".nav-item.open").forEach((item) => {
+      item.classList.remove("open");
+      item.querySelector(".pill").setAttribute("aria-expanded", "false");
+      item.querySelector(".menu").hidden = true;
+    });
+  }
+  nav.classList.toggle("is-hidden", hide);
 }
 
 /* ---------- Facility photo ---------- */
@@ -623,23 +591,19 @@ function onScroll() {
   if (frame) return;
   frame = requestAnimationFrame(() => {
     frame = 0;
-    if (handoff) return;
-    guardChapterEdges();
     updateNavTone();
+    updateNavVisibility();
     updateYellow();
+    if (handoff) return;
+    syncStoryBg();
     updateVLines();
     updateBeats();
     updatePhoto();
+    tryStartIllustration();
   });
 }
 window.addEventListener("scroll", () => {
-  if (!handoff) {
-    catchScrubOvershoot();
-    tryStartIllustration();
-    if (illustrationLock != null && Math.abs(window.scrollY - illustrationLock) > 1) {
-      window.scrollTo(0, illustrationLock);
-    }
-  }
+  if (!handoff) tryStartIllustration();
   onScroll();
 }, { passive: true });
 window.addEventListener("resize", () => {
@@ -652,16 +616,16 @@ window.addEventListener("load", () => {
 });
 window.addEventListener("wheel", (event) => {
   if (document.body.classList.contains("lightbox-open")) return;
-  if (handoff || illustrationLock != null) {
-    event.preventDefault();
-    if (illustrationLock != null) window.scrollTo(0, illustrationLock);
-    return;
-  }
-  skipChapterWheel = false;
-  if (handleScrubWheel(event)) return;
-  if (skipChapterWheel) return;
   handleChapterWheel(event);
 }, { passive: false });
 
+document.querySelector(".to-top").addEventListener("click", () => {
+  closeMenus();
+  closeLightbox();
+  cancelHandoff();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
 updateYellow();
+syncStoryBg();
 onScroll();
