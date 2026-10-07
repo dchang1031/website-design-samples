@@ -1,0 +1,34 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="608" height="310" viewBox="0 0 608 310" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Geometry &#226;&#128;&#148; Shared-loop architecture">
+<path id="Data hall boundary" d="M591.5 28.5H300.5V247.5H591.5V28.5Z" fill="#484848"/>
+<path id="Shared chilled-water supply path" d="M136 77H316V209H340M316 121H340M316 165H340" stroke="#7D7D7D" stroke-width="4"/>
+<path id="Shared chilled-water return path" d="M572 77H582V266H76V220M572 121H582M572 165H582M572 209H582" stroke="#7D7D7D" stroke-width="3"/>
+<path id="Rack" d="M371.5 64.5H340.5V89.5H371.5V64.5Z" fill="#202020"/>
+<path id="Rack_2" d="M411.5 64.5H380.5V89.5H411.5V64.5Z" fill="#202020"/>
+<path id="Rack_3" d="M451.5 64.5H420.5V89.5H451.5V64.5Z" fill="#202020"/>
+<path id="Rack_4" d="M491.5 64.5H460.5V89.5H491.5V64.5Z" fill="#202020"/>
+<path id="Rack_5" d="M531.5 64.5H500.5V89.5H531.5V64.5Z" fill="#202020"/>
+<path id="Rack_6" d="M571.5 64.5H540.5V89.5H571.5V64.5Z" fill="#202020"/>
+<path id="Rack_7" d="M371.5 108.5H340.5V133.5H371.5V108.5Z" fill="#202020"/>
+<path id="Rack_8" d="M411.5 108.5H380.5V133.5H411.5V108.5Z" fill="#202020"/>
+<path id="Rack_9" d="M451.5 108.5H420.5V133.5H451.5V108.5Z" fill="#202020"/>
+<path id="Rack_10" d="M491.5 108.5H460.5V133.5H491.5V108.5Z" fill="#202020"/>
+<path id="Rack_11" d="M531.5 108.5H500.5V133.5H531.5V108.5Z" fill="#202020"/>
+<path id="Rack_12" d="M571.5 108.5H540.5V133.5H571.5V108.5Z" fill="#202020"/>
+<path id="Rack_13" d="M371.5 152.5H340.5V177.5H371.5V152.5Z" fill="#202020"/>
+<path id="Rack_14" d="M411.5 152.5H380.5V177.5H411.5V152.5Z" fill="#202020"/>
+<path id="Rack_15" d="M451.5 152.5H420.5V177.5H451.5V152.5Z" fill="#202020"/>
+<path id="Rack_16" d="M491.5 152.5H460.5V177.5H491.5V152.5Z" fill="#EEEEEE"/>
+<path id="Rack_17" d="M531.5 152.5H500.5V177.5H531.5V152.5Z" fill="#202020"/>
+<path id="Rack_18" d="M571.5 152.5H540.5V177.5H571.5V152.5Z" fill="#202020"/>
+<path id="Rack_19" d="M371.5 196.5H340.5V221.5H371.5V196.5Z" fill="#202020"/>
+<path id="Rack_20" d="M411.5 196.5H380.5V221.5H411.5V196.5Z" fill="#202020"/>
+<path id="Rack_21" d="M451.5 196.5H420.5V221.5H451.5V196.5Z" fill="#202020"/>
+<path id="Rack_22" d="M491.5 196.5H460.5V221.5H491.5V196.5Z" fill="#202020"/>
+<path id="Rack_23" d="M531.5 196.5H500.5V221.5H531.5V196.5Z" fill="#202020"/>
+<path id="Rack_24" d="M571.5 196.5H540.5V221.5H571.5V196.5Z" fill="#202020"/>
+<path id="Heat-spike propagation path" d="M476 192C476 300 150 300 76 232" stroke="#EEEEEE" stroke-width="1.5" stroke-dasharray="4 4"/>
+<path id="Heat-spike direction arrow" d="M72.8364 239.524L73.2516 227.869L84.1229 231.002" stroke="#EEEEEE" stroke-width="1.5"/>
+<path id="Chiller plant block" d="M135.5 70.5H16.5V219.5H135.5V70.5Z" fill="#202020"/>
+</g>
+</svg>

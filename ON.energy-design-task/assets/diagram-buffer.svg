@@ -1,0 +1,31 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="608" height="310" viewBox="0 0 608 310" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Geometry &#226;&#128;&#148; Row-level buffer architecture">
+<path id="Plant recharge branches" d="M136 76H270M136 146H270M136 216H270" stroke="#FFF313" stroke-width="2"/>
+<path id="Plant-fault isolation boundary" d="M260 28V262" stroke="#EEEEEE" stroke-width="1.5" stroke-dasharray="2 5"/>
+<path id="Buffer block" d="M365.5 56.5V95.5H270.5V56.5H365.5Z" fill="#FFF313" stroke="#FFF313"/>
+<path id="Buffer block_2" d="M365.5 126.5V165.5H270.5V126.5H365.5Z" fill="#FFF313" stroke="#FFF313"/>
+<path id="Buffer block_3" d="M365.5 196.5V235.5H270.5V196.5H365.5Z" fill="#FFF313" stroke="#FFF313"/>
+<path id="Buffer-to-rack arrow &#226;&#128;&#148; Row 01" d="M366 76H390M384 81L390 76L384 71" stroke="#FFF313" stroke-width="1.5"/>
+<path id="Buffer-to-rack arrow &#226;&#128;&#148; Row 02" d="M366 146H390M384 151L390 146L384 141" stroke="#FFF313" stroke-width="1.5"/>
+<path id="Buffer-to-rack arrow &#226;&#128;&#148; Row 03" d="M366 216H390M384 221L390 216L384 211" stroke="#FFF313" stroke-width="1.5"/>
+<path id="Rack" d="M425.5 63.5H398.5V88.5H425.5V63.5Z" fill="#202020"/>
+<path id="Rack_2" d="M458.5 63.5H431.5V88.5H458.5V63.5Z" fill="#202020"/>
+<path id="Rack_3" d="M491.5 63.5H464.5V88.5H491.5V63.5Z" fill="#202020"/>
+<path id="Rack_4" d="M524.5 63.5H497.5V88.5H524.5V63.5Z" fill="#202020"/>
+<path id="Rack_5" d="M557.5 63.5H530.5V88.5H557.5V63.5Z" fill="#202020"/>
+<path id="Rack_6" d="M590.5 63.5H563.5V88.5H590.5V63.5Z" fill="#202020"/>
+<path id="Rack_7" d="M425.5 133.5H398.5V158.5H425.5V133.5Z" fill="#202020"/>
+<path id="Rack_8" d="M458.5 133.5H431.5V158.5H458.5V133.5Z" fill="#202020"/>
+<path id="Rack_9" d="M491.5 133.5H464.5V158.5H491.5V133.5Z" fill="#202020"/>
+<path id="Rack_10" d="M524.5 133.5H497.5V158.5H524.5V133.5Z" fill="#202020"/>
+<path id="Rack_11" d="M557.5 133.5H530.5V158.5H557.5V133.5Z" fill="#202020"/>
+<path id="Rack_12" d="M590.5 133.5H563.5V158.5H590.5V133.5Z" fill="#202020"/>
+<path id="Rack_13" d="M425.5 203.5H398.5V228.5H425.5V203.5Z" fill="#202020"/>
+<path id="Rack_14" d="M458.5 203.5H431.5V228.5H458.5V203.5Z" fill="#202020"/>
+<path id="Rack_15" d="M491.5 203.5H464.5V228.5H491.5V203.5Z" fill="#202020"/>
+<path id="Rack_16" d="M524.5 203.5H497.5V228.5H524.5V203.5Z" fill="#202020"/>
+<path id="Rack_17" d="M557.5 203.5H530.5V228.5H557.5V203.5Z" fill="#202020"/>
+<path id="Rack_18" d="M590.5 203.5H563.5V228.5H590.5V203.5Z" fill="#202020"/>
+<path id="Chiller plant block" d="M135.5 70.5H16.5V219.5H135.5V70.5Z" fill="#202020"/>
+</g>
+</svg>

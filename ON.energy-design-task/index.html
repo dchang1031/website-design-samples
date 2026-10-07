@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>Central Chiller Plant vs. the Rack-Level Thermal Buffer — ON.energy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="story-bg" aria-hidden="true"></div>
+
+  <header class="nav" id="nav">
+    <div class="nav-bar">
+      <button class="brand" type="button" aria-label="ON.energy">
+        <span class="logo-mark"></span>
+      </button>
+
+      <div class="nav-item" data-menu="expertise">
+        <button class="pill" type="button" aria-expanded="false">
+          <span>Expertise</span>
+          <svg class="chev" viewBox="0 0 8 5" aria-hidden="true"><path d="M4 2.64706C4.63117 2.64706 5.14286 3.17379 5.14286 3.82353C5.14286 4.47326 4.63117 5 4 5C3.36883 5 2.85714 4.47326 2.85714 3.82353C2.85714 3.17379 3.36883 2.64706 4 2.64706ZM1.14286 0C1.77404 0 2.28571 0.526724 2.28571 1.17647C2.28571 1.82622 1.77404 2.35294 1.14286 2.35294C0.511674 2.35294 0 1.82622 0 1.17647C0 0.526724 0.511674 0 1.14286 0ZM6.85714 0C7.48831 0 8 0.526724 8 1.17647C8 1.82622 7.48831 2.35294 6.85714 2.35294C6.22597 2.35294 5.71429 1.82622 5.71429 1.17647C5.71429 0.526724 6.22597 0 6.85714 0Z"/></svg>
+        </button>
+        <div class="menu" hidden>
+          <button type="button">AI Workloads</button>
+          <button type="button">Projects</button>
+        </div>
+      </div>
+
+      <div class="nav-item" data-menu="solutions">
+        <button class="pill" type="button" aria-expanded="false">
+          <span>Solutions</span>
+          <svg class="chev" viewBox="0 0 8 5" aria-hidden="true"><path d="M4 2.64706C4.63117 2.64706 5.14286 3.17379 5.14286 3.82353C5.14286 4.47326 4.63117 5 4 5C3.36883 5 2.85714 4.47326 2.85714 3.82353C2.85714 3.17379 3.36883 2.64706 4 2.64706ZM1.14286 0C1.77404 0 2.28571 0.526724 2.28571 1.17647C2.28571 1.82622 1.77404 2.35294 1.14286 2.35294C0.511674 2.35294 0 1.82622 0 1.17647C0 0.526724 0.511674 0 1.14286 0ZM6.85714 0C7.48831 0 8 0.526724 8 1.17647C8 1.82622 7.48831 2.35294 6.85714 2.35294C6.22597 2.35294 5.71429 1.82622 5.71429 1.17647C5.71429 0.526724 6.22597 0 6.85714 0Z"/></svg>
+        </button>
+        <div class="menu" hidden>
+          <button type="button">Technology</button>
+          <button type="button">AI UPS</button>
+          <button type="button">Parallel BESS vs. AI UPS</button>
+        </div>
+      </div>
+
+      <button class="pill pill-static" type="button">Financing</button>
+
+      <div class="nav-item" data-menu="about">
+        <button class="pill" type="button" aria-expanded="false">
+          <span>About</span>
+          <svg class="chev" viewBox="0 0 8 5" aria-hidden="true"><path d="M4 2.64706C4.63117 2.64706 5.14286 3.17379 5.14286 3.82353C5.14286 4.47326 4.63117 5 4 5C3.36883 5 2.85714 4.47326 2.85714 3.82353C2.85714 3.17379 3.36883 2.64706 4 2.64706ZM1.14286 0C1.77404 0 2.28571 0.526724 2.28571 1.17647C2.28571 1.82622 1.77404 2.35294 1.14286 2.35294C0.511674 2.35294 0 1.82622 0 1.17647C0 0.526724 0.511674 0 1.14286 0ZM6.85714 0C7.48831 0 8 0.526724 8 1.17647C8 1.82622 7.48831 2.35294 6.85714 2.35294C6.22597 2.35294 5.71429 1.82622 5.71429 1.17647C5.71429 0.526724 6.22597 0 6.85714 0Z"/></svg>
+        </button>
+        <div class="menu" hidden>
+          <button type="button">Team</button>
+          <button type="button">Careers</button>
+        </div>
+      </div>
+
+      <div class="nav-item" data-menu="resources">
+        <button class="pill" type="button" aria-expanded="false">
+          <span>Resources</span>
+          <svg class="chev" viewBox="0 0 8 5" aria-hidden="true"><path d="M4 2.64706C4.63117 2.64706 5.14286 3.17379 5.14286 3.82353C5.14286 4.47326 4.63117 5 4 5C3.36883 5 2.85714 4.47326 2.85714 3.82353C2.85714 3.17379 3.36883 2.64706 4 2.64706ZM1.14286 0C1.77404 0 2.28571 0.526724 2.28571 1.17647C2.28571 1.82622 1.77404 2.35294 1.14286 2.35294C0.511674 2.35294 0 1.82622 0 1.17647C0 0.526724 0.511674 0 1.14286 0ZM6.85714 0C7.48831 0 8 0.526724 8 1.17647C8 1.82622 7.48831 2.35294 6.85714 2.35294C6.22597 2.35294 5.71429 1.82622 5.71429 1.17647C5.71429 0.526724 6.22597 0 6.85714 0Z"/></svg>
+        </button>
+        <div class="menu" hidden>
+          <button type="button">Press</button>
+          <button type="button">Regulatory</button>
+          <button type="button">Blog</button>
+          <button type="button">Datasheet</button>
+        </div>
+      </div>
+
+      <button class="cta" type="button">Get in touch</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" data-tone="dark">
+      <img class="hero-img" src="assets/hero.jpg" alt="" />
+      <div class="hero-sat" aria-hidden="true"></div>
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="shell hero-copy">
+        <p class="eyebrow">
+          <span class="silver">TECHNICAL BRIEF</span>
+          <span class="sep" aria-hidden="true"></span>
+          <span>THERMAL ARCHITECTURE</span>
+        </p>
+        <h1>Central Chiller Plant vs. the Rack-Level Thermal Buffer</h1>
+        <p class="dek">Heat rejection, dynamic response, and data center uptime</p>
+        <div class="beat-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+        <p class="byline">BY JORDAN REYES</p>
+      </div>
+    </section>
+
+    <section class="summary" id="summary">
+      <div class="yellow-bg" data-tone="light" aria-hidden="true"></div>
+      <div class="shell">
+        <p class="yellow-copy">Both architectures keep racks cool at a steady load. They split apart the moment something changes. A training cluster spikes. A chiller trips. This brief walks through where they split, and why it matters for an AI factory.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="s01" data-bg="#000000">
+      <div class="shell section-pad">
+        <p class="kicker"><span class="marker"></span>01 THE PROBLEM</p>
+        <div class="scrub" data-scrub>
+          <div class="scrub-inner">
+            <div class="split">
+              <h2>Two answers to the same heat spike</h2>
+              <div class="split-copy">
+                <p class="lead muted">AI training clusters produce heat in sharp, fast bursts. A single rack can swing from <span class="hl">40 kW to 130 kW</span> in seconds. Cooling designs built for steady enterprise loads are now being tested against that pattern. Two approaches lead the field. The central chiller plant cools the whole hall from one shared loop. The rack-level thermal buffer stores cooling capacity at each row, <span class="hl">ready before the heat arrives.</span></p>
+                <p class="lead muted">Both hold temperature at a steady load. They differ sharply in response speed, fault tolerance, and commissioning effort. This brief makes five points:</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="points" id="points">
+          <article class="point">
+            <p class="num">01</p>
+            <p>Central plants respond to heat spikes after a lag, estimated at 20 to 45 seconds, as chilled water travels the loop.</p>
+          </article>
+          <article class="point">
+            <p class="num">02</p>
+            <p>That lag is manageable at moderate density. At 100 kW per rack and above, it pushes inlet temperatures past safe limits.</p>
+          </article>
+          <article class="point">
+            <p class="num">03</p>
+            <p>A chiller trip forces a hard choice. Protect the hottest racks, or protect the plant’s restart sequence.</p>
+          </article>
+          <article class="point">
+            <p class="num">04</p>
+            <p>The common workaround stacks storage tanks, backup pumps, and a second chiller. Each layer adds cost, footprint, and failure points.</p>
+          </article>
+          <article class="point point-accent" id="point-05">
+            <p class="num">05</p>
+            <p>A rack-level thermal buffer absorbs spikes where they start, keeps racks cool through a plant trip, and reduces commissioning to one repeatable model.</p>
+          </article>
+          <div class="heat-field" id="heat-field" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter chapter-char" id="s02" data-bg="#202020">
+      <div class="shell section-pad">
+        <p class="kicker"><span class="marker"></span>02 ARCHITECTURE</p>
+        <div class="scrub" data-scrub>
+          <div class="scrub-inner narrow">
+            <h2>Where the cold is stored changes everything</h2>
+            <p class="lead muted">The two systems can use the same chillers and the same coolant. The difference is <span class="hl">location</span>. Cold capacity either lives at a central plant and travels to the racks, or it sits at the row and waits for the heat.</p>
+          </div>
+        </div>
+
+        <div class="compare" id="compare-02">
+          <div class="col col-left">
+            <div class="d-title" id="title-central">
+              <h3>Central Chiller Plant</h3>
+              <p class="sub">CENTRALIZED · SHARED LOOP</p>
+            </div>
+            <figure class="diagram-card" data-diagram="central">
+              <div class="schematic schematic-a">
+                <img src="assets/diagram-central.svg" alt="" />
+                <p class="lab" style="left:52.5px;top:132px">CHILLER</p>
+                <p class="lab dim" style="left:57.5px;top:150px">PLANT</p>
+                <p class="lab" style="left:146px;top:46px">Shared chilled-water<br />loop · supply</p>
+                <p class="lab" style="left:414.5px;top:40px">DATA HALL</p>
+                <p class="lab" style="left:480px;top:251px">Spike · Row 3</p>
+                <p class="lab" style="left:440px;top:274px">Return</p>
+                <p class="lab" style="left:156px;top:288px">Heat spike path: travels the full loop</p>
+              </div>
+              <button class="dot-btn" type="button" aria-label="Expand diagram" data-expand></button>
+            </figure>
+            <p class="caption right">One shared loop. A spike in one row pulls on the whole plant. A plant fault reaches every row at once.</p>
+            <ul class="props right">
+              <li>Chillers sit in a central plant and feed every row through one loop.</li>
+              <li>Response depends on pump speed, pipe length, and valve timing. Faster controls shorten the lag. They cannot remove it.</li>
+              <li>Every rack shares the same supply temperature.</li>
+              <li class="trait"><span class="trait-label">Defining trait:</span> every row depends on the same loop, in real time.</li>
+            </ul>
+          </div>
+
+          <div class="v-line" data-vline aria-hidden="true"></div>
+
+          <div class="col col-right">
+            <div class="d-title">
+              <h3 class="volt">Rack-Level Thermal Buffer</h3>
+              <p class="sub harvest">DISTRIBUTED · ROW-LEVEL</p>
+            </div>
+            <figure class="diagram-card" data-diagram="buffer">
+              <div class="schematic schematic-a">
+                <img src="assets/diagram-buffer.svg" alt="" />
+                <p class="lab" style="left:52.5px;top:132px">CHILLER</p>
+                <p class="lab dim" style="left:57.5px;top:150px">PLANT</p>
+                <p class="lab" style="left:140px;top:42px">Recharge loop<br />steady, planned rate</p>
+                <p class="lab" style="left:270px;top:20px">THERMAL BUFFER · phase-change store at each row</p>
+                <p class="lab ink" style="left:296.5px;top:70px">BUFFER</p>
+                <p class="lab ink" style="left:296.5px;top:140px">BUFFER</p>
+                <p class="lab ink" style="left:296.5px;top:210px">BUFFER</p>
+                <p class="lab" style="left:478px;top:94px">ROW 1</p>
+                <p class="lab" style="left:478px;top:164px">ROW 2</p>
+                <p class="lab" style="left:478px;top:234px">ROW 3</p>
+                <p class="pill-tag" style="left:161.5px;top:272px">ISOLATED FROM PLANT FAULTS</p>
+                <p class="pill-tag" style="left:405.5px;top:272px">STABLE INLET TEMPERATURE</p>
+              </div>
+              <button class="dot-btn" type="button" aria-label="Expand diagram" data-expand></button>
+            </figure>
+            <p class="caption">Cold is stored at the row. The plant recharges the buffer. The racks draw from the buffer.</p>
+            <ul class="props">
+              <li>A phase-change thermal store sits at the end of <span class="volt">each row</span>.</li>
+              <li>The central plant recharges the buffers at a steady, planned rate.</li>
+              <li>Local controls match cooling output to rack heat in <span class="volt">real time</span>.</li>
+              <li class="trait"><span class="trait-label">Defining trait:</span> <span class="volt">stable inlet temperature, independent of plant events.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" id="s04" data-bg="#000000">
+      <div class="shell section-pad">
+        <div class="narrow">
+          <p class="kicker"><span class="marker"></span>04 PLANT DISTURBANCE</p>
+          <h2>One event, five endings: the chiller trip</h2>
+          <p class="lead muted">A power fault takes the lead chiller offline. The backup needs <span class="soft">8 to 12 minutes</span> to reach full capacity. The racks need cold water <span class="soft">every second</span>. A central plant has to decide which need comes first. Each fix for that decision creates the next problem.</p>
+        </div>
+
+        <div class="configs" id="configs">
+          <article class="config">
+            <div>
+              <p class="status"><img src="assets/icon-x.svg" alt="" /> STANDBY ROWS OVERHEAT</p>
+              <h3 class="h3">Protect the hottest racks</h3>
+              <p class="meta">CONFIGURATION 1 <span class="meta-rule"></span> Remaining capacity diverted to high-density rows</p>
+              <p class="body" id="hot-spot">The AI rows stayed cool. The rest of the hall did not. Protecting the compute created a new hot spot.</p>
+            </div>
+            <div class="timeline">
+              <div class="step"><div class="beat" data-beat></div><p class="time">t = 0 s</p><p class="event">Lead chiller trips offline.</p></div>
+              <div class="step"><div class="beat" data-beat></div><p class="time">t = 2–5 s</p><p class="event">The building management system detects the loss of flow and flags the event.</p></div>
+              <div class="step"><div class="beat" data-beat></div><p class="time">t = 5–20 s</p><p class="event">Valves close on standard rows and send all remaining chilled water to the AI rows.</p></div>
+              <div class="step"><div class="beat" data-beat></div><p class="time">t = 60 s +</p><p class="event">Standard rows run warm. Storage and network gear approach alarm thresholds.</p></div>
+            </div>
+          </article>
+
+          <article class="config">
+            <div>
+              <p class="status"><img src="assets/icon-x.svg" alt="" /> COMPUTE THROTTLED</p>
+              <h3 class="h3">Protect the restart</h3>
+              <p class="meta">CONFIGURATION 2 <span class="meta-rule"></span> Flow held balanced across every row</p>
+              <p class="body">The plant restarted cleanly. Training jobs lost ten minutes and fell back to their last checkpoint. The step-by-step ramp is complex to model and harder to run at scale.</p>
+            </div>
+            <div class="timeline">
+              <div class="step"><div class="beat" data-beat></div><p class="time">t = 0 s</p><p class="event">Lead chiller trips offline.</p></div>
+              <div class="step"><div class="beat" data-beat></div><p class="time">t = 2–5 s</p><p class="event">The building management system detects the loss of flow.</p></div>
+              <div class="step"><div class="beat" data-beat></div><p class="time">t = 10–30 s</p><p class="event">GPU clusters throttle to 40% to cut heat output.</p></div>
+              <div class="step"><div class="beat" data-beat></div><p class="time">t = 8–12 min</p><p class="event">The backup chiller reaches capacity. Workloads ramp back up in steps matched to the returning cooling, until the hall is back to full load.</p></div>
+            </div>
+          </article>
+
+          <article class="config">
+            <div>
+              <p class="status status-good"><img src="assets/icon-check.svg" alt="" /> NO THERMAL EVENT</p>
+              <h3 class="h3 volt">Nothing to divert, nothing to rush</h3>
+              <p class="meta volt">SAME EVENT · THERMAL BUFFER <span class="meta-rule volt"></span> Row-level buffers on every row</p>
+              <p class="body">Zero throttling. No valve choreography. Compute and support equipment stay within limits the whole time.</p>
+            </div>
+            <div class="timeline timeline-volt">
+              <div class="step"><div class="beat" data-beat></div><p class="time">t = 0 s</p><p class="event">Lead chiller trips offline.</p></div>
+              <div class="step"><div class="beat" data-beat></div><p class="time">t = 0 s</p><p class="event">Racks keep drawing from the row buffer. They never drew directly from the plant, so there is nothing to detect and nothing to redirect.</p></div>
+              <div class="step"><div class="beat" data-beat></div><p class="time">t = 0 → 20 min</p><p class="event">The buffer holds inlet temperature steady and recharges as soon as plant capacity returns.</p></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter chapter-char" id="s08" data-bg="#202020">
+      <div class="shell section-pad">
+        <p class="kicker"><span class="marker"></span>08 COMMISSIONING</p>
+        <div class="scrub" data-scrub>
+          <div class="scrub-inner">
+            <div class="split">
+              <h2>The model the operator sees</h2>
+              <div class="split-copy">
+                <p class="lead muted">Commissioning is where design complexity turns into schedule. A central plant with add-ons hands the operator a web of interacting behaviors: valve sequences, tank dispatch, backup pump transfer, and the stepped restart ramp. Each behavior needs its own control model. Each fault scenario needs its own test, sign-off, and retest after every change.</p>
+                <p class="lead muted">The buffered hall reduces to <span class="hl">one repeatable row model</span>. Test it once, and it holds for every row in the hall.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="compare compare-short" id="compare-08">
+          <div class="col col-left">
+            <div class="d-title" id="title-loop">
+              <h3>Model the loop and everything on it</h3>
+              <p class="sub">CENTRAL PLANT · COMMISSIONING SCOPE</p>
+            </div>
+            <figure class="diagram-card" data-diagram="loop">
+              <div class="schematic schematic-b">
+                <img src="assets/diagram-loop.svg" alt="" />
+                <p class="lab" style="left:24px;top:22px">COMMISSIONING SCOPE</p>
+                <p class="lab center" style="left:304px;top:50px">CHILLER PLANT</p>
+                <p class="pill-tag" style="left:391px;top:44px">+ RESTART LOGIC</p>
+                <p class="lab" style="left:56px;top:86px">shared chilled-water loop</p>
+                <p class="lab center" style="left:96px;top:142px">CHILLERS</p>
+                <p class="pill-tag tall" style="left:60px;top:174px">CONTROL<br />MODEL</p>
+                <p class="lab center" style="left:200px;top:142px">TANK</p>
+                <p class="pill-tag tall" style="left:164px;top:174px">CONTROL<br />MODEL</p>
+                <p class="lab center" style="left:304px;top:142px">PUMPS</p>
+                <p class="pill-tag tall" style="left:268px;top:174px">CONTROL<br />MODEL</p>
+                <p class="lab center" style="left:408px;top:142px">VALVES</p>
+                <p class="pill-tag tall" style="left:372px;top:174px">CONTROL<br />MODEL</p>
+                <p class="lab center" style="left:512px;top:142px">CRAH UNITS</p>
+                <p class="pill-tag tall" style="left:476px;top:174px">CONTROL<br />MODEL</p>
+                <p class="lab center" style="left:304px;top:266px">every model interacts with every other</p>
+              </div>
+              <button class="dot-btn" type="button" aria-label="Expand diagram" data-expand></button>
+            </figure>
+            <p class="caption right">Every row shares the loop, so the test plan must cover all of it: the chillers and their restart logic, plus the tank, pumps, valves, and air handlers. Each has its own control model, and each is tested against every fault scenario.</p>
+          </div>
+
+          <div class="v-line" data-vline aria-hidden="true"></div>
+
+          <div class="col col-right">
+            <div class="d-title">
+              <h3 class="volt">Model one row</h3>
+              <p class="sub harvest">THERMAL BUFFER · COMMISSIONING SCOPE</p>
+            </div>
+            <figure class="diagram-card" data-diagram="row">
+              <div class="schematic schematic-b">
+                <img src="assets/diagram-row.svg" alt="" />
+                <p class="lab" style="left:24px;top:52px">COMMISSIONING SCOPE</p>
+                <p class="lab" style="left:63.5px;top:110px">CHILLER</p>
+                <p class="lab dim" style="left:68.5px;top:126px">PLANT</p>
+                <p class="lab ink" style="left:215px;top:110px">ROW</p>
+                <p class="lab ink" style="left:207.5px;top:126px">BUFFER</p>
+                <p class="lab silver" style="left:367.5px;top:73px">GPU RACKS</p>
+                <p class="lab silver" style="left:508.5px;top:73px">CDUs</p>
+                <p class="lab silver" style="left:385px;top:165px">FANS</p>
+                <p class="lab silver" style="left:512px;top:165px">AUX</p>
+                <p class="lab" style="left:348px;top:232px">behind the buffer, outside the test scope</p>
+                <p class="pill-tag" style="left:35px;top:220px">ONE REPEATABLE MODEL, TESTED ONCE</p>
+                <p class="lab" style="left:141.5px;top:272px">no valve sequences · no restart ramp · nothing new to test</p>
+              </div>
+              <button class="dot-btn" type="button" aria-label="Expand diagram" data-expand></button>
+            </figure>
+            <p class="caption">The test covers one row model, repeated across the hall. Everything behind the buffer is shielded from plant events, so it never enters the test plan.</p>
+          </div>
+        </div>
+
+        <p class="takeaway">From the operator’s side, the hall never throttles, never reroutes, and never runs a restart ramp. It is one steady, predictable load on the plant.</p>
+      </div>
+    </section>
+
+    <section class="quote" data-tone="dark">
+      <div class="shell quote-row">
+        <svg class="quote-mark" viewBox="0 0 200 160" aria-hidden="true">
+          <g fill="#FFF313">
+            <circle cx="47" cy="127" r="7"/><circle cx="27" cy="127" r="7"/><circle cx="7" cy="127" r="7"/>
+            <circle cx="47" cy="107" r="7"/><circle cx="27" cy="107" r="7"/><circle cx="7" cy="107" r="7"/>
+            <circle cx="47" cy="87" r="7"/><circle cx="27" cy="87" r="7"/><circle cx="7" cy="87" r="7"/>
+            <circle cx="27" cy="67" r="7"/><circle cx="7" cy="67" r="7"/>
+            <circle cx="7" cy="47" r="7"/>
+            <circle cx="27" cy="27" r="7"/><circle cx="47" cy="7" r="7"/>
+            <circle cx="127" cy="127" r="7"/><circle cx="107" cy="127" r="7"/><circle cx="87" cy="127" r="7"/>
+            <circle cx="127" cy="107" r="7"/><circle cx="107" cy="107" r="7"/><circle cx="87" cy="107" r="7"/>
+            <circle cx="127" cy="87" r="7"/><circle cx="107" cy="87" r="7"/><circle cx="87" cy="87" r="7"/>
+            <circle cx="107" cy="67" r="7"/><circle cx="87" cy="67" r="7"/>
+            <circle cx="87" cy="47" r="7"/>
+            <circle cx="107" cy="27" r="7"/><circle cx="127" cy="7" r="7"/>
+          </g>
+        </svg>
+        <p>To the operator, a hall behind thermal buffers is the simplest system there is. A plant that only recharges.</p>
+      </div>
+    </section>
+
+    <section class="photo" data-tone="dark">
+      <img src="assets/facility.jpg" alt="ON.energy facility at sunset, with solar arrays and wind turbines beyond the hall" />
+    </section>
+
+    <footer class="footer" data-tone="dark">
+      <div class="footer-card" data-tone="light">
+        <div class="footer-left">
+          <div>
+            <p class="footer-lead">Energy is complicated. Reaching us isn’t.<br />Contact the ON team anytime.</p>
+            <button class="footer-cta" type="button">Get in touch</button>
+          </div>
+          <img class="footer-logo" src="assets/logo-footer.png" alt="ON" />
+        </div>
+        <div class="footer-right">
+          <div class="footer-nav">
+            <div class="f-acc">
+              <button class="f-row" type="button" aria-expanded="false">Expertise <svg class="chev" viewBox="0 0 8 5" aria-hidden="true"><path d="M4 2.64706C4.63117 2.64706 5.14286 3.17379 5.14286 3.82353C5.14286 4.47326 4.63117 5 4 5C3.36883 5 2.85714 4.47326 2.85714 3.82353C2.85714 3.17379 3.36883 2.64706 4 2.64706ZM1.14286 0C1.77404 0 2.28571 0.526724 2.28571 1.17647C2.28571 1.82622 1.77404 2.35294 1.14286 2.35294C0.511674 2.35294 0 1.82622 0 1.17647C0 0.526724 0.511674 0 1.14286 0ZM6.85714 0C7.48831 0 8 0.526724 8 1.17647C8 1.82622 7.48831 2.35294 6.85714 2.35294C6.22597 2.35294 5.71429 1.82622 5.71429 1.17647C5.71429 0.526724 6.22597 0 6.85714 0Z"/></svg></button>
+              <div class="f-panel" hidden>
+                <button type="button">AI Workloads</button>
+                <button type="button">Projects</button>
+              </div>
+            </div>
+            <div class="f-acc">
+              <button class="f-row" type="button" aria-expanded="false">Solutions <svg class="chev" viewBox="0 0 8 5" aria-hidden="true"><path d="M4 2.64706C4.63117 2.64706 5.14286 3.17379 5.14286 3.82353C5.14286 4.47326 4.63117 5 4 5C3.36883 5 2.85714 4.47326 2.85714 3.82353C2.85714 3.17379 3.36883 2.64706 4 2.64706ZM1.14286 0C1.77404 0 2.28571 0.526724 2.28571 1.17647C2.28571 1.82622 1.77404 2.35294 1.14286 2.35294C0.511674 2.35294 0 1.82622 0 1.17647C0 0.526724 0.511674 0 1.14286 0ZM6.85714 0C7.48831 0 8 0.526724 8 1.17647C8 1.82622 7.48831 2.35294 6.85714 2.35294C6.22597 2.35294 5.71429 1.82622 5.71429 1.17647C5.71429 0.526724 6.22597 0 6.85714 0Z"/></svg></button>
+              <div class="f-panel" hidden>
+                <button type="button">Technology</button>
+                <button type="button">AI UPS</button>
+                <button type="button">Parallel BESS vs. AI UPS</button>
+              </div>
+            </div>
+            <button class="f-row f-plain" type="button">Financing</button>
+            <div class="f-acc">
+              <button class="f-row" type="button" aria-expanded="false">About <svg class="chev" viewBox="0 0 8 5" aria-hidden="true"><path d="M4 2.64706C4.63117 2.64706 5.14286 3.17379 5.14286 3.82353C5.14286 4.47326 4.63117 5 4 5C3.36883 5 2.85714 4.47326 2.85714 3.82353C2.85714 3.17379 3.36883 2.64706 4 2.64706ZM1.14286 0C1.77404 0 2.28571 0.526724 2.28571 1.17647C2.28571 1.82622 1.77404 2.35294 1.14286 2.35294C0.511674 2.35294 0 1.82622 0 1.17647C0 0.526724 0.511674 0 1.14286 0ZM6.85714 0C7.48831 0 8 0.526724 8 1.17647C8 1.82622 7.48831 2.35294 6.85714 2.35294C6.22597 2.35294 5.71429 1.82622 5.71429 1.17647C5.71429 0.526724 6.22597 0 6.85714 0Z"/></svg></button>
+              <div class="f-panel" hidden>
+                <button type="button">Team</button>
+                <button type="button">Careers</button>
+              </div>
+            </div>
+            <div class="f-acc">
+              <button class="f-row" type="button" aria-expanded="false">Resources <svg class="chev" viewBox="0 0 8 5" aria-hidden="true"><path d="M4 2.64706C4.63117 2.64706 5.14286 3.17379 5.14286 3.82353C5.14286 4.47326 4.63117 5 4 5C3.36883 5 2.85714 4.47326 2.85714 3.82353C2.85714 3.17379 3.36883 2.64706 4 2.64706ZM1.14286 0C1.77404 0 2.28571 0.526724 2.28571 1.17647C2.28571 1.82622 1.77404 2.35294 1.14286 2.35294C0.511674 2.35294 0 1.82622 0 1.17647C0 0.526724 0.511674 0 1.14286 0ZM6.85714 0C7.48831 0 8 0.526724 8 1.17647C8 1.82622 7.48831 2.35294 6.85714 2.35294C6.22597 2.35294 5.71429 1.82622 5.71429 1.17647C5.71429 0.526724 6.22597 0 6.85714 0Z"/></svg></button>
+              <div class="f-panel" hidden>
+                <button type="button">Press</button>
+                <button type="button">Regulatory</button>
+                <button type="button">Blog</button>
+                <button type="button">Datasheet</button>
+              </div>
+            </div>
+            <button class="f-row f-plain" type="button">Contact</button>
+            <button class="f-row f-plain" type="button">Media Kit</button>
+            <div class="social">
+              <button type="button" aria-label="LinkedIn"><img src="assets/linkedin.svg" alt="" /></button>
+              <button type="button" aria-label="YouTube"><img src="assets/youtube.svg" alt="" /></button>
+            </div>
+          </div>
+          <div class="legal">
+            <p>© 2026 ON Energy Storage, Inc. All rights reserved.</p>
+            <p>Patents · Privacy Policy · Terms of Use</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <div class="lightbox-stage">
+      <button class="dot-btn dot-btn-close" type="button" aria-label="Close diagram" data-close></button>
+      <div class="lightbox-slot" id="lightbox-slot"></div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

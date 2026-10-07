@@ -1,0 +1,28 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="608" height="300" viewBox="0 0 608 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Geometry &#226;&#128;&#148; Whole-system commissioning">
+<path id="Whole-system commissioning boundary" d="M595.5 12.5H12.5V287.5H595.5V12.5Z" stroke="#EEEEEE" stroke-dasharray="6 4"/>
+<path id="Plant-to-loop connection" d="M304 78V104" stroke="#AFAFAF" stroke-width="3"/>
+<path id="Shared chilled-water loop" d="M56 104H552" stroke="#AFAFAF" stroke-width="4"/>
+<path id="Equipment block &#226;&#128;&#148; Chillers" d="M141.5 128.5H50.5V167.5H141.5V128.5Z" fill="#585858"/>
+<path id="Loop branch &#226;&#128;&#148; Chillers" d="M96 104V128" stroke="#AFAFAF" stroke-width="2"/>
+<path id="Equipment block &#226;&#128;&#148; Tank" d="M245.5 128.5H154.5V167.5H245.5V128.5Z" fill="#585858"/>
+<path id="Loop branch &#226;&#128;&#148; Tank" d="M200 104V128" stroke="#AFAFAF" stroke-width="2"/>
+<path id="Equipment block &#226;&#128;&#148; Pumps" d="M349.5 128.5H258.5V167.5H349.5V128.5Z" fill="#585858"/>
+<path id="Loop branch &#226;&#128;&#148; Pumps" d="M304 104V128" stroke="#AFAFAF" stroke-width="2"/>
+<path id="Equipment block &#226;&#128;&#148; Valves" d="M453.5 128.5H362.5V167.5H453.5V128.5Z" fill="#585858"/>
+<path id="Loop branch &#226;&#128;&#148; Valves" d="M408 104V128" stroke="#AFAFAF" stroke-width="2"/>
+<path id="Equipment block &#226;&#128;&#148; CRAH units" d="M557.5 128.5H466.5V167.5H557.5V128.5Z" fill="#585858"/>
+<path id="Loop branch &#226;&#128;&#148; CRAH units" d="M512 104V128" stroke="#AFAFAF" stroke-width="2"/>
+<path id="Control-model interaction &#226;&#128;&#148; Chillers&#226;&#128;&#147;Tank" d="M96 218C130.667 231.867 165.333 231.867 200 218" stroke="#AFAFAF"/>
+<path id="Control-model interaction &#226;&#128;&#148; Chillers&#226;&#128;&#147;Pumps" d="M96 218C165.333 245.733 234.667 245.733 304 218" stroke="#AFAFAF"/>
+<path id="Control-model interaction &#226;&#128;&#148; Chillers&#226;&#128;&#147;Valves" d="M96 218C200 259.6 304 259.6 408 218" stroke="#AFAFAF"/>
+<path id="Control-model interaction &#226;&#128;&#148; Chillers&#226;&#128;&#147;CRAH" d="M96 218C234.667 273.467 373.333 273.467 512 218" stroke="#AFAFAF"/>
+<path id="Control-model interaction &#226;&#128;&#148; Tank&#226;&#128;&#147;Pumps" d="M200 218C234.667 231.867 269.333 231.867 304 218" stroke="#AFAFAF"/>
+<path id="Control-model interaction &#226;&#128;&#148; Tank&#226;&#128;&#147;Valves" d="M200 218C269.333 245.733 338.667 245.733 408 218" stroke="#AFAFAF"/>
+<path id="Control-model interaction &#226;&#128;&#148; Tank&#226;&#128;&#147;CRAH" d="M200 218C304 259.6 408 259.6 512 218" stroke="#AFAFAF"/>
+<path id="Control-model interaction &#226;&#128;&#148; Pumps&#226;&#128;&#147;Valves" d="M304 218C338.667 231.867 373.333 231.867 408 218" stroke="#AFAFAF"/>
+<path id="Control-model interaction &#226;&#128;&#148; Pumps&#226;&#128;&#147;CRAH" d="M304 218C373.333 245.733 442.667 245.733 512 218" stroke="#AFAFAF"/>
+<path id="Control-model interaction &#226;&#128;&#148; Valves&#226;&#128;&#147;CRAH" d="M408 218C442.667 231.867 477.333 231.867 512 218" stroke="#AFAFAF"/>
+<path id="Chiller plant block" d="M383.5 34.5H224.5V77.5H383.5V34.5Z" fill="#202020"/>
+</g>
+</svg>

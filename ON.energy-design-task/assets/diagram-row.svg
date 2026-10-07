@@ -1,0 +1,14 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="608" height="300" viewBox="0 0 608 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Geometry &#226;&#128;&#148; Single-row commissioning">
+<path id="Single-row commissioning boundary" d="M301.5 40.5H12.5V209.5H301.5V40.5Z" stroke="#FFF313" stroke-dasharray="6 4"/>
+<path id="Chiller plant block" d="M141.5 92.5H32.5V151.5H141.5V92.5Z" fill="#202020"/>
+<path id="Plant-to-buffer recharge arrow" d="M142 122H168M162 128L168 122L162 116" stroke="#FFF313" stroke-width="2"/>
+<path id="Row buffer block" d="M284 92H174V152H284V92Z" fill="#FFF313"/>
+<path id="Connection to shielded equipment" d="M301 122H330" stroke="#7D7D7D" stroke-width="1.5" stroke-dasharray="3 3"/>
+<path id="Outside-scope equipment boundary" d="M593.5 24.5H330.5V223.5H593.5V24.5Z" stroke="#7D7D7D"/>
+<path id="Outside-scope block &#226;&#128;&#148; GPU racks" d="M457.5 36.5H342.5V121.5H457.5V36.5Z" fill="#585858"/>
+<path id="Outside-scope block &#226;&#128;&#148; CDUs" d="M581.5 36.5H466.5V121.5H581.5V36.5Z" fill="#585858"/>
+<path id="Outside-scope block &#226;&#128;&#148; Fans" d="M457.5 128.5H342.5V213.5H457.5V128.5Z" fill="#585858"/>
+<path id="Outside-scope block &#226;&#128;&#148; Auxiliary systems" d="M581.5 128.5H466.5V213.5H581.5V128.5Z" fill="#585858"/>
+</g>
+</svg>
