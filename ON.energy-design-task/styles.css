@@ -367,7 +367,7 @@ h2 {
 .point-accent .num,
 .point-accent p:last-child { color: #000; }
 .point.in {
-  animation: card-in 220ms cubic-bezier(0.16, 0.84, 0.32, 1) forwards;
+  animation: card-in 320ms cubic-bezier(0.16, 0.84, 0.32, 1) forwards;
 }
 @keyframes card-in {
   from { opacity: 0; transform: scale(0.62); }
@@ -684,7 +684,7 @@ h2 {
 .quote-mark { width: 200px; height: 160px; flex: 0 0 200px; }
 .quote-mark circle {
   opacity: 1;
-  animation: quote-flicker 1.45s linear infinite;
+  animation: quote-flicker 1.45s linear 2 forwards;
   animation-delay: calc((var(--i) % 7) * 115ms);
 }
 @keyframes quote-flicker {
@@ -706,8 +706,8 @@ h2 {
   position: absolute;
   left: 0;
   width: 100%;
-  height: 130%;
-  top: -15%;
+  height: 150%;
+  top: -25%;
   object-fit: cover;
   display: block;
   will-change: transform;

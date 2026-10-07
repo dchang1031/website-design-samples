@@ -108,18 +108,13 @@ function clamp01(value) {
   return Math.min(1, Math.max(0, value));
 }
 
-function easeInOut(t) {
-  return 0.5 - Math.cos(Math.PI * t) / 2;
-}
-
 function updateYellow() {
   const rect = yellow.getBoundingClientRect();
   const vh = window.innerHeight;
-  const mid = vh / 2;
-  const enter = easeInOut(clamp01((vh - rect.top) / (vh - mid)));
-  const leave = easeInOut(clamp01((vh - rect.bottom) / (vh - NAV_H)));
+  const enter = clamp01((vh - rect.top) / (vh / 2));
+  const leave = clamp01((vh - rect.bottom) / (vh - NAV_H));
   yellowShown = enter * (1 - leave);
-  const inset = -140 + (16 + 140) * yellowShown;
+  const inset = 16 * yellowShown;
   yellow.style.left = inset + "px";
   yellow.style.right = inset + "px";
   yellow.style.borderRadius = 24 * yellowShown + "px";
@@ -363,7 +358,7 @@ function updatePhoto() {
   const span = window.innerHeight + rect.height;
   const travel = span === 0 ? 0.5 : (window.innerHeight - rect.top) / span;
   const clamped = Math.max(0, Math.min(1, travel));
-  const shift = (clamped - 0.5) * 140;
+  const shift = (clamped - 0.5) * 200;
   photoImg.style.transform = `translate3d(0, ${shift}px, 0)`;
 }
 
