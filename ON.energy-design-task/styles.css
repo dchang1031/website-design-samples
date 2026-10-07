@@ -684,8 +684,8 @@ h2 {
 .quote-mark { width: 200px; height: 160px; flex: 0 0 200px; }
 .quote-mark circle {
   opacity: 1;
-  animation: quote-flicker 1.45s linear infinite;
-  animation-delay: calc((var(--i) % 7) * 115ms);
+  animation: quote-flicker 1.74s linear infinite;
+  animation-delay: calc((var(--i) % 7) * 203ms);
 }
 @keyframes quote-flicker {
   0%, 70% { opacity: 1; }

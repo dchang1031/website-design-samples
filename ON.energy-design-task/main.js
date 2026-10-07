@@ -32,7 +32,7 @@ document.querySelectorAll(".dot-btn").forEach((btn) => {
 
 /* Quote mark: staggered flicker, short dim so most dots stay lit. */
 document.querySelectorAll(".quote-mark circle").forEach((dot, i) => {
-  dot.style.animationDelay = (i % 7) * 115 + "ms";
+  dot.style.animationDelay = (i % 7) * 203 + "ms";
 });
 
 /* ---------- Menus ---------- */
